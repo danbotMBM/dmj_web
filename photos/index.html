@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>daniel mark</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link href="photosStyle.css" type="text/css" rel="stylesheet">
+    
+</head>
+
+<body id = "body" style = "text-align:center;">
+    
+    <header class="container-fluid">
+        <div class="row align-items-center" id="">
+            <h1 class="col-sm-5 text-center" id="title">daniel mark jones</h1>
+            <div class="col-sm-2"></div>
+            <nav class="col-sm-5 text-centered">
+                <a class="navlink" class="align-middle" href="http://danielmarkjones.com/">home</a>
+                <a class="navlink" target="_blank" class="align-middle" href="https://www.twitch.tv/mcboxman">featured</a>
+                <a class="navlink" class="align-middle" href="http://danielmarkjones.com/photos">photos</a>
+                <a class="navlink" class="align-middle" href="https://www.twitch.tv/mcboxman">litness</a>
+            </nav>
+        </div>
+    </header>
+    <div class="meat">
+        <h2 class="text-center" id="title">photos</h1>
+        <div id="jumbodiv">
+            
+            <script >
+            //dispPhotos();
+            writePhotos();
+                
+            
+            function dispPhotos(){
+
+                var picture = []; //Define array pictures
+
+                //loop through all pictures
+                for (i = 1; i < 44; i++) {
+                    picture.push("pics/pic%20("+ i + ").jpg"); //Add to array
+                }
+                 myFunction(picture[2]);
+                myFunction(picture[1]);
+            //   for (i = 1; i < 44; i++) {
+            //        myFunction(picture[i]);
+            //    }
+
+
+
+            function myFunction(item) {
+                var x = new Image();
+                x.setAttribute("src", item);
+                x.setAttribute("width", "304");
+                x.setAttribute("height", "228");
+
+                document.getElementById('body').appendChild(x);
+                down.innerHTML = "Image Element Added.";
+
+
+                }
+            }//end dispPhotos
+            function writePhotos(){
+                var picture = []; //Define array pictures
+
+                //loop through all pictures
+                for (i = 1; i < 44; i++) {
+                    picture.push("pics/pic%20("+ i + ").jpg"); //Add to array
+                }
+                for (i = 0; i < picture.length; i++) {
+                    writePhotoWithSrc(picture[i]);    
+                }
+                function writePhotoWithSrc(ref){
+                    document.write("<div class='row' id='picRow'>");
+                    document.write("<div class'col align-items-center' id=''>");
+                    document.write("<img id='pic' src='"+ref+"'> ");
+                    document.write("</div>");
+                    document.write("</div>");
+                }
+
+            }    
+
+
+            </script>
+        </div>
+    </div>
+    
+<script >
+////dispPhotos();
+////writePhotos();
+//    document.write("<p>HI</p>");
+//     var up = document.getElementById('GFG_UP');  
+//        up.innerHTML = "Click on the button to add image element";  
+//        var down = document.getElementById('GFG_DOWN');
+//function dispPhotos(){
+//    
+//    var picture = []; //Define array pictures
+//
+//    //loop through all pictures
+//    for (i = 1; i < 44; i++) {
+//        picture.push("pics/pic%20("+ i + ").jpg"); //Add to array
+//    }
+//     myFunction(picture[2]);
+//    myFunction(picture[1]);
+////   for (i = 1; i < 44; i++) {
+////        myFunction(picture[i]);
+////    }
+//
+//    
+//    
+//function myFunction(item) {
+//    var x = new Image();
+//    x.setAttribute("src", item);
+//    x.setAttribute("width", "304");
+//    x.setAttribute("height", "228");
+//    
+//    document.getElementById('body').appendChild(x);
+//    down.innerHTML = "Image Element Added.";
+//    
+//    
+//    }
+//}//end dispPhotos
+//function writePhotos(){
+//    var picture = []; //Define array pictures
+//
+//    //loop through all pictures
+//    for (i = 1; i < 44; i++) {
+//        picture.push("pics/pic%20("+ i + ").jpg"); //Add to array
+//    }
+//    for (i = 1; i < picture.length; i++) {
+//        writePhotoWithSrc(picture[i]);    
+//    }
+//    function writePhotoWithSrc(ref){
+//        document.write("<img id="jumbo" src="+ref+"> ");
+//    }
+//    
+//}    
+//
+//    
+</script>
+    
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+</body>
+</html>

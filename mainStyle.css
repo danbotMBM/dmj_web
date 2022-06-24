@@ -1,0 +1,74 @@
+header{
+    background-color: #1A1C23;
+    color: white;
+}
+
+
+#title{
+   padding: 3px;
+   padding-left: 15px;
+}
+html, body{
+    margin: 0;
+    
+}
+.container{
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.meat{
+     background-color:#ffffff;
+}
+
+
+.navlink{
+    padding-right: 10px;
+    color: white;
+}
+.navlink:hover{
+    color: #A2BFE6;
+}
+#faq{
+    background-color: #1A1C23;
+    color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    
+}
+#stuff{
+    background-color:  #A2BFE6;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+#insetPhoto{
+    width: 97%;
+    padding: 5px;
+}
+
+h3 a {
+    color: #1F2125;
+}
+h3 a {
+    color:#0051B8;
+}
+
+p a {
+    color: #1F2125;
+}
+p a:hover{
+    color:#0051B8;
+}
+
+.brdr{
+    border: solid;
+    border-width: 2px;
+}
+#jumbodiv{
+    align-items: center;
+}
+
+#jumbo{
+    width: 100%;
+}
