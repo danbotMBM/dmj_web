@@ -34,7 +34,7 @@ class table:
     #serializes player to 
     # a level that is visible to all players in the game
     def __json__(self):
-        return {"players":self.players}
+        return {"ante": self.ante, "current_bet": self.current_bet, "players":self.players, "player_turn":self.player_turn}
     
     def play_cards(self, cards):
         self.stack.append(cards)
