@@ -20,13 +20,13 @@
             </nav>
         </div>
     </header>
-    <button id="draw" onclick="draw_card()">draw card</button>
+    <button id="draw" onclick="random_num()">draw card</button>
     <p id="result"></p>
 
     <script>
-        function draw_card() {
+        function random_num() {
           // Make a simple GET request
-            fetch('http://danielmarkjones.com/cardshark_server')
+            fetch('http://danielmarkjones.com/cardshark_server/random_number')
             .then(response => {
                 // Check if the request was successful (status code 200-299)
                 if (!response.ok) {
@@ -46,6 +46,32 @@
 
         }
       </script>
+      <button id="draw" onclick="draw_card()">draw card</button>
+      <p id="result2"></p>
+  
+      <script>
+          function draw_card() {
+            // Make a simple GET request
+              fetch('http://danielmarkjones.com/cardshark_server/game')
+              .then(response => {
+                  // Check if the request was successful (status code 200-299)
+                  if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+                  }
+                  // Parse the response body as JSON
+                  return response;
+              })
+              .then(data => {
+                  // Handle the JSON data
+                  document.getElementById('result2').textContent = data
+              })
+              .catch(error => {
+                  // Handle errors
+                  console.error('Fetch error:', error);
+              });
+  
+          }
+        </script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
