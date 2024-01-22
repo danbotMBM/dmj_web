@@ -3,3 +3,4 @@
 *.png
 pics
 photos/pics
+.venv
