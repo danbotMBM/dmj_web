@@ -4,3 +4,5 @@
 pics
 photos/pics
 .venv
+*.pem
+command_scratchpad.txt
