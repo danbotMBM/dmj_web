@@ -63,7 +63,7 @@
               })
               .then(data => {
                   // Handle the JSON data
-                  document.getElementById('result2').textContent = data
+                  document.getElementById('result2').textContent = JSON.stringify(data)
               })
               .catch(error => {
                   // Handle errors
