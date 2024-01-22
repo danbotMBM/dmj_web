@@ -59,11 +59,11 @@
                   throw new Error(`HTTP error! Status: ${response.status}`);
                   }
                   // Parse the response body as JSON
-                  return response;
+                  return response.json();
               })
               .then(data => {
                   // Handle the JSON data
-                  document.getElementById('result2').textContent = data
+                  document.getElementById('result2').textContent = JSON.stringify(data)
               })
               .catch(error => {
                   // Handle errors
