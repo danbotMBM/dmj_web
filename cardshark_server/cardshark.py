@@ -63,7 +63,7 @@ def deal_cards(deck, game_table):
     index = 0
     while deck:
         p = game_table.players[index]
-        game_table.players[index].append(deck.pop())
+        game_table.players[index].stack.append(deck.pop())
         
 def play_round(game_table):
     for p in game_table.players:
