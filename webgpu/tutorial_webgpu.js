@@ -18,7 +18,7 @@ context.configure({
 });
 
 const WORKGROUP_SIZE = 8; // compute shader workgroup size
-const GRID_SIZE = canvas.width/4;
+const GRID_SIZE = canvas.width/16;
 
 
 
@@ -27,13 +27,13 @@ let step = 0; // Track how many simulation steps have been run
 //consider using index buffers to not have to convert manually into triangles
 const vertices = new Float32Array([
     //   X,    Y,
-    -0.9375, -0.9375, // Triangle 1 (Blue)
-    0.9375, -0.9375,
-    0.9375, 0.9375,
+    -0.8, -0.8, // Triangle 1 (Blue)
+    0.8, -0.8,
+    0.8, 0.8,
 
-    -0.9375, -0.9375, // Triangle 2 (Red)
-    0.9375, 0.9375,
-    -0.9375, 0.9375,
+    -0.8, -0.8, // Triangle 2 (Red)
+    0.8, 0.8,
+    -0.8, 0.8,
 ]);
 
 // allocate a special gpu buffer
