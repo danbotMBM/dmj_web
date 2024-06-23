@@ -37,5 +37,6 @@ sudo firewall-cmd --reload
 sudo useradd -r -s /sbin/nologin www-data
 sudo chown -R www-data:www-data /var/log/nginx
 sudo chown -R www-data:www-data /data
+sudo chcon -R -t httpd_sys_content_t /data
 sudo systemctl restart nginx
 ```

@@ -19,7 +19,9 @@ context.configure({
 
 const WORKGROUP_SIZE = 8; // compute shader workgroup size
 const GRID_SIZE = canvas.width/4;
-const UPDATE_INTERVAL = 20; // Update every 200ms (5 times/sec)
+
+
+
 let step = 0; // Track how many simulation steps have been run
 
 //consider using index buffers to not have to convert manually into triangles
@@ -94,12 +96,14 @@ const cellShaderModule = device.createShaderModule({
 
         @group(0) @binding(0) var<uniform> grid: vec2f;
         @group(0) @binding(1) var<storage> cellState: array<u32>;
+        
 
         @vertex
         fn vertexMain(input: VertexInput) -> VertexOutput  {
             let i = f32(input.instance);
             let cell = vec2f(i % grid.x, floor(i / grid.x));
-            let state = f32(cellState[input.instance]);
+            let state = f32(extractBits(cellState[input.instance], 0, 1));
+            
             let cellOffset = cell / grid * 2;
             let gridPos = (input.pos * state + 1) / grid - 1 + cellOffset;
         
@@ -218,12 +222,7 @@ const cellStateStorage = [
     })
 ];
 
-// Set each cell to a random state, then copy the JavaScript array 
-// into the storage buffer.
-for (let i = 0; i < cellStateArray.length; ++i) {
-    cellStateArray[i] = Math.random() > 0.6 ? 1 : 0;
-}
-device.queue.writeBuffer(cellStateStorage[0], 0, cellStateArray);
+
 
 // connects uniform to the shader
 const bindGroups = [
@@ -264,8 +263,10 @@ const bindGroups = [
 
 // Move all of our rendering code into a function
 function updateGrid() {
+    
     const encoder = device.createCommandEncoder();
 
+    if (run){
     const computePass = encoder.beginComputePass();
 
     // Compute work will go here...
@@ -279,7 +280,7 @@ function updateGrid() {
     step++; // Increment the step count
 
     // Start a render pass 
-
+    }
     const pass = encoder.beginRenderPass({
         colorAttachments: [{
             view: context.getCurrentTexture().createView(),
@@ -300,5 +301,65 @@ function updateGrid() {
     device.queue.submit([encoder.finish()]);
 }
 
-// Schedule updateGrid() to run repeatedly
-setInterval(updateGrid, UPDATE_INTERVAL);
+// Set each cell to a random state, then copy the JavaScript array 
+// into the storage buffer.
+
+// Control the processing loop
+const play_simulation_button = document.getElementById('play_simulation_button');
+const reshuffle_button = document.getElementById('reshuffle_button');
+let run = false;
+const slider = document.getElementById('tick_rate');
+const display = document.getElementById('tick_rate_value');
+const dot_slider = document.getElementById('dot_generate');
+const dot_display = document.getElementById('dot_generate_value');
+let windowUpdater;
+
+function shuffle(){
+    for (let i = 0; i < cellStateArray.length; ++i) {
+        cellStateArray[i] = Math.random() < dot_generate_chance ? 1 : 0;
+    }
+}
+
+function reshuffle(){
+    shuffle()
+    device.queue.writeBuffer(cellStateStorage[0], 0, cellStateArray);
+    device.queue.writeBuffer(cellStateStorage[1], 0, cellStateArray);
+}
+
+function press_play_button(){
+    console.log(run);
+    run = !run;
+}
+
+function updateValue() {
+    const value = slider.value;
+    display.textContent = value;
+    UPDATE_INTERVAL = value; // Update the variable
+    // Schedule updateGrid() to run repeatedly
+    clearInterval(windowUpdater);
+    windowUpdater = setInterval(updateGrid, UPDATE_INTERVAL);
+}
+
+function updateDotGenValue() {
+    const value = dot_slider.value;
+    dot_display.textContent = value;
+    dot_generate_chance = value;
+}
+
+
+let dot_generate_chance = 0.0;
+updateDotGenValue();
+shuffle()
+device.queue.writeBuffer(cellStateStorage[0], 0, cellStateArray);
+
+// Initialize the variable with the initial slider value
+let UPDATE_INTERVAL = slider.value;
+
+// Add an event listener to the slider to handle value changes
+slider.addEventListener('input', updateValue);
+dot_slider.addEventListener('input', updateDotGenValue);
+play_simulation_button.addEventListener('click', press_play_button);
+reshuffle_button.addEventListener('click', reshuffle);
+
+// Update the display initially
+updateValue();
