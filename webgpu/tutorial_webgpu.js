@@ -207,18 +207,33 @@ device.queue.writeBuffer(uniformBuffer, 0, uniformArray);
 
 // Create an array representing the active state of each cell.
 const cellStateArray = new Uint32Array(GRID_SIZE * GRID_SIZE);
+let liveCellStateArrays = [new Uint32Array(GRID_SIZE * GRID_SIZE), new Uint32Array(GRID_SIZE * GRID_SIZE)];
 
 // Create two storage buffers to hold the cell state.
 const cellStateStorage = [
     device.createBuffer({
         label: "Cell State A",
         size: cellStateArray.byteLength,
-        usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
+        usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST | GPUBufferUsage.COPY_SRC,
     }),
     device.createBuffer({
         label: "Cell State B",
         size: cellStateArray.byteLength,
-        usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
+        usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST | GPUBufferUsage.COPY_SRC,
+    })
+];
+
+// Create two storage buffers to hold the cell state.
+const cellStateStorageReaders = [
+    device.createBuffer({
+        label: "Cell State A reader",
+        size: cellStateArray.byteLength,
+        usage: GPUBufferUsage.MAP_READ | GPUBufferUsage.COPY_DST,
+    }),
+    device.createBuffer({
+        label: "Cell State B reader",
+        size: cellStateArray.byteLength,
+        usage: GPUBufferUsage.MAP_READ | GPUBufferUsage.COPY_DST,
     })
 ];
 
@@ -262,7 +277,7 @@ const bindGroups = [
 
 
 // Move all of our rendering code into a function
-function updateGrid() {
+async function updateGrid() {
     
     const encoder = device.createCommandEncoder();
 
@@ -276,11 +291,11 @@ function updateGrid() {
     computePass.dispatchWorkgroups(workgroupCount, workgroupCount);
 
     computePass.end();
-
     step++; // Increment the step count
-
-    // Start a render pass 
+    
     }
+    
+    // Start a render pass 
     const pass = encoder.beginRenderPass({
         colorAttachments: [{
             view: context.getCurrentTexture().createView(),
@@ -295,16 +310,65 @@ function updateGrid() {
     pass.setBindGroup(0, bindGroups[step % 2]); // Updated!
     pass.setVertexBuffer(0, vertexBuffer);
     pass.draw(vertices.length / 2, GRID_SIZE * GRID_SIZE);
-
     // End the render pass and submit the command buffer
     pass.end();
+
+    
+    encoder.copyBufferToBuffer(cellStateStorage[0], 0, cellStateStorageReaders[0], 0, cellStateArray.byteLength);
+    encoder.copyBufferToBuffer(cellStateStorage[1], 0, cellStateStorageReaders[1], 0, cellStateArray.byteLength);
     device.queue.submit([encoder.finish()]);
+    await cellStateStorageReaders[0].mapAsync(GPUMapMode.READ, 0, cellStateArray.byteLength);
+    liveCellStateArrays[0] = new Uint32Array(cellStateStorageReaders[0].getMappedRange(0, cellStateArray.byteLength).slice(0));
+    cellStateStorageReaders[0].unmap();
+    await cellStateStorageReaders[1].mapAsync(GPUMapMode.READ, 0, cellStateArray.byteLength);
+    liveCellStateArrays[1] = new Uint32Array(cellStateStorageReaders[1].getMappedRange(0, cellStateArray.byteLength).slice(0));
+    cellStateStorageReaders[1].unmap();
+
 }
 
 // Set each cell to a random state, then copy the JavaScript array 
 // into the storage buffer.
 
+function pos_to_cell(x, y) {
+    let a = Math.floor(x / (canvas.width/GRID_SIZE));
+    let b = GRID_SIZE - 1 - Math.floor(y / (canvas.height/GRID_SIZE));
+    return a + (b * GRID_SIZE);
+}
+
+let mouse_x;
+let mouse_y;
+// Optional: Event listener for mouse movement
+canvas.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse_x = event.clientX - rect.left;
+    mouse_y = event.clientY - rect.top;
+    pos.textContent = (`(${mouse_x}, ${mouse_y}, ${pos_to_cell(mouse_x, mouse_y)})`);
+    if (drawing){
+        liveCellStateArrays[0][pos_to_cell(mouse_x, mouse_y)] = 1;
+        liveCellStateArrays[1][pos_to_cell(mouse_x, mouse_y)] = 1;
+        console.log(`clicked  ${pos_to_cell(mouse_x, mouse_y)} ${liveCellStateArrays[0][pos_to_cell(mouse_x, mouse_y)]}`);
+        device.queue.writeBuffer(cellStateStorage[0], 0, liveCellStateArrays[0]);
+        device.queue.writeBuffer(cellStateStorage[1], 0, liveCellStateArrays[1]);
+    }
+    
+});
+let drawing = false;
+let temp = false;
+canvas.addEventListener('mousedown', (event) => {
+    drawing = true;
+    temp = run  
+    run = false;
+    
+});
+canvas.addEventListener('mouseup', (event) => {    
+    run = temp;
+    drawing = false;
+});
+
+
 // Control the processing loop
+const debug_field = document.getElementById('debug');
+const pos = document.getElementById('pos');
 const play_simulation_button = document.getElementById('play_simulation_button');
 const reshuffle_button = document.getElementById('reshuffle_button');
 let run = false;
@@ -327,7 +391,6 @@ function reshuffle(){
 }
 
 function press_play_button(){
-    console.log(run);
     run = !run;
 }
 
