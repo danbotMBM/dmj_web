@@ -358,7 +358,11 @@ canvas.addEventListener('mousedown', (event) => {
     drawing = true;
     temp = run  
     run = false;
-    
+    liveCellStateArrays[0][pos_to_cell(mouse_x, mouse_y)] = 1;
+    liveCellStateArrays[1][pos_to_cell(mouse_x, mouse_y)] = 1;
+    console.log(`clicked  ${pos_to_cell(mouse_x, mouse_y)} ${liveCellStateArrays[0][pos_to_cell(mouse_x, mouse_y)]}`);
+    device.queue.writeBuffer(cellStateStorage[0], 0, liveCellStateArrays[0]);
+    device.queue.writeBuffer(cellStateStorage[1], 0, liveCellStateArrays[1]);
 });
 canvas.addEventListener('mouseup', (event) => {    
     run = temp;
