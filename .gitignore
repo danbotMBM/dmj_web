@@ -1,8 +1,4 @@
-*.jpg
 *.mp4
-*.png
-pics
-photos/pics
 .venv
 *.pem
 command_scratchpad.txt
