@@ -24,7 +24,7 @@
     <div class="container">
         <div class="content">
             <div  id="jumbodiv">
-                <img id="jumbo" src="pics/jumbo.jpg">                    
+                <img id="jumbo" src="">                    
             </div>
             <h1 id="featured-projects">Featured Projects</h1>
             <h2 id="wip-webgpu-experiments">WIP: <a href="https://danielmarkjones.com/webgpu/tutorial.html">webgpu experiments</a></h2>
@@ -53,9 +53,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 <script >
+// Generate a random integer between 1 and 30
+function getRandomInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-    
-    
+// Usage example
+var randomNumber = getRandomInteger(1, 30);
+var jumbo = document.getElementById("jumbo");
+jumbo.src = "photos/pics/pic (" + randomNumber + ").jpg" 
     
 </script>
 </body>

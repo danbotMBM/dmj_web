@@ -18,14 +18,11 @@ html, body{
     display: flex;
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
-    height: 100vh; /* Full viewport height */
 }
 
 .content{
     background-color:#ffffff;
     color: #1F2125;
-    max-width: 720px;
-    width: 1080px; /* Example width */
 }
 
 
@@ -42,6 +39,7 @@ html, body{
     width: 97%;
     padding: 5px;
 }
+
 
 a {
     color: #1F2125;
@@ -60,5 +58,6 @@ a:hover {
 }
 
 #jumbo{
+    max-height: 60vh;
     width: 100%;
 }
