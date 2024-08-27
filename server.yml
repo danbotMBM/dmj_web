@@ -1,0 +1,35 @@
+---
+- hosts: dmj
+  become: true
+  tasks:
+    - yum:
+        name: nginx
+    - copy:
+        src: dmj.conf
+        dest: /etc/nginx/nginx.conf
+        owner: nginx
+        group: nginx
+        mode: '0644'
+      notify: reload nginx
+    - systemd:
+        enabled: true
+        daemon-reload: true
+        name: nginx
+        state: started
+    - copy: 
+        src: ../dmj_web
+        dest: /data/
+        owner: nginx
+        group: nginx
+        mode: '644'
+    - copy: 
+        src: ../cardshark
+        dest: /data/
+        owner: ec2-user
+        group: ec2-user
+        mode: '644'
+  handlers:
+    - name: reload nginx
+      systemd:
+        name: nginx
+        state: restarted
