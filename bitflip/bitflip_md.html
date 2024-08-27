@@ -12,7 +12,7 @@ Decimal      |              Binary
 <p>In reality, good programs check data at many steps of the process, ensuring safe behavior in any unexpected circumstance. But lots of programs are built more simply.</p>
 <h2><strong>I'm curious how common a RAM bit flip is in the average experience of an average user.</strong></h2>
 <p>The inspiration for this investigation came from this event in 2013:</p>
-<!-- raw HTML omitted -->
+<iframe width="560" height="315" src="https://www.youtube.com/embed/bhBf5crp0i8?si=S_n_JAchit8QArQh&amp;start=8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 <p>A moment in <a href="">SMB64</a> <a href="">speedrunning</a> where mario seemingly teleports for no reason, saving time in the race. The speedrunning community ended up <a href="https://youtu.be/X5cwuYFUUAY">recreating this exact</a> moment by manually flipping a single bit from C5 -&gt; C4.</p>
 <pre><code>Decimal | HEX
 197       C5
@@ -29,7 +29,7 @@ Decimal      |              Binary
 <p>Thats crazy, if that number is correct then every device almost always has a bit flip every week. (Because most consumer devices have more than 4GB of RAM)</p>
 <p>Digging deeper I found a <a href="https://www.cs.toronto.edu/~bianca/papers/sigmetrics09.pdf">competing google paper</a>. Basically, it says that bit flips happen almost never, and, if they do, it's likely due to a hardware problem that will lead to many more bit flips on that specific RAM stick. Additionally, a blog post on <a href="https://blog.robertelder.org/causes-of-bit-flips-in-computer-memory/#:~:text=If%20you%20do%20a%20search,bit%20flip%20every%20three%20days%22.">robertelkder.org</a> claims that the situation has to be perfect for cosmic rays to intervene. Robert has lots of pictures so it seems trustworthly. But I have genuinely no clue if he is right.</p>
 <h2>So I decided to test it myself!</h2>
-<!-- raw HTML omitted -->
+<img src="lab.jpg" alt="drawing" heigth="300px"/>
 <p>Basically, I've set up a test bench to just allocate 10(ish) Gigs of RAM, set it all to 00000000 and check every once in a while to see if anything changed. Its a super simple setup. But I wanted to just sit a wait and see if I could get any <strong>alpha particle</strong> related flips. Feel free to check out my code on github <a href="https://github.com/danbotMBM/bitflip_lab/blob/master/mem_check.c">github.com/danbotMBM/bitflip_lab</a>.</p>
 <h1>Results</h1>
 <h3><strong>Nothing happened!!</strong></h3>

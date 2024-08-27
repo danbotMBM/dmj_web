@@ -1,6 +1,6 @@
 import pycmarkgfm
 import sys
-
+from pycmarkgfm import options
 paths = sys.argv[1:]
 print(paths)
 for p in paths:
@@ -11,5 +11,5 @@ for p in paths:
         path = "/".join(s[:-1]) + "/"
     print(file_name, path)
     md = open(p, "r").read()
-    html = pycmarkgfm.markdown_to_html(md)
+    html = pycmarkgfm.markdown_to_html(md, options=options.unsafe)
     open(path + file_name + "_md.html", "w").write(html)
