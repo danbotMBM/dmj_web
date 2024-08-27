@@ -1,74 +1,65 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
-    <title>Danbot</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <title>DMJ</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="gitlab_md.css">
+    <style>
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 45px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+        }
+    </style>
     <link href="mainStyle.css" type="text/css" rel="stylesheet">
 </head>
 
 <body>
-    
-    <header class="container-fluid">
-        <div class="row align-items-center" id="">
-            <h1 class="col-sm-5 text-center" id="title">daniel mark jones</h1>
-            <div class="col-sm-2"></div>
-            <nav class="col-sm-5 text-center">
-                <a class="navlink" class="align-middle" href="http://danielmarkjones.com">home</a>
-                <a class="navlink" class="align-middle" href="http://danielmarkjones.com/photos">photos</a>
-                <a class="navlink" class="align-middle" href="http://danielmarkjones.com/cardshark">cardshark</a>
-                <a class="navlink" class="align-middle" href="http://danielmarkjones.com/webgpu/tutorial.html">webgpu</a>
-            </nav>
-        </div>
-    </header>
+    <div id="header_loc"></div>
     <div class="container">
         <div class="content">
-            <div  id="jumbodiv">
-                <img id="jumbo" src="">                    
+            <div id="jumbodiv">
+                <img id="jumbo" src="">
             </div>
-            <h1 id="featured-projects">Featured Projects</h1>
-            <h2 id="wip-webgpu-experiments">WIP: <a href="https://danielmarkjones.com/webgpu/tutorial.html">webgpu experiments</a></h2>
-            <ul>
-            <li>Navigating the interesting world of shaders for the first time ever</li>
-            <li>Play around with an interactive <a href="https://danielmarkjones.com/webgpu/tutorial.html">Conway's Game of Life</a> running entirely using the new webgpu framework!</li>
-            </ul>
-            <h2 id="photo-gallery"><a href="https://danielmarkjones.com/photos">Photo Gallery</a></h2>
-            <ul>
-            <li>Enjoy some of my photography from around the world in a simple gallery view</li>
-            </ul>
-            <h2 id="bitflip-lab"><a href="https://danielmarkjones.com/bitflip">Bitflip Lab</a></h2>
-            <ul>
-            <li>Computer memory can and has been effected by cosmic rays and alpha particles, but do they effect you?</li>
-            <li>I've set up a personal RAM testbench in my basement. Come check and see if anything has happened.</li>
-            </ul>
-            <h2 id="wip-cardshark-web-game">WIP: <a href="https://danielmarkjones.com/cardshark">cardshark web game</a></h2>
-            <ul>
-            <li>Poker / slapjack fusion card game where you wager the cards themselves</li>
-            <li>Original card game being created and developed by my family</li>
-            </ul>
-            <h2 id="doggone"><a href="https://dangertimmy.itch.io/doggone">Doggone</a></h2>
-            <ul>
-            <li>Environment driven visual novel about a mysterious world and a beloved pup</li>
-            <li>Submission for the UT Game Jam 2020 which won best sound design! (Thanks Josh)</li>
-            <li>Scrappy project completed in 48hrs with no previous gamdev / godot experience</li>
-            </ul>
         </div>
     </div>
-    
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-<script >
-// Generate a random integer between 1 and 30
-function getRandomInteger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+    <article class="markdown-body" id="markdown_loc">
+    </article>
+    <script>
+        function import_html(html, loc){
+            fetch(html)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById(loc).innerHTML = data;
+                });
+        }
+        import_html("header.html", "header_loc");
+        import_html("index_md.html", "markdown_loc");
+    </script>
+    <script>
+        // Generate a random integer between 1 and 30
+        function getRandomInteger(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
 
-// Usage example
-var randomNumber = getRandomInteger(1, 30);
-var jumbo = document.getElementById("jumbo");
-jumbo.src = "photos/pics/pic (" + randomNumber + ").jpg" 
-    
-</script>
+        // Usage example
+        var randomNumber = getRandomInteger(1, 30);
+        var jumbo = document.getElementById("jumbo");
+        jumbo.src = "photos/pics/pic (" + randomNumber + ").jpg"
+
+    </script>
 </body>
+
 </html>

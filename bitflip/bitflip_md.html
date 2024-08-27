@@ -1,0 +1,52 @@
+<h1>How reliable is RAM??? (and proof that AI learning from the internet is a bad idea)</h1>
+<p>Its a bad vibe when your radiation machine flips is strength setting from 5 to 133 because one bit flipped. Or maybe one bit turns your $10 deposit into a -$2,147,483,638 withdrawl.</p>
+<pre><code>Decimal |  Binary 
+5         00000101      
+133       10000101
+
+(2's compliment)
+Decimal      |              Binary
++10             00000000000000000000000000001010
+-2147483638     10000000000000000000000000001010
+</code></pre>
+<p>In reality, good programs check data at many steps of the process, ensuring safe behavior in any unexpected circumstance. But lots of programs are built more simply.</p>
+<h2><strong>I'm curious how common a RAM bit flip is in the average experience of an average user.</strong></h2>
+<p>The inspiration for this investigation came from this event in 2013:</p>
+<!-- raw HTML omitted -->
+<p>A moment in <a href="">SMB64</a> <a href="">speedrunning</a> where mario seemingly teleports for no reason, saving time in the race. The speedrunning community ended up <a href="https://youtu.be/X5cwuYFUUAY">recreating this exact</a> moment by manually flipping a single bit from C5 -&gt; C4.</p>
+<pre><code>Decimal | HEX
+197       C5
+196       C4
+</code></pre>
+<p>The vast majority of the internet claims <strong>COSMIC RAY INTERVENTION.</strong></p>
+<blockquote>
+<p>This is usually called a <strong>Single Event Upset</strong>.</p>
+</blockquote>
+<p>This great <a href="https://youtu.be/AaZ_RSt0KP8?si=ZsEFT5lE5HrtOSyK">Veritasium video</a> explains the effect. Including a story of election results in Berlin.</p>
+<h2>But how many of our everyday computer bugs and crashes from this kind of phenomenon?</h2>
+<p>With a quick google search you find the ever trustworthy AI generated response.
+<img src="image.png" alt="Google Search for bit flips" /></p>
+<p>Thats crazy, if that number is correct then every device almost always has a bit flip every week. (Because most consumer devices have more than 4GB of RAM)</p>
+<p>Digging deeper I found a <a href="https://www.cs.toronto.edu/~bianca/papers/sigmetrics09.pdf">competing google paper</a>. Basically, it says that bit flips happen almost never, and, if they do, it's likely due to a hardware problem that will lead to many more bit flips on that specific RAM stick. Additionally, a blog post on <a href="https://blog.robertelder.org/causes-of-bit-flips-in-computer-memory/#:~:text=If%20you%20do%20a%20search,bit%20flip%20every%20three%20days%22.">robertelkder.org</a> claims that the situation has to be perfect for cosmic rays to intervene. Robert has lots of pictures so it seems trustworthly. But I have genuinely no clue if he is right.</p>
+<h2>So I decided to test it myself!</h2>
+<!-- raw HTML omitted -->
+<p>Basically, I've set up a test bench to just allocate 10(ish) Gigs of RAM, set it all to 00000000 and check every once in a while to see if anything changed. Its a super simple setup. But I wanted to just sit a wait and see if I could get any <strong>alpha particle</strong> related flips. Feel free to check out my code on github <a href="https://github.com/danbotMBM/bitflip_lab/blob/master/mem_check.c">github.com/danbotMBM/bitflip_lab</a>.</p>
+<h1>Results</h1>
+<h3><strong>Nothing happened!!</strong></h3>
+<p>Its been running for a couple months now and not a single bit is flipped. I think I've set everything up correctly with the code. But please reach out if you have any thoughs.</p>
+<h2>Implementation details</h2>
+<p>Here are just some details on what when into the development</p>
+<ol>
+<li>Turn off the memory being able to be moved to the SWAP partition</li>
+<li>Calloc the RAM</li>
+<li>Make a hashtable to keep track of the bytes that have flipped already
+<ol>
+<li>I made the hashtable myself just to brush up on my C skills</li>
+</ol>
+</li>
+<li>Check every once in a while</li>
+<li>Make a transaction list for historical purposes</li>
+<li>Load the transaction list if the program restarts</li>
+<li>Make a systemd unit file to run on boot</li>
+<li>Make a python program to email me when a bit flips</li>
+</ol>

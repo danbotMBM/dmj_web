@@ -39,12 +39,11 @@ html, body{
     padding: 5px;
 }
 
-
-a {
-    color: #1F2125;
+.markdown-body h2 a {
+    color: #1F2125 !important;
 }
-a:hover {
-    color:#0051B8;
+.markdown-body h2 a:hover {
+    color:#0051B8 !important;
 }
 
 
