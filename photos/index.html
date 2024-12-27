@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>DMJ</title>
+    <title>daniel mark jones</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
         integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <link href="photosStyle.css" type="text/css" rel="stylesheet">
@@ -15,40 +15,9 @@
     <div class="meat">
         <h2 class="text-center" id="title">photos</h1>
             <div id="jumbodiv">
-
                 <script>
-                    //dispPhotos();
                     writePhotos();
 
-
-                    function dispPhotos() {
-
-                        var picture = []; //Define array pictures
-
-                        //loop through all pictures
-                        for (i = 1; i < 44; i++) {
-                            picture.push("pics/pic%20(" + i + ").jpg"); //Add to array
-                        }
-                        myFunction(picture[2]);
-                        myFunction(picture[1]);
-                        //   for (i = 1; i < 44; i++) {
-                        //        myFunction(picture[i]);
-                        //    }
-
-
-
-                        function myFunction(item) {
-                            var x = new Image();
-                            x.setAttribute("src", item);
-                            x.setAttribute("width", "304");
-                            x.setAttribute("height", "228");
-
-                            document.getElementById('body').appendChild(x);
-                            down.innerHTML = "Image Element Added.";
-
-
-                        }
-                    }//end dispPhotos
                     function writePhotos() {
                         var picture = []; //Define array pictures
 
