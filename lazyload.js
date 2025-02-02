@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 observer.unobserve(img); // Stop observing after loading
             }
         });
-    }, { rootMargin: "200px" }); // Trigger callback when 10% of the image is in view
+    }, { rootMargin: "200px" });
 
     // Start observing each image
     images.forEach(img => observer.observe(img));
