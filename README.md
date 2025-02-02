@@ -3,13 +3,13 @@ This is a place for my random web development stuff.
 
 ### tools used
 * Nginx for web server
-* AWS ec2 for front and back end hosting
+* Self hosted in my basement using Cloudflare proxy and dns
 * Basic static client side html, css, and javascript
 * Heavy usage of markdown with html conversion by [pycmarkgfm](https://github.com/Zopieux/pycmarkgfm) and css stolen from [github-markdown-css](https://github.com/sindresorhus/github-markdown-css?tab=readme-ov-file)
 * For certificates I use LetsEncrypt
 
 ### the goal
-Make a place for me to document project in the fastest and hopefully least ugly way possible.
+Make a place for me to document and share projects in a fast and easy way.
 
 # Setup
 
@@ -25,7 +25,5 @@ sudo restorecon -R /path/to/your/directory
 python3 markdown_to_html.py <path1> <path2> ...
 ```
 
-### Run ansible playbook
-```
-ansible-playbook -i inventory.yml server.yml
-```
+### Configure permissions and Nginx
+See github.com/danbotMBM/danbotlab
