@@ -11,9 +11,9 @@
 * Home
   * General
     * Make descriptions better
-  * Mobile
-    * Photo takes up way to much space and spills over
-    * Header elements seem a bit off center
+  * Mobile ✅
+    * Photo takes up way to much space and spills over ✅
+    * Header elements seem a bit off center ✅
   * Netspeed
     * Header is fine but image needs to be auto populated in its normal size with a low rez image
 * Photos

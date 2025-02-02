@@ -1,0 +1,13 @@
+header{
+    background-color: #1A1C23;
+    color: white;
+    margin: 0;
+}
+
+.navlink{
+    padding: 4px;
+    color: white;
+}
+.navlink:hover{
+    color: #A2BFE6;
+}

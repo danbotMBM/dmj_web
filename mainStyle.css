@@ -1,16 +1,7 @@
-header{
-    background-color: #1A1C23;
-    color: white;
-}
-
-#title{
-   padding: 3px;
-   padding-left: 15px;
-}
 html, body{
     margin: 0;
-    
 }
+
 .container{
     margin-bottom: 15px;
     margin-top: 15px;
@@ -18,21 +9,6 @@ html, body{
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
 }
-
-.content{
-    background-color:#ffffff;
-    color: #1F2125;
-}
-
-
-.navlink{
-    padding-right: 10px;
-    color: white;
-}
-.navlink:hover{
-    color: #A2BFE6;
-}
-
 
 #insetPhoto{
     width: 97%;
@@ -46,16 +22,20 @@ html, body{
     color:#0051B8 !important;
 }
 
-
 .brdr{
     border: solid;
     border-width: 2px;
 }
+
 #jumbodiv{
     align-items: center;
 }
 
 #jumbo{
-    height: 50vh;
-
+    align-self: center;
+    max-height: 50vh;
+    height: auto;
+    max-width: 80vw;
+    width: auto;
+    object-fit: contain;
 }
