@@ -19,6 +19,7 @@ func getExt(path string) (ext string){
 
 // DownscaleImage takes an image path, a target width and height, and outputs the downscaled image to a new file.
 func DownscaleImage(inputPath string, outputPath string, width uint, height uint) error {
+	// TODO does not do well with vertical images for some reason
 	// Open the input image file
 	file, err := os.Open(inputPath)
 	if err != nil {
