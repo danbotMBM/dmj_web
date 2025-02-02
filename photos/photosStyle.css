@@ -1,18 +1,13 @@
 header{
     background-color: white;
     color: black;
-    
 }
 
-
-#title{
-   padding: 3px;
-   padding-left: 15px;
-}
 html, body{
     margin: 0;
     
 }
+
 .container{
     margin-bottom: 15px;
     margin-top: 15px;
@@ -23,15 +18,13 @@ html, body{
      background-color:#ffffff;
 }
 
-
-
 .navlink{
-    padding-right: 10px;
     color: black;
 }
 .navlink:hover{
     color: grey;
 }
+
 #faq{
     background-color: #1A1C23;
     color: white;
@@ -61,10 +54,12 @@ p a:hover{
     border: solid;
     border-width: 2px;
 }
+
 #pic{
     align-self: center;
     width: 50%;    
 }
+
 #picRow{
     padding: 3%;
 }
