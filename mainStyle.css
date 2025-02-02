@@ -33,8 +33,7 @@ html, body{
 
 #jumbo{
     align-self: center;
-    max-height: 50vh;
-    height: auto;
+    height: 50vh;
     max-width: 80vw;
     width: auto;
     object-fit: contain;

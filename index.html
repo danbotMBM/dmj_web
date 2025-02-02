@@ -15,11 +15,9 @@
 <body>
     <div id="header_loc"></div>
     <div class="container">
-        <div class="content">
             <div id="jumbodiv">
                 <img id="jumbo" src="">
             </div>
-        </div>
     </div>
     <article class="markdown-body" id="markdown_loc">
     </article>
@@ -43,9 +41,10 @@
         // Usage example
         var randomNumber = getRandomInteger(1, 30);
         var jumbo = document.getElementById("jumbo");
-        jumbo.src = "photos/pics/pic (" + randomNumber + ").jpg"
-
+        jumbo.classList.add("lazyload")
+        jumbo.src = "photos/pics/low/pic (" + randomNumber + ").jpg"
     </script>
+    <script src="lazyload.js"></script>
 </body>
 
 </html>
