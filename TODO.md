@@ -23,6 +23,11 @@
     * low rez and normal size ✅
 * Cardshark
 * webgpu
+  * Mobile
+    * sizing sucks✅
+  * General
+    * Compatability messages when errors out✅
+    * sizing for 4k screens✅
 * bitflip
 
 ### To add
