@@ -1,14 +1,65 @@
+function showErrorMessage(message){
+    var errorDiv = document.getElementById("error_message");
+    errorDiv.innerHTML = message
+}
+
 const canvas = document.querySelector("canvas");
 if (!navigator.gpu) {
+    const noWebGPUError = `
+    <h2 class="text-center" id="title">Error Starting WebGPU:</h1>
+    <p>This page is a demo for the WebGPU API which aims to be 
+    a superior alternative to the WebGL graphics API. You are 
+    seeing this error message because your browser either does 
+    not support or does not allow the WebGPU API to access your graphics processor.
+    Google Chrome and most other Chromium-based browsers support it by default. Many
+    browsers can enable WebGPU with an experimental setting/flag.
+    For guidance, visit <a href="https://caniuse.com/webgpu">caniuse.com</a>.
+    `
+    showErrorMessage(noWebGPUError)
     throw new Error("WebGPU not supported on this browser.");
 }
-// check requestAdapter docs to see how to choose which gpu adapter to use
-const adapter = await navigator.gpu.requestAdapter();
+const noAdapterError = `
+<h2 class="text-center" id="title">Error Fetching GPU Adapter:</h1>
+<p>This page is a demo for the WebGPU API which aims to be 
+a superior alternative to the WebGL graphics API. You are 
+seeing this error message because your supports the WebGPU graphics API but was not able to
+latch onto the graphics processor of your device. Consider using another browser or a device with
+a dedicated graphics processor. 
+For guidance, visit <a href="https://caniuse.com/webgpu">caniuse.com</a>.
+`
+var adapter = null;
+try {
+    // check requestAdapter docs to see how to choose which gpu adapter to use
+    adapter = await navigator.gpu.requestAdapter();
+} catch (error){
+    showErrorMessage(noAdapterError)
+}
 if (!adapter) {
+    showErrorMessage(noAdapterError)
     throw new Error("No appropriate GPUAdapter found.");
 }
-// check requestDevice documentation 
-const device = await adapter.requestDevice();
+var device = null;
+try {
+    // check requestDevice documentation 
+    device = await adapter.requestDevice();
+} catch (error){
+    showErrorMessage(noAdapterError)
+}
+canvas.width = 512;
+canvas.height = 512;
+if (window.innerWidth > 1200 || window.innerHeight > 1200){
+    canvas.width = 1024;
+    canvas.height = 1024;
+}
+if (window.innerWidth > 2400 || window.innerHeight > 2400){
+    canvas.width = 2048;
+    canvas.height = 2048;
+}
+if (window.innerWidth < 600 || window.innerHeight < 600){
+    canvas.width = 256;
+    canvas.height = 256;
+}
+console.log(window.innerWidth, window.innerHeight);
 const context = canvas.getContext("webgpu");
 const canvasFormat = navigator.gpu.getPreferredCanvasFormat();
 // device is the gpu; format is the texture memory format
