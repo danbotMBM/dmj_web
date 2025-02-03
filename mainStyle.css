@@ -10,11 +10,6 @@ html, body{
     align-items: center; /* Center vertically */
 }
 
-#insetPhoto{
-    width: 97%;
-    padding: 5px;
-}
-
 .markdown-body h2 a {
     color: #1F2125 !important;
 }
