@@ -47,11 +47,11 @@ try {
 }
 canvas.width = 512;
 canvas.height = 512;
-if (window.innerWidth > 1200 || window.innerHeight > 1200){
+if (window.innerWidth > 1200 && window.innerHeight > 1200){
     canvas.width = 1024;
     canvas.height = 1024;
 }
-if (window.innerWidth > 2400 || window.innerHeight > 2400){
+if (window.innerWidth > 2400 && window.innerHeight > 2400){
     canvas.width = 2048;
     canvas.height = 2048;
 }
