@@ -14,15 +14,9 @@
 <body>
     <div id="header_loc"></div>
     <article class="markdown-body" id="markdown_loc">
-    <script>
-        function import_html(html, loc){
-            fetch(html)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById(loc).innerHTML = data;
-                });
-        }
-        import_html("../../header.html", "header_loc");
+    <script type="module">
+        import import_html from "/utils.js"
+        import_html("/header.html", "header_loc");
         import_html("bitflip_md.html", "markdown_loc");
     </script>
 </body>

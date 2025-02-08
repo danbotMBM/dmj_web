@@ -16,30 +16,11 @@
     <div id="header_loc"></div>
     <article class="markdown-body" id="markdown_loc">
     </article>
-    <script>
-        function import_html(html, loc){
-            fetch(html)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById(loc).innerHTML = data;
-                });
-        }
-        import_html("../header.html", "header_loc");
+    <script type="module">
+        import import_html from "/utils.js";
+        import_html("/header.html", "header_loc");
         import_html("index_md.html", "markdown_loc");
     </script>
-    <script>
-        // Generate a random integer between 1 and 30
-        function getRandomInteger(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
-        // Usage example
-        var randomNumber = getRandomInteger(1, 43);
-        var jumbo = document.getElementById("jumbo");
-        jumbo.classList.add("lazyload")
-        jumbo.src = "photos/pics/low/pic (" + randomNumber + ").jpg"
-    </script>
-    <script src="lazyload.js"></script>
 </body>
 
 </html>
