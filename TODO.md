@@ -3,37 +3,41 @@
 ## Clean up the existing setup
 
 ### GOALS
-1. When something doesn't work. Detect and explain
-2. Make look decent on mobile
-3. Make look decent with 4g network
+1. When something doesn't work. Detect and explain✅
+2. Make look decent on mobile✅
+3. Make look decent with 4g network✅
 
 ### By page
 * Home
-  * General
-    * Make descriptions better
+  * General❌
+    * Make descriptions better❌
   * Mobile ✅
     * Photo takes up way to much space and spills over ✅
     * Header elements seem a bit off center ✅
   * Netspeed✅
     * Header is fine but image needs to be auto populated in its normal size with a low rez image✅
-* Photos
+* Photos✅
   * Mobile
     * Increase photo size ✅
   * Netspeed✅
     * low rez and normal size ✅
-* Cardshark
-* webgpu
-  * Mobile
+* Cardshark❌
+* webgpu❌
+  * UI
+    * convoluded❌
+  * Blog
+    * Add blog underneath❌
+  * Mobile✅
     * sizing sucks✅
-  * General
+  * General✅
     * Compatability messages when errors out✅
     * sizing for 4k screens✅
-* bitflip
+* bitflip❌
 
 ### To add
 1. Blog about self hosting
 2. Blog about graphana
-3. Blogs page which queries everything
+3. Blogs page which queries everything ✅ (queries based on import_htmls path)
 
 ### Housekeeping
-1. Change permissions to reflect what you actually want public
+1. Change permissions to reflect what you actually want public✅
