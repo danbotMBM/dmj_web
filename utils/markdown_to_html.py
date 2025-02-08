@@ -1,5 +1,6 @@
 import pycmarkgfm
 import sys
+from pathlib import Path
 from pycmarkgfm import options
 paths = sys.argv[1:]
 print(paths)

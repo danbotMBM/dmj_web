@@ -34,9 +34,17 @@
         jumbo.src = "photos/pics/low/pic (" + randomNumber + ").jpg"
     </script>
     <script type="module">
-        import import_html from "/utils.js";
+        import { import_html, import_htmls } from "/utils.js";
+        var paths = [
+            "/index_md.html",
+            "/blogs/webgpu/feature_md.html",
+            "/blogs/bitflip/feature_md.html",
+            "/photos/feature_md.html",
+            "/external-features/cardshark_md.html",
+            "/external-features/doggone_md.html",
+        ]
         import_html("/header.html", "header_loc");
-        import_html("/index_md.html", "markdown_loc");
+        import_htmls(paths, "markdown_loc")
     </script>
     <script src="lazyload.js"></script>
 </body>

@@ -17,9 +17,14 @@
     <article class="markdown-body" id="markdown_loc">
     </article>
     <script type="module">
-        import import_html from "/utils.js";
+        import { import_html, import_htmls} from "/utils.js";
         import_html("/header.html", "header_loc");
-        import_html("index_md.html", "markdown_loc");
+        const paths = [
+            "index_md.html",
+            "/blogs/bitflip/feature_md.html",
+            "/blogs/webgpu/feature_md.html",
+        ]
+        import_htmls(paths, "markdown_loc");
     </script>
 </body>
 
