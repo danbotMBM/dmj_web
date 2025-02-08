@@ -1,16 +1,7 @@
-header{
-    background-color: #1A1C23;
-    color: white;
-}
-
-#title{
-   padding: 3px;
-   padding-left: 15px;
-}
 html, body{
     margin: 0;
-    
 }
+
 .container{
     margin-bottom: 15px;
     margin-top: 15px;
@@ -19,44 +10,26 @@ html, body{
     align-items: center; /* Center vertically */
 }
 
-.content{
-    background-color:#ffffff;
-    color: #1F2125;
+.markdown-body h2 a {
+    color: #1F2125 !important;
 }
-
-
-.navlink{
-    padding-right: 10px;
-    color: white;
+.markdown-body h2 a:hover {
+    color:#0051B8 !important;
 }
-.navlink:hover{
-    color: #A2BFE6;
-}
-
-
-#insetPhoto{
-    width: 97%;
-    padding: 5px;
-}
-
-
-a {
-    color: #1F2125;
-}
-a:hover {
-    color:#0051B8;
-}
-
 
 .brdr{
     border: solid;
     border-width: 2px;
 }
+
 #jumbodiv{
     align-items: center;
 }
 
 #jumbo{
-    height: 50vh;
-
+    align-self: center;
+    max-height: 50vh;
+    height: auto;
+    width: 80vw;
+    object-fit: contain;
 }

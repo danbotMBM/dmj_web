@@ -1,42 +1,29 @@
 # dmj_web 
 This is a place for my random web development stuff.
 
+### tools used
+* Nginx for web server
+* Self hosted in my basement using Cloudflare proxy and dns
+* Basic static client side html, css, and javascript
+* Heavy usage of markdown with html conversion by [pycmarkgfm](https://github.com/Zopieux/pycmarkgfm) and css stolen from [github-markdown-css](https://github.com/sindresorhus/github-markdown-css?tab=readme-ov-file)
+* For certificates I use LetsEncrypt
 
+### the goal
+Make a place for me to document and share projects in a fast and easy way.
 
-### copy everthing over
-```
-cd dmj_web
-sudo dnf install nginx
-sudo cp nginx.conf /etc/nginx/nginx.conf
-sudo mkdir -p /data/dmj_web
-sudo cp -r * /data/dmj_web/
-```
+# Setup
 
-### Generating certs for NGINX
+### Make sure that SELinux is set properly
 ```
-sudo mkdir -p /etc/nginx/ssl
-sudo openssl req -newkey rsa:2048 -nodes -keyout /etc/nginx/ssl/selfsigned.key -out /etc/nginx/ssl/selfsigned.csr
-sudo openssl x509 -signkey /etc/nginx/ssl/selfsigned.key -in /etc/nginx/ssl/selfsigned.csr -req -days 365 -out /etc/nginx/ssl/selfsigned.crt
-sudo nginx -t
-sudo systemctl restart nginx
-```
-
-### open firewall
-```
-sudo dnf install firewalld
-sudo systemctl daemon-reload
-sudo systemctl enable firewalld
-sudo systemctl start firewalld
-sudo firewall-cmd --permanent --zone=public --add-service=http
-sudo firewall-cmd --permanent --zone=public --add-service=https
-sudo firewall-cmd --reload
+sudo chcon -R -t httpd_sys_content_t <path/to/dir>
+sudo semanage fcontext -a -t httpd_sys_content_t '/path/to/your/directory(/.*)?'
+sudo restorecon -R /path/to/your/directory
 ```
 
-### add user
+### Generate html from markdown
 ```
-sudo useradd -r -s /sbin/nologin www-data
-sudo chown -R www-data:www-data /var/log/nginx
-sudo chown -R www-data:www-data /data
-sudo chcon -R -t httpd_sys_content_t /data
-sudo systemctl restart nginx
+python3 markdown_to_html.py <path1> <path2> ...
 ```
+
+### Configure permissions and Nginx
+See github.com/danbotMBM/danbotlab
