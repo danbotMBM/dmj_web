@@ -1,5 +1,34 @@
+@media (prefers-color-scheme: dark) {
+  body,
+  [data-theme="dark"] {
+    /*dark*/
+    color-scheme: dark;
+    --fgColor-default: #e6edf3;
+    --fgColor-muted: #8d96a0;
+    --fgColor-accent: #A2BFE6;
+    --bgColor-default: #0d1117;
+    --bgColor-muted: #161b22;
+    --bgColor-neutral-muted: #6e768166;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+  body,
+  [data-theme="light"] {
+    /*light*/
+    color-scheme: light;
+    --fgColor-default: #1f2328;
+    --fgColor-muted: #636c76;
+    --fgColor-accent: #A2BFE6;
+    --bgColor-default: #ffffff;
+    --bgColor-muted: #f6f8fa;
+  }
+}
+
 html, body{
     margin: 0;
+    background-color: var(--bgColor-default);
+    color: var(--fgColor-default);
 }
 
 .container{
@@ -11,10 +40,10 @@ html, body{
 }
 
 .markdown-body h2 a {
-    color: #1F2125 !important;
+    color: var(--fgColor-default) !important;
 }
 .markdown-body h2 a:hover {
-    color:#0051B8 !important;
+    color: var(--fgColor-accent) !important;
 }
 
 .brdr{
