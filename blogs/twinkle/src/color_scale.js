@@ -11,11 +11,17 @@ const COLOR_CHECKPOINTS = new Map([
     [4500, new Color(0xF1FFB1)],
     [5000, new Color(0xE6FECD)],
     [6000, new Color(0xD0FFFD)],
+    [0, new Color(0xFFFFF)],
 ]);
 
 export function get_color_from_kelvin(kelvin){
     if (typeof(kelvin) != "number"){
         return null
     }
+    var keys = COLOR_CHECKPOINTS.keys()
+    var keys = Array.from(keys)
+    keys.sort();
+    console.log(keys)
 
 }
+get_color_from_kelvin(10)
