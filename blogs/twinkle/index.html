@@ -14,6 +14,8 @@
 
 <body>
     <div id="header_loc"></div>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <input type="range" id="kelvin_slider" min="0" max="6000" value="2200" step="1">
     <script type="module">
         import {import_html, import_htmls} from "/utils.js";
         import_html("/header.html", "header_loc");

@@ -34,6 +34,10 @@ export class Color {
         return Color.rgb_to_number(this.get_rgb());
     }
 
+    get_css() {
+        return `#${(1 << 24 | this.red << 16 | this.green << 8 | this.blue).toString(16).slice(1).toUpperCase()}`;
+    }
+
     static number_to_rgb(number) {
         if (typeof number === "number" && number <= 0xFFFFFF) {
             return [(number >> 16) & 255, (number >> 8) & 255, number & 255]
