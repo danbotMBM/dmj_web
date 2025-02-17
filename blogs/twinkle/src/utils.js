@@ -19,7 +19,6 @@ export function binary_search_between(arr, target) {
 
         const mid = Math.floor((left + right) / 2);
         const midValue = arr[mid];
-        console.log(arr, "Target:", target, "Left:", left, arr[left], "right:", right, arr[right], "mid:", mid, midValue);
 
         if (midValue === target) {
             return [mid, mid];
