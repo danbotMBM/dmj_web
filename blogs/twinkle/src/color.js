@@ -60,6 +60,13 @@ export class Color {
             )
         );
     }
+
+    static get_color_between(before_color, after_color, proportion){
+        var red = before_color.red + (after_color.red - before_color.red) * proportion;
+        var green = before_color.green + (after_color.green - before_color.green) * proportion;
+        var blue = before_color.blue + (after_color.blue - before_color.blue) * proportion;
+        return new Color([Math.round(red), Math.round(green), Math.round(blue)])
+    }
 }
 
 function tests() {
@@ -106,6 +113,13 @@ function tests() {
     // Edge test for Color creation from invalid inputs
     t.push(new Color([256, 0, 0]).get_rgb() == null); // Out of range RGB input
     t.push(new Color([-1, 0, 0]).get_hex() == null); // Negative RGB input
+
+    // get_color_between
+    t.push(array_equal(Color.get_color_between(new Color([255, 255, 255]), new Color([0,0,0]), 0.5).get_rgb(), [128, 128, 128])); // Out of range RGB input
+    t.push(array_equal(Color.get_color_between(new Color([0, 0, 0]), new Color([0,0,0]), 0.5).get_rgb(), [0, 0, 0])); // Out of range RGB input
+    t.push(array_equal(Color.get_color_between(new Color([1, 2, 3]), new Color([2,4,6]), 0.5).get_rgb(), [2, 3, 5])); // Out of range RGB input
+    t.push(array_equal(Color.get_color_between(new Color([1, 0, 0]), new Color([11,0,0]), 0.1).get_rgb(), [2, 0, 0])); // Out of range RGB input
+
 
     let allTrue = t.every(e => e === true);
     if (allTrue) {

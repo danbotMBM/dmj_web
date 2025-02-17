@@ -35,6 +35,7 @@ export function binary_search_between(arr, target) {
         }
         iter++;
     }
+    console.log("ERROR: infinite loop in binary_search_between")
     return -1;
 }
 
