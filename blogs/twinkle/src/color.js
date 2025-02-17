@@ -63,7 +63,7 @@ export class Color {
 }
 
 function tests() {
-    console.log("Testing...")
+    console.log("Testing color.js ...")
     var t = []
     // Test normal cases
     t.push(array_equal(Color.number_to_rgb(0xFFFFFF), [255, 255, 255]));
@@ -109,11 +109,11 @@ function tests() {
 
     let allTrue = t.every(e => e === true);
     if (allTrue) {
-        console.log("All", t.length, "tests passed!")
+        console.log("All", t.length, "tests of color.js passed!")
     } else {
         for (let i = 0; i < t.length; i++) {
             if (!t[i]) {
-                console.log("Test", i + 1, "/", t.length, "failed")
+                console.log("Test", i + 1, "/", t.length, " of color.js failed")
             }
         }
     }
