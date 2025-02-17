@@ -20,5 +20,3 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const kelvin_slider = document.getElementById("kelvin_slider");
 requestAnimationFrame(animate);
-
-console.log("imported");
