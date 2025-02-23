@@ -1,0 +1,20 @@
+### Sources
+1. [Photometry to analyzer human perception of brightness](https://www.stonybrook.edu/laser/_carolyn/report/index.html)
+2. [Blackbody Ratiation Interactive Graph](https://space-charts.vercel.app/?temp=3130)
+3. [Spectral Radiance Desmos](https://www.desmos.com/calculator/xhyts4ee35)
+4. [Normalized Approximation for Photometry of 0 - 6000K](https://www.desmos.com/calculator/gq4j2wtnev)
+
+
+
+Integral of Plank's law over the visible spectrum
+1000, 1677387.76016
+2000, 6.1420785235\times10^{11}
+2500, 8.9376399219\times10^{12}
+3000, 5.5607477185\times10^{13}
+3500, 2.1084523413\times10^{14}
+4000, 5.8305003051\times10^{14}
+4500, 1.3013957252\times10^{15}
+5000, 2.4944332634\times10^{15}
+
+Normalize approximation for Photometry
+y=\left(2.08405\times10^{-15}\right)x^{4}-\left(9.82477\times10^{-12}\right)x^{3}+\left(1.19558\times10^{-8}\right)x^{2}-0.0000012575x+0.00066852
