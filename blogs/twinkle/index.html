@@ -10,12 +10,36 @@
     <link rel="stylesheet" href="/gitlab_md.css">
     <link href="/header.css" type="text/css" rel="stylesheet">
     <link href="/mainStyle.css" type="text/css" rel="stylesheet">
+    <style>
+        .slider-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .value-label {
+            font-size: 18px;
+            font-weight: bold;
+            width: 50px;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
     <div id="header_loc"></div>
     <canvas id="canvas" width="500" height="500"></canvas>
-    <input type="range" id="kelvin_slider" min="0" max="6000" value="2200" step="1">
+    <div class="slider-container" id="kelvin_slider_con">
+        <input type="range" id="kelvin_slider" min="0" max="6000" value="2200" step="1" oninput="updateValue(this.value)">
+        <span class="value-label" id="kelvin_slider_value">2200</span>
+    </div>
+    <script>
+        function updateValue(val){
+            document.getElementById("kelvin_slider_value").innerHTML = val;
+        }
+    </script>
     <script type="module">
         import {import_html, import_htmls} from "/utils.js";
         import_html("/header.html", "header_loc");
