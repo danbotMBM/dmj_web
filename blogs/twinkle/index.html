@@ -19,6 +19,7 @@
             font-family: Arial, sans-serif;
             text-align: center;
         }
+
         .value-label {
             font-size: 18px;
             font-weight: bold;
@@ -30,18 +31,23 @@
 
 <body>
     <div id="header_loc"></div>
-    <canvas id="canvas" width="500" height="500"></canvas>
-    <div class="slider-container" id="kelvin_slider_con">
-        <input type="range" id="kelvin_slider" min="0" max="6000" value="2200" step="1" oninput="updateValue(this.value)">
-        <span class="value-label" id="kelvin_slider_value">2200</span>
+    <div class="container">
+        <div class="content">
+            <canvas id="canvas" width="500" height="500"></canvas>
+            <div class="slider-container" id="kelvin_slider_con">
+                <input type="range" id="kelvin_slider" min="0" max="6000" value="2200" step="1"
+                    oninput="updateValue(this.value)">
+                <span class="value-label" id="kelvin_slider_value">2200</span>
+            </div>
+        </div>
     </div>
     <script>
-        function updateValue(val){
+        function updateValue(val) {
             document.getElementById("kelvin_slider_value").innerHTML = val;
         }
     </script>
     <script type="module">
-        import {import_html, import_htmls} from "/utils.js";
+        import { import_html, import_htmls } from "/utils.js";
         import_html("/header.html", "header_loc");
     </script>
     <script type="module" src="twinkle.js"></script>
