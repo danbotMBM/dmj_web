@@ -1,3 +1,5 @@
+import { normalize } from "./utils.js"
+
 // returns 0 - 1.0 where 1 is max brightness and 0 is no brightness
 // upper bound designates the kelvin point where the brightness begins to become asymptotic to 1.0
 export function get_brightness_from_kelvin(kelvin, upper_bound, upper_bound_damping_scale){
@@ -10,13 +12,6 @@ export function get_brightness_from_kelvin(kelvin, upper_bound, upper_bound_damp
     return 0.9 * normalize(brightness_from_kelvin_curve(kelvin), 0, upper_bound_from_curve);
 }
 
-function normalize(x, min, max){
-    if (min - max == 0){
-        console.log("ERROR: Normalization min - max cannot equal 0")
-        return -1;
-    }
-    return (x - min) / (max - min)
-}
 
 // middle is where brightness is 0.5, quarter is where brightness is 0.25 
 export function normalized_arctan(x, middle, quarter){

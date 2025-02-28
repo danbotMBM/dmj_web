@@ -26,6 +26,7 @@
             width: 50px;
             text-align: center;
         }
+
     </style>
 </head>
 
@@ -33,12 +34,14 @@
     <div id="header_loc"></div>
     <div class="container">
         <div class="content">
-            <canvas id="canvas" width="500" height="500"></canvas>
+            <canvas id="canvas"></canvas>
             <div class="slider-container" id="kelvin_slider_con">
                 <input type="range" id="kelvin_slider" min="0" max="6000" value="2200" step="1"
                     oninput="updateValue(this.value)">
                 <span class="value-label" id="kelvin_slider_value">2200</span>
             </div>
+            <input type="file" id="file_input">
+            <pre id="output"></pre>
         </div>
     </div>
     <script>

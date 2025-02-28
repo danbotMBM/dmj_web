@@ -7,6 +7,34 @@ export function array_equal(arr1, arr2) {
     return arr1.every((value, index) => value === arr2[index]);
 }
 
+export function normalize(x, min, max){
+    if (min - max == 0){
+        console.log("ERROR: Normalization min - max cannot equal 0")
+        return -1;
+    }
+    return (x - min) / (max - min)
+}
+
+export function unflatten(array, row_length){
+    var result = [];
+    for (let i = 0; i < array.length; i += row_length) {
+        result.push(array.slice(i, i + row_length)); // Create a chunk for each row
+    }
+    return result;
+}
+
+export function minmax(matrix) {
+    let min = Infinity;
+    let max = -Infinity;
+
+    matrix.forEach(value => {
+        if (value < min) min = value;
+        if (value > max) max = value;
+    });
+
+    return { min, max };
+}
+
 export function binary_search_between(arr, target) {
     // Not checking if sorted for performance reasons
     let left = 0;
