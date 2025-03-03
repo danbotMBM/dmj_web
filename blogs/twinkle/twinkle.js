@@ -34,7 +34,7 @@ function draw_lights(kelvins){
     var height = canvas.height;
     const num = kelvins.length;
     var offset = 0;
-    if (num >= 5){
+    if (num <= 5){
         width = width / 2;
         offset = width / 2;
     }
