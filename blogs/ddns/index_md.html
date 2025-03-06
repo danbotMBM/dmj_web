@@ -1,18 +1,18 @@
 <h1>Elegant and Simple Self-Hosting with DDNS</h1>
-<h2>Why self host</h2>
+<h2>Why Self-Host</h2>
 <p>As a kid, I used to always want to make a website and share stuff with friends and family.
-I'd set up something on my computer but would have no idea how to put it on the internet.
+I'd set up something on my computer but had no idea how to put it on the internet.
 Recently, I've realized those childhood dreams by setting up an old gaming rig in my basement to host this website, projects, and services.
-Throughout schooling I'd had experience with making a site and deploying it in the cloud, but it just pains me to pay $25 a month to Jeff Bezos to host my crappy website on a teeny processor.
-So I went down the scary but surprisingly documented path of directing network traffic directly into my home.
+Throughout my schooling, I had experience with making a site and deploying it in the cloud, but it just pains me to pay $25 a month to Jeff Bezos to host my crappy website on a teeny processor.
+So I went down the scary but surprisingly documented path of directing network traffic into my home.
 I wanted a solution that provides simplicity, privacy, and most importantly cost saving.
 Through my research, I decided to use dynamic DNS and a cloudflare proxy as that solution.
 Learning and implementing a dynamic dns solution has been easy, cheap, and most importantly <strong>FREE</strong>.</p>
 <h2>DDNS Debrief</h2>
 <p>So a quick rundown on Dynamic DNS.
-Dynamic DNS is a program you run on your server that will check it's own DNS resolution periodically.
+Dynamic DNS is a program you run on your server that will check its own DNS resolution periodically.
 If it resolves to itself, then nothing happens.
-Otherwise the DNS record A record, mapping the domain to the ip, needs to change.
+Otherwise the DNS A record (maps the domain name to the ip) needs to be updated.
 Dynamic DNS solutions detect this need for change and communicate with DNS providers to make it happen.</p>
 <h2>Why Cloudflare DDNS</h2>
 <p>Dynamic DNS with cloudflare provides the perfect suite of features for the average self hosting person, providing a simple, free solution with extra quality of life features from cloudflare.
@@ -28,8 +28,8 @@ This container uses an API key to change the A record for your DNS, which is the
 Essentially, cloudflare's free proxy and programmable API allows for DDNS to be simple, free, and private.</p>
 <h2>The Downsides</h2>
 <p>However, there are a few downsides to this solution.
-There is good reason that companies uses static ip addresses.
-The largest downside is that the DDNS uses a fixed time polling to check if the IP has changes.
+There is good reason that companies uses static IP addresses.
+The largest downside is that the DDNS uses a fixed-interval polling to check if the IP has changes.
 This can cause a period of downtime where your services are routing to your old IP until the DDNS realizes the issue.
 For my specific solution, the IP is checked by a cron job every 5 minutes, and, so far, I haven't noticed any downtime.
 Also, cloudflare's free proxy does not allow arbitrary ports.
