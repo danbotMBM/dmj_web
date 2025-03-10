@@ -85,14 +85,14 @@ function read_twinkle_file(event){
         var matrix = processedData.slice(1)
         simulation_timestamps = matrix.map(row => row[0])
         simulation = matrix.map(row => row.slice(1))
-        simulation = scale_simulation(simulation, 0, 3000);
+        // simulation = scale_simulation(simulation, 0, 3000);
     };
     reader.readAsText(file);
 }
 
 function tick(){
     if (simulation){
-        simulation_index += 1;
+        simulation_index += 4;
         if (simulation_index >= simulation.length){
             simulation_index = 0;
         }
