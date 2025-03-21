@@ -68,31 +68,38 @@ function resize_canvas(){
     canvas.height = height;
 }
 
-function read_twinkle_file(event){
-    const file = event.target.files[0];
+function twinkle_file_event(event){
+    read_twinkle_file(event.target.files[0]);
+}
+
+function read_twinkle_text(twinkle_text){
+    const text = twinkle_text;
+    const lines = text.split("\n");
+    const processedData = lines.map(line => {
+                return line.trim().split(/\s+/).map(token => {
+                    return isNaN(token) ? token : parseFloat(token, 10); // Convert numbers, keep text
+                });
+            });
+    num_lights = parseInt(processedData[0][0])
+    num_lines = parseInt(processedData[0][1])
+    var matrix = processedData.slice(1)
+    simulation_timestamps = matrix.map(row => row[0])
+    simulation = matrix.map(row => row.slice(1))
+    // simulation = scale_simulation(simulation, 0, 3000);
+}
+
+function read_twinkle_file(file){
     if (!file) return;
     const reader = new FileReader();
     reader.onload = function(e) {
-        const text = e.target.result;
-        const lines = text.split("\n");
-        const processedData = lines.map(line => {
-                    return line.trim().split(/\s+/).map(token => {
-                        return isNaN(token) ? token : parseFloat(token, 10); // Convert numbers, keep text
-                    });
-                });
-        num_lights = parseInt(processedData[0][0])
-        num_lines = parseInt(processedData[0][1])
-        var matrix = processedData.slice(1)
-        simulation_timestamps = matrix.map(row => row[0])
-        simulation = matrix.map(row => row.slice(1))
-        // simulation = scale_simulation(simulation, 0, 3000);
+        read_twinkle_text(e.target.result)
     };
     reader.readAsText(file);
 }
 
 function tick(){
     if (simulation){
-        simulation_index += 4;
+        simulation_index += 1;
         if (simulation_index >= simulation.length){
             simulation_index = 0;
         }
@@ -123,5 +130,16 @@ const kelvin_slider = document.getElementById("kelvin_slider");
 resize_canvas();
 window.addEventListener("resize", resize_canvas);
 requestAnimationFrame(animate);
-document.getElementById("file_input").addEventListener('change', read_twinkle_file)
+document.getElementById("file_input").addEventListener('change', twinkle_file_event)
 setInterval(tick, 10);
+fetch("/blogs/twinkle/out26.txt").then(response => {
+    if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.text();
+    })
+    .then(data => {
+        read_twinkle_text(data) 
+    }).catch(error => {
+        console.error('Error fetching file:', error);
+    });
