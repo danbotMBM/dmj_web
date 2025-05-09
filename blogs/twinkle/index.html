@@ -11,6 +11,17 @@
     <link href="/header.css" type="text/css" rel="stylesheet">
     <link href="/mainStyle.css" type="text/css" rel="stylesheet">
     <style>
+        #videos {
+            align-content: center;
+            justify-content: center;
+            display: flex;
+            gap: 30px;
+            padding: 15px;
+        }
+        #twinkle-video {
+            height: auto;
+            max-width: 45%;
+        }
         .slider-container {
             display: flex;
             align-items: center;
@@ -34,14 +45,14 @@
     <div id="header_loc"></div>
     <div class="container">
         <div class="content">
-            <canvas id="canvas"></canvas>
-            <div class="slider-container" id="kelvin_slider_con">
-                <input type="range" id="kelvin_slider" min="0" max="6000" value="2200" step="1"
-                    oninput="updateValue(this.value)">
-                <span class="value-label" id="kelvin_slider_value">2200</span>
+            <article class="markdown-body" id="markdown_loc"></article>
+            <div id="canvas-1">
+
             </div>
-            <input type="file" id="file_input">
-            <pre id="output"></pre>
+            <script type="module">
+                import { add_sim } from './twinkle.js';
+                add_sim("canvas-1", "./sims/large_final.txt");
+            </script>
         </div>
     </div>
     <script>
@@ -52,6 +63,7 @@
     <script type="module">
         import { import_html, import_htmls } from "/utils.js";
         import_html("/header.html", "header_loc");
+        import_html("index_md.html", "markdown_loc");
     </script>
     <script type="module" src="twinkle.js"></script>
     <script type="module" src="src/color_scale.js"></script>

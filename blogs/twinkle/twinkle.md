@@ -3,12 +3,13 @@
 2. [Blackbody Ratiation Interactive Graph](https://space-charts.vercel.app/?temp=3130)
 3. [Spectral Radiance Desmos](https://www.desmos.com/calculator/xhyts4ee35)
 4. [Normalized Approximation for Photometry of 0 - 6000K](https://www.desmos.com/calculator/gq4j2wtnev)
+4. [inspo](https://www.youtube.com/@TechnologyConnections)
 
 
 
 Integral of Plank's law over the visible spectrum
 1000, 1677387.76016
-2000, 6.1420785235\times10^{11}
+2000, 6.1420785235\times10^{}
 2500, 8.9376399219\times10^{12}
 3000, 5.5607477185\times10^{13}
 3500, 2.1084523413\times10^{14}
