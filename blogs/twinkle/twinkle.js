@@ -5,6 +5,7 @@ import { Color } from "./src/color.js";
 
 const MID_BRIGHTNESS = 2000;
 const QUARTER_BRIGHTNESS = 1500;
+const MIN_RADIUS = 50;
 
 function draw_circle(ctx, x, y, radius, color) {
     ctx.fillStyle = color;
@@ -19,33 +20,37 @@ function draw_light(ctx, x, y, max_radius, kelvin){
     draw_circle(ctx, x, y, max_radius * brightness_scale, color.get_css());
 }
 
-function circle_centers(width, height, num){
-    var y = height / 2;
-    const radius = width / (num*2);
-    var r = [[radius, y]];
-    for (let i = 1; i < num; i++){
-        r.push([2*i*radius + radius, y]);
+function circle_centers(radius, width, height, num){
+    if (radius * num * 2 > width){
+        const num_rows = Math.ceil(radius*num*2 / width);
+        const num_cols = Math.ceil(num / num_rows);
+        if(num_rows*num_cols < num){
+            throw issue
+        }
+        var r = [];
+        for (let i = 0; i < num_rows; i++){
+            for (let j = 0; j < num_cols; j++){
+                r.push([2*j*radius + radius, 2*i*radius + radius]);
+            }
+        }
+    }else{
+        var y = height / 2;
+        var r = [[radius, y]];
+        for (let i = 1; i < num; i++){
+            r.push([2*i*radius + radius, y]);
+        }
     }
     return r
 }
 
-function draw_lights(canvas, ctx, kelvins){
+function draw_lights(canvas, ctx, radius, kelvins){
     var width = canvas.width;
     var height = canvas.height;
     const num = kelvins.length;
-    var offset = 0;
-    if (num <= 5){
-        width = width / 2;
-        offset = width / 2;
-    }
-    var radius = width / (num*2);
-    if (radius*2 > height){
-        radius = height/2;
-    }
-    const centers= circle_centers(width, height, num);
+    const centers= circle_centers(radius, width, height, num);
     for(let i=0; i < num; i++){
         let k = kelvins[i]
-        let x = centers[i][0] + offset
+        let x = centers[i][0]
         let y = centers[i][1]
         draw_light(ctx, x, y, radius, k)
     }
@@ -66,6 +71,9 @@ function resize_canvas_parent(canvas, width_percent, height_percent){
     const parent = canvas.parentElement;
     var width = parent.clientWidth * width_percent;
     var height = width * height_percent;
+    if (height < MIN_HEIGHT){
+        height = MIN_HEIGHT;
+    }
     canvas.width = width;
     canvas.height = height;
 }
@@ -132,23 +140,71 @@ class sim{
             });
     }
 
+    radius(width){
+        var num = 1;
+        if(this.loaded){
+            num = this.simulation[0].length;
+        }
+        var radius = width / (num*2);
+        var new_radius = radius;
+
+        // static min radius
+        if (radius < MIN_RADIUS){
+            new_radius = MIN_RADIUS;
+        }
+        // dynamix min radius is 1/7 of inner width
+        if (radius < width / 8 / 2){
+            new_radius = width / 8 / 2;
+        }
+        // Max radius is 1/2 inner height
+        if(radius * 2 > window.innerHeight/2){
+            new_radius = window.innerHeight / 2 / 2;
+        }
+
+        return new_radius;
+    }
+
+    resize(){
+        const parent = this.canvas.parentElement;
+        var width = parent.clientWidth;
+        var num_lights = 1;
+        if (this.loaded){
+            num_lights = this.simulation[0].length;
+        }
+        var radius = this.radius(width);
+        var num_rows = this.num_rows(width, num_lights, radius);
+        var height = radius * 2 * num_rows;
+
+        this.canvas.width = width;
+        this.canvas.height = height;
+    }
+
+    num_rows(width, num, radius){
+        return Math.ceil(radius*num*2 / width);
+    }
+
     lights_on_now(){
         if(this.loaded){
-            return this.simulation[binary_search_floor(this.simulation_timestamps, this.simulation_time)]
+            const index = binary_search_floor(this.simulation_timestamps, this.simulation_time);
+            if (index >= this.simulation.length){
+                this.simulation_time = 0;
+                index = 0;
+                console.log("cycled")
+            }
+            return this.simulation[index]
         }
     }
 
     render(){
-        resize_canvas_parent(this.canvas, 1.0, 0.2);
+        this.resize();
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         if (this.loaded){
-            draw_lights(this.canvas, this.ctx, this.lights_on_now());
+            draw_lights(this.canvas, this.ctx, this.radius(this.canvas.width), this.lights_on_now());
         }else{
-            draw_lights(this.canvas, this.ctx, [this.brightness]);
+            draw_lights(this.canvas, this.ctx, this.radius(this.canvas.width), [this.brightness]);
         }
         requestAnimationFrame(()=>{this.render()});
     }
- 
 
     tick(){
         if (this.loaded){
