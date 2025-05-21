@@ -109,3 +109,9 @@ const COLOR_CHECKPOINTS = new Map([
 
 ## Limits of the presentation medium
 Due to the fact that I am testing this in a graphical representation, I need to somehow map the "percieved brightness" of a bulb in a standard computer display. This took me down an interesting rabbit whole of the world of photometry. I tried to quantize the amount of light in the visible spectrum and correlate that with the radius, or area of the circle that represents the bulb. This was ambitious and ended up being like putting lipstick on a pig. The presentation medium is not close enough to reality to try and correlate them. This lead me to using a tuned arctan scale for the radius of the circle. This seemed reasonable from the intuition I gained from the photometry reading, and it was visibly appealing.
+
+
+<div id="canvas-2">
+
+</div>
+

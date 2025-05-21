@@ -41,13 +41,8 @@
 
 <body>
     <div id="header_loc"></div>
-            <div id="canvas-1">
-
-            </div>
-            <script type="module">
-                import { add_sim } from './twinkle.js';
-                add_sim("canvas-1", "./sims/large_final.txt");
-            </script>
+    <div id="canvas-1">
+    </div>
     <article class="markdown-body" id="markdown_loc"></article>
     <script type="module">
         import { import_html, import_htmls } from "/utils.js";
@@ -56,6 +51,20 @@
     </script>
     <script type="module" src="twinkle.js"></script>
     <script type="module" src="src/color_scale.js"></script>
+    <script type="module">
+        import { add_sim } from './twinkle.js';
+        function try_to_add_sim(canvas_id, sim_path){
+            if (document.getElementById(canvas_id)){
+                add_sim(canvas_id, sim_path);
+
+            }else{
+                setTimeout(try_to_add_sim, 1, canvas_id, sim_path)
+            }
+        }
+        try_to_add_sim("canvas-1", "./sims/large_final.txt")
+        try_to_add_sim("canvas-2", "./sims/large_final.txt")
+        
+    </script>
 </body>
 
 </html>
