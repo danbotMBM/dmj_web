@@ -5,7 +5,7 @@ import { Color } from "./src/color.js";
 
 const MID_BRIGHTNESS = 2000;
 const QUARTER_BRIGHTNESS = 1500;
-const MIN_RADIUS = 50;
+const MIN_RADIUS = 25;
 
 function draw_circle(ctx, x, y, radius, color) {
     ctx.fillStyle = color;
@@ -28,14 +28,16 @@ function circle_centers(radius, width, height, num){
             throw issue
         }
         var r = [];
+        var offset = (width - num_cols * 2 * radius) / 2;
         for (let i = 0; i < num_rows; i++){
             for (let j = 0; j < num_cols; j++){
-                r.push([2*j*radius + radius, 2*i*radius + radius]);
+                r.push([2*j*radius + radius + offset, 2*i*radius + radius]);
             }
         }
     }else{
         var y = height / 2;
-        var r = [[radius, y]];
+        var offset = (width - num * 2 * radius) / 2;
+        var r = [[radius + offset, y]];
         for (let i = 1; i < num; i++){
             r.push([2*i*radius + radius, y]);
         }
@@ -148,18 +150,23 @@ class sim{
         var radius = width / (num*2);
         var new_radius = radius;
 
-        // static min radius
-        if (radius < MIN_RADIUS){
-            new_radius = MIN_RADIUS;
+        if(window.innerWidth < 500){
+            // dynamic min radius is 1/7 of inner width
+            if (radius < width / 8 / 2){
+                new_radius = width / 8 / 2;
+            }
+        }else{
+            // static min radius
+            if (radius < MIN_RADIUS){
+                new_radius = MIN_RADIUS;
+            }
         }
-        // dynamix min radius is 1/7 of inner width
-        if (radius < width / 8 / 2){
-            new_radius = width / 8 / 2;
-        }
+
         // Max radius is 1/2 inner height
         if(radius * 2 > window.innerHeight/2){
             new_radius = window.innerHeight / 2 / 2;
         }
+        console.log("radius", radius, "new radius", new_radius, "width", width)
 
         return new_radius;
     }
