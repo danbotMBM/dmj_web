@@ -14,12 +14,10 @@
         #videos {
             align-content: center;
             justify-content: center;
-            display: flex;
             gap: 30px;
             padding: 15px;
         }
         #twinkle-video {
-            height: auto;
             max-width: 45%;
         }
         .slider-container {
@@ -43,9 +41,6 @@
 
 <body>
     <div id="header_loc"></div>
-    <div class="container">
-        <div class="content">
-            <article class="markdown-body" id="markdown_loc"></article>
             <div id="canvas-1">
 
             </div>
@@ -53,13 +48,7 @@
                 import { add_sim } from './twinkle.js';
                 add_sim("canvas-1", "./sims/large_final.txt");
             </script>
-        </div>
-    </div>
-    <script>
-        function updateValue(val) {
-            document.getElementById("kelvin_slider_value").innerHTML = val;
-        }
-    </script>
+    <article class="markdown-body" id="markdown_loc"></article>
     <script type="module">
         import { import_html, import_htmls } from "/utils.js";
         import_html("/header.html", "header_loc");

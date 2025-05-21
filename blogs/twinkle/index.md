@@ -20,16 +20,15 @@ Modern Christmas lights don't feel as cozy as the lights from the past. When you
 So that is a pretty strong performance from LED lights on all the hard and fast metrics, but at what cost. Is Christmas all about cost savings and practicality. I'd say no, BUT I think LEDs can be better.
 
 For context, here are some examples of each type. Incandescent is on the left, and LED is on the right.
-<div id="videos">
-    <video id="twinkle-video" autoplay loop muted playsinline>
-        <source src="videos/med/incan.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    <video id="twinkle-video" autoplay loop muted playsinline>
-        <source src="videos/med/led.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-</div>
+
+<video id="twinkle-video" autoplay loop muted playsinline>
+    <source src="videos/med/incan.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+<video id="twinkle-video" autoplay loop muted playsinline>
+    <source src="videos/med/led.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
 
 There's a magic in those classic lights, and I am determined to try and capture it AND leverage the practical benefits of LED bulbs. I believe there is one major factor to that magical coziness.
 

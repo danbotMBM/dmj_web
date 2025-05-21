@@ -62,6 +62,15 @@ function resize_canvas(canvas, width_percent, height_percent){
     canvas.height = height;
 }
 
+function resize_canvas_parent(canvas, width_percent, height_percent){
+    const parent = canvas.parentElement;
+    console.log("testpoint", parent, parent.clientWidth)
+    var width = parent.clientWidth * width_percent;
+    var height = width * height_percent;
+    canvas.width = width;
+    canvas.height = height;
+}
+
 function twinkle_file_event(event){
     read_twinkle_file(event.target.files[0]);
 }
@@ -131,7 +140,7 @@ class sim{
     }
 
     render(){
-        resize_canvas(this.canvas, 0.5, 0.4);
+        resize_canvas_parent(this.canvas, 1.0, 0.4);
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         if (this.loaded){
             draw_lights(this.canvas, this.ctx, this.lights_on_now());
@@ -140,6 +149,7 @@ class sim{
         }
         requestAnimationFrame(()=>{this.render()});
     }
+ 
 
     tick(){
         if (this.loaded){
