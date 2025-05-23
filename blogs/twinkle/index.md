@@ -134,7 +134,7 @@ I modeled the bulb's temperature with 3 main factors.
     dE = I^2 * R * dt
     ```
 2. Heat lost by the actual glowing of the bulb
-    This is governed by the Steve Boltzman law. Which says that the energy released by a glowing black body is related to the differece in temperature and 2 constants, the Steve Boltzman constant and the specific emissivity of that material.
+    This is governed by the Steve Boltzman law. Which says that the energy released by a glowing black body is related to the difference in temperature and 2 constants, the Steve Boltzman constant and the specific emissivity of that material.
     ```
     dE = (T_i^4 - T_0^4) * sbc * specific emissivity
     ```
@@ -145,7 +145,7 @@ I modeled the bulb's temperature with 3 main factors.
     ```
 
 ### 3. Color Shift as Temperature Increases Modelled?
-There is some super interesting math that describes the radiation of a black body given its temperature. Its called Plank's law. (See the [simulation](https://space-charts.vercel.app/?temp=3130) I linked above)
+There is some super interesting math that describes the radiation of a black body given its temperature. Its called Planck's law. (See the [simulation](https://space-charts.vercel.app/?temp=3130) I linked above)
 Its super cool, but I am trying to shoot for a more simple solution that approximates the colors of a light bulb.
 For simplicity, I opted for defining some key color values and linearly interpolating the RGB values between them.
 ```
@@ -166,13 +166,13 @@ const COLOR_CHECKPOINTS = new Map([
 
 
 ### Bonus 4. Luminosity from Temperature Modelled
-Due to the fact that I am testing this in a graphical representation, I need to somehow map the "percieved brightness" of a bulb in a standard computer display.
+Due to the fact that I am testing this in a graphical representation, I need to somehow map the "perceived brightness" of a bulb in a standard computer display.
 This took me down an interesting rabbit whole of the world of [photometry](https://en.wikipedia.org/wiki/Photometry_(optics)).
 I tried to quantize the amount of light in the visible spectrum using this (desmos calculation)[].
 Then I correlated that with the radius, or area of the circle that represents the bulb.
 But this was way too ambitious.
 I just did not know what I was doing.
-And once I got a number of "human percieved luminosity" I was still going to have to correspond that with some graphical representation that matches it.
+And once I got a number of "human perceived luminosity" I was still going to have to correspond that with some graphical representation that matches it.
 Overall, way to much work and not worth.
 So I just used a tuned arctan scale for the radius of the circle.
 This seemed reasonable from the intuition I gained from the photometry reading, and it was visibly appealing.
