@@ -1,7 +1,9 @@
-<div id="canvas-1">
-</div>
 <h1>The Perfect Christmas Lights, Overengineered ✨</h1>
-<p>Modern Christmas lights don't feel as cozy as the lights from the past. When you drive down your local festive street, there is often a distinct lack of warmth that used to be there. It's more heartless, piercing, and robotic. This winter, I was investigating the best Christmas realized this problem and decided to get some of the classic incandescent bulbs with a standard filament. But what is putting me off about these new and improved LED light bulbs, and why aren't they just better?</p>
+<p>Modern Christmas lights don't feel as cozy as the lights from the past.
+When you drive down your local festive street, there is a distinct lack of warmth of times gone by.
+It's more heartless, piercing, and robotic.
+This winter, I was investigating the best Christmas lights and decided to get some of the classic incandescent bulbs with a standard filament.
+But what is putting me off about these new and improved LED light bulbs, and why aren't they just better?</p>
 <h2>Comparing LED to Incandescent</h2>
 <ul>
 <li>LED christmas lights
@@ -24,41 +26,89 @@
 </ul>
 </li>
 </ul>
-<p>So that is a pretty strong performance from LED lights on all the hard and fast metrics, but at what cost. Is Christmas all about cost savings and practicality. I'd say no, BUT I think LEDs can be better.</p>
-<p>For context, here are some examples of each type. Incandescent is on the left, and LED is on the right.</p>
+<p>So that is a pretty strong performance from LED lights on all the hard and fast metrics.
+I can definitely see why almost everyone opts for the LEDs when at the store.
+However, there is something special about those lovely little classic bulbs.
+What is it?
+And how can we capture it and combine it with the frankly superior LED technology?</p>
+<h2>The Big LED Downside</h2>
+<h3>They are <strong>ROBOTIC</strong>🤖</h3>
+<p>Take a look at the examples below. You have incandescent on the left and LED on the right.</p>
 <video id="twinkle-video" autoplay loop muted playsinline>
-    <source src="videos/med/incan.mp4" type="video/mp4">
+    <source src="videos/incan_multiple.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>
 <video id="twinkle-video" autoplay loop muted playsinline>
-    <source src="videos/med/led.mp4" type="video/mp4">
+    <source src="videos/led_multiple_twinkle.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>
-<p>There's a magic in those classic lights, and I am determined to try and capture it AND leverage the practical benefits of LED bulbs. I believe there is one major factor to that magical coziness.</p>
+<p>If you look closely the incandescent bulbs have a relationship between each other.
+When one bulb flickers off, the rest brighten just a bit, resulting in a shimmering effect.</p>
+<video id="twinkle-video" autoplay loop muted playsinline>
+    <source src="videos/incan_shimmer.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+<p>But the LEDs, don't have any relationship.
+The non-blinking LED doesn't do anything when you the others are twinkling.
+It's a complete lack of community spirit for me, especially during the holiday season.</p>
+<p>There's a magic in those classic lights, and I am determined to try and capture it AND leverage the practical benefits of LED bulbs.</p>
 <h2>Coziness Comes from <em>✨Electromagnetic Properties✨</em></h2>
-<p>Notice that the incandescent lights shimmer even if they are not the ones blinking. This is because brightness of the bulbs is related to electrical energy added to the bulb. So, when one bulb flickers off, that electrical energy gets transferred into the all the other bulbs. It is reminiscent of a flickering fire when you look at it reflected against a wall or some other surface.</p>
+<p>So, why does the cozy, shimmering effect happen with incandescent Christmas light?
+It's because brightness of the bulbs is related to electrical energy added to the bulb.
+So, when one bulb flickers off, that electrical energy gets transferred into the all the other bulbs.</p>
 <p>This transfer of energy does not happen with LED lights. LED's just flicker on and off and don't effect each other at all. This just feels <em>wrong</em>.</p>
 <h2>The Goal</h2>
-<p>Capture the magically cozy electromagnetic properties of an incandescent set of Christmas lights by encoding the relationship between the bulbs in the strand in software.</p>
+<p>Capture the magically cozy electromagnetic properties of incandescent Christmas lights by modelling the relationship between the bulbs in the strand in software.</p>
 <h2>Basic Circuit Design</h2>
-<p>I've simplified down the strand of bulbs into a single circuit of bulbs acting as resistors. When a bulb &quot;blinks&quot;, the current bypasses the bulb's filament, decreasing the total resistance of the strand. This means that we can use some basic calculations to figure out the amount of energy going into each bulb's filament.</p>
-<h2>Complicating factors</h2>
-<p>During my research, I discovered a bunch of interesting properties that will make the</p>
-<ol>
-<li>Temp dependant resistance</li>
-<li>Energy -&gt; Temp</li>
-<li>Color shift from red -&gt; orange -&gt; white -&gt; blue as heat increases</li>
-</ol>
-<p>The resistance of each bulb does not remain constant, but it increases as the filament heats up. That means that we need to express resistance in the terms of heat. So we can't just do a simple on or off resistor, which makes sense because our goal is a gradual and natural looking state change.</p>
-<p>The actual brightness of the glow of the bulb is not correlated with the energy that is being delivered by the wire at that time, but rather on the temperature of the filament which is gradually heated by the energy delivered, and gradually decreased by the radiance and standard convection heat transfer.</p>
-<p>When a black body, or rather an imperfect black body, emits radiation it shifts along the electromagnetic spectrum. It starts to overlap with the red side of the visible spectrum and shifts closer to the UV as the heat increases. You actually encounter this all the time when purchasing LED light bulbs. The 2300K light bulbs are meant to recreate the orangish glow of a dim, 2300K incandescent bulb. Don't get me started on how horrible standard 3500K LED bulbs are with their harsh, blue light.</p>
-<p>I attempt to model all of this in software, with admittedly variable accuracy.</p>
-<h2>Heat -&gt; Resistance</h2>
-<p>The amount of resistance is modeled by a linear relationship between the temperature and a constant. This constant can be calculated by knowing the shape fo the filament and its material. For my purposes, I've just used a constant.</p>
+<p>I've simplified down the strand of bulbs into a single circuit of bulbs acting as resistors.
+When a bulb &quot;blinks&quot;, the current bypasses the bulb's filament, decreasing the total resistance of the strand and increasing the voltage to the other bulbs.
+This means that we can use some basic calculations to figure out the amount of energy going into each bulb's filament.</p>
+<p>Below we see a simulation of the light strand I am modelling.
+Notice how the voltage goes to zero when a short circuit a bulb.
+Also, when I do that, the other bulbs maximum voltage increases.</p>
+<video width="100%" autoplay loop muted playsinline>
+    <source src="videos/circuit.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+<blockquote>
+<p>generated by <a href="https://www.falstad.com/circuit/">falstad.com</a> play around with it <a href="https://www.falstad.com/circuit/circuitjs.html?ctz=CQAgjCAMB0l3BOJyWoSA7NAbGBGAOAVmyIwCZ9IyQAWIkBoyRgUwFowwAoMAiMthABmYUNJDRQlmOzQitDGHLZawjHALYM4OOHIsYtKNFrcAznQIyCxouQIjbUFwDMAhgBtzrXvxDa5CJimPbB0iIYCPL8tOSUxFHkEGB6yoamJmZ8EBjYjlIgtgUhMkTR2kjJYNjCtLQIDKks6VlZfhBaxoUI9eEu6hVk5RhxtHzk6rotBm1G3ADujA5OdnmrUIuM64WCG5Bbgf1Hws4HSxhhhZdBp8bnmPn9eQVnW8X9H3ebS12fqvstr1uiFgYClhJjiRwQFod8Tm8LldnC8YV9nH9vg8wd8wQ1pBZtpJnJCseAQB5vL5LAjjDd9uTKT5Cajvuj7oyvMzLJjnDizpyqYcCI58SA8QgCQA3KwsMXYSCiyUuCAKxiGFwwIhbWjWDa6uXKh75JXiRV0I3cAD2LgBcsgSBAsxgjhYQRk1qdAQ5tAd6FmYBw5KCt09wm9Ll9jud0EcIZEIk9xjtdD9TpaQfDQW63CAA">here</a></p>
+</blockquote>
+<h2>Temperature is the Key🗝️</h2>
+<p>During my research, I discovered a bunch of interesting properties that will make this all work.
+We need to model all of these properties in software. Luckily, all of them are dependant on one value, temperature.</p>
+<h3>1. Temperature Dependant Resistance</h3>
+<p>The resistance of each bulb does not remain constant, but it increases as the filament heats up.
+That means that we need to express resistance in the terms of heat.
+So we can't just do a simple on or off resistor, which makes sense because our goal is a gradual and natural looking state change.</p>
+<h3>2. Energy Increasing Temperature</h3>
+<p>The actual brightness of the glow of the bulb is not correlated with the energy that is being delivered by the wire at that time, but rather on the temperature of the filament which is gradually heated by the energy delivered.
+Also, there are 2 forces that are removing heat from the filament: convection and radiant heat transfer.</p>
+<h3>3. Color Shift as Temperature Increases</h3>
+<p>When a black body, or rather an imperfect black body, emits radiation it shifts along the electromagnetic spectrum.
+It first glows red, then yellow, then white, and finally finishing off with a blue.
+You actually encounter this all the time when purchasing LED light bulbs.
+The 2300K light bulbs are meant to recreate the orangish glow of a dim, 2300K incandescent bulb.
+3000K refers to a more warm, white color.
+And then there are the gross &quot;natural white&quot; 3500K.
+And don't get me started on how horrible standard 4000K LED bulbs are with their harsh, blue light.
+I found this simulation online.
+It demonstrates the spectrum of light generated by a perfect black body.
+See how starts to overlap with the red side of the visible spectrum and shifts closer to the UV as the heat increases.</p>
+<iframe src="https://space-charts.vercel.app/?temp=3130" style="width: 100%; aspect-ratio: 5 / 4; border: none;" title="Description of the iframe content">
+  Your browser does not support iframes.
+</iframe>
+<blockquote>
+<p>visit the site yourself <a href="https://space-charts.vercel.app/?temp=3130">here</a></p>
+</blockquote>
+<h2>Modelling in Software</h2>
+<h3>1. Temperature Dependant Resistance Modelled</h3>
+<p>The amount of resistance is modeled by a linear relationship between the temperature and a constant.
+This constant can be calculated by knowing the shape fo the filament and its material.
+For my purposes, I've just used a constant I found on the internet.</p>
 <pre><code>R = T * c
 </code></pre>
-<h2>Energy -&gt; Temp</h2>
-<p>The temperature of a fillament has 3 main contrubuting factors.</p>
+<h3>2. Energy Increasing Temperature Modelled</h3>
+<p>I modeled the bulb's temperature with 3 main factors.</p>
 <ol>
 <li>Heat delivered by the electrical circuit.
 The heat energy delivered to the filament is determined by the current and the resistance
@@ -79,8 +129,10 @@ This is a more simple version the Steve Boltzman law that applies to all objects
 </code></pre>
 </li>
 </ol>
-<h2>Color Shift</h2>
-<p>There is some super interesting math that describes the radiation of a black body given its temperature. However, I'm trying to go from a kelvin temperature directly to a RGB value for the computer display. I decided to take some example colors from certain key temps. I've made a table and just linearly interpolated between all the RGB values.</p>
+<h3>3. Color Shift as Temperature Increases Modelled?</h3>
+<p>There is some super interesting math that describes the radiation of a black body given its temperature. Its called Plank's law. (See the <a href="https://space-charts.vercel.app/?temp=3130">simulation</a> I linked above)
+Its super cool, but I am trying to shoot for a more simple solution that approximates the colors of a light bulb.
+For simplicity, I opted for defining some key color values and linearly interpolating the RGB values between them.</p>
 <pre><code>const COLOR_CHECKPOINTS = new Map([
     [1000, new Color(0xFB1A00)],
     [1500, new Color(0xFE6901)],
@@ -95,11 +147,35 @@ This is a more simple version the Steve Boltzman law that applies to all objects
     [0, new Color(0x000000)],
 ]);
 </code></pre>
+<h3>Bonus 4. Luminosity from Temperature Modelled</h3>
+<p>Due to the fact that I am testing this in a graphical representation, I need to somehow map the &quot;percieved brightness&quot; of a bulb in a standard computer display.
+This took me down an interesting rabbit whole of the world of <a href="https://en.wikipedia.org/wiki/Photometry_(optics)">photometry</a>.
+I tried to quantize the amount of light in the visible spectrum using this (desmos calculation)[].
+Then I correlated that with the radius, or area of the circle that represents the bulb.
+But this was way too ambitious.
+I just did not know what I was doing.
+And once I got a number of &quot;human percieved luminosity&quot; I was still going to have to correspond that with some graphical representation that matches it.
+Overall, way to much work and not worth.
+So I just used a tuned arctan scale for the radius of the circle.
+This seemed reasonable from the intuition I gained from the photometry reading, and it was visibly appealing.</p>
+<h2>Details Developing the Project</h2>
+<p>I used golang to write the simulation to generate the temperatures of the bulbs over time.
+This was honestly a personal choice because I had not used golang much before.
+It gave me an excuse to to a pretty simple project and learn the golang basics.
+So golang gave me a file of temps with simulation timestamps.
+And in order to show the simulation here on the site, I simply read in that file and animate it after calculating the color and luminosity of each bulb based on the temp.</p>
+<h2>Conclusion</h2>
+<p>Overall, I really enjoyed this project and I hope you enjoy looking at the simulation.
+It seems much better than the LED stuff being sold today.
+Who knows, maybe I'll take some high end RGB LED christmas lights and program them to look like this.
+But that is a project for later.
+This took way longer than I thought.</p>
+<p>Thanks for reading.</p>
+<div id="canvas-2">
+</div>
+<h2>Sources</h2>
 <ul>
+<li><a href="https://youtu.be/zeOw5MZWq24?si=YC5-kCgda2qMvuBc">Technology Connections</a> the primary inspiration for this obsession</li>
 <li><a href="https://space-charts.vercel.app/?temp=3130">Blackbody Ratiation Interactive Graph</a></li>
 <li><a href="https://www.desmos.com/calculator/xhyts4ee35">Spectral Radiance Desmos</a></li>
 </ul>
-<h2>Limits of the presentation medium</h2>
-<p>Due to the fact that I am testing this in a graphical representation, I need to somehow map the &quot;percieved brightness&quot; of a bulb in a standard computer display. This took me down an interesting rabbit whole of the world of photometry. I tried to quantize the amount of light in the visible spectrum and correlate that with the radius, or area of the circle that represents the bulb. This was ambitious and ended up being like putting lipstick on a pig. The presentation medium is not close enough to reality to try and correlate them. This lead me to using a tuned arctan scale for the radius of the circle. This seemed reasonable from the intuition I gained from the photometry reading, and it was visibly appealing.</p>
-<div id="canvas-2">
-</div>
