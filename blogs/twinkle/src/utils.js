@@ -67,6 +67,14 @@ export function binary_search_between(arr, target) {
     return -1;
 }
 
+export function binary_search_floor(arr, target){
+    var res = binary_search_between(arr, target);
+    if (res[0] == -1){
+        return res[1];
+    }
+    return res[0];
+}
+
 
 function tests() {
     console.log("Testing utils.js ...")
