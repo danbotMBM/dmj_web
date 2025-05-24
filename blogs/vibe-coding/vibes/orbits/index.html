@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Orbital Dynamics Simulator</title>
+  <style>
+    canvas { border: 1px solid black; background: #000; }
+    .controls { margin-top: 10px; font-family: sans-serif; }
+    .body-config { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; }
+    label { display: inline-block; width: 110px; margin: 5px 10px 5px 0; }
+    input[type="number"] { width: 70px; }
+    input[type="range"] { width: 200px; }
+    .slider-label { font-weight: bold; margin-left: 10px; }
+  </style>
+    <link rel="stylesheet" href="/mainStyle.css">
+</head>
+<body>
+
+<h2 style="font-family:sans-serif;">Orbital Dynamics Simulator</h2>
+<canvas id="canvas" width="800" height="600"></canvas>
+
+<div class="controls">
+  <h3>Initial Body Parameters</h3>
+  <div id="bodyInputs"></div>
+
+  <button onclick="addBody()">Add Body</button>
+  <br><br>
+
+  <label>
+    Time Step:
+    <input type="range" id="timeStepSlider" min="0.01" max="5" step="0.01" value="1">
+    <span class="slider-label" id="timeStepLabel">1</span>
+  </label>
+
+  <br><br>
+  <button onclick="startSimulation()">Start Simulation</button>
+</div>
+
+<script>
+const G = 1; // Gravitational constant
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const bodyInputsDiv = document.getElementById('bodyInputs');
+
+let dt = parseFloat(document.getElementById('timeStepSlider').value);
+let bodies = [];
+
+document.getElementById('timeStepSlider').addEventListener('input', e => {
+  dt = parseFloat(e.target.value);
+  document.getElementById('timeStepLabel').textContent = dt.toFixed(2);
+});
+
+// Utility to generate a random pastel color
+function randomColor() {
+  const r = Math.floor((Math.random() * 128) + 127);
+  const g = Math.floor((Math.random() * 128) + 127);
+  const b = Math.floor((Math.random() * 128) + 127);
+  return `rgb(${r},${g},${b})`;
+}
+
+// Add a new set of inputs for a body
+function addBody(initialValues = {}) {
+  const container = document.createElement('div');
+  container.className = 'body-config';
+
+  container.innerHTML = `
+    <label>Mass: <input type="number" class="mass" value="${initialValues.mass || 10}"></label>
+    <label>Pos X: <input type="number" class="posX" value="${initialValues.x || 400}"></label>
+    <label>Pos Y: <input type="number" class="posY" value="${initialValues.y || 300}"></label>
+    <label>Vel X: <input type="number" class="velX" value="${initialValues.vx || 0}"></label>
+    <label>Vel Y: <input type="number" class="velY" value="${initialValues.vy || 0}"></label>
+    <button onclick="this.parentElement.remove()">Remove</button>
+  `;
+
+  bodyInputsDiv.appendChild(container);
+}
+
+// Parse bodies from the form into simulation objects
+function getBodiesFromInputs() {
+  const configs = document.querySelectorAll('.body-config');
+  const result = [];
+
+  configs.forEach(config => {
+    const mass = parseFloat(config.querySelector('.mass').value);
+    const x = parseFloat(config.querySelector('.posX').value);
+    const y = parseFloat(config.querySelector('.posY').value);
+    const vx = parseFloat(config.querySelector('.velX').value);
+    const vy = parseFloat(config.querySelector('.velY').value);
+
+    result.push({
+      mass,
+      x,
+      y,
+      vx,
+      vy,
+      radius: Math.cbrt(mass),
+      color: randomColor()
+    });
+  });
+
+  return result;
+}
+
+function startSimulation() {
+  bodies = getBodiesFromInputs();
+  animate();
+}
+
+function updatePhysics() {
+  for (let i = 0; i < bodies.length; i++) {
+    for (let j = i + 1; j < bodies.length; j++) {
+      const a = bodies[i];
+      const b = bodies[j];
+
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const distSq = dx * dx + dy * dy;
+      const dist = Math.sqrt(distSq);
+      const force = G * a.mass * b.mass / distSq;
+
+      const fx = force * dx / dist;
+      const fy = force * dy / dist;
+
+      a.vx += (fx / a.mass) * dt;
+      a.vy += (fy / a.mass) * dt;
+      b.vx -= (fx / b.mass) * dt;
+      b.vy -= (fy / b.mass) * dt;
+    }
+  }
+
+  for (const body of bodies) {
+    body.x += body.vx * dt;
+    body.y += body.vy * dt;
+    handleWallCollisions(body);
+  }
+}
+
+function handleWallCollisions(body) {
+  const r = body.radius;
+
+  if (body.x - r < 0) {
+    body.x = r;
+    body.vx *= -1;
+  }
+  if (body.x + r > canvas.width) {
+    body.x = canvas.width - r;
+    body.vx *= -1;
+  }
+  if (body.y - r < 0) {
+    body.y = r;
+    body.vy *= -1;
+  }
+  if (body.y + r > canvas.height) {
+    body.y = canvas.height - r;
+    body.vy *= -1;
+  }
+}
+
+function drawBodies() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (const body of bodies) {
+    ctx.beginPath();
+    ctx.arc(body.x, body.y, body.radius, 0, 2 * Math.PI);
+    ctx.fillStyle = body.color;
+    ctx.fill();
+  }
+}
+
+function animate() {
+  updatePhysics();
+  drawBodies();
+  requestAnimationFrame(animate);
+}
+
+// Add two default bodies on load
+addBody({ mass: 1000, x: 400, y: 300, vx: 0, vy: 0 });
+addBody({ mass: 10, x: 500, y: 300, vx: 0, vy: -2 });
+</script>
+
+</body>
+</html>

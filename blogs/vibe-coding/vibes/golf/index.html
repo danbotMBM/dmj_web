@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Golf Ball Flight with GUI</title>
+  <style>
+    body { margin: 0; overflow: hidden; background: #87CEEB; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dat.gui@0.7.9/build/dat.gui.min.js"></script>
+<script>
+  // Scene setup
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color('#87CEEB');
+
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  // Lighting
+  const light = new THREE.DirectionalLight(0xffffff, 1);
+  light.position.set(10, 20, 10);
+  scene.add(light);
+
+  // Ground
+  const ground = new THREE.Mesh(
+    new THREE.PlaneGeometry(200, 200),
+    new THREE.MeshPhongMaterial({ color: 0x228B22 })
+  );
+  ground.rotation.x = -Math.PI / 2;
+  scene.add(ground);
+
+  // Ball
+  const ballGeometry = new THREE.SphereGeometry(0.1, 32, 32);
+  const ballMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
+  const ball = new THREE.Mesh(ballGeometry, ballMaterial);
+  scene.add(ball);
+
+  // Physics constants
+  const g = -9.81;
+  const dragCoeff = 0.002;
+  const dt = 0.016;
+
+  let position = new THREE.Vector3();
+  let velocity = new THREE.Vector3();
+  let launched = false;
+
+  // Trail
+  const trailMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+  let trailPoints = [];
+  const trailGeometry = new THREE.BufferGeometry();
+  const trailLine = new THREE.Line(trailGeometry, trailMaterial);
+  scene.add(trailLine);
+
+  // GUI Controls
+  const settings = {
+    strength: 25,
+    angle: 20,
+    hitBall: () => {
+      resetSimulation();
+      const rad = THREE.MathUtils.degToRad(settings.angle);
+      velocity.set(
+        settings.strength * Math.cos(rad),
+        settings.strength * Math.sin(rad),
+        10
+      );
+      launched = true;
+    }
+  };
+
+  const gui = new dat.GUI();
+  gui.add(settings, 'strength', 5, 60, 1).name("Strength");
+  gui.add(settings, 'angle', 5, 60, 1).name("Launch Angle");
+  gui.add(settings, 'hitBall').name("Hit Ball");
+
+  // Reset simulation state
+  function resetSimulation() {
+    position = new THREE.Vector3(0, 1, 0);
+    velocity = new THREE.Vector3(0, 0, 0);
+    ball.position.copy(position);
+    trailPoints = [position.clone()];
+    trailGeometry.setFromPoints(trailPoints);
+  }
+
+  // Initial reset
+  resetSimulation();
+
+  // Animation loop
+  function animate() {
+    requestAnimationFrame(animate);
+
+    if (launched && position.y > 0.1) {
+      const speed = velocity.length();
+      const drag = velocity.clone().multiplyScalar(-dragCoeff * speed);
+      velocity.y += g * dt;
+      velocity.addScaledVector(drag, dt);
+      position.addScaledVector(velocity, dt);
+      ball.position.copy(position);
+      trailPoints.push(position.clone());
+      trailGeometry.setFromPoints(trailPoints);
+    }
+
+    // Broadcast-style camera
+    const offset = new THREE.Vector3(-3, 2, -6);
+    const desiredCameraPos = position.clone().add(offset);
+    camera.position.lerp(desiredCameraPos, 0.1);
+    camera.lookAt(ball.position);
+
+    renderer.render(scene, camera);
+  }
+
+  animate();
+</script>
+</body>
+</html>

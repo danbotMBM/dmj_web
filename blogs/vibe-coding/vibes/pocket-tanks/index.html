@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pocket Tanks Lite</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: #eee;
+    }
+    canvas {
+      display: block;
+      margin-bottom: 20px;
+      border: 2px solid #444;
+    }
+    .controls {
+      display: flex;
+      gap: 1em;
+      align-items: center;
+    }
+    .control-group {
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Pocket Tanks Lite</h1>
+<canvas id="gameCanvas" width="800" height="400"></canvas>
+
+<div class="controls">
+  <button onclick="fireProjectile(1)">Fire (Player 1)</button>
+  <button onclick="fireProjectile(2)">Fire (Player 2)</button>
+
+  <div class="control-group">
+    <label for="angle">Angle: <span id="angleValue">45</span>°</label>
+    <input type="range" id="angle" min="0" max="90" value="45" oninput="updateAngle(this.value)" />
+  </div>
+
+  <div class="control-group">
+    <label for="power">Power: <span id="powerValue">50</span></label>
+    <input type="range" id="power" min="10" max="100" value="50" oninput="updatePower(this.value)" />
+  </div>
+</div>
+
+<script>
+  const canvas = document.getElementById('gameCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const GAME_WIDTH = canvas.width;
+  const GAME_HEIGHT = canvas.height;
+  const GRAVITY = 0.2;
+
+  let terrain = Array.from({ length: GAME_WIDTH }, (_, x) =>
+    300 + 50 * Math.sin(x * 0.01)
+  );
+
+  let tank1 = { x: 100, y: 0 };
+  let tank2 = { x: 700, y: 0 };
+
+  let angle = 45;
+  let power = 50;
+  let projectile = null;
+
+  function updateAngle(val) {
+    angle = Number(val);
+    document.getElementById('angleValue').textContent = val;
+  }
+
+  function updatePower(val) {
+    power = Number(val);
+    document.getElementById('powerValue').textContent = val;
+  }
+
+  function drawTerrain() {
+    ctx.fillStyle = '#654321';
+    ctx.beginPath();
+    ctx.moveTo(0, GAME_HEIGHT);
+    terrain.forEach((y, x) => ctx.lineTo(x, y));
+    ctx.lineTo(GAME_WIDTH, GAME_HEIGHT);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  function drawTanks() {
+    ctx.fillStyle = 'blue';
+    ctx.fillRect(tank1.x - 5, tank1.y - 5, 10, 10);
+
+    ctx.fillStyle = 'red';
+    ctx.fillRect(tank2.x - 5, tank2.y - 5, 10, 10);
+  }
+
+  function drawProjectile() {
+    if (projectile) {
+      ctx.fillStyle = 'black';
+      ctx.beginPath();
+      ctx.arc(projectile.x, projectile.y, 3, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+  }
+
+  function render() {
+    ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    drawTerrain();
+    drawTanks();
+    drawProjectile();
+  }
+
+  function placeTanks() {
+    tank1.y = terrain[Math.floor(tank1.x)] - 10;
+    tank2.y = terrain[Math.floor(tank2.x)] - 10;
+  }
+
+  function fireProjectile(fromTank) {
+    const rad = angle * Math.PI / 180;
+    const vx = Math.cos(rad) * power * 0.2;
+    const vy = -Math.sin(rad) * power * 0.2;
+    const origin = fromTank === 1 ? tank1 : tank2;
+
+    projectile = { x: origin.x, y: origin.y, vx, vy };
+
+    const interval = setInterval(() => {
+      if (!projectile) {
+        clearInterval(interval);
+        return;
+      }
+
+      projectile.x += projectile.vx;
+      projectile.y += projectile.vy;
+      projectile.vy += GRAVITY;
+
+      if (
+        projectile.x < 0 ||
+        projectile.x >= GAME_WIDTH ||
+        projectile.y >= terrain[Math.floor(projectile.x)]
+      ) {
+        projectile = null;
+        clearInterval(interval);
+      }
+
+      render();
+    }, 30);
+  }
+
+  function init() {
+    placeTanks();
+    render();
+  }
+
+  init();
+</script>
+
+</body>
+</html>

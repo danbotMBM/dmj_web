@@ -10,20 +10,66 @@
     <link rel="stylesheet" href="../../gitlab_md.css">
     <link rel="stylesheet" href="../../header.css">
     <link rel="stylesheet" href="../../mainStyle.css">
-    <style>
-        canvas {
-            background-color: tan;
-            display: block;
-            margin: auto;
-        }
-    </style>
 </head> 
 
 <body>
     <div id="header_loc"></div>
-    <script src="game19.js"></script>
+    <article class="markdown-body" id="">
+    <iframe id="game" src="" style="width: 100%; border: none;overflow: hidden;" seamless></iframe>
+    <button onclick="reloadIframe('game')">Reload Current Game</button>
+    <button onclick="reloadIframe('game', 'vibes/orbits')">Planetary Orbit Simulation</button>
+    <button onclick="reloadIframe('game', 'vibes/golf')">3D Golf Flight Simulator</button>
+    <button onclick="reloadIframe('game', 'vibes/flappy-bird')">Flappy Bird Clone</button>
+    <button onclick="reloadIframe('game', 'vibes/pocket-tanks')">Pocket Tanks</button>
+    <button onclick="reloadIframe('game', 'vibes/bowling')">Bowling</button>
+    </article>
+
+  <script>
+
+  function autoResizeIframe(iframeId) {
+    const iframe = document.getElementById(iframeId);
+    if (!iframe) return;
+
+    iframe.addEventListener('load', function () {
+      try {
+        const doc = iframe.contentDocument || iframe.contentWindow.document;
+        if (doc) {
+          // Optional delay to let rendering settle
+          setTimeout(() => {
+            const height = doc.body.scrollHeight;
+            iframe.style.height = height + 'px';
+          }, 150);
+        }
+      } catch (err) {
+        console.warn('Cannot access iframe content due to cross-origin restrictions.');
+      }
+    });
+    setTimeout(autoResizeIframe(iframeId))
+  }
+
+  autoResizeIframe("game");
+
+    function reloadIframe(id, src = null){
+      const iframe = document.getElementById(id);
+      if (!iframe || iframe.tagName !== 'IFRAME') {
+        console.error(`Element with ID "${id}" is not an <iframe>`);
+        return;
+      }
+      if (src) {
+        iframe.src = src;
+      }else {
+        const temp = iframe.src;
+        iframe.src = '';
+        iframe.src = temp;
+      }
+   }
+
+
+  </script>
+
     <script type="module">
         import { import_html } from "/utils.js"
         import_html("/header.html", "header_loc");
+
     </script>
 </body>

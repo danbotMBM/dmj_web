@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D Bowling Game</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
+  <script>
+    // Setup scene, camera, renderer
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Add lighting
+    const light = new THREE.PointLight(0xffffff, 1, 100);
+    light.position.set(10, 10, 10);
+    scene.add(light);
+
+    // Create bowling lane
+    const laneGeometry = new THREE.BoxGeometry(2, 0.1, 20);
+    const laneMaterial = new THREE.MeshStandardMaterial({ color: 0x654321 });
+    const lane = new THREE.Mesh(laneGeometry, laneMaterial);
+    scene.add(lane);
+
+    // Create bowling ball
+    const ballGeometry = new THREE.SphereGeometry(0.2, 32, 32);
+    const ballMaterial = new THREE.MeshStandardMaterial({ color: 0x2222ff });
+    const ball = new THREE.Mesh(ballGeometry, ballMaterial);
+    ball.position.set(0, 0.2, 8);
+    scene.add(ball);
+
+    camera.position.set(0, 2, 12);
+    camera.lookAt(0, 0, 0);
+
+    // Flick input variables
+    let isMouseDown = false;
+    let start = { x: 0, y: 0, time: 0 };
+
+    window.addEventListener('mousedown', (e) => {
+      isMouseDown = true;
+      start.x = e.clientX;
+      start.y = e.clientY;
+      start.time = performance.now();
+    });
+
+    window.addEventListener('mouseup', (e) => {
+      if (!isMouseDown) return;
+      isMouseDown = false;
+
+      const dx = e.clientX - start.x;
+      const dy = e.clientY - start.y;
+      const dt = (performance.now() - start.time) / 1000;
+
+      const vx = -dx * 0.01;
+      const vz = -dy * 0.05 / dt;
+
+      ball.userData.velocity = { x: vx, z: vz };
+    });
+
+    // Animation loop
+    function animate() {
+      requestAnimationFrame(animate);
+
+      if (ball.userData.velocity) {
+        ball.position.x += ball.userData.velocity.x;
+        ball.position.z += ball.userData.velocity.z;
+        // Friction
+        ball.userData.velocity.x *= 0.98;
+        ball.userData.velocity.z *= 0.98;
+      }
+
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+</html>
