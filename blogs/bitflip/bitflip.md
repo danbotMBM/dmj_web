@@ -1,4 +1,5 @@
 # How reliable is RAM??? (and proof that AI learning from the internet is a bad idea)
+> Written July 2024   
 
 Its a bad vibe when your radiation machine flips is strength setting from 5 to 133 because one bit flipped. Or maybe one bit turns your $10 deposit into a -$2,147,483,638 withdrawl.
 

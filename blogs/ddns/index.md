@@ -1,4 +1,6 @@
 # Elegant and Simple Self-Hosting with DDNS
+> Written March 2025
+
 ## Why Self-Host
 As a kid, I used to always want to make a website and share stuff with friends and family.
 I'd set up something on my computer but had no idea how to put it on the internet.

@@ -1,4 +1,5 @@
 # The Perfect Christmas Lights, Overengineered ✨
+> Written April 2025
 
 Modern Christmas lights don't feel as cozy as the lights from the past.
 When you drive down your local festive street, there is a distinct lack of warmth of times gone by.
