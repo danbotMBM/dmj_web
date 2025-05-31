@@ -11,9 +11,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 let src = img.getAttribute('src');
                 // Change image source based on network speed
                 if (networkSpeed > 2) {
-                    src = src.replace('low', 'high');
+                    src = src.replace('/low/', '/high/');
                 } else if (networkSpeed > 0) {
-                    src = src.replace('low', 'med');
+                    src = src.replace('/low/', '/med/');
                 }
 
                 img.src = src;
@@ -33,7 +33,10 @@ const closeBtn = document.getElementById('close-btn');
 
 function set_up_zoomable(image){
     let src = image.getAttribute('src')
-    image.dataset.full = src.replace('low', 'high')
+    image.dataset.full = src.replace('/low/', '/high/')
+    if (src.includes('/med/')){
+        image.dataset.full = src.replace('/med/', '/high/')
+    }
     image.addEventListener('click', () => {
         console.log('click')
         const fullSrc = image.dataset.full;
