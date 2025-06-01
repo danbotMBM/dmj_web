@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
 const viewer = document.getElementById('image-viewer');
 const fullImage = document.getElementById('full-image');
 const closeBtn = document.getElementById('close-btn');
+const caption = document.getElementById('full-image-caption');
 
 function set_up_zoomable(image){
     let src = image.getAttribute('src')
@@ -42,6 +43,10 @@ function set_up_zoomable(image){
         const fullSrc = image.dataset.full;
         fullImage.src = fullSrc;
         viewer.style.display = 'flex';
+        caption.style.display = 'flex';
+        if(image.title){
+            caption.innerHTML = image.title;
+        }
         zoomed = false;
         fullImage.style.transform = 'scale(1)';
         fullImage.style.cursor = 'zoom-in';
@@ -63,6 +68,8 @@ document.addEventListener('keydown', (e) => {
 
 function closeViewer() {
     viewer.style.display = 'none';
+    caption.style.display = 'none';
+    caption.innerHTML = "";
     zoomed = false;
     fullImage.style.transform = 'scale(1)';
     fullImage.style.cursor = 'zoom-in';

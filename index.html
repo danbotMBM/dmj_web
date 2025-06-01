@@ -22,14 +22,17 @@
     <div id="image-viewer">
         <span id="close-btn">&times;</span>
         <img id="full-image" src="" alt="Full View" />
+        <h3 id="full-image-caption"></h3>
     </div>
     <article class="markdown-body" id="markdown_loc">
     </article>
     <script src="photos.js"></script>
     <script>
         var jumbo = document.getElementById("jumbo");
+        var photo = get_one_random_photo();
         jumbo.classList.add("lazyload")
-        jumbo.src = "/photos/pics/low/" + get_one_random_photo().filename;
+        jumbo.title = get_title(photo);
+        jumbo.src = "/photos/pics/low/" + photo.filename;
     </script>
     <script type="module">
         import { import_html, import_htmls } from "/utils.js";

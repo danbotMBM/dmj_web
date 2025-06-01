@@ -115,3 +115,12 @@ body {
     padding: 8px 14px;
     border-radius: 8px;
 }
+
+#full-image-caption {
+    position: absolute;
+    bottom: 20px;
+    transition: transform 0.3s ease, transform-origin 0.3s ease;
+    z-index: 1000;
+    background: rgba(0,0,0,0.4);
+    color: white;
+}
