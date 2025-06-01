@@ -22,8 +22,8 @@ const noAdapterError = `
 <h2 class="text-center" id="title">Error Fetching GPU Adapter:</h1>
 <p>This page is a demo for the WebGPU API which aims to be 
 a superior alternative to the WebGL graphics API. You are 
-seeing this error message because your supports the WebGPU graphics API but was not able to
-latch onto the graphics processor of your device. Consider using another browser or a device with
+seeing this error message because your browser supports the WebGPU graphics API but was not able to
+access the graphics processor of your device. Consider using another browser or a device with
 a dedicated graphics processor. 
 For guidance, visit <a href="https://caniuse.com/webgpu">caniuse.com</a>.
 `
