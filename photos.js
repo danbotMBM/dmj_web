@@ -3,7 +3,7 @@ const photolist = [
     { 'filename': 'tokyogreenhouse.jpg', 'description': '', 'location': 'Tokyo, Japan' },
     { 'filename': 'batsinleaf.jpg', 'description': 'bats hanging from a leaf', 'location': 'Costa Rica' },
     { 'filename': 'bluffcitiessign.jpg', 'description': 'sign pointing to major cities', 'location': 'Bluff, New Zealand' },
-    { 'filename': 'yellowrose.jpg', 'description': 'yellow rose on public park', 'location': 'Queenstown, New Zealand' },
+    { 'filename': 'yellowrose.jpg', 'description': 'yellow rose in public park', 'location': 'Queenstown, New Zealand' },
     { 'filename': 'cefalutown.jpg', 'description': 'Italian rooftops', 'location': 'Cefalu, Italy' },
     { 'filename': 'temple.jpg', 'description': 'Doric temple', 'location': 'Agrigento, Italy' },
     { 'filename': 'madrid.jpg', 'description': '', 'location': '' },
