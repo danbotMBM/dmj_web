@@ -32,7 +32,7 @@
         function writePhotos(pictures) {
             pictures.forEach(element => {
                 document.write("<div id='picRow'>");
-                document.write("<img id='pic' src='pics/low/" + element.filename + "' class='lazyload'> ");
+                document.write(`<img id='pic' src='pics/low/` + element.filename + `' title="` + get_title(element) + `" class='lazyload'> `);
                 document.write("</div>");
             });
         }

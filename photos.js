@@ -7,7 +7,7 @@ const photolist = [
     { 'filename': 'cefalutown.jpg', 'description': 'Italian rooftops', 'location': 'Cefalu, Italy' },
     { 'filename': 'temple.jpg', 'description': 'Doric temple', 'location': 'Agrigento, Italy' },
     { 'filename': 'madrid.jpg', 'description': '', 'location': '' },
-    { 'filename': 'aurthursseatview.jpg', 'description': 'view from Arthur\' Seat', 'location': 'Edinburgh, Scotland' },
+    { 'filename': 'aurthursseatview.jpg', 'description': 'view from Arthur\'s Seat', 'location': 'Edinburgh, Scotland' },
     { 'filename': 'kamikochimountains.jpg', 'description': '', 'location': 'Kamikochi, Japan' },
     { 'filename': 'cozybirds.jpg', 'description': '', 'location': '' },
     { 'filename': 'japanesedeer.jpg', 'description': '', 'location': 'Hiroshima, Japan' },
@@ -89,3 +89,10 @@ function get_one_random_photo(){
     return photolist[randomNumber];
 }
 
+function get_title(p){
+    if (p.description != '' && p.location != ''){
+        return p.description + " in " + p.location;
+    }else{
+        return p.description + p.location;
+    }
+}
