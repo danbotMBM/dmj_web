@@ -25,17 +25,11 @@
     </div>
     <article class="markdown-body" id="markdown_loc">
     </article>
+    <script src="photos.js"></script>
     <script>
-        // Generate a random integer between 1 and 30
-        function getRandomInteger(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
-        // Usage example
-        var randomNumber = getRandomInteger(1, 43);
         var jumbo = document.getElementById("jumbo");
         jumbo.classList.add("lazyload")
-        jumbo.src = "photos/pics/low/pic (" + randomNumber + ").jpg"
+        jumbo.src = "/photos/pics/low/" + get_one_random_photo().filename;
     </script>
     <script type="module">
         import { import_html, import_htmls } from "/utils.js";
