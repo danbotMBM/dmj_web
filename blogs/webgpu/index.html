@@ -1,39 +1,44 @@
 <!doctype html>
 
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>daniel mark jones</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../../header.css">
-    <link rel="stylesheet" href="../../mainStyle.css">
-  </head>
-  
-  <body>
-    <div id="header_loc"></div>
+
+<head>
+  <meta charset="utf-8">
+  <title>daniel mark jones</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/gitlab_md.css">
+  <link rel="stylesheet" href="/header.css">
+  <link rel="stylesheet" href="/mainStyle.css">
+</head>
+
+<body>
+  <div id="header_loc"></div>
   <div class="container">
     <div class="content">
-  <div id="error_message"></div>
-      <canvas></canvas>
-      <p>mouse pos: <span id="pos">x, y</span></p>
-      <button id="play_simulation_button">play/pause</button>
-      <label for="tick_rate">time between frames</label>
-      <input type="range" id="tick_rate" min="1" max="500" value="20">
-      <p>current time between frames: <span id="tick_rate_value">100</span></p>
-      <label for="dot_generate">cell spawn rate:</label>
-      <button id="reshuffle_button">reset cells</button>
+      <div id="error_message"></div>
+      <canvas></canvas><br>
+      <button id="play_simulation_button">play/pause</button><br>
+      <label for="tick_rate">Number of milliseconds to wait until simulating the next generation</label><br>
+      <input type="range" id="tick_rate" min="10" max="1000" value="20">
+      <text id="tick_rate_value">100</text>
+      <br>
+      <label for="dot_generate">Set the percent chance for a cell to be generated as alive</label><br>
+      <button id="reshuffle_button">Regenerate Cells</button>
       <input type="range" id="dot_generate" min="0" max="1" value="0.3" step="0.01">
-      <p>current cell spawn rate: <span id="dot_generate_value">100</span></p>
-      <p>This is from a tutorial from <a href="https://codelabs.developers.google.com/your-first-webgpu-app#2">google codelabs</a><br></p>
-      <p>Zoom out and reload to resize the simulation.</p>
+      <text id="dot_generate_value">100</text>
+      <br>
+      <p>Zoom in/out in your browser and reload to resize the simulation.</p>
       <script src="tutorial_webgpu.js" type="module"></script>
     </div>
   </div>
-    <script type="module">
-        import { import_html, import_htmls } from "/utils.js"
-        import_html("/header.html", "header_loc");
-    </script>
-  </body>
+  <article class="markdown-body" id="markdown_loc"></article>
+  <script type="module">
+    import { import_html, import_htmls } from "/utils.js"
+    import_html("/header.html", "header_loc");
+    import_html("webgpu_md.html", "markdown_loc");
+  </script>
+</body>
+
 </html>

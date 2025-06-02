@@ -393,7 +393,6 @@ canvas.addEventListener('mousemove', (event) => {
     const rect = canvas.getBoundingClientRect();
     mouse_x = event.clientX - rect.left;
     mouse_y = event.clientY - rect.top;
-    pos.textContent = (`(${mouse_x}, ${mouse_y}, ${pos_to_cell(mouse_x, mouse_y)})`);
     if (drawing){
         liveCellStateArrays[0][pos_to_cell(mouse_x, mouse_y)] = 1;
         liveCellStateArrays[1][pos_to_cell(mouse_x, mouse_y)] = 1;
@@ -423,7 +422,6 @@ canvas.addEventListener('mouseup', (event) => {
 
 // Control the processing loop
 const debug_field = document.getElementById('debug');
-const pos = document.getElementById('pos');
 const play_simulation_button = document.getElementById('play_simulation_button');
 const reshuffle_button = document.getElementById('reshuffle_button');
 let run = false;
@@ -460,7 +458,7 @@ function updateValue() {
 
 function updateDotGenValue() {
     const value = dot_slider.value;
-    dot_display.textContent = value;
+    dot_display.textContent = Math.floor(value * 100);
     dot_generate_chance = value;
 }
 
