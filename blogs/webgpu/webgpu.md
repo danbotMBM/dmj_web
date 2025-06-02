@@ -1,4 +1,5 @@
 # Conway's Game of Life running entirely on your graphics processor
+> Written June 2025 but developed June 2024
 
 ## The Game of Life
 What you see here is a computer simulation of a world with simple rules.
