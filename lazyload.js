@@ -74,6 +74,7 @@ function closeViewer() {
     fullImage.style.transform = 'scale(1)';
     fullImage.style.cursor = 'zoom-in';
     fullImage.style.transformOrigin = 'center center';
+    fullImage.src = "";
 }
 
 fullImage.addEventListener('click', (e) => {
