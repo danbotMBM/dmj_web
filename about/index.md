@@ -25,12 +25,5 @@ He inspires me to find understanding knowledge by getting to work and producing 
 
 Making this site allows me to catalog and share my explorations into all these different applications of computer technology, motivating me to keep growing myself through joyful curiosity.
 
-
-## Why not just use social media
-I've chosen to do this in my own personal site so that any person can visit and have a more interactive experience in the topics that I've pursued.
-Odds are that most of the people in my life are not going to care about niche programming projects.
-But if I can make an interactive presentation of these projects, then people can play around and relate to the interest I've picked up.
-That ability to share with the people around me motivates me to create and learn more.
-
 ## External links
 * [github](https://github.com/danbotMBM/)
