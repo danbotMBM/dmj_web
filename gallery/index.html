@@ -14,6 +14,8 @@
     align-items: center;
     padding: 20px;
     user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
   }
 
   h2 {
@@ -31,6 +33,8 @@
     overflow: hidden;
 
     perspective: 1200px;
+
+    touch-action: none; /* 🚨 critical for mobile drag */
     cursor: grab;
   }
 
@@ -47,7 +51,8 @@
     backface-visibility: hidden;
     will-change: transform;
 
-    transition: transform 0.15s ease;
+    transition: transform 0.5s ease;
+    pointer-events: none;
   }
 
   #controls {
@@ -100,8 +105,8 @@
     "images/DSC_0820.JPG"
   ];
 
-  const MAX_ANGLE = 35;   // degrees
-  const DRAG_SENSITIVITY = 0.6; // px → index scaling
+  const MAX_ANGLE = 35;
+  const DRAG_SENSITIVITY = 0.6;
 
   const viewer = document.getElementById("viewer");
   const photo  = document.getElementById("photo");
@@ -148,32 +153,44 @@
   });
 
   /* ------------------------------------------
-     Mouse drag rotation
+     Pointer (mouse + touch) drag support
   ------------------------------------------ */
   let dragging = false;
   let startX = 0;
   let startIndex = 0;
 
-  viewer.addEventListener("mousedown", e => {
+  viewer.addEventListener("pointerdown", e => {
     dragging = true;
     viewer.classList.add("dragging");
+
+    viewer.setPointerCapture(e.pointerId);
+
     startX = e.clientX;
     startIndex = index;
   });
 
-  window.addEventListener("mousemove", e => {
+  viewer.addEventListener("pointermove", e => {
     if (!dragging) return;
 
     const dx = e.clientX - startX;
-    const deltaIndex = dx * DRAG_SENSITIVITY / viewer.clientWidth * images.length;
+    const deltaIndex =
+      dx * DRAG_SENSITIVITY / viewer.clientWidth * images.length;
 
     updateFromIndex(Math.round(startIndex + deltaIndex));
   });
 
-  window.addEventListener("mouseup", () => {
+  function endDrag(e) {
     dragging = false;
     viewer.classList.remove("dragging");
-  });
+
+    try {
+      viewer.releasePointerCapture(e.pointerId);
+    } catch {}
+  }
+
+  viewer.addEventListener("pointerup", endDrag);
+  viewer.addEventListener("pointercancel", endDrag);
+  viewer.addEventListener("pointerleave", endDrag);
 </script>
 
 </body>
