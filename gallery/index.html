@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Photo Stack Slider</title>
+<title>3D Photo Scrubber</title>
 
 <style>
   body {
@@ -15,28 +15,34 @@
     padding: 20px;
   }
 
+  h2 {
+    margin-bottom: 10px;
+  }
+
   #viewer {
     position: relative;
     width: 80vw;
     max-width: 800px;
     height: 60vh;
     max-height: 500px;
+    background: black;
     border: 1px solid #333;
     overflow: hidden;
-    background: black;
+
+    /* Camera */
+    perspective: 1200px;
   }
 
-  #viewer img {
-    position: absolute;
-    inset: 0;
+  #photo {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    opacity: 0;
-  }
 
-  #viewer img.active {
-    opacity: 1;
+    transform-origin: center center;
+    backface-visibility: hidden;
+    will-change: transform;
+
+    transition: transform 0.25s ease;
   }
 
   #controls {
@@ -60,12 +66,14 @@
 
 <body>
 
-<h2>Photo Stack Slider</h2>
+<h2>3D Photo Scrubber</h2>
 
-<div id="viewer"></div>
+<div id="viewer">
+  <img id="photo" draggable="false">
+</div>
 
 <div id="controls">
-  <input type="range" id="slider" min="0" max="0" step="1" value="0">
+  <input type="range" id="slider" min="0" step="1" value="0">
   <div id="label"></div>
 </div>
 
@@ -84,32 +92,50 @@
     "images/DSC_0817.JPG",
     "images/DSC_0818.JPG",
     "images/DSC_0819.JPG",
-    "images/DSC_0820.JPG",
+    "images/DSC_0820.JPG"
   ];
 
-  const viewer = document.getElementById("viewer");
+  const MAX_ANGLE = 35; // degrees
+
+  const photo  = document.getElementById("photo");
   const slider = document.getElementById("slider");
   const label  = document.getElementById("label");
 
-  const imgElements = [];
+  slider.max = images.length - 1;
 
-  images.forEach((src, i) => {
-    const img = document.createElement("img");
+  /* ------------------------------------------
+     Preload images (no latency on swap)
+  ------------------------------------------ */
+  const cache = images.map(src => {
+    const img = new Image();
     img.src = src;
-    if (i === 0) img.classList.add("active");
-    viewer.appendChild(img);
-    imgElements.push(img);
+    return img;
   });
 
-  slider.max = images.length - 1;
+  // Initialize with first image
+  photo.src = cache[0].src;
   label.textContent = `Image 1 / ${images.length}`;
 
+  /* ------------------------------------------
+     Slider → rotation + bitmap swap
+  ------------------------------------------ */
   slider.addEventListener("input", () => {
     const index = Number(slider.value);
+    const max   = images.length - 1;
 
-    imgElements.forEach((img, i) => {
-      img.classList.toggle("active", i === index);
-    });
+    // Normalize [0..max] → [-1..1]
+    const t = (index / max) * 2 - 1;
+
+    // Optional easing for realism
+    const eased = Math.sign(t) * Math.pow(Math.abs(t), 0.85);
+
+    const angle = eased * MAX_ANGLE;
+
+    // Maintain transform state
+    photo.style.transform = `rotateY(${angle}deg)`;
+
+    // Instant bitmap swap
+    photo.src = cache[index].src;
 
     label.textContent = `Image ${index + 1} / ${images.length}`;
   });
@@ -117,4 +143,3 @@
 
 </body>
 </html>
-
