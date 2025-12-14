@@ -13,6 +13,7 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
+    user-select: none;
   }
 
   h2 {
@@ -29,8 +30,12 @@
     border: 1px solid #333;
     overflow: hidden;
 
-    /* Camera */
     perspective: 1200px;
+    cursor: grab;
+  }
+
+  #viewer.dragging {
+    cursor: grabbing;
   }
 
   #photo {
@@ -42,7 +47,7 @@
     backface-visibility: hidden;
     will-change: transform;
 
-    transition: transform 0.25s ease;
+    transition: transform 0.15s ease;
   }
 
   #controls {
@@ -95,8 +100,10 @@
     "images/DSC_0820.JPG"
   ];
 
-  const MAX_ANGLE = 35; // degrees
+  const MAX_ANGLE = 35;   // degrees
+  const DRAG_SENSITIVITY = 0.6; // px → index scaling
 
+  const viewer = document.getElementById("viewer");
   const photo  = document.getElementById("photo");
   const slider = document.getElementById("slider");
   const label  = document.getElementById("label");
@@ -104,7 +111,7 @@
   slider.max = images.length - 1;
 
   /* ------------------------------------------
-     Preload images (no latency on swap)
+     Preload images
   ------------------------------------------ */
   const cache = images.map(src => {
     const img = new Image();
@@ -112,32 +119,60 @@
     return img;
   });
 
-  // Initialize with first image
+  let index = 0;
   photo.src = cache[0].src;
   label.textContent = `Image 1 / ${images.length}`;
 
   /* ------------------------------------------
-     Slider → rotation + bitmap swap
+     Core update function
   ------------------------------------------ */
-  slider.addEventListener("input", () => {
-    const index = Number(slider.value);
-    const max   = images.length - 1;
+  function updateFromIndex(i) {
+    index = Math.max(0, Math.min(images.length - 1, i));
+    slider.value = index;
 
-    // Normalize [0..max] → [-1..1]
-    const t = (index / max) * 2 - 1;
-
-    // Optional easing for realism
+    const t = (index / (images.length - 1)) * 2 - 1;
     const eased = Math.sign(t) * Math.pow(Math.abs(t), 0.85);
-
     const angle = eased * MAX_ANGLE;
 
-    // Maintain transform state
     photo.style.transform = `rotateY(${angle}deg)`;
-
-    // Instant bitmap swap
     photo.src = cache[index].src;
 
     label.textContent = `Image ${index + 1} / ${images.length}`;
+  }
+
+  /* ------------------------------------------
+     Slider input
+  ------------------------------------------ */
+  slider.addEventListener("input", () => {
+    updateFromIndex(Number(slider.value));
+  });
+
+  /* ------------------------------------------
+     Mouse drag rotation
+  ------------------------------------------ */
+  let dragging = false;
+  let startX = 0;
+  let startIndex = 0;
+
+  viewer.addEventListener("mousedown", e => {
+    dragging = true;
+    viewer.classList.add("dragging");
+    startX = e.clientX;
+    startIndex = index;
+  });
+
+  window.addEventListener("mousemove", e => {
+    if (!dragging) return;
+
+    const dx = e.clientX - startX;
+    const deltaIndex = dx * DRAG_SENSITIVITY / viewer.clientWidth * images.length;
+
+    updateFromIndex(Math.round(startIndex + deltaIndex));
+  });
+
+  window.addEventListener("mouseup", () => {
+    dragging = false;
+    viewer.classList.remove("dragging");
   });
 </script>
 
