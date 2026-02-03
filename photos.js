@@ -44,7 +44,7 @@ const photolist = [
     { 'filename': 'littleplane.jpg', 'description': '', 'location': '' },
     { 'filename': 'lighthousebulb.jpg', 'description': 'lighthouse beacon', 'location': 'Bristol, Maine' },
     { 'filename': 'fushimiinaritower.jpg', 'description': '', 'location': 'Kyoto, Japan' },
-    { 'filename': 'hazeymoon.jpg', 'description': '', 'location': '' },s
+    { 'filename': 'hazeymoon.jpg', 'description': '', 'location': '' },
     { 'filename': 'nepalsafarirhino.jpg', 'description': '', 'location': 'Nepal' },
     { 'filename': 'whitesandsselfie.jpg', 'description': '', 'location': 'White Sands, New Mexico' },
     { 'filename': 'slotcanyoneye.jpg', 'description': '', 'location': 'Utah' },
