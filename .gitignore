@@ -5,3 +5,8 @@ command_scratchpad.txt
 *.local
 *.swp
 utils/util
+
+# Backend sensitive files
+backend/users.txt
+backend/secret.txt
+backend/server
