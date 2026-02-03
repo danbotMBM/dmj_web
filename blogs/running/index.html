@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>daniel mark jones</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../gitlab_md.css">
+    <link rel="stylesheet" href="../../header.css">
+    <link rel="stylesheet" href="../../mainStyle.css">
+    <link rel="stylesheet" href="training.css">
+</head>
+
+<body>
+    <div id="header_loc"></div>
+    <article class="markdown-body">
+        <h1>Half Marathon Training</h1>
+        <blockquote>
+            <p>12-Week Plan &mdash; Race Day: April 26, 2026</p>
+        </blockquote>
+
+        <div id="calendar-container"></div>
+
+        <p class="hint">Click a day to log your workout</p>
+
+        <details>
+            <summary><strong>Full Training Plan Reference</strong></summary>
+            <div id="plan-reference"></div>
+        </details>
+    </article>
+
+    <script type="module">
+        import { import_html } from "/utils.js"
+        import_html("/header.html", "header_loc");
+    </script>
+    <script src="training.js"></script>
+</body>
+</html>
