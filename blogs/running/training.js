@@ -15,10 +15,10 @@ const trainingPlan = [
             { day: 'Mon', workout: 'Rest', type: 'rest' },
             { day: 'Tue', workout: 'Easy 4 mi', type: 'easy' },
             { day: 'Wed', workout: 'Rest / cross-train', type: 'rest' },
-            { day: 'Thu', workout: 'Tempo – 2 mi @ RP', type: 'tempo' },
+            { day: 'Thu', workout: 'Tempo - 2 mi @ RP', type: 'tempo' },
             { day: 'Fri', workout: 'Rest', type: 'rest' },
             { day: 'Sat', workout: 'Easy 3 mi', type: 'easy' },
-            { day: 'Sun', workout: 'Long Run – 7 mi', type: 'long' }
+            { day: 'Sun', workout: 'Long Run - 7 mi', type: 'long' }
         ]
     },
     // Week 2 (Feb 9-15)
@@ -28,10 +28,10 @@ const trainingPlan = [
             { day: 'Mon', workout: 'Rest', type: 'rest' },
             { day: 'Tue', workout: 'Easy 5 mi', type: 'easy' },
             { day: 'Wed', workout: 'Rest / cross-train', type: 'rest' },
-            { day: 'Thu', workout: 'Tempo – 3 mi @ RP', type: 'tempo' },
+            { day: 'Thu', workout: 'Tempo - 3 mi @ RP', type: 'tempo' },
             { day: 'Fri', workout: 'Rest', type: 'rest' },
-            { day: 'Sat', workout: 'Easy 3–4 mi', type: 'easy' },
-            { day: 'Sun', workout: 'Long Run – 8 mi', type: 'long' }
+            { day: 'Sat', workout: 'Easy 3-4 mi', type: 'easy' },
+            { day: 'Sun', workout: 'Long Run - 8 mi', type: 'long' }
         ]
     },
     // Week 3 (Feb 16-22)
@@ -41,10 +41,10 @@ const trainingPlan = [
             { day: 'Mon', workout: 'Rest', type: 'rest' },
             { day: 'Tue', workout: 'Easy 5 mi', type: 'easy' },
             { day: 'Wed', workout: 'Rest', type: 'rest' },
-            { day: 'Thu', workout: 'Tempo – 2×1.5 mi @ RP', type: 'tempo' },
+            { day: 'Thu', workout: 'Tempo - 2×1.5 mi @ RP', type: 'tempo' },
             { day: 'Fri', workout: 'Rest', type: 'rest' },
             { day: 'Sat', workout: 'Easy 4 mi', type: 'easy' },
-            { day: 'Sun', workout: 'Long Run – 9 mi', type: 'long' }
+            { day: 'Sun', workout: 'Long Run - 9 mi', type: 'long' }
         ]
     },
     // Week 4 (Feb 23 - Mar 1)
@@ -54,10 +54,10 @@ const trainingPlan = [
             { day: 'Mon', workout: 'Rest', type: 'rest' },
             { day: 'Tue', workout: 'Easy 5 mi', type: 'easy' },
             { day: 'Wed', workout: 'Rest', type: 'rest' },
-            { day: 'Thu', workout: 'Tempo – 4 mi @ RP', type: 'tempo' },
+            { day: 'Thu', workout: 'Tempo - 4 mi @ RP', type: 'tempo' },
             { day: 'Fri', workout: 'Rest', type: 'rest' },
             { day: 'Sat', workout: 'Easy 4 mi', type: 'easy' },
-            { day: 'Sun', workout: 'Long Run – 10 mi', type: 'long' }
+            { day: 'Sun', workout: 'Long Run - 10 mi', type: 'long' }
         ]
     },
     // Week 5 (Mar 2-8)
@@ -65,12 +65,12 @@ const trainingPlan = [
         week: 5,
         days: [
             { day: 'Mon', workout: 'Rest', type: 'rest' },
-            { day: 'Tue', workout: 'Speed – 5×800m', type: 'speed' },
+            { day: 'Tue', workout: 'Speed - 5×800m', type: 'speed' },
             { day: 'Wed', workout: 'Rest', type: 'rest' },
-            { day: 'Thu', workout: 'Tempo – 4–5 mi @ RP', type: 'tempo' },
+            { day: 'Thu', workout: 'Tempo - 4-5 mi @ RP', type: 'tempo' },
             { day: 'Fri', workout: 'Rest', type: 'rest' },
             { day: 'Sat', workout: 'Easy 4 mi', type: 'easy' },
-            { day: 'Sun', workout: 'Long Run – 10 mi', type: 'long' }
+            { day: 'Sun', workout: 'Long Run - 10 mi', type: 'long' }
         ]
     },
     // Week 6 (Mar 9-15)
@@ -78,12 +78,12 @@ const trainingPlan = [
         week: 6,
         days: [
             { day: 'Mon', workout: 'Rest', type: 'rest' },
-            { day: 'Tue', workout: 'Speed – 6×400m', type: 'speed' },
+            { day: 'Tue', workout: 'Speed - 6×400m', type: 'speed' },
             { day: 'Wed', workout: 'Rest', type: 'rest' },
-            { day: 'Thu', workout: 'Tempo – 5 mi @ RP', type: 'tempo' },
+            { day: 'Thu', workout: 'Tempo - 5 mi @ RP', type: 'tempo' },
             { day: 'Fri', workout: 'Rest', type: 'rest' },
-            { day: 'Sat', workout: 'Easy 4–5 mi', type: 'easy' },
-            { day: 'Sun', workout: 'Long Run – 11 mi', type: 'long' }
+            { day: 'Sat', workout: 'Easy 4-5 mi', type: 'easy' },
+            { day: 'Sun', workout: 'Long Run - 11 mi', type: 'long' }
         ]
     },
     // Week 7 (Mar 16-22)
@@ -91,12 +91,12 @@ const trainingPlan = [
         week: 7,
         days: [
             { day: 'Mon', workout: 'Rest', type: 'rest' },
-            { day: 'Tue', workout: 'Speed – 3×1 mi', type: 'speed' },
+            { day: 'Tue', workout: 'Speed - 3×1 mi', type: 'speed' },
             { day: 'Wed', workout: 'Rest', type: 'rest' },
-            { day: 'Thu', workout: 'Tempo – 6 mi progression', type: 'tempo' },
+            { day: 'Thu', workout: 'Tempo - 6 mi progression', type: 'tempo' },
             { day: 'Fri', workout: 'Rest', type: 'rest' },
             { day: 'Sat', workout: 'Easy 4 mi', type: 'easy' },
-            { day: 'Sun', workout: 'Long Run – 12 mi', type: 'long' }
+            { day: 'Sun', workout: 'Long Run - 12 mi', type: 'long' }
         ]
     },
     // Week 8 - Recovery (Mar 23-29)
@@ -105,12 +105,12 @@ const trainingPlan = [
         label: 'Recovery',
         days: [
             { day: 'Mon', workout: 'Rest', type: 'rest' },
-            { day: 'Tue', workout: 'Speed – 4×800m relaxed', type: 'speed' },
+            { day: 'Tue', workout: 'Speed - 4×800m relaxed', type: 'speed' },
             { day: 'Wed', workout: 'Rest', type: 'rest' },
-            { day: 'Thu', workout: 'Tempo – 4 mi @ RP', type: 'tempo' },
+            { day: 'Thu', workout: 'Tempo - 4 mi @ RP', type: 'tempo' },
             { day: 'Fri', workout: 'Rest', type: 'rest' },
             { day: 'Sat', workout: 'Easy 4 mi', type: 'easy' },
-            { day: 'Sun', workout: 'Long Run – 10 mi', type: 'long' }
+            { day: 'Sun', workout: 'Long Run - 10 mi', type: 'long' }
         ]
     },
     // Week 9 (Mar 30 - Apr 5)
@@ -120,10 +120,10 @@ const trainingPlan = [
             { day: 'Mon', workout: 'Rest', type: 'rest' },
             { day: 'Tue', workout: 'Hills or 6×400m', type: 'speed' },
             { day: 'Wed', workout: 'Rest', type: 'rest' },
-            { day: 'Thu', workout: 'Race Pace – 6 mi @ RP', type: 'tempo' },
+            { day: 'Thu', workout: 'Race Pace - 6 mi @ RP', type: 'tempo' },
             { day: 'Fri', workout: 'Rest', type: 'rest' },
-            { day: 'Sat', workout: 'Easy 4–5 mi', type: 'easy' },
-            { day: 'Sun', workout: 'Long Run – 12 mi', type: 'long' }
+            { day: 'Sat', workout: 'Easy 4-5 mi', type: 'easy' },
+            { day: 'Sun', workout: 'Long Run - 12 mi', type: 'long' }
         ]
     },
     // Week 10 (Apr 6-12)
@@ -131,12 +131,12 @@ const trainingPlan = [
         week: 10,
         days: [
             { day: 'Mon', workout: 'Rest', type: 'rest' },
-            { day: 'Tue', workout: 'Speed – 5×800m', type: 'speed' },
+            { day: 'Tue', workout: 'Speed - 5×800m', type: 'speed' },
             { day: 'Wed', workout: 'Rest', type: 'rest' },
-            { day: 'Thu', workout: 'Race Pace – 7 mi @ RP', type: 'tempo' },
+            { day: 'Thu', workout: 'Race Pace - 7 mi @ RP', type: 'tempo' },
             { day: 'Fri', workout: 'Rest', type: 'rest' },
             { day: 'Sat', workout: 'Easy 4 mi', type: 'easy' },
-            { day: 'Sun', workout: 'Long Run – 12 mi', type: 'long' }
+            { day: 'Sun', workout: 'Long Run - 12 mi', type: 'long' }
         ]
     },
     // Week 11 - Taper (Apr 13-19)
@@ -145,12 +145,12 @@ const trainingPlan = [
         label: 'Taper',
         days: [
             { day: 'Mon', workout: 'Rest', type: 'rest' },
-            { day: 'Tue', workout: 'Tempo – 4–5 mi @ RP', type: 'tempo' },
+            { day: 'Tue', workout: 'Tempo - 4-5 mi @ RP', type: 'tempo' },
             { day: 'Wed', workout: 'Rest', type: 'rest' },
             { day: 'Thu', workout: 'Easy 4 mi', type: 'easy' },
             { day: 'Fri', workout: 'Rest', type: 'rest' },
             { day: 'Sat', workout: 'Easy 3 mi', type: 'easy' },
-            { day: 'Sun', workout: 'Long Run – 10 mi', type: 'long' }
+            { day: 'Sun', workout: 'Long Run - 10 mi', type: 'long' }
         ]
     },
     // Week 12 - Race Week (Apr 20-26)
@@ -462,7 +462,7 @@ function renderPlanReference() {
     let html = '';
     trainingPlan.forEach(week => {
         html += `<div class="week-plan">
-            <h4>Week ${week.week}${week.label ? ' – ' + week.label : ''}</h4>
+            <h4>Week ${week.week}${week.label ? ' - ' + week.label : ''}</h4>
             <ul>
                 ${week.days.map(d => `<li><strong>${d.day}:</strong> ${d.workout}</li>`).join('')}
             </ul>
