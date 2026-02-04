@@ -1,0 +1,15 @@
+[Unit]
+Description=DMJ Web Backend
+After=network.target
+
+[Service]
+Type=simple
+User=danbot
+WorkingDirectory=/opt/dmj_web/backend
+ExecStart=/opt/dmj_web/backend/server
+Environment=CORS_ORIGIN=https://danielmarkjones.com
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

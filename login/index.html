@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../gitlab_md.css">
+    <link rel="stylesheet" href="../header.css">
+    <link rel="stylesheet" href="../mainStyle.css">
+    <style>
+        .login-form {
+            max-width: 300px;
+            margin: 2rem 0;
+        }
+        .login-form input {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--borderColor-default, #d0d7de);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .login-form button {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--borderColor-default, #d0d7de);
+            border-radius: 4px;
+            background: var(--bgColor-muted, #f6f8fa);
+            cursor: pointer;
+        }
+        .login-form button:hover {
+            background: var(--bgColor-default, #fff);
+        }
+        .message {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        .message.error {
+            color: #d73a49;
+            background: rgba(215, 58, 73, 0.1);
+        }
+        .message.success {
+            color: #1a7f37;
+            background: rgba(26, 127, 55, 0.1);
+        }
+        @media (prefers-color-scheme: dark) {
+            .login-form input {
+                background: #0d1117;
+                border-color: #30363d;
+                color: #e6edf3;
+            }
+            .login-form button {
+                background: #21262d;
+                border-color: #30363d;
+                color: #e6edf3;
+            }
+            .message.error {
+                color: #f85149;
+                background: rgba(248, 81, 73, 0.15);
+            }
+            .message.success {
+                color: #3fb950;
+                background: rgba(63, 185, 80, 0.15);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header_loc"></div>
+    <article class="markdown-body">
+        <h1>Login</h1>
+
+        <form class="login-form" id="login-form">
+            <input type="text" id="username" placeholder="username" autocomplete="username" required>
+            <input type="password" id="password" placeholder="password" autocomplete="current-password" required>
+            <button type="submit">Login</button>
+        </form>
+        <div id="message"></div>
+    </article>
+
+    <script type="module">
+        import { import_html, API_BASE } from "/utils.js"
+        import_html("/header.html", "header_loc");
+
+        const TOKEN_KEY = 'dmj-auth-token';
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const msg = document.getElementById('message');
+            msg.className = 'message';
+            msg.textContent = '';
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch(`${API_BASE}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem(TOKEN_KEY, data.token);
+                    msg.className = 'message success';
+                    msg.textContent = 'Logged in';
+                } else {
+                    msg.className = 'message error';
+                    msg.textContent = 'Invalid credentials';
+                }
+            } catch (err) {
+                msg.className = 'message error';
+                msg.textContent = 'Connection error';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,10 +1,12 @@
 // Half Marathon Training Calendar
 // Training starts Feb 2, 2026 - Race day April 26, 2026
 
+import { API_BASE } from '/utils.js';
+
 const TRAINING_START = new Date(2026, 1, 2); // Feb 2, 2026 (Monday)
 const RACE_DAY = new Date(2026, 3, 26); // April 26, 2026 (Sunday)
 
-const STORAGE_KEY = 'half-marathon-training-2026';
+const TOKEN_KEY = 'dmj-auth-token';
 
 // Training plan data - 12 weeks
 const trainingPlan = [
@@ -41,7 +43,7 @@ const trainingPlan = [
             { day: 'Mon', workout: 'Rest', type: 'rest' },
             { day: 'Tue', workout: 'Easy 5 mi', type: 'easy' },
             { day: 'Wed', workout: 'Rest', type: 'rest' },
-            { day: 'Thu', workout: 'Tempo - 2×1.5 mi @ RP', type: 'tempo' },
+            { day: 'Thu', workout: 'Tempo - 2x1.5 mi @ RP', type: 'tempo' },
             { day: 'Fri', workout: 'Rest', type: 'rest' },
             { day: 'Sat', workout: 'Easy 4 mi', type: 'easy' },
             { day: 'Sun', workout: 'Long Run - 9 mi', type: 'long' }
@@ -65,7 +67,7 @@ const trainingPlan = [
         week: 5,
         days: [
             { day: 'Mon', workout: 'Rest', type: 'rest' },
-            { day: 'Tue', workout: 'Speed - 5×800m', type: 'speed' },
+            { day: 'Tue', workout: 'Speed - 5x800m', type: 'speed' },
             { day: 'Wed', workout: 'Rest', type: 'rest' },
             { day: 'Thu', workout: 'Tempo - 4-5 mi @ RP', type: 'tempo' },
             { day: 'Fri', workout: 'Rest', type: 'rest' },
@@ -78,7 +80,7 @@ const trainingPlan = [
         week: 6,
         days: [
             { day: 'Mon', workout: 'Rest', type: 'rest' },
-            { day: 'Tue', workout: 'Speed - 6×400m', type: 'speed' },
+            { day: 'Tue', workout: 'Speed - 6x400m', type: 'speed' },
             { day: 'Wed', workout: 'Rest', type: 'rest' },
             { day: 'Thu', workout: 'Tempo - 5 mi @ RP', type: 'tempo' },
             { day: 'Fri', workout: 'Rest', type: 'rest' },
@@ -91,7 +93,7 @@ const trainingPlan = [
         week: 7,
         days: [
             { day: 'Mon', workout: 'Rest', type: 'rest' },
-            { day: 'Tue', workout: 'Speed - 3×1 mi', type: 'speed' },
+            { day: 'Tue', workout: 'Speed - 3x1 mi', type: 'speed' },
             { day: 'Wed', workout: 'Rest', type: 'rest' },
             { day: 'Thu', workout: 'Tempo - 6 mi progression', type: 'tempo' },
             { day: 'Fri', workout: 'Rest', type: 'rest' },
@@ -105,7 +107,7 @@ const trainingPlan = [
         label: 'Recovery',
         days: [
             { day: 'Mon', workout: 'Rest', type: 'rest' },
-            { day: 'Tue', workout: 'Speed - 4×800m relaxed', type: 'speed' },
+            { day: 'Tue', workout: 'Speed - 4x800m relaxed', type: 'speed' },
             { day: 'Wed', workout: 'Rest', type: 'rest' },
             { day: 'Thu', workout: 'Tempo - 4 mi @ RP', type: 'tempo' },
             { day: 'Fri', workout: 'Rest', type: 'rest' },
@@ -118,7 +120,7 @@ const trainingPlan = [
         week: 9,
         days: [
             { day: 'Mon', workout: 'Rest', type: 'rest' },
-            { day: 'Tue', workout: 'Hills or 6×400m', type: 'speed' },
+            { day: 'Tue', workout: 'Hills or 6x400m', type: 'speed' },
             { day: 'Wed', workout: 'Rest', type: 'rest' },
             { day: 'Thu', workout: 'Race Pace - 6 mi @ RP', type: 'tempo' },
             { day: 'Fri', workout: 'Rest', type: 'rest' },
@@ -131,7 +133,7 @@ const trainingPlan = [
         week: 10,
         days: [
             { day: 'Mon', workout: 'Rest', type: 'rest' },
-            { day: 'Tue', workout: 'Speed - 5×800m', type: 'speed' },
+            { day: 'Tue', workout: 'Speed - 5x800m', type: 'speed' },
             { day: 'Wed', workout: 'Rest', type: 'rest' },
             { day: 'Thu', workout: 'Race Pace - 7 mi @ RP', type: 'tempo' },
             { day: 'Fri', workout: 'Rest', type: 'rest' },
@@ -174,25 +176,49 @@ let completedWorkouts = {};
 let selectedDate = null;
 let selectedElement = null;
 let popup = null;
+let authError = false;
 
-// Load saved data
-function loadData() {
+// Get auth token from localStorage
+function getToken() {
+    return localStorage.getItem(TOKEN_KEY);
+}
+
+// Load saved data from backend
+async function loadData() {
     try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-            completedWorkouts = JSON.parse(saved);
+        const response = await fetch(`${API_BASE}/running`);
+        if (response.ok) {
+            completedWorkouts = await response.json();
         }
     } catch (e) {
         console.error('Error loading saved data:', e);
     }
 }
 
-// Save data
-function saveData() {
+// Save data to backend
+async function saveData() {
+    const token = getToken();
+    authError = false;
+
     try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(completedWorkouts));
+        const response = await fetch(`${API_BASE}/running`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token ? `Bearer ${token}` : ''
+            },
+            body: JSON.stringify(completedWorkouts)
+        });
+
+        if (response.status === 401) {
+            authError = true;
+            return false;
+        }
+
+        return response.ok;
     } catch (e) {
         console.error('Error saving data:', e);
+        return false;
     }
 }
 
@@ -327,7 +353,7 @@ function abbreviateWorkout(workout) {
     if (workout.includes('Long Run')) return 'Long';
     if (workout.includes('Easy')) return 'Easy';
     if (workout.includes('Tempo') || workout.includes('Race Pace')) return 'Tempo';
-    if (workout.includes('Speed') || workout.includes('Hills') || workout.includes('×')) return 'Speed';
+    if (workout.includes('Speed') || workout.includes('Hills') || workout.includes('x')) return 'Speed';
     if (workout === 'RACE DAY') return 'RACE';
     return workout.substring(0, 5);
 }
@@ -398,16 +424,33 @@ function showPopup(date, training, element) {
         workoutTypes.push({ label: 'RACE', short: 'RACE' });
     }
 
+    // Auth error message container
+    const authErrorDiv = document.createElement('div');
+    authErrorDiv.className = 'popup-auth-error';
+    authErrorDiv.style.display = 'none';
+    authErrorDiv.textContent = 'Login required to save changes';
+
     workoutTypes.forEach(({ label, short }) => {
         const btn = document.createElement('button');
         btn.className = 'popup-btn';
         if (completedWorkouts[key] === short) btn.classList.add('selected');
 
         btn.textContent = label;
-        btn.addEventListener('click', (e) => {
+        btn.addEventListener('click', async (e) => {
             e.stopPropagation();
+            const oldValue = completedWorkouts[key];
             completedWorkouts[key] = short;
-            saveData();
+            const success = await saveData();
+            if (!success && authError) {
+                // Revert change and show auth error
+                if (oldValue) {
+                    completedWorkouts[key] = oldValue;
+                } else {
+                    delete completedWorkouts[key];
+                }
+                authErrorDiv.style.display = 'block';
+                return;
+            }
             closePopup();
             renderCalendar();
         });
@@ -415,16 +458,24 @@ function showPopup(date, training, element) {
     });
 
     popup.appendChild(optionsDiv);
+    popup.appendChild(authErrorDiv);
 
     // Clear button if logged
     if (completedWorkouts[key]) {
         const clearBtn = document.createElement('button');
         clearBtn.className = 'popup-clear';
         clearBtn.textContent = 'Clear';
-        clearBtn.addEventListener('click', (e) => {
+        clearBtn.addEventListener('click', async (e) => {
             e.stopPropagation();
+            const oldValue = completedWorkouts[key];
             delete completedWorkouts[key];
-            saveData();
+            const success = await saveData();
+            if (!success && authError) {
+                // Revert change and show auth error
+                completedWorkouts[key] = oldValue;
+                authErrorDiv.style.display = 'block';
+                return;
+            }
             closePopup();
             renderCalendar();
         });
@@ -473,8 +524,8 @@ function renderPlanReference() {
 }
 
 // Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    loadData();
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadData();
     renderCalendar();
     renderPlanReference();
 

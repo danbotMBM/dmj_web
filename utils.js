@@ -1,3 +1,6 @@
+// API base URL - change for dev/prod
+const API_BASE = 'https://api.danbotlab';
+
 function import_html(path_to_html, id_to_insert) {
     fetch(path_to_html)
         .then(response => response.text())
@@ -14,4 +17,4 @@ function import_htmls(paths_to_html, id_to_insert) {
 }
 
 
-export { import_html, import_htmls }
+export { import_html, import_htmls, API_BASE }
