@@ -23,24 +23,32 @@ const (
 )
 
 var (
-	secret []byte
-	fileMu sync.RWMutex
+	secret     []byte
+	fileMu     sync.RWMutex
+	corsOrigin string
 )
 
 func main() {
 	// Load or generate secret for token signing
 	loadSecret()
 
+	// Load CORS origin from env (default: dev)
+	corsOrigin = os.Getenv("CORS_ORIGIN")
+	if corsOrigin == "" {
+		corsOrigin = "https://danbotlab"
+	}
+	fmt.Printf("CORS origin: %s\n", corsOrigin)
+
 	// Ensure data file exists
 	if _, err := os.Stat(dataFile); os.IsNotExist(err) {
 		os.WriteFile(dataFile, []byte(""), 0644)
 	}
 
-	http.HandleFunc("/data", handleData)
+	http.HandleFunc("/data", cors(handleData))
 	registerRoute("GET", "/data", "Read data file (public)")
 	registerRoute("POST", "/data", "Append to data file (auth required)")
 
-	http.HandleFunc("/login", handleLogin)
+	http.HandleFunc("/login", cors(handleLogin))
 	registerRoute("POST", "/login", "Get auth token")
 
 	registerRunningRoutes()
@@ -69,6 +77,22 @@ func loadSecret() {
 		return
 	}
 	secret = []byte(strings.TrimSpace(string(data)))
+}
+
+// cors wraps a handler with CORS headers
+func cors(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", corsOrigin)
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		next(w, r)
+	}
 }
 
 // handleData serves GET (public) and POST (authenticated) for the data file

@@ -1,25 +1,26 @@
 package main
 
 import (
+	"encoding/json"
 	"io"
 	"net/http"
 	"os"
 	"strings"
 )
 
-const runningFile = "running.txt"
+const runningFile = "running.json"
 
 func init() {
-	// Ensure running file exists
+	// Ensure running file exists with empty JSON object
 	if _, err := os.Stat(runningFile); os.IsNotExist(err) {
-		os.WriteFile(runningFile, []byte(""), 0644)
+		os.WriteFile(runningFile, []byte("{}"), 0644)
 	}
 }
 
 func registerRunningRoutes() {
-	http.HandleFunc("/running", handleRunning)
-	registerRoute("GET", "/running", "Read running file (public)")
-	registerRoute("POST", "/running", "Append to running file (auth required)")
+	http.HandleFunc("/running", cors(handleRunning))
+	registerRoute("GET", "/running", "Read running state (public)")
+	registerRoute("PUT", "/running", "Update running state (auth required)")
 }
 
 func handleRunning(w http.ResponseWriter, r *http.Request) {
@@ -27,7 +28,7 @@ func handleRunning(w http.ResponseWriter, r *http.Request) {
 	case http.MethodGet:
 		getRunning(w, r)
 	case http.MethodPost, http.MethodPut:
-		postRunning(w, r)
+		putRunning(w, r)
 	default:
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 	}
@@ -39,15 +40,17 @@ func getRunning(w http.ResponseWriter, r *http.Request) {
 
 	data, err := os.ReadFile(runningFile)
 	if err != nil {
-		http.Error(w, "Failed to read data", http.StatusInternalServerError)
+		// Return empty object if file doesn't exist
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte("{}"))
 		return
 	}
 
-	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	w.Header().Set("Content-Type", "application/json")
 	w.Write(data)
 }
 
-func postRunning(w http.ResponseWriter, r *http.Request) {
+func putRunning(w http.ResponseWriter, r *http.Request) {
 	token := r.Header.Get("Authorization")
 	token = strings.TrimPrefix(token, "Bearer ")
 
@@ -62,21 +65,22 @@ func postRunning(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Validate JSON
+	var js map[string]interface{}
+	if err := json.Unmarshal(body, &js); err != nil {
+		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+		return
+	}
+
 	fileMu.Lock()
 	defer fileMu.Unlock()
 
-	f, err := os.OpenFile(runningFile, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
-	if err != nil {
-		http.Error(w, "Failed to open file", http.StatusInternalServerError)
-		return
-	}
-	defer f.Close()
-
-	if _, err := f.Write(body); err != nil {
+	if err := os.WriteFile(runningFile, body, 0644); err != nil {
 		http.Error(w, "Failed to write", http.StatusInternalServerError)
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("OK"))
+	w.Write([]byte(`{"status":"ok"}`))
 }
