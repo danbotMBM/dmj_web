@@ -16,12 +16,12 @@
     <article class="markdown-body">
         <h1>Half Marathon Training</h1>
         <blockquote>
-            <p>12-Week Plan &mdash; Race Day: April 26, 2026</p>
+            <p>Written Feb - April 2026</p>
         </blockquote>
 
         <div id="calendar-container"></div>
 
-        <p class="hint">Click a day to log your workout</p>
+        <div id="markdown_loc"></div>
 
         <details>
             <summary><strong>Full Training Plan Reference</strong></summary>
@@ -32,6 +32,7 @@
     <script type="module">
         import { import_html } from "/utils.js"
         import_html("/header.html", "header_loc");
+        import_html("article_md.html", "markdown_loc");
     </script>
     <script type="module" src="training.js"></script>
 </body>
