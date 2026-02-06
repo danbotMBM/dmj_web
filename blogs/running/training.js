@@ -222,9 +222,17 @@ async function saveData() {
     }
 }
 
+// Calculate days difference (DST-safe)
+function daysDifference(date1, date2) {
+    // Use UTC to avoid DST issues
+    const utc1 = Date.UTC(date1.getFullYear(), date1.getMonth(), date1.getDate());
+    const utc2 = Date.UTC(date2.getFullYear(), date2.getMonth(), date2.getDate());
+    return Math.floor((utc1 - utc2) / (1000 * 60 * 60 * 24));
+}
+
 // Get training week and day info for a date
 function getTrainingInfo(date) {
-    const daysDiff = Math.floor((date - TRAINING_START) / (1000 * 60 * 60 * 24));
+    const daysDiff = daysDifference(date, TRAINING_START);
 
     if (daysDiff < 0 || daysDiff >= 84) return null; // Outside 12 weeks
 
@@ -269,7 +277,7 @@ function isWeekComplete(weekIndex) {
 
 // Get week index for a date (0-11, or -1 if outside plan)
 function getWeekIndex(date) {
-    const daysDiff = Math.floor((date - TRAINING_START) / (1000 * 60 * 60 * 24));
+    const daysDiff = daysDifference(date, TRAINING_START);
     if (daysDiff < 0 || daysDiff >= 84) return -1;
     return Math.floor(daysDiff / 7);
 }
