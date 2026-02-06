@@ -244,6 +244,36 @@ function dateKey(date) {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }
 
+// Check if all runs in a week are completed (excludes rest/cross-train)
+function isWeekComplete(weekIndex) {
+    const week = trainingPlan[weekIndex];
+    if (!week) return false;
+
+    const weekStart = new Date(TRAINING_START);
+    weekStart.setDate(weekStart.getDate() + weekIndex * 7);
+
+    for (let i = 0; i < 7; i++) {
+        const dayInfo = week.days[i];
+        // Only check run days (not rest or cross-train)
+        if (dayInfo.type !== 'rest') {
+            const date = new Date(weekStart);
+            date.setDate(date.getDate() + i);
+            const key = dateKey(date);
+            if (!completedWorkouts[key]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+// Get week index for a date (0-11, or -1 if outside plan)
+function getWeekIndex(date) {
+    const daysDiff = Math.floor((date - TRAINING_START) / (1000 * 60 * 60 * 24));
+    if (daysDiff < 0 || daysDiff >= 84) return -1;
+    return Math.floor(daysDiff / 7);
+}
+
 // Render calendar
 function renderCalendar() {
     const container = document.getElementById('calendar-container');
@@ -303,6 +333,12 @@ function renderCalendar() {
                 dayDiv.classList.add('outside-plan');
             } else {
                 dayDiv.dataset.date = key;
+
+                // Check if week is complete (all runs done)
+                const weekIdx = getWeekIndex(date);
+                if (isWeekComplete(weekIdx)) {
+                    dayDiv.classList.add('week-complete');
+                }
 
                 if (completedWorkouts[key]) {
                     dayDiv.classList.add('completed');

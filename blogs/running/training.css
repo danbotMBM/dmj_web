@@ -80,6 +80,12 @@
 }
 
 .calendar-day.completed {
+    border-color: var(--fgColor-success, #1a7f37);
+    border-width: 2px;
+    background-color: var(--bgColor-muted, #f6f8fa);
+}
+
+.calendar-day.week-complete {
     background-color: var(--bgColor-success-muted, #dafbe1);
 }
 
@@ -97,6 +103,11 @@
     }
 
     .calendar-day.completed {
+        border-color: #3fb950;
+        background-color: #161b22;
+    }
+
+    .calendar-day.week-complete {
         background-color: #1a4d2e;
     }
 
