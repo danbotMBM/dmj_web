@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>daily trivia</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../gitlab_md.css">
+    <link rel="stylesheet" href="../../header.css">
+    <link rel="stylesheet" href="../../mainStyle.css">
+    <link rel="stylesheet" href="trivia.css">
+</head>
+
+<body>
+    <div id="header_loc"></div>
+    <article class="markdown-body">
+        <h1>Daily Trivia</h1>
+
+        <div id="status-bar">
+            <span id="score-display">Score: 0</span>
+            <span id="strikes-display"></span>
+        </div>
+
+        <div id="grid-container"></div>
+
+        <div id="question-overlay" class="overlay hidden">
+            <div class="overlay-card">
+                <div id="question-category" class="question-meta"></div>
+                <div id="question-points" class="question-meta"></div>
+                <p id="question-text"></p>
+                <div id="answer-section">
+                    <input type="text" id="answer-input" placeholder="Your answer..." autocomplete="off">
+                    <button id="submit-btn">Submit</button>
+                </div>
+                <div id="result-section" class="hidden">
+                    <p id="result-text"></p>
+                    <p id="result-answer"></p>
+                    <button id="continue-btn">Continue</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="gameover-overlay" class="overlay hidden">
+            <div class="overlay-card">
+                <h2 id="gameover-title"></h2>
+                <p id="gameover-score"></p>
+                <pre id="gameover-grid"></pre>
+                <button id="copy-btn">Copy Results</button>
+                <p id="copy-confirm" class="hidden">Copied!</p>
+            </div>
+        </div>
+    </article>
+
+    <script type="module">
+        import { import_html } from "/utils.js"
+        import_html("/header.html", "header_loc");
+    </script>
+    <script type="module" src="trivia.js"></script>
+</body>
+</html>

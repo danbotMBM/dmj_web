@@ -1,0 +1,49 @@
+{
+  "days": [
+    {
+      "date": "2026-02-12",
+      "categories": ["Science", "History", "Pop Culture"],
+      "questions": [
+        {"id": "2026-02-12_0", "category": "Science", "points": 100, "question": "This planet is the closest to the Sun.", "answer": {"valid": ["mercury"]}, "display": "Mercury"},
+        {"id": "2026-02-12_1", "category": "Science", "points": 200, "question": "This element, with atomic number 79, has the chemical symbol Au.", "answer": {"valid": ["gold"]}, "display": "Gold"},
+        {"id": "2026-02-12_2", "category": "Science", "points": 300, "question": "This physicist developed the general theory of relativity.", "answer": {"valid": ["einstein", "albert einstein"]}, "display": "Albert Einstein"},
+        {"id": "2026-02-12_3", "category": "History", "points": 100, "question": "This ancient wonder of the world is the only one still standing.", "answer": {"valid": ["great pyramid", "great pyramid of giza", "pyramid of giza", "pyramids"]}, "display": "The Great Pyramid of Giza"},
+        {"id": "2026-02-12_4", "category": "History", "points": 200, "question": "This document, signed in 1215, limited the power of the English monarch.", "answer": {"valid": ["magna carta"]}, "display": "Magna Carta"},
+        {"id": "2026-02-12_5", "category": "History", "points": 300, "question": "This empire, lasting from 27 BC to 476 AD, was centered in modern-day Italy.", "answer": {"valid": ["roman empire", "rome"]}, "display": "The Roman Empire"},
+        {"id": "2026-02-12_6", "category": "Pop Culture", "points": 100, "question": "This fictional wizard attended Hogwarts School of Witchcraft and Wizardry.", "answer": {"valid": ["harry potter"]}, "display": "Harry Potter"},
+        {"id": "2026-02-12_7", "category": "Pop Culture", "points": 200, "question": "This 1994 film follows the life journey of a man sitting on a bench telling his story.", "answer": {"valid": ["forrest gump"]}, "display": "Forrest Gump"},
+        {"id": "2026-02-12_8", "category": "Pop Culture", "points": 300, "question": "This singer released the albums 'Purple Rain' and 'Sign o' the Times'.", "answer": {"valid": ["prince"]}, "display": "Prince"}
+      ]
+    },
+    {
+      "date": "2026-02-13",
+      "categories": ["Geography", "Literature", "Sports"],
+      "questions": [
+        {"id": "2026-02-13_0", "category": "Geography", "points": 100, "question": "This is the longest river in Africa.", "answer": {"valid": ["nile", "nile river"]}, "display": "The Nile"},
+        {"id": "2026-02-13_1", "category": "Geography", "points": 200, "question": "This country has the most natural lakes in the world.", "answer": {"valid": ["canada"]}, "display": "Canada"},
+        {"id": "2026-02-13_2", "category": "Geography", "points": 300, "question": "This strait separates Europe from Asia at Istanbul.", "answer": {"valid": ["bosphorus", "bosporus", "strait of bosphorus"]}, "display": "The Bosphorus"},
+        {"id": "2026-02-13_3", "category": "Literature", "points": 100, "question": "This author wrote 'Romeo and Juliet' and 'Hamlet'.", "answer": {"valid": ["shakespeare", "william shakespeare"]}, "display": "William Shakespeare"},
+        {"id": "2026-02-13_4", "category": "Literature", "points": 200, "question": "This dystopian novel features a character named Winston Smith.", "answer": {"valid": ["1984", "nineteen eighty-four", "nineteen eighty four"]}, "display": "1984"},
+        {"id": "2026-02-13_5", "category": "Literature", "points": 300, "question": "This Colombian author wrote 'One Hundred Years of Solitude'.", "answer": {"valid": ["gabriel garcia marquez", "garcia marquez", "marquez"]}, "display": "Gabriel García Márquez"},
+        {"id": "2026-02-13_6", "category": "Sports", "points": 100, "question": "This sport uses a shuttlecock.", "answer": {"valid": ["badminton"]}, "display": "Badminton"},
+        {"id": "2026-02-13_7", "category": "Sports", "points": 200, "question": "This country has won the most FIFA World Cup titles.", "answer": {"valid": ["brazil"]}, "display": "Brazil"},
+        {"id": "2026-02-13_8", "category": "Sports", "points": 300, "question": "This boxer was known as 'The Greatest' and changed his name from Cassius Clay.", "answer": {"valid": ["muhammad ali", "ali"]}, "display": "Muhammad Ali"}
+      ]
+    },
+    {
+      "date": "2026-02-14",
+      "categories": ["Music", "Food & Drink", "Technology"],
+      "questions": [
+        {"id": "2026-02-14_0", "category": "Music", "points": 100, "question": "This Austrian composer wrote 'Eine kleine Nachtmusik' and 'The Magic Flute'.", "answer": {"valid": ["mozart", "wolfgang amadeus mozart"]}, "display": "Mozart"},
+        {"id": "2026-02-14_1", "category": "Music", "points": 200, "question": "This band released the album 'Abbey Road' in 1969.", "answer": {"valid": ["beatles", "the beatles"]}, "display": "The Beatles"},
+        {"id": "2026-02-14_2", "category": "Music", "points": 300, "question": "This genre of music originated in New Orleans in the late 19th and early 20th centuries.", "answer": {"valid": ["jazz"]}, "display": "Jazz"},
+        {"id": "2026-02-14_3", "category": "Food & Drink", "points": 100, "question": "This Italian dish consists of wide, flat pasta layered with sauce, cheese, and meat.", "answer": {"valid": ["lasagna", "lasagne"]}, "display": "Lasagna"},
+        {"id": "2026-02-14_4", "category": "Food & Drink", "points": 200, "question": "This spice, derived from the Crocus sativus flower, is the most expensive spice by weight.", "answer": {"valid": ["saffron"]}, "display": "Saffron"},
+        {"id": "2026-02-14_5", "category": "Food & Drink", "points": 300, "question": "This Japanese rice wine is brewed using a fermentation process involving koji mold.", "answer": {"valid": ["sake"]}, "display": "Sake"},
+        {"id": "2026-02-14_6", "category": "Technology", "points": 100, "question": "This company created the iPhone.", "answer": {"valid": ["apple"]}, "display": "Apple"},
+        {"id": "2026-02-14_7", "category": "Technology", "points": 200, "question": "This programming language, created by Guido van Rossum, is named after a British comedy group.", "answer": {"valid": ["python"]}, "display": "Python"},
+        {"id": "2026-02-14_8", "category": "Technology", "points": 300, "question": "This protocol, the foundation of data communication on the World Wide Web, stands for HyperText Transfer Protocol.", "answer": {"valid": ["http", "hypertext transfer protocol"]}, "display": "HTTP"}
+      ]
+    }
+  ]
+}
