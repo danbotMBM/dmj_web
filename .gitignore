@@ -10,3 +10,7 @@ utils/util
 backend/users.txt
 backend/secret.txt
 backend/server
+backend/cronjobs/stravacreds.txt
+backend/cronjobs/strava_runs.json
+backend/cronjobs/strava
+backend/cronjobs/stravacreds.txt

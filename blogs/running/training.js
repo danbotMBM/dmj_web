@@ -173,6 +173,7 @@ const trainingPlan = [
 
 // State
 let completedWorkouts = {};
+let stravaData = {}; // keyed by "YYYY-MM-DD" -> { miles, pace }
 let selectedDate = null;
 let selectedElement = null;
 let popup = null;
@@ -192,6 +193,38 @@ async function loadData() {
         }
     } catch (e) {
         console.error('Error loading saved data:', e);
+    }
+}
+
+// Load Strava run data from backend
+async function loadStravaData() {
+    try {
+        const response = await fetch(`${API_BASE}/strava-runs`);
+        if (!response.ok) return;
+        const runs = await response.json();
+
+        // Group by date, summing miles and computing weighted-average pace
+        const byDate = {};
+        for (const run of runs) {
+            const day = run.date.substring(0, 10); // "YYYY-MM-DD"
+            if (!byDate[day]) {
+                byDate[day] = { totalMiles: 0, totalMins: 0 };
+            }
+            byDate[day].totalMiles += run.distance_miles;
+            byDate[day].totalMins += run.moving_time_mins;
+        }
+
+        for (const [day, data] of Object.entries(byDate)) {
+            const paceDecimal = data.totalMins / data.totalMiles;
+            const paceMins = Math.floor(paceDecimal);
+            const paceSecs = Math.round((paceDecimal - paceMins) * 60);
+            stravaData[day] = {
+                miles: data.totalMiles,
+                pace: `${paceMins}:${String(paceSecs).padStart(2, '0')}`
+            };
+        }
+    } catch (e) {
+        console.error('Error loading Strava data:', e);
     }
 }
 
@@ -252,24 +285,48 @@ function dateKey(date) {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }
 
-// Check if all runs in a week are completed (excludes rest/cross-train)
+// Check if all required workout types for a week have been completed
+// Counts by type so rescheduled workouts still count
 function isWeekComplete(weekIndex) {
     const week = trainingPlan[weekIndex];
     if (!week) return false;
 
+    // Count required workouts by type (excluding rest)
+    const required = {};
+    week.days.forEach(dayInfo => {
+        if (dayInfo.type !== 'rest') {
+            // Map plan types to logged short codes
+            const typeMap = {
+                'easy': 'Easy',
+                'tempo': 'Tempo',
+                'speed': 'Speed',
+                'long': 'Long',
+                'race': 'RACE'
+            };
+            const logType = typeMap[dayInfo.type] || dayInfo.type;
+            required[logType] = (required[logType] || 0) + 1;
+        }
+    });
+
+    // Count logged workouts for this week
+    const logged = {};
     const weekStart = new Date(TRAINING_START);
     weekStart.setDate(weekStart.getDate() + weekIndex * 7);
 
     for (let i = 0; i < 7; i++) {
-        const dayInfo = week.days[i];
-        // Only check run days (not rest or cross-train)
-        if (dayInfo.type !== 'rest') {
-            const date = new Date(weekStart);
-            date.setDate(date.getDate() + i);
-            const key = dateKey(date);
-            if (!completedWorkouts[key]) {
-                return false;
-            }
+        const date = new Date(weekStart);
+        date.setDate(date.getDate() + i);
+        const key = dateKey(date);
+        const workout = completedWorkouts[key];
+        if (workout && workout !== 'Rest' && workout !== 'XT') {
+            logged[workout] = (logged[workout] || 0) + 1;
+        }
+    }
+
+    // Check if logged meets or exceeds required for each type
+    for (const type in required) {
+        if ((logged[type] || 0) < required[type]) {
+            return false;
         }
     }
     return true;
@@ -381,6 +438,14 @@ function renderCalendar() {
                     indicator.textContent = abbrev;
                 }
                 dayDiv.appendChild(indicator);
+            }
+
+            // Show Strava stats if available for this day
+            if (stravaData[key]) {
+                const stats = document.createElement('div');
+                stats.className = 'strava-stats';
+                stats.innerHTML = `<span>${stravaData[key].miles.toFixed(1)} mi</span><span>${stravaData[key].pace}/mi</span>`;
+                dayDiv.appendChild(stats);
             }
 
             grid.appendChild(dayDiv);
@@ -569,7 +634,7 @@ function renderPlanReference() {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', async () => {
-    await loadData();
+    await Promise.all([loadData(), loadStravaData()]);
     renderCalendar();
     renderPlanReference();
 

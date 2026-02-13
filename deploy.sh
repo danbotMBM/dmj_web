@@ -23,6 +23,13 @@ done
 if [ "$DEV_MODE" = true ]; then
     echo "=== DMJ Web Dev Mode ==="
 
+    # Build the Strava cronjob
+    echo "Building strava cronjob..."
+    cd "$SRC_DIR/backend/cronjobs"
+    go build -o strava strava_runs.go
+    
+    ./strava
+
     # Build the Go backend
     echo "Building backend..."
     cd "$SRC_DIR/backend"
@@ -47,6 +54,11 @@ else
     echo "Creating $DEST_DIR..."
     sudo mkdir -p "$DEST_DIR/backend"
 
+    # Build the Strava cronjob
+    echo "Building strava cronjob..."
+    cd "$SRC_DIR/backend/cronjobs"
+    go build -o strava strava_runs.go
+
     # Copy web files (excluding dev/git stuff)
     echo "Copying web files..."
     sudo rsync -av --delete \
@@ -55,6 +67,7 @@ else
         --exclude='.claude' \
         --exclude='deploy.sh' \
         --exclude='README.md' \
+        --exclude='backend/cronjobs/strava_runs.json' \
         "$SRC_DIR/" "$DEST_DIR/"
 
     # Restore dev API URL in source
@@ -81,4 +94,15 @@ else
 
     echo "=== Deploy complete ==="
     sudo systemctl status dmj-backend --no-pager
+
+    # Install strava cron job (runs every hour, persists across restarts)
+    echo "Installing strava cron job..."
+    STRAVA_CRON="0 * * * * cd $DEST_DIR/backend/cronjobs && ./strava >> /opt/dmj_web/backend/cronjobs/strava_logs.log 2>&1"
+    ( crontab -l 2>/dev/null | grep -v "$DEST_DIR/backend/cronjobs.*strava"; echo "$STRAVA_CRON" ) | crontab -
+
+    echo "=== Deploy complete ==="
+    sudo systemctl status dmj-backend --no-pager
+    echo ""
+    echo "Strava cron job:"
+    crontab -l | grep strava
 fi
