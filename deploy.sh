@@ -68,6 +68,7 @@ else
         --exclude='deploy.sh' \
         --exclude='README.md' \
         --exclude='backend/cronjobs/strava_runs.json' \
+        --exclude='backend/running.json' \
         "$SRC_DIR/" "$DEST_DIR/"
 
     # Restore dev API URL in source
