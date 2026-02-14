@@ -3,8 +3,12 @@ import { API_BASE } from "/utils.js";
 let gridData = null;
 let state = null;
 let currentQuestion = null;
-
 const STORAGE_PREFIX = "dmj-trivia-";
+
+// Check for ?date= URL parameter to load a specific day's trivia
+const urlParams = new URLSearchParams(window.location.search);
+const requestedDate = urlParams.get("date");
+const dateQuery = requestedDate ? "?date=" + encodeURIComponent(requestedDate) : "";
 
 function getStorageKey(date) {
     return STORAGE_PREFIX + date;
@@ -93,7 +97,7 @@ async function openQuestion(id) {
     if (state.gameOver) return;
 
     try {
-        const resp = await fetch(API_BASE + "/trivia/question/" + id);
+        const resp = await fetch(API_BASE + "/trivia/question/" + id + dateQuery);
         if (!resp.ok) return;
         currentQuestion = await resp.json();
     } catch (e) {
@@ -122,7 +126,7 @@ async function submitAnswer() {
 
     let result;
     try {
-        const resp = await fetch(API_BASE + "/trivia/answer", {
+        const resp = await fetch(API_BASE + "/trivia/answer" + dateQuery, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ id: currentQuestion.id, answer: input }),
@@ -244,7 +248,7 @@ function copyResults() {
 
 async function init() {
     try {
-        const resp = await fetch(API_BASE + "/trivia/grid");
+        const resp = await fetch(API_BASE + "/trivia/grid" + dateQuery);
         if (!resp.ok) {
             document.getElementById("grid-container").textContent = "No trivia available today.";
             return;
@@ -262,6 +266,9 @@ async function init() {
         state = initState(gridData.date, gridData.questions);
         saveState();
     }
+
+    // Show the date
+    document.getElementById("date-display").textContent = gridData.date;
 
     renderGrid();
     renderScore();

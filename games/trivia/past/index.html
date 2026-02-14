@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>past trivia</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../../gitlab_md.css">
+    <link rel="stylesheet" href="../../../header.css">
+    <link rel="stylesheet" href="../../../mainStyle.css">
+    <style>
+        .past-list {
+            max-width: 500px;
+            margin: 0 auto;
+            list-style: none;
+            padding: 0;
+        }
+        .past-list li {
+            margin-bottom: 8px;
+        }
+        .past-list a {
+            display: block;
+            padding: 14px 20px;
+            background: #3b82f6;
+            color: #fff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: background 0.15s, transform 0.1s;
+        }
+        .past-list a:hover {
+            background: #2563eb;
+            transform: scale(1.02);
+            color: #fff;
+            text-decoration: none;
+        }
+        .past-list a:active {
+            transform: scale(0.98);
+        }
+        #loading {
+            text-align: center;
+            color: var(--fgColor-muted);
+            padding: 32px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header_loc"></div>
+    <article class="markdown-body">
+        <h1>Past Trivia</h1>
+        <p><a href="/games/trivia/">&larr; Back to today's trivia</a></p>
+        <div id="loading">Loading...</div>
+        <ul id="past-list" class="past-list"></ul>
+    </article>
+
+    <script type="module">
+        import { import_html, API_BASE } from "/utils.js";
+        import_html("/header.html", "header_loc");
+
+        async function loadDays() {
+            const loading = document.getElementById("loading");
+            const list = document.getElementById("past-list");
+
+            try {
+                const resp = await fetch(API_BASE + "/trivia/days");
+                if (!resp.ok) {
+                    loading.textContent = "No past trivia available.";
+                    return;
+                }
+                const data = await resp.json();
+                const dates = data.dates || [];
+
+                if (dates.length === 0) {
+                    loading.textContent = "No past trivia available.";
+                    return;
+                }
+
+                loading.style.display = "none";
+
+                // Show most recent first
+                const sorted = [...dates].sort().reverse();
+                for (const date of sorted) {
+                    const li = document.createElement("li");
+                    const a = document.createElement("a");
+                    a.href = "/games/trivia/?date=" + encodeURIComponent(date);
+                    a.textContent = date;
+                    li.appendChild(a);
+                    list.appendChild(li);
+                }
+            } catch (e) {
+                console.error("Failed to load past trivia days:", e);
+                loading.textContent = "Failed to load past trivia.";
+            }
+        }
+
+        loadDays();
+    </script>
+</body>
+</html>

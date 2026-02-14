@@ -57,13 +57,10 @@ func loadTriviaData() {
 	fmt.Printf("Loaded %d trivia days\n", len(triviaData.Days))
 }
 
-func getTodayTrivia() *TriviaDay {
-	loc, _ := time.LoadLocation("America/New_York")
-	today := time.Now().In(loc).Format("2006-01-02")
-
+func getTriviaForDate(date string) *TriviaDay {
 	// Try exact date match first
 	for i := range triviaData.Days {
-		if triviaData.Days[i].Date == today {
+		if triviaData.Days[i].Date == date {
 			return &triviaData.Days[i]
 		}
 	}
@@ -72,9 +69,26 @@ func getTodayTrivia() *TriviaDay {
 	if len(triviaData.Days) == 0 {
 		return nil
 	}
-	h := sha256.Sum256([]byte(today))
+	h := sha256.Sum256([]byte(date))
 	idx := int(binary.BigEndian.Uint32(h[:4])) % len(triviaData.Days)
 	return &triviaData.Days[idx]
+}
+
+func getTodayDate() string {
+	loc, _ := time.LoadLocation("America/New_York")
+	return time.Now().In(loc).Format("2006-01-02")
+}
+
+func getTodayTrivia() *TriviaDay {
+	return getTriviaForDate(getTodayDate())
+}
+
+func getRequestDate(r *http.Request) string {
+	date := r.URL.Query().Get("date")
+	if date != "" {
+		return date
+	}
+	return getTodayDate()
 }
 
 // levenshtein computes the Levenshtein distance between two strings using single-row DP.
@@ -181,7 +195,7 @@ func handleTriviaGrid(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	day := getTodayTrivia()
+	day := getTriviaForDate(getRequestDate(r))
 	if day == nil {
 		http.Error(w, "No trivia available", http.StatusNotFound)
 		return
@@ -220,7 +234,7 @@ func handleTriviaQuestion(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	day := getTodayTrivia()
+	day := getTriviaForDate(getRequestDate(r))
 	if day == nil {
 		http.Error(w, "No trivia available", http.StatusNotFound)
 		return
@@ -258,7 +272,7 @@ func handleTriviaAnswer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	day := getTodayTrivia()
+	day := getTriviaForDate(getRequestDate(r))
 	if day == nil {
 		http.Error(w, "No trivia available", http.StatusNotFound)
 		return
@@ -282,11 +296,36 @@ func handleTriviaAnswer(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resp)
 }
 
+func handleTriviaDays(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	loc, _ := time.LoadLocation("America/New_York")
+	today := time.Now().In(loc).Format("2006-01-02")
+
+	var dates []string
+	for _, day := range triviaData.Days {
+		if day.Date <= today {
+			dates = append(dates, day.Date)
+		}
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"dates": dates,
+	})
+}
+
 func registerTriviaRoutes() {
 	loadTriviaData()
 
+	http.HandleFunc("/trivia/days", cors(handleTriviaDays))
+	registerRoute("GET", "/trivia/days", "List past trivia dates (public)")
+
 	http.HandleFunc("/trivia/grid", cors(handleTriviaGrid))
-	registerRoute("GET", "/trivia/grid", "Get today's trivia grid (public)")
+	registerRoute("GET", "/trivia/grid", "Get trivia grid, optional ?date= param (public)")
 
 	http.HandleFunc("/trivia/question/", cors(handleTriviaQuestion))
 	registerRoute("GET", "/trivia/question/{id}", "Get trivia question text (public)")
