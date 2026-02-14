@@ -294,6 +294,11 @@ async function init() {
     document.getElementById("answer-input").addEventListener("keydown", (e) => {
         if (e.key === "Enter") submitAnswer();
     });
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !document.getElementById("result-section").classList.contains("hidden")) {
+            closeQuestionOverlay();
+        }
+    });
     document.getElementById("continue-btn").addEventListener("click", closeQuestionOverlay);
     document.getElementById("copy-btn").addEventListener("click", copyResults);
     document.getElementById("close-gameover-btn").addEventListener("click", () => {
