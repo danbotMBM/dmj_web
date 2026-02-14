@@ -58,6 +58,15 @@ function renderScore() {
     document.getElementById("score-display").textContent = "Score: " + state.score;
 }
 
+function updateResetButton() {
+    const container = document.getElementById("reset-container");
+    if (state.gameOver) {
+        container.classList.remove("hidden");
+    } else {
+        container.classList.add("hidden");
+    }
+}
+
 function renderGrid() {
     const container = document.getElementById("grid-container");
     container.innerHTML = "";
@@ -178,6 +187,7 @@ function closeQuestionOverlay() {
     renderGrid();
     renderScore();
     renderStrikes();
+    updateResetButton();
 
     if (state.gameOver) {
         showGameOver();
@@ -273,6 +283,7 @@ async function init() {
     renderGrid();
     renderScore();
     renderStrikes();
+    updateResetButton();
 
     if (state.gameOver) {
         showGameOver();
@@ -285,6 +296,18 @@ async function init() {
     });
     document.getElementById("continue-btn").addEventListener("click", closeQuestionOverlay);
     document.getElementById("copy-btn").addEventListener("click", copyResults);
+    document.getElementById("close-gameover-btn").addEventListener("click", () => {
+        document.getElementById("gameover-overlay").classList.add("hidden");
+    });
+    document.getElementById("reset-btn").addEventListener("click", () => {
+        localStorage.removeItem(getStorageKey(state.date));
+        state = initState(gridData.date, gridData.questions);
+        saveState();
+        renderGrid();
+        renderScore();
+        renderStrikes();
+        updateResetButton();
+    });
 }
 
 init();

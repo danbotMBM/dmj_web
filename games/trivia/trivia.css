@@ -136,7 +136,7 @@
     border-color: #3b82f6;
 }
 
-#submit-btn, #continue-btn, #copy-btn {
+#submit-btn, #continue-btn, #copy-btn, #close-gameover-btn, #reset-btn {
     padding: 10px 24px;
     font-size: 1rem;
     font-weight: 600;
@@ -148,7 +148,7 @@
     transition: background 0.15s;
 }
 
-#submit-btn:hover, #continue-btn:hover, #copy-btn:hover {
+#submit-btn:hover, #continue-btn:hover, #copy-btn:hover, #close-gameover-btn:hover, #reset-btn:hover {
     background: #2563eb;
 }
 
