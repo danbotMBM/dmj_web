@@ -44,6 +44,111 @@
         {"id": "2026-02-14_7", "category": "Technology", "points": 200, "question": "This programming language, created by Guido van Rossum, is named after a British comedy group.", "answer": {"valid": ["python"]}, "display": "Python"},
         {"id": "2026-02-14_8", "category": "Technology", "points": 300, "question": "This protocol, the foundation of data communication on the World Wide Web, stands for HyperText Transfer Protocol.", "answer": {"valid": ["http", "hypertext transfer protocol"]}, "display": "HTTP"}
       ]
+    },
+    {
+      "date": "2026-02-15",
+      "categories": ["Movies", "U.S. Presidents", "Animals"],
+      "questions": [
+        {"id": "2026-02-15_0", "category": "Movies", "points": 100, "question": "This 1997 James Cameron film features a doomed ocean liner and a famous 'I'm the king of the world!' scene.", "answer": {"valid": ["titanic"]}, "display": "Titanic"},
+        {"id": "2026-02-15_1", "category": "Movies", "points": 200, "question": "This director is known for films like 'Pulp Fiction', 'Kill Bill', and 'Inglourious Basterds'.", "answer": {"valid": ["quentin tarantino", "tarantino"]}, "display": "Quentin Tarantino"},
+        {"id": "2026-02-15_2", "category": "Movies", "points": 300, "question": "This 1982 sci-fi film, directed by Ridley Scott, is set in a dystopian 2019 Los Angeles and follows a detective hunting replicants.", "answer": {"valid": ["blade runner"]}, "display": "Blade Runner"},
+        {"id": "2026-02-15_3", "category": "U.S. Presidents", "points": 100, "question": "This president, the 16th, is famous for the Emancipation Proclamation and his top hat.", "answer": {"valid": ["lincoln", "abraham lincoln", "abe lincoln"]}, "display": "Abraham Lincoln"},
+        {"id": "2026-02-15_4", "category": "U.S. Presidents", "points": 200, "question": "This president purchased the Louisiana Territory from France in 1803, doubling the size of the nation.", "answer": {"valid": ["thomas jefferson", "jefferson"]}, "display": "Thomas Jefferson"},
+        {"id": "2026-02-15_5", "category": "U.S. Presidents", "points": 300, "question": "This president served the shortest term in office, dying of pneumonia just 31 days after inauguration.", "answer": {"valid": ["william henry harrison", "harrison"]}, "display": "William Henry Harrison"},
+        {"id": "2026-02-15_6", "category": "Animals", "points": 100, "question": "This is the largest land animal on Earth.", "answer": {"valid": ["elephant", "african elephant"]}, "display": "The Elephant"},
+        {"id": "2026-02-15_7", "category": "Animals", "points": 200, "question": "This marine mammal is the largest animal to have ever lived on Earth.", "answer": {"valid": ["blue whale"]}, "display": "The Blue Whale"},
+        {"id": "2026-02-15_8", "category": "Animals", "points": 300, "question": "This tiny bird, native to Cuba, is the smallest bird species in the world at just over 2 inches long.", "answer": {"valid": ["bee hummingbird"]}, "display": "The Bee Hummingbird"}
+      ]
+    },
+    {
+      "date": "2026-02-16",
+      "categories": ["Television", "World Geography", "Science"],
+      "questions": [
+        {"id": "2026-02-16_0", "category": "Television", "points": 100, "question": "This animated show follows a yellow-skinned family in the town of Springfield.", "answer": {"valid": ["the simpsons", "simpsons"]}, "display": "The Simpsons"},
+        {"id": "2026-02-16_1", "category": "Television", "points": 200, "question": "This HBO fantasy series, based on George R.R. Martin's novels, features the Iron Throne.", "answer": {"valid": ["game of thrones"]}, "display": "Game of Thrones"},
+        {"id": "2026-02-16_2", "category": "Television", "points": 300, "question": "This British sitcom, set during World War II, follows the misadventures of Captain Mainwaring's Home Guard platoon.", "answer": {"valid": ["dads army", "dad's army"]}, "display": "Dad's Army"},
+        {"id": "2026-02-16_3", "category": "World Geography", "points": 100, "question": "This is the smallest continent by land area.", "answer": {"valid": ["australia"]}, "display": "Australia"},
+        {"id": "2026-02-16_4", "category": "World Geography", "points": 200, "question": "This African country is home to Mount Kilimanjaro, the tallest peak on the continent.", "answer": {"valid": ["tanzania"]}, "display": "Tanzania"},
+        {"id": "2026-02-16_5", "category": "World Geography", "points": 300, "question": "This landlocked Central Asian country is the largest landlocked country in the world by area.", "answer": {"valid": ["kazakhstan"]}, "display": "Kazakhstan"},
+        {"id": "2026-02-16_6", "category": "Science", "points": 100, "question": "This force keeps us on the ground and causes objects to fall.", "answer": {"valid": ["gravity"]}, "display": "Gravity"},
+        {"id": "2026-02-16_7", "category": "Science", "points": 200, "question": "This organ in the human body is responsible for filtering blood and producing urine.", "answer": {"valid": ["kidney", "kidneys"]}, "display": "The Kidney"},
+        {"id": "2026-02-16_8", "category": "Science", "points": 300, "question": "This subatomic particle, theorized by Peter Higgs, was confirmed by CERN in 2012 and is associated with giving particles mass.", "answer": {"valid": ["higgs boson", "higgs", "god particle"]}, "display": "The Higgs Boson"}
+      ]
+    },
+    {
+      "date": "2026-02-17",
+      "categories": ["Music", "Mythology", "Sports"],
+      "questions": [
+        {"id": "2026-02-17_0", "category": "Music", "points": 100, "question": "This 'King of Pop' performed the moonwalk and released the best-selling album of all time.", "answer": {"valid": ["michael jackson"]}, "display": "Michael Jackson"},
+        {"id": "2026-02-17_1", "category": "Music", "points": 200, "question": "This rock band, fronted by Freddie Mercury, is known for 'Bohemian Rhapsody' and 'We Will Rock You'.", "answer": {"valid": ["queen"]}, "display": "Queen"},
+        {"id": "2026-02-17_2", "category": "Music", "points": 300, "question": "This composer went almost completely deaf yet continued to compose, including his famous 9th Symphony.", "answer": {"valid": ["beethoven", "ludwig van beethoven"]}, "display": "Beethoven"},
+        {"id": "2026-02-17_3", "category": "Mythology", "points": 100, "question": "This Greek god is the ruler of the sea and carries a trident.", "answer": {"valid": ["poseidon"]}, "display": "Poseidon"},
+        {"id": "2026-02-17_4", "category": "Mythology", "points": 200, "question": "This Norse god wields the hammer Mjolnir and is the god of thunder.", "answer": {"valid": ["thor"]}, "display": "Thor"},
+        {"id": "2026-02-17_5", "category": "Mythology", "points": 300, "question": "In Greek myth, this king was condemned to stand in a pool of water beneath fruit trees, with both receding whenever he reached for them.", "answer": {"valid": ["tantalus"]}, "display": "Tantalus"},
+        {"id": "2026-02-17_6", "category": "Sports", "points": 100, "question": "This sport is played on a diamond-shaped field with bases.", "answer": {"valid": ["baseball"]}, "display": "Baseball"},
+        {"id": "2026-02-17_7", "category": "Sports", "points": 200, "question": "This tennis player holds the record for the most Grand Slam men's singles titles.", "answer": {"valid": ["novak djokovic", "djokovic"]}, "display": "Novak Djokovic"},
+        {"id": "2026-02-17_8", "category": "Sports", "points": 300, "question": "This country has won the most Olympic gold medals in the Summer Games all-time.", "answer": {"valid": ["united states", "usa", "us", "america"]}, "display": "The United States"}
+      ]
+    },
+    {
+      "date": "2026-02-18",
+      "categories": ["History", "Nature", "Video Games"],
+      "questions": [
+        {"id": "2026-02-18_0", "category": "History", "points": 100, "question": "This wall, built to keep invaders out of China, stretches over 13,000 miles.", "answer": {"valid": ["great wall of china", "great wall"]}, "display": "The Great Wall of China"},
+        {"id": "2026-02-18_1", "category": "History", "points": 200, "question": "This 1945 conference divided post-WWII Germany among the Allied powers and was attended by Truman, Stalin, and Churchill.", "answer": {"valid": ["potsdam", "potsdam conference"]}, "display": "The Potsdam Conference"},
+        {"id": "2026-02-18_2", "category": "History", "points": 300, "question": "This ancient trade network connected China to the Mediterranean, facilitating the exchange of silk, spices, and ideas.", "answer": {"valid": ["silk road", "silk route"]}, "display": "The Silk Road"},
+        {"id": "2026-02-18_3", "category": "Nature", "points": 100, "question": "This is the tallest type of tree in the world, found in California.", "answer": {"valid": ["redwood", "coast redwood", "california redwood", "sequoia"]}, "display": "The Redwood"},
+        {"id": "2026-02-18_4", "category": "Nature", "points": 200, "question": "This natural phenomenon, caused by charged particles from the Sun hitting Earth's atmosphere, creates colorful lights in polar skies.", "answer": {"valid": ["aurora borealis", "northern lights", "aurora"]}, "display": "The Aurora Borealis"},
+        {"id": "2026-02-18_5", "category": "Nature", "points": 300, "question": "This deep-ocean trench in the western Pacific is the deepest known point on Earth's surface, reaching nearly 36,000 feet.", "answer": {"valid": ["mariana trench", "marianas trench"]}, "display": "The Mariana Trench"},
+        {"id": "2026-02-18_6", "category": "Video Games", "points": 100, "question": "This mustachioed plumber, created by Nintendo, rescues Princess Peach from Bowser.", "answer": {"valid": ["mario", "super mario"]}, "display": "Mario"},
+        {"id": "2026-02-18_7", "category": "Video Games", "points": 200, "question": "This sandbox game, created by Markus 'Notch' Persson, lets players mine and craft in a blocky, procedurally generated world.", "answer": {"valid": ["minecraft"]}, "display": "Minecraft"},
+        {"id": "2026-02-18_8", "category": "Video Games", "points": 300, "question": "This 2015 action RPG, the third installment in a Polish studio's fantasy series, features a monster hunter named Geralt of Rivia.", "answer": {"valid": ["the witcher 3", "witcher 3", "the witcher 3 wild hunt"]}, "display": "The Witcher 3: Wild Hunt"}
+      ]
+    },
+    {
+      "date": "2026-02-19",
+      "categories": ["Literature", "Space", "Food & Drink"],
+      "questions": [
+        {"id": "2026-02-19_0", "category": "Literature", "points": 100, "question": "This children's author wrote 'The Cat in the Hat' and 'Green Eggs and Ham'.", "answer": {"valid": ["dr seuss", "dr. seuss", "theodor geisel"]}, "display": "Dr. Seuss"},
+        {"id": "2026-02-19_1", "category": "Literature", "points": 200, "question": "This novel by F. Scott Fitzgerald is set in the Jazz Age and features a mysterious millionaire on Long Island.", "answer": {"valid": ["the great gatsby", "great gatsby"]}, "display": "The Great Gatsby"},
+        {"id": "2026-02-19_2", "category": "Literature", "points": 300, "question": "This Russian author wrote 'War and Peace' and 'Anna Karenina'.", "answer": {"valid": ["tolstoy", "leo tolstoy"]}, "display": "Leo Tolstoy"},
+        {"id": "2026-02-19_3", "category": "Space", "points": 100, "question": "This planet in our solar system is known for its iconic rings.", "answer": {"valid": ["saturn"]}, "display": "Saturn"},
+        {"id": "2026-02-19_4", "category": "Space", "points": 200, "question": "This astronaut was the first human to walk on the Moon in 1969.", "answer": {"valid": ["neil armstrong", "armstrong"]}, "display": "Neil Armstrong"},
+        {"id": "2026-02-19_5", "category": "Space", "points": 300, "question": "This dwarf planet, discovered in 2005 and larger than Pluto, is the most massive known dwarf planet in the solar system.", "answer": {"valid": ["eris"]}, "display": "Eris"},
+        {"id": "2026-02-19_6", "category": "Food & Drink", "points": 100, "question": "This popular breakfast food, often served in a stack with syrup, is made from batter cooked on a griddle.", "answer": {"valid": ["pancakes", "pancake"]}, "display": "Pancakes"},
+        {"id": "2026-02-19_7", "category": "Food & Drink", "points": 200, "question": "This fermented Korean side dish is made primarily from salted and seasoned napa cabbage.", "answer": {"valid": ["kimchi"]}, "display": "Kimchi"},
+        {"id": "2026-02-19_8", "category": "Food & Drink", "points": 300, "question": "This French culinary term refers to preparing all ingredients and having them measured and ready before cooking begins.", "answer": {"valid": ["mise en place"]}, "display": "Mise en place"}
+      ]
+    },
+    {
+      "date": "2026-02-20",
+      "categories": ["Art", "Language", "Movies"],
+      "questions": [
+        {"id": "2026-02-20_0", "category": "Art", "points": 100, "question": "This Leonardo da Vinci painting depicts a woman with a famously enigmatic smile.", "answer": {"valid": ["mona lisa"]}, "display": "The Mona Lisa"},
+        {"id": "2026-02-20_1", "category": "Art", "points": 200, "question": "This Dutch painter, who cut off part of his own ear, created 'The Starry Night'.", "answer": {"valid": ["van gogh", "vincent van gogh"]}, "display": "Vincent van Gogh"},
+        {"id": "2026-02-20_2", "category": "Art", "points": 300, "question": "This art movement, pioneered by Braque and Picasso around 1907, depicted subjects from multiple viewpoints using geometric forms.", "answer": {"valid": ["cubism"]}, "display": "Cubism"},
+        {"id": "2026-02-20_3", "category": "Language", "points": 100, "question": "This language is the most spoken native language in the world by number of speakers.", "answer": {"valid": ["mandarin", "mandarin chinese", "chinese"]}, "display": "Mandarin Chinese"},
+        {"id": "2026-02-20_4", "category": "Language", "points": 200, "question": "This ancient writing system used by the Egyptians features symbols representing sounds and concepts.", "answer": {"valid": ["hieroglyphics", "hieroglyphs", "egyptian hieroglyphics"]}, "display": "Hieroglyphics"},
+        {"id": "2026-02-20_5", "category": "Language", "points": 300, "question": "This constructed language, created by L.L. Zamenhof in 1887, was designed to be a universal second language.", "answer": {"valid": ["esperanto"]}, "display": "Esperanto"},
+        {"id": "2026-02-20_6", "category": "Movies", "points": 100, "question": "This 1994 animated Disney film features a lion cub named Simba.", "answer": {"valid": ["the lion king", "lion king"]}, "display": "The Lion King"},
+        {"id": "2026-02-20_7", "category": "Movies", "points": 200, "question": "This director created 'Jaws', 'Schindler's List', and 'Jurassic Park'.", "answer": {"valid": ["steven spielberg", "spielberg"]}, "display": "Steven Spielberg"},
+        {"id": "2026-02-20_8", "category": "Movies", "points": 300, "question": "This 1957 courtroom drama, directed by Sidney Lumet, takes place almost entirely in a single jury room.", "answer": {"valid": ["12 angry men", "twelve angry men"]}, "display": "12 Angry Men"}
+      ]
+    },
+    {
+      "date": "2026-02-21",
+      "categories": ["Pop Culture", "Math & Numbers", "U.S. Geography"],
+      "questions": [
+        {"id": "2026-02-21_0", "category": "Pop Culture", "points": 100, "question": "This social media platform, known for short videos, was originally called Musical.ly.", "answer": {"valid": ["tiktok", "tik tok"]}, "display": "TikTok"},
+        {"id": "2026-02-21_1", "category": "Pop Culture", "points": 200, "question": "This author created the fictional universe containing hobbits, elves, and the One Ring.", "answer": {"valid": ["tolkien", "j.r.r. tolkien", "jrr tolkien"]}, "display": "J.R.R. Tolkien"},
+        {"id": "2026-02-21_2", "category": "Pop Culture", "points": 300, "question": "This Japanese filmmaker directed 'Spirited Away', which won the Academy Award for Best Animated Feature in 2003.", "answer": {"valid": ["hayao miyazaki", "miyazaki"]}, "display": "Hayao Miyazaki"},
+        {"id": "2026-02-21_3", "category": "Math & Numbers", "points": 100, "question": "This mathematical constant, approximately 3.14159, represents the ratio of a circle's circumference to its diameter.", "answer": {"valid": ["pi"]}, "display": "Pi"},
+        {"id": "2026-02-21_4", "category": "Math & Numbers", "points": 200, "question": "This number system, used in computing, uses only the digits 0 and 1.", "answer": {"valid": ["binary"]}, "display": "Binary"},
+        {"id": "2026-02-21_5", "category": "Math & Numbers", "points": 300, "question": "This sequence of numbers, where each term is the sum of the two preceding ones, begins 0, 1, 1, 2, 3, 5, 8, 13...", "answer": {"valid": ["fibonacci", "fibonacci sequence"]}, "display": "The Fibonacci Sequence"},
+        {"id": "2026-02-21_6", "category": "U.S. Geography", "points": 100, "question": "This is the largest state in the United States by area.", "answer": {"valid": ["alaska"]}, "display": "Alaska"},
+        {"id": "2026-02-21_7", "category": "U.S. Geography", "points": 200, "question": "This river, the longest in the United States, flows from Minnesota to the Gulf of Mexico.", "answer": {"valid": ["mississippi", "mississippi river"]}, "display": "The Mississippi River"},
+        {"id": "2026-02-21_8", "category": "U.S. Geography", "points": 300, "question": "This U.S. state capital, the highest in elevation at over 5,000 feet, shares its name with a fictional character from 'The Simpsons'.", "answer": {"valid": ["santa fe"]}, "display": "Santa Fe, New Mexico"}
+      ]
     }
   ]
 }
