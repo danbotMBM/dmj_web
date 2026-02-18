@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>trivia stats</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../../gitlab_md.css">
+    <link rel="stylesheet" href="../../../header.css">
+    <link rel="stylesheet" href="../../../mainStyle.css">
+    <style>
+        .stats-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Login form */
+        #login-section {
+            max-width: 360px;
+            margin: 40px auto;
+            text-align: center;
+        }
+        #login-section input {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 1rem;
+            border: 2px solid var(--fgColor-muted);
+            border-radius: 8px;
+            background: var(--bgColor-default);
+            color: var(--fgColor-default);
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        #login-section input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        #login-error {
+            color: #ef4444;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        .btn-primary-custom {
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #3b82f6;
+            color: #fff;
+            transition: background 0.15s;
+        }
+        .btn-primary-custom:hover {
+            background: #2563eb;
+        }
+
+        /* Summary cards */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .summary-card {
+            background: var(--bgColor-muted);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+        .summary-card .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--fgColor-default);
+        }
+        .summary-card .label {
+            font-size: 0.8rem;
+            color: var(--fgColor-muted);
+            margin-top: 4px;
+        }
+
+        /* Daily table */
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+        }
+        .stats-table th, .stats-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--bgColor-neutral-muted, #333);
+            font-size: 0.9rem;
+        }
+        .stats-table th {
+            font-weight: 700;
+            color: var(--fgColor-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .stats-table tr {
+            cursor: pointer;
+            transition: background 0.1s;
+        }
+        .stats-table tbody tr:hover {
+            background: var(--bgColor-muted);
+        }
+
+        /* Date detail */
+        #date-detail {
+            margin-top: 24px;
+        }
+        #date-detail h3 {
+            margin-bottom: 16px;
+        }
+        .back-link {
+            cursor: pointer;
+            color: var(--fgColor-accent);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Question cards */
+        .question-card {
+            background: var(--bgColor-muted);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .question-card .qid {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+        }
+        .question-card .stat-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            color: var(--fgColor-muted);
+            margin-bottom: 4px;
+        }
+        .question-card .stat-row span {
+            white-space: nowrap;
+        }
+        .wrong-answers {
+            font-size: 0.8rem;
+            color: var(--fgColor-muted);
+            margin-top: 4px;
+        }
+        .wrong-answers span {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 6px;
+            font-size: 0.8rem;
+        }
+
+        /* Bar charts */
+        .bar-chart {
+            margin-bottom: 24px;
+        }
+        .bar-chart h4 {
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+        .bar-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+        }
+        .bar-label {
+            width: 70px;
+            text-align: right;
+            padding-right: 10px;
+            color: var(--fgColor-muted);
+            flex-shrink: 0;
+        }
+        .bar-track {
+            flex: 1;
+            height: 22px;
+            background: var(--bgColor-muted);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .bar-fill {
+            height: 100%;
+            background: #3b82f6;
+            border-radius: 4px;
+            transition: width 0.3s;
+            min-width: 1px;
+        }
+        .bar-value {
+            width: 40px;
+            padding-left: 8px;
+            color: var(--fgColor-muted);
+            flex-shrink: 0;
+        }
+
+        /* Device split */
+        .device-split {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .device-card {
+            flex: 1;
+            background: var(--bgColor-muted);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+        .device-card .value {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        .device-card .label {
+            font-size: 0.8rem;
+            color: var(--fgColor-muted);
+            margin-top: 2px;
+        }
+
+        /* Accuracy bar inline */
+        .pct-bar {
+            display: inline-block;
+            width: 80px;
+            height: 8px;
+            background: var(--bgColor-neutral-muted, #333);
+            border-radius: 4px;
+            overflow: hidden;
+            vertical-align: middle;
+            margin-left: 6px;
+        }
+        .pct-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+        .pct-good { background: #22c55e; }
+        .pct-mid { background: #eab308; }
+        .pct-bad { background: #ef4444; }
+
+        .hidden { display: none !important; }
+
+        #loading-stats {
+            text-align: center;
+            color: var(--fgColor-muted);
+            padding: 32px 0;
+        }
+
+        @media (max-width: 600px) {
+            .stats-table th, .stats-table td {
+                padding: 8px 6px;
+                font-size: 0.8rem;
+            }
+            .summary-card .value {
+                font-size: 1.4rem;
+            }
+            .bar-label { width: 50px; }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header_loc"></div>
+    <article class="markdown-body">
+        <h1>Trivia Stats</h1>
+        <p><a href="/games/trivia/">&larr; Back to trivia</a></p>
+
+        <div id="login-section">
+            <input type="text" id="login-user" placeholder="Username" autocomplete="username">
+            <input type="password" id="login-pass" placeholder="Password" autocomplete="current-password">
+            <button class="btn-primary-custom" id="login-btn">Log In</button>
+            <p id="login-error" class="hidden"></p>
+        </div>
+
+        <div id="stats-section" class="hidden stats-container">
+            <div id="loading-stats">Loading stats...</div>
+
+            <div id="overview-section" class="hidden">
+                <div id="summary-cards" class="summary-grid"></div>
+                <h3>Daily Breakdown</h3>
+                <table class="stats-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Loads</th>
+                            <th>Players</th>
+                            <th>Answers</th>
+                            <th>Accuracy</th>
+                        </tr>
+                    </thead>
+                    <tbody id="daily-tbody"></tbody>
+                </table>
+            </div>
+
+            <div id="date-detail" class="hidden">
+                <span class="back-link" id="back-to-overview">&larr; Back to overview</span>
+                <h3 id="detail-date-title"></h3>
+
+                <div id="detail-devices" class="device-split"></div>
+
+                <div id="detail-hourly" class="bar-chart">
+                    <h4>Activity by Hour (UTC)</h4>
+                    <div id="hourly-bars"></div>
+                </div>
+
+                <h4>Per-Question Breakdown</h4>
+                <div id="detail-questions"></div>
+            </div>
+        </div>
+    </article>
+
+    <script type="module">
+        import { import_html, API_BASE } from "/utils.js";
+        import_html("/header.html", "header_loc");
+
+        const TOKEN_KEY = "dmj-auth-token";
+        let authToken = localStorage.getItem(TOKEN_KEY);
+
+        // Check for existing token on load
+        if (authToken) {
+            startWithToken();
+        }
+
+        // Login
+        document.getElementById("login-btn").addEventListener("click", doLogin);
+        document.getElementById("login-pass").addEventListener("keydown", (e) => {
+            if (e.key === "Enter") doLogin();
+        });
+
+        function startWithToken() {
+            document.getElementById("login-section").classList.add("hidden");
+            document.getElementById("stats-section").classList.remove("hidden");
+            loadOverview();
+        }
+
+        async function doLogin() {
+            const user = document.getElementById("login-user").value.trim();
+            const pass = document.getElementById("login-pass").value;
+            const errEl = document.getElementById("login-error");
+            errEl.classList.add("hidden");
+
+            if (!user || !pass) {
+                errEl.textContent = "Enter username and password";
+                errEl.classList.remove("hidden");
+                return;
+            }
+
+            try {
+                const resp = await fetch(API_BASE + "/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username: user, password: pass }),
+                });
+                if (!resp.ok) {
+                    errEl.textContent = "Invalid credentials";
+                    errEl.classList.remove("hidden");
+                    return;
+                }
+                const data = await resp.json();
+                authToken = data.token;
+                localStorage.setItem(TOKEN_KEY, authToken);
+                startWithToken();
+            } catch (e) {
+                errEl.textContent = "Login failed";
+                errEl.classList.remove("hidden");
+            }
+        }
+
+        async function apiFetch(path) {
+            const resp = await fetch(API_BASE + path, {
+                headers: { "Authorization": "Bearer " + authToken },
+            });
+            if (resp.status === 401) {
+                // Token expired, show login
+                authToken = null;
+                localStorage.removeItem(TOKEN_KEY);
+                document.getElementById("stats-section").classList.add("hidden");
+                document.getElementById("login-section").classList.remove("hidden");
+                throw new Error("Token expired");
+            }
+            if (!resp.ok) throw new Error(resp.statusText);
+            return resp.json();
+        }
+
+        async function loadOverview() {
+            const loading = document.getElementById("loading-stats");
+            const overview = document.getElementById("overview-section");
+            try {
+                const data = await apiFetch("/trivia/stats");
+                loading.classList.add("hidden");
+                overview.classList.remove("hidden");
+                renderOverview(data);
+            } catch (e) {
+                loading.textContent = "Failed to load stats.";
+            }
+        }
+
+        function renderOverview(data) {
+            // Summary cards
+            const cards = document.getElementById("summary-cards");
+            cards.innerHTML = "";
+            const items = [
+                { value: data.total_loads, label: "Total Loads" },
+                { value: data.total_answers, label: "Total Answers" },
+                { value: data.unique_players, label: "Unique Players" },
+                { value: data.min_date || "—", label: "First Day" },
+                { value: data.max_date || "—", label: "Latest Day" },
+            ];
+            for (const item of items) {
+                const card = document.createElement("div");
+                card.className = "summary-card";
+                card.innerHTML = `<div class="value">${item.value}</div><div class="label">${item.label}</div>`;
+                cards.appendChild(card);
+            }
+
+            // Daily table
+            const tbody = document.getElementById("daily-tbody");
+            tbody.innerHTML = "";
+            const daily = data.daily || [];
+            for (const d of daily) {
+                const tr = document.createElement("tr");
+                const pctClass = d.correct_pct >= 60 ? "pct-good" : d.correct_pct >= 35 ? "pct-mid" : "pct-bad";
+                tr.innerHTML = `
+                    <td>${d.date}</td>
+                    <td>${d.grid_loads}</td>
+                    <td>${d.unique_players}</td>
+                    <td>${d.correct_answers}/${d.total_answers}</td>
+                    <td>
+                        ${d.correct_pct.toFixed(0)}%
+                        <span class="pct-bar"><span class="pct-bar-fill ${pctClass}" style="width:${d.correct_pct}%"></span></span>
+                    </td>
+                `;
+                tr.addEventListener("click", () => loadDateDetail(d.date));
+                tbody.appendChild(tr);
+            }
+        }
+
+        async function loadDateDetail(date) {
+            document.getElementById("overview-section").classList.add("hidden");
+            document.getElementById("date-detail").classList.remove("hidden");
+            document.getElementById("detail-date-title").textContent = date;
+
+            // Clear previous
+            document.getElementById("detail-devices").innerHTML = "";
+            document.getElementById("hourly-bars").innerHTML = "";
+            document.getElementById("detail-questions").innerHTML = "";
+
+            try {
+                const data = await apiFetch("/trivia/stats/" + date);
+                renderDateDetail(data);
+            } catch (e) {
+                document.getElementById("detail-questions").textContent = "Failed to load details.";
+            }
+        }
+
+        function renderDateDetail(data) {
+            // Devices
+            const devEl = document.getElementById("detail-devices");
+            const devices = data.devices || {};
+            for (const [type, count] of [["Desktop", devices.desktop || 0], ["Mobile", devices.mobile || 0]]) {
+                const card = document.createElement("div");
+                card.className = "device-card";
+                card.innerHTML = `<div class="value">${count}</div><div class="label">${type} Events</div>`;
+                devEl.appendChild(card);
+            }
+
+            // Hourly
+            const hourlyEl = document.getElementById("hourly-bars");
+            const hourly = data.hourly || [];
+            const maxCount = Math.max(1, ...hourly.map(h => h.count));
+            for (let h = 0; h < 24; h++) {
+                const bucket = hourly.find(b => b.hour === h);
+                const count = bucket ? bucket.count : 0;
+                const pct = (count / maxCount) * 100;
+                const row = document.createElement("div");
+                row.className = "bar-row";
+                row.innerHTML = `
+                    <span class="bar-label">${String(h).padStart(2, "0")}:00</span>
+                    <span class="bar-track"><span class="bar-fill" style="width:${pct}%"></span></span>
+                    <span class="bar-value">${count}</span>
+                `;
+                hourlyEl.appendChild(row);
+            }
+
+            // Questions
+            const qEl = document.getElementById("detail-questions");
+            const questions = data.questions || [];
+            if (questions.length === 0) {
+                qEl.textContent = "No answer data for this date.";
+                return;
+            }
+            for (const q of questions) {
+                const card = document.createElement("div");
+                card.className = "question-card";
+                const pctClass = q.correct_pct >= 60 ? "pct-good" : q.correct_pct >= 35 ? "pct-mid" : "pct-bad";
+                let html = `<div class="qid">${q.question_id}</div>`;
+                html += `<div class="stat-row">
+                    <span>Attempts: ${q.total_attempts}</span>
+                    <span>Correct: ${q.correct_count} (${q.correct_pct.toFixed(0)}%)</span>
+                    <span class="pct-bar"><span class="pct-bar-fill ${pctClass}" style="width:${q.correct_pct}%"></span></span>
+                </div>`;
+                html += `<div class="stat-row">
+                    <span>1st-attempt accuracy: ${q.first_attempt_correct_pct.toFixed(0)}%</span>
+                </div>`;
+                if (q.top_wrong_answers && q.top_wrong_answers.length > 0) {
+                    html += `<div class="wrong-answers">Top wrong: `;
+                    for (const ans of q.top_wrong_answers) {
+                        html += `<span>${escapeHtml(ans)}</span>`;
+                    }
+                    html += `</div>`;
+                }
+                card.innerHTML = html;
+                qEl.appendChild(card);
+            }
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement("div");
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // Back button
+        document.getElementById("back-to-overview").addEventListener("click", () => {
+            document.getElementById("date-detail").classList.add("hidden");
+            document.getElementById("overview-section").classList.remove("hidden");
+        });
+    </script>
+</body>
+</html>

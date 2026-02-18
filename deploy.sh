@@ -69,6 +69,9 @@ else
         --exclude='README.md' \
         --exclude='backend/cronjobs/strava_runs.json' \
         --exclude='backend/running.json' \
+        --exclude='backend/trivia_analytics.db' \
+        --exclude='backend/trivia_analytics.db-wal' \
+        --exclude='backend/trivia_analytics.db-shm' \
         "$SRC_DIR/" "$DEST_DIR/"
 
     # Restore dev API URL in source

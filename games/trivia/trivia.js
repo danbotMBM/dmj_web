@@ -5,6 +5,14 @@ let state = null;
 let currentQuestion = null;
 const STORAGE_PREFIX = "dmj-trivia-";
 
+function getOrCreatePlayerId() {
+    const key = "dmj-player-id";
+    let id = localStorage.getItem(key);
+    if (!id) { id = crypto.randomUUID(); localStorage.setItem(key, id); }
+    return id;
+}
+const playerId = getOrCreatePlayerId();
+
 // Check for ?date= URL parameter to load a specific day's trivia
 const urlParams = new URLSearchParams(window.location.search);
 const requestedDate = urlParams.get("date");
@@ -106,7 +114,9 @@ async function openQuestion(id) {
     if (state.gameOver) return;
 
     try {
-        const resp = await fetch(API_BASE + "/trivia/question/" + id + dateQuery);
+        const resp = await fetch(API_BASE + "/trivia/question/" + id + dateQuery, {
+            headers: { "X-Player-ID": playerId },
+        });
         if (!resp.ok) return;
         currentQuestion = await resp.json();
     } catch (e) {
@@ -137,7 +147,7 @@ async function submitAnswer() {
     try {
         const resp = await fetch(API_BASE + "/trivia/answer" + dateQuery, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", "X-Player-ID": playerId },
             body: JSON.stringify({ id: currentQuestion.id, answer: input }),
         });
         if (!resp.ok) return;
@@ -258,7 +268,9 @@ function copyResults() {
 
 async function init() {
     try {
-        const resp = await fetch(API_BASE + "/trivia/grid" + dateQuery);
+        const resp = await fetch(API_BASE + "/trivia/grid" + dateQuery, {
+            headers: { "X-Player-ID": playerId },
+        });
         if (!resp.ok) {
             document.getElementById("grid-container").textContent = "No trivia available today.";
             return;

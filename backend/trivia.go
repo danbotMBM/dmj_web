@@ -218,6 +218,8 @@ func handleTriviaGrid(w http.ResponseWriter, r *http.Request) {
 		"questions":  stubs,
 	}
 
+	go trackEvent(r, "grid_load", day.Date, "", "", nil, nil)
+
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(resp)
 }
@@ -285,6 +287,8 @@ func handleTriviaAnswer(w http.ResponseWriter, r *http.Request) {
 	}
 
 	correct := checkAnswer(req.Answer, q.Answer.Valid)
+
+	go trackEvent(r, "answer_submit", getRequestDate(r), req.ID, req.Answer, &correct, &q.Points)
 
 	resp := map[string]interface{}{
 		"correct": correct,
