@@ -188,12 +188,19 @@ func handleTriviaStatsDate(w http.ResponseWriter, r *http.Request) {
 	// Per-question accuracy
 	type questionStats struct {
 		QuestionID       string   `json:"question_id"`
+		Category         string   `json:"category"`
+		Question         string   `json:"question"`
+		Points           int      `json:"points"`
+		DisplayAnswer    string   `json:"display_answer"`
 		TotalAttempts    int      `json:"total_attempts"`
 		CorrectCount     int      `json:"correct_count"`
 		CorrectPct       float64  `json:"correct_pct"`
 		FirstAttemptPct  float64  `json:"first_attempt_correct_pct"`
 		TopWrongAnswers  []string `json:"top_wrong_answers"`
 	}
+
+	// Look up the trivia day for question metadata
+	day := getTriviaForDate(date)
 
 	qRows, err := analyticsDB.Query(`
 		SELECT question_id,
@@ -215,6 +222,14 @@ func handleTriviaStatsDate(w http.ResponseWriter, r *http.Request) {
 		qRows.Scan(&qs.QuestionID, &qs.TotalAttempts, &qs.CorrectCount)
 		if qs.TotalAttempts > 0 {
 			qs.CorrectPct = float64(qs.CorrectCount) / float64(qs.TotalAttempts) * 100
+		}
+		if day != nil {
+			if q := findQuestion(day, qs.QuestionID); q != nil {
+				qs.Category = q.Category
+				qs.Question = q.Question
+				qs.Points = q.Points
+				qs.DisplayAnswer = q.Display
+			}
 		}
 		questions = append(questions, qs)
 	}
@@ -301,6 +316,73 @@ func handleTriviaStatsDate(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	// Average score across unique players
+	type playerInfo struct {
+		score int
+		loads int
+	}
+	playerMap := make(map[string]*playerInfo)
+
+	// Scores per player
+	scoreRows, err := analyticsDB.Query(`
+		SELECT player_id, SUM(CASE WHEN correct=1 THEN points ELSE 0 END) as score
+		FROM trivia_events
+		WHERE event_type='answer_submit' AND trivia_date=? AND player_id != ''
+		GROUP BY player_id
+	`, date)
+	if err == nil {
+		defer scoreRows.Close()
+		for scoreRows.Next() {
+			var pid string
+			var score int
+			scoreRows.Scan(&pid, &score)
+			playerMap[pid] = &playerInfo{score: score}
+		}
+	}
+
+	// Grid loads per player (to detect retries)
+	loadRows, err := analyticsDB.Query(`
+		SELECT player_id, COUNT(*) as loads
+		FROM trivia_events
+		WHERE event_type='grid_load' AND trivia_date=? AND player_id != ''
+		GROUP BY player_id
+	`, date)
+	if err == nil {
+		defer loadRows.Close()
+		for loadRows.Next() {
+			var pid string
+			var loads int
+			loadRows.Scan(&pid, &loads)
+			if p, ok := playerMap[pid]; ok {
+				p.loads = loads
+			} else {
+				playerMap[pid] = &playerInfo{loads: loads}
+			}
+		}
+	}
+
+	var avgScore float64
+	var totalPlayers, retryPlayers int
+	if len(playerMap) > 0 {
+		totalScore := 0
+		for _, p := range playerMap {
+			totalPlayers++
+			totalScore += p.score
+			if p.loads > 1 {
+				retryPlayers++
+			}
+		}
+		avgScore = float64(totalScore) / float64(totalPlayers)
+	}
+
+	// Max possible score from trivia data
+	var maxScore int
+	if day != nil {
+		for _, q := range day.Questions {
+			maxScore += q.Points
+		}
+	}
+
 	resp := map[string]interface{}{
 		"date":      date,
 		"questions": questions,
@@ -308,7 +390,11 @@ func handleTriviaStatsDate(w http.ResponseWriter, r *http.Request) {
 			"mobile":  mobile,
 			"desktop": desktop,
 		},
-		"hourly": hourly,
+		"hourly":         hourly,
+		"avg_score":      avgScore,
+		"max_score":      maxScore,
+		"total_players":  totalPlayers,
+		"retry_players":  retryPlayers,
 	}
 
 	w.Header().Set("Content-Type", "application/json")
