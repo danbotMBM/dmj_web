@@ -27,6 +27,7 @@
             <button id="reset-btn">Play Again</button>
         </div>
         <p style="text-align:center; margin-top:16px;"><a href="/games/trivia/past/">Past trivia</a></p>
+        <p id="stats-link" style="text-align:center; display:none;"><a href="/games/trivia/stats/">Stats</a></p>
 
         <div id="question-overlay" class="overlay hidden">
             <div class="overlay-card">
@@ -60,6 +61,9 @@
     <script type="module">
         import { import_html } from "/utils.js"
         import_html("/header.html", "header_loc");
+        if (localStorage.getItem("dmj-auth-token")) {
+            document.getElementById("stats-link").style.display = "";
+        }
     </script>
     <script type="module" src="trivia.js"></script>
 </body>
