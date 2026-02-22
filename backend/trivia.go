@@ -74,9 +74,18 @@ func getTriviaForDate(date string) *TriviaDay {
 	return &triviaData.Days[idx]
 }
 
+// getTodayDate returns the current date in UTC+14 (Pacific/Kiritimati), the most
+// forward timezone on Earth. A new day unlocks as soon as it begins anywhere in
+// the world, preventing future-day grids from being served to any player.
 func getTodayDate() string {
-	loc, _ := time.LoadLocation("America/New_York")
+	loc, _ := time.LoadLocation("Pacific/Kiritimati")
 	return time.Now().In(loc).Format("2006-01-02")
+}
+
+// isFutureDate returns true if the given YYYY-MM-DD date is strictly after today
+// as observed in UTC+14 (the first timezone to tick over into a new day).
+func isFutureDate(date string) bool {
+	return date > getTodayDate()
 }
 
 func getTodayTrivia() *TriviaDay {
@@ -195,7 +204,13 @@ func handleTriviaGrid(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	day := getTriviaForDate(getRequestDate(r))
+	reqDate := getRequestDate(r)
+	if isFutureDate(reqDate) {
+		http.Error(w, "No trivia available", http.StatusNotFound)
+		return
+	}
+
+	day := getTriviaForDate(reqDate)
 	if day == nil {
 		http.Error(w, "No trivia available", http.StatusNotFound)
 		return
@@ -236,7 +251,13 @@ func handleTriviaQuestion(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	day := getTriviaForDate(getRequestDate(r))
+	reqDate := getRequestDate(r)
+	if isFutureDate(reqDate) {
+		http.Error(w, "No trivia available", http.StatusNotFound)
+		return
+	}
+
+	day := getTriviaForDate(reqDate)
 	if day == nil {
 		http.Error(w, "No trivia available", http.StatusNotFound)
 		return
@@ -274,7 +295,13 @@ func handleTriviaAnswer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	day := getTriviaForDate(getRequestDate(r))
+	reqDate := getRequestDate(r)
+	if isFutureDate(reqDate) {
+		http.Error(w, "No trivia available", http.StatusNotFound)
+		return
+	}
+
+	day := getTriviaForDate(reqDate)
 	if day == nil {
 		http.Error(w, "No trivia available", http.StatusNotFound)
 		return
@@ -288,7 +315,7 @@ func handleTriviaAnswer(w http.ResponseWriter, r *http.Request) {
 
 	correct := checkAnswer(req.Answer, q.Answer.Valid)
 
-	go trackEvent(r, "answer_submit", getRequestDate(r), req.ID, req.Answer, &correct, &q.Points)
+	go trackEvent(r, "answer_submit", reqDate, req.ID, req.Answer, &correct, &q.Points)
 
 	resp := map[string]interface{}{
 		"correct": correct,
@@ -306,8 +333,7 @@ func handleTriviaDays(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	loc, _ := time.LoadLocation("America/New_York")
-	today := time.Now().In(loc).Format("2006-01-02")
+	today := getTodayDate()
 
 	var dates []string
 	for _, day := range triviaData.Days {
