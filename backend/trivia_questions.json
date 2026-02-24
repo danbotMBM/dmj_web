@@ -149,6 +149,216 @@
         {"id": "2026-02-21_7", "category": "U.S. Geography", "points": 200, "question": "This river, the longest in the United States, flows from Minnesota to the Gulf of Mexico.", "answer": {"valid": ["mississippi", "mississippi river"]}, "display": "The Mississippi River"},
         {"id": "2026-02-21_8", "category": "U.S. Geography", "points": 300, "question": "This U.S. state capital, the highest in elevation at over 5,000 feet, shares its name with a fictional character from 'The Simpsons'.", "answer": {"valid": ["santa fe"]}, "display": "Santa Fe, New Mexico"}
       ]
+    },
+    {
+      "date": "2026-02-22",
+      "categories": ["Movies", "Music", "Animals"],
+      "questions": [
+        {"id": "2026-02-22_0", "category": "Movies", "points": 100, "question": "This 1993 Steven Spielberg film features a billionaire's dinosaur-filled theme park that descends into chaos.", "answer": {"valid": ["jurassic park"]}, "display": "Jurassic Park"},
+        {"id": "2026-02-22_1", "category": "Movies", "points": 200, "question": "This actress played the lead role of Katniss Everdeen in 'The Hunger Games' film series.", "answer": {"valid": ["jennifer lawrence", "lawrence"]}, "display": "Jennifer Lawrence"},
+        {"id": "2026-02-22_2", "category": "Movies", "points": 300, "question": "This 1968 Stanley Kubrick sci-fi epic features the AI computer HAL 9000 and a mission to Jupiter.", "answer": {"valid": ["2001 a space odyssey", "2001: a space odyssey"]}, "display": "2001: A Space Odyssey"},
+        {"id": "2026-02-22_3", "category": "Music", "points": 100, "question": "This British singer-songwriter, known for her powerful voice, released the album '21' and the hit 'Rolling in the Deep'.", "answer": {"valid": ["adele"]}, "display": "Adele"},
+        {"id": "2026-02-22_4", "category": "Music", "points": 200, "question": "This rapper, born Shawn Carter, is one of the best-selling music artists of all time and is married to Beyoncé.", "answer": {"valid": ["jay-z", "jay z", "jayz"]}, "display": "Jay-Z"},
+        {"id": "2026-02-22_5", "category": "Music", "points": 300, "question": "This jazz trumpeter and bandleader recorded the landmark album 'Kind of Blue' in 1959 and is celebrated for pioneering both cool jazz and modal jazz.", "answer": {"valid": ["miles davis", "davis"]}, "display": "Miles Davis"},
+        {"id": "2026-02-22_6", "category": "Animals", "points": 100, "question": "This black-and-white bear, native to China, eats almost exclusively bamboo.", "answer": {"valid": ["giant panda", "panda"]}, "display": "Giant Panda"},
+        {"id": "2026-02-22_7", "category": "Animals", "points": 200, "question": "This large spotted cat of sub-Saharan Africa is the fastest land animal on Earth, capable of reaching speeds over 70 mph.", "answer": {"valid": ["cheetah"]}, "display": "Cheetah"},
+        {"id": "2026-02-22_8", "category": "Animals", "points": 300, "question": "This venomous, egg-laying Australian mammal has a duck-like bill, a beaver-like tail, and can detect electric fields with its bill.", "answer": {"valid": ["platypus", "duck-billed platypus", "duck billed platypus"]}, "display": "Platypus"}
+      ]
+    },
+    {
+      "date": "2026-02-23",
+      "categories": ["Science", "Sports", "Food & Drink"],
+      "questions": [
+        {"id": "2026-02-23_0", "category": "Science", "points": 100, "question": "This element makes up about 21% of Earth's atmosphere and is essential for the respiration of most living organisms.", "answer": {"valid": ["oxygen"]}, "display": "Oxygen"},
+        {"id": "2026-02-23_1", "category": "Science", "points": 200, "question": "This gas, released by burning fossil fuels and absorbed by plants during photosynthesis, is the primary greenhouse gas driving climate change.", "answer": {"valid": ["carbon dioxide", "co2"]}, "display": "Carbon Dioxide"},
+        {"id": "2026-02-23_2", "category": "Science", "points": 300, "question": "This massive particle accelerator, operated by CERN beneath the border of France and Switzerland, was used to confirm the existence of the Higgs boson.", "answer": {"valid": ["large hadron collider", "lhc"]}, "display": "The Large Hadron Collider"},
+        {"id": "2026-02-23_3", "category": "Sports", "points": 100, "question": "This team sport, played on an ice rink, involves players using sticks to shoot a puck into the opposing team's goal.", "answer": {"valid": ["hockey", "ice hockey"]}, "display": "Ice Hockey"},
+        {"id": "2026-02-23_4", "category": "Sports", "points": 200, "question": "This Philadelphia 76ers guard, nicknamed 'The Answer', was famous for his devastating crossover dribble and won the NBA MVP award in 2001.", "answer": {"valid": ["allen iverson", "iverson"]}, "display": "Allen Iverson"},
+        {"id": "2026-02-23_5", "category": "Sports", "points": 300, "question": "This British Formula 1 driver has won a record seven World Drivers' Championship titles.", "answer": {"valid": ["lewis hamilton", "hamilton"]}, "display": "Lewis Hamilton"},
+        {"id": "2026-02-23_6", "category": "Food & Drink", "points": 100, "question": "This soft Italian cheese, available fresh or aged, is the classic topping for a Margherita pizza.", "answer": {"valid": ["mozzarella"]}, "display": "Mozzarella"},
+        {"id": "2026-02-23_7", "category": "Food & Drink", "points": 200, "question": "This creamy Mexican dip, made primarily from mashed avocado, is commonly served with tortilla chips.", "answer": {"valid": ["guacamole"]}, "display": "Guacamole"},
+        {"id": "2026-02-23_8", "category": "Food & Drink", "points": 300, "question": "This Italian cured meat, made from salt-cured and seasoned pork belly, is a key ingredient in pasta dishes like carbonara.", "answer": {"valid": ["pancetta"]}, "display": "Pancetta"}
+      ]
+    },
+    {
+      "date": "2026-02-24",
+      "categories": ["History", "Television", "Geography"],
+      "questions": [
+        {"id": "2026-02-24_0", "category": "History", "points": 100, "question": "This general and statesman, the first president of the United States, led the Continental Army to victory in the American Revolutionary War.", "answer": {"valid": ["george washington", "washington"]}, "display": "George Washington"},
+        {"id": "2026-02-24_1", "category": "History", "points": 200, "question": "This 1969 NASA mission, crewed by Neil Armstrong, Buzz Aldrin, and Michael Collins, landed the first humans on the Moon.", "answer": {"valid": ["apollo 11", "apollo eleven"]}, "display": "Apollo 11"},
+        {"id": "2026-02-24_2", "category": "History", "points": 300, "question": "This French military leader was exiled to the island of Elba in 1814 but escaped to rule France again before his final defeat at Waterloo.", "answer": {"valid": ["napoleon", "napoleon bonaparte"]}, "display": "Napoleon Bonaparte"},
+        {"id": "2026-02-24_3", "category": "Television", "points": 100, "question": "This long-running medical drama, set at a hospital in Seattle, follows the career of Dr. Meredith Grey.", "answer": {"valid": ["grey's anatomy", "greys anatomy"]}, "display": "Grey's Anatomy"},
+        {"id": "2026-02-24_4", "category": "Television", "points": 200, "question": "This Netflix sci-fi horror series is set in a small Indiana town and begins with the mysterious disappearance of a boy named Will Byers.", "answer": {"valid": ["stranger things"]}, "display": "Stranger Things"},
+        {"id": "2026-02-24_5", "category": "Television", "points": 300, "question": "This critically acclaimed AMC drama follows high school chemistry teacher Walter White as he turns to manufacturing and selling methamphetamine.", "answer": {"valid": ["breaking bad"]}, "display": "Breaking Bad"},
+        {"id": "2026-02-24_6", "category": "Geography", "points": 100, "question": "This city on the Seine River is the capital of France and home to the Eiffel Tower.", "answer": {"valid": ["paris"]}, "display": "Paris"},
+        {"id": "2026-02-24_7", "category": "Geography", "points": 200, "question": "This South American country has the continent's largest population and contains the majority of the Amazon rainforest.", "answer": {"valid": ["brazil"]}, "display": "Brazil"},
+        {"id": "2026-02-24_8", "category": "Geography", "points": 300, "question": "This Southeast Asian archipelago nation is the world's largest by number of islands, with over 17,000 spread across the equator.", "answer": {"valid": ["indonesia"]}, "display": "Indonesia"}
+      ]
+    },
+    {
+      "date": "2026-02-25",
+      "categories": ["Pop Culture", "Literature", "Technology"],
+      "questions": [
+        {"id": "2026-02-25_0", "category": "Pop Culture", "points": 100, "question": "This singer, known as 'Queen Bey', released the groundbreaking visual album 'Lemonade' in 2016 and is one of the best-selling artists of all time.", "answer": {"valid": ["beyonce", "beyoncé"]}, "display": "Beyoncé"},
+        {"id": "2026-02-25_1", "category": "Pop Culture", "points": 200, "question": "This British actress starred as Hermione Granger in the Harry Potter film series and has also served as a UN Women Goodwill Ambassador.", "answer": {"valid": ["emma watson", "watson"]}, "display": "Emma Watson"},
+        {"id": "2026-02-25_2", "category": "Pop Culture", "points": 300, "question": "This manga and anime series, created by Masashi Kishimoto, follows a determined young ninja who dreams of becoming the leader of his village.", "answer": {"valid": ["naruto"]}, "display": "Naruto"},
+        {"id": "2026-02-25_3", "category": "Literature", "points": 100, "question": "This Charles Dickens novel, set during the French Revolution, opens with the famous line 'It was the best of times, it was the worst of times.'", "answer": {"valid": ["a tale of two cities", "tale of two cities"]}, "display": "A Tale of Two Cities"},
+        {"id": "2026-02-25_4", "category": "Literature", "points": 200, "question": "This J.D. Salinger novel follows the teenage narrator Holden Caulfield as he wanders New York City after being expelled from prep school.", "answer": {"valid": ["the catcher in the rye", "catcher in the rye"]}, "display": "The Catcher in the Rye"},
+        {"id": "2026-02-25_5", "category": "Literature", "points": 300, "question": "This 19th-century Russian author explored morality and psychology in novels such as 'Crime and Punishment' and 'The Brothers Karamazov'.", "answer": {"valid": ["dostoevsky", "fyodor dostoevsky", "dostoyevsky", "fyodor dostoyevsky"]}, "display": "Fyodor Dostoevsky"},
+        {"id": "2026-02-25_6", "category": "Technology", "points": 100, "question": "This company, founded by Larry Page and Sergey Brin in 1998, operates the world's most widely used internet search engine.", "answer": {"valid": ["google"]}, "display": "Google"},
+        {"id": "2026-02-25_7", "category": "Technology", "points": 200, "question": "This encrypted messaging app, used by over two billion people, was acquired by Facebook in 2014 for approximately $19 billion.", "answer": {"valid": ["whatsapp"]}, "display": "WhatsApp"},
+        {"id": "2026-02-25_8", "category": "Technology", "points": 300, "question": "This open-source operating system kernel, created by Linus Torvalds in 1991, powers everything from Android phones to most of the world's web servers.", "answer": {"valid": ["linux"]}, "display": "Linux"}
+      ]
+    },
+    {
+      "date": "2026-02-26",
+      "categories": ["Art", "Mythology", "U.S. Presidents"],
+      "questions": [
+        {"id": "2026-02-26_0", "category": "Art", "points": 100, "question": "This Italian Renaissance artist painted the ceiling of the Sistine Chapel and sculpted the famous marble statue of David.", "answer": {"valid": ["michelangelo"]}, "display": "Michelangelo"},
+        {"id": "2026-02-26_1", "category": "Art", "points": 200, "question": "This Spanish surrealist painter, known for his flamboyant personality and waxed mustache, created 'The Persistence of Memory' featuring melting clocks.", "answer": {"valid": ["salvador dali", "dali", "salvador dalí", "dalí"]}, "display": "Salvador Dalí"},
+        {"id": "2026-02-26_2", "category": "Art", "points": 300, "question": "This Norwegian artist depicted a figure with an agonized expression against a swirling orange sky in his famous 1893 painting.", "answer": {"valid": ["edvard munch", "munch"]}, "display": "Edvard Munch"},
+        {"id": "2026-02-26_3", "category": "Mythology", "points": 100, "question": "This white, winged horse of Greek mythology sprang from the blood of Medusa after she was slain by Perseus.", "answer": {"valid": ["pegasus"]}, "display": "Pegasus"},
+        {"id": "2026-02-26_4", "category": "Mythology", "points": 200, "question": "This Athenian hero sailed to Crete and killed the half-man, half-bull creature living in King Minos's labyrinth.", "answer": {"valid": ["theseus"]}, "display": "Theseus"},
+        {"id": "2026-02-26_5", "category": "Mythology", "points": 300, "question": "This Norse shapeshifter and trickster, born of two giants but adopted into Asgard, is the god of mischief and father of monsters like Fenrir and the Midgard Serpent.", "answer": {"valid": ["loki"]}, "display": "Loki"},
+        {"id": "2026-02-26_6", "category": "U.S. Presidents", "points": 100, "question": "This president, who served four terms from 1933 to 1945, led the nation through the Great Depression and most of World War II.", "answer": {"valid": ["franklin roosevelt", "franklin d. roosevelt", "franklin delano roosevelt", "fdr"]}, "display": "Franklin D. Roosevelt"},
+        {"id": "2026-02-26_7", "category": "U.S. Presidents", "points": 200, "question": "This 5th president issued an 1823 doctrine warning European nations against further colonization or interference in the Americas.", "answer": {"valid": ["james monroe", "monroe"]}, "display": "James Monroe"},
+        {"id": "2026-02-26_8", "category": "U.S. Presidents", "points": 300, "question": "This 27th president is the only person in American history to have served as both U.S. President and Chief Justice of the Supreme Court.", "answer": {"valid": ["william howard taft", "william taft", "taft"]}, "display": "William Howard Taft"}
+      ]
+    },
+    {
+      "date": "2026-02-27",
+      "categories": ["Video Games", "Space", "World Geography"],
+      "questions": [
+        {"id": "2026-02-27_0", "category": "Video Games", "points": 100, "question": "This Nintendo action-adventure franchise features a green-clad hero named Link on a quest to rescue Princess Zelda.", "answer": {"valid": ["the legend of zelda", "legend of zelda", "zelda"]}, "display": "The Legend of Zelda"},
+        {"id": "2026-02-27_1", "category": "Video Games", "points": 200, "question": "This massively popular battle royale game, released by Epic Games in 2017, is known for its shrinking storm, cartoonish style, and building mechanics.", "answer": {"valid": ["fortnite"]}, "display": "Fortnite"},
+        {"id": "2026-02-27_2", "category": "Video Games", "points": 300, "question": "This 2013 PlayStation exclusive follows a hardened smuggler named Joel as he escorts a teenage girl named Ellie across a post-pandemic America.", "answer": {"valid": ["the last of us", "last of us"]}, "display": "The Last of Us"},
+        {"id": "2026-02-27_3", "category": "Space", "points": 100, "question": "This is the name of the star at the center of our solar system and the closest star to Earth.", "answer": {"valid": ["the sun", "sun"]}, "display": "The Sun"},
+        {"id": "2026-02-27_4", "category": "Space", "points": 200, "question": "This NASA spacecraft, launched in 1977, is the farthest human-made object from Earth and became the first to enter interstellar space.", "answer": {"valid": ["voyager 1", "voyager one"]}, "display": "Voyager 1"},
+        {"id": "2026-02-27_5", "category": "Space", "points": 300, "question": "This powerful astronomical event occurs when a massive star exhausts its fuel and collapses, triggering a catastrophic explosion that can briefly outshine an entire galaxy.", "answer": {"valid": ["supernova"]}, "display": "Supernova"},
+        {"id": "2026-02-27_6", "category": "World Geography", "points": 100, "question": "This boot-shaped European country is home to Rome, Venice, and Milan, and is surrounded by the Mediterranean Sea on three sides.", "answer": {"valid": ["italy"]}, "display": "Italy"},
+        {"id": "2026-02-27_7", "category": "World Geography", "points": 200, "question": "This country is the largest in the world by land area, spanning 11 time zones across Eastern Europe and northern Asia.", "answer": {"valid": ["russia"]}, "display": "Russia"},
+        {"id": "2026-02-27_8", "category": "World Geography", "points": 300, "question": "This South American capital city sits on the Pacific coast and is home to over ten million people, making it one of the most populous cities in the Americas.", "answer": {"valid": ["lima"]}, "display": "Lima, Peru"}
+      ]
+    },
+    {
+      "date": "2026-02-28",
+      "categories": ["Music", "Sports", "Nature"],
+      "questions": [
+        {"id": "2026-02-28_0", "category": "Music", "points": 100, "question": "This pop icon, known as the 'Material Girl', dominated the 1980s with albums like 'Like a Virgin' and 'True Blue'.", "answer": {"valid": ["madonna"]}, "display": "Madonna"},
+        {"id": "2026-02-28_1", "category": "Music", "points": 200, "question": "This Compton-born rapper's 2012 album 'good kid, m.A.A.d city' is widely regarded as one of the greatest rap albums ever made.", "answer": {"valid": ["kendrick lamar", "lamar", "kendrick"]}, "display": "Kendrick Lamar"},
+        {"id": "2026-02-28_2", "category": "Music", "points": 300, "question": "This Irish rock band, fronted by the singer known as Bono, released the anthemic albums 'The Joshua Tree' and 'Achtung Baby'.", "answer": {"valid": ["u2"]}, "display": "U2"},
+        {"id": "2026-02-28_3", "category": "Sports", "points": 100, "question": "This annual championship game, played at the end of the NFL season, is the most-watched television event in the United States.", "answer": {"valid": ["super bowl", "the super bowl"]}, "display": "The Super Bowl"},
+        {"id": "2026-02-28_4", "category": "Sports", "points": 200, "question": "This Milwaukee Bucks forward, nicknamed 'The Greek Freak', won back-to-back NBA MVP awards in 2019 and 2020.", "answer": {"valid": ["giannis antetokounmpo", "giannis"]}, "display": "Giannis Antetokounmpo"},
+        {"id": "2026-02-28_5", "category": "Sports", "points": 300, "question": "This American golfer, nicknamed 'The Golden Bear', holds the all-time record for major championship wins with 18 titles.", "answer": {"valid": ["jack nicklaus", "nicklaus"]}, "display": "Jack Nicklaus"},
+        {"id": "2026-02-28_6", "category": "Nature", "points": 100, "question": "This colorful arc of light appears in the sky when sunlight passes through water droplets in the air, typically after rain.", "answer": {"valid": ["rainbow"]}, "display": "Rainbow"},
+        {"id": "2026-02-28_7", "category": "Nature", "points": 200, "question": "This giant cactus, native to the Sonoran Desert of Arizona and Mexico, can grow up to 40 feet tall and live for more than 150 years.", "answer": {"valid": ["saguaro", "saguaro cactus"]}, "display": "Saguaro Cactus"},
+        {"id": "2026-02-28_8", "category": "Nature", "points": 300, "question": "This scientific theory, introduced by Charles Darwin in 1859, explains how species change over successive generations through natural selection.", "answer": {"valid": ["evolution", "natural selection", "theory of evolution"]}, "display": "Evolution"}
+      ]
+    },
+    {
+      "date": "2026-03-01",
+      "categories": ["Movies", "Science", "History"],
+      "questions": [
+        {"id": "2026-03-01_0", "category": "Movies", "points": 100, "question": "This 1977 George Lucas space opera, which opens with the crawl 'A long time ago in a galaxy far, far away...', launched one of the most successful film franchises in history.", "answer": {"valid": ["star wars", "star wars a new hope", "star wars episode iv"]}, "display": "Star Wars"},
+        {"id": "2026-03-01_1", "category": "Movies", "points": 200, "question": "This 1999 sci-fi film starring Keanu Reeves depicts a dystopian world in which humans are unknowingly living inside a computer simulation.", "answer": {"valid": ["the matrix", "matrix"]}, "display": "The Matrix"},
+        {"id": "2026-03-01_2", "category": "Movies", "points": 300, "question": "This 1974 Francis Ford Coppola sequel interweaves the story of Michael Corleone's rise to power with flashbacks to his father Vito's early life as an immigrant.", "answer": {"valid": ["the godfather part ii", "the godfather part 2", "godfather part ii", "godfather 2", "godfather part two"]}, "display": "The Godfather Part II"},
+        {"id": "2026-03-01_3", "category": "Science", "points": 100, "question": "This element makes up about 78% of Earth's atmosphere and is essential to the production of proteins and DNA in living organisms.", "answer": {"valid": ["nitrogen"]}, "display": "Nitrogen"},
+        {"id": "2026-03-01_4", "category": "Science", "points": 200, "question": "This type of blood vessel carries oxygenated blood away from the heart and distributes it throughout the body's tissues.", "answer": {"valid": ["artery", "arteries"]}, "display": "Artery"},
+        {"id": "2026-03-01_5", "category": "Science", "points": 300, "question": "This principle in quantum mechanics, formulated by a German physicist in 1927, states that the more precisely you know a particle's position, the less precisely you can know its momentum.", "answer": {"valid": ["uncertainty principle", "heisenberg uncertainty principle", "heisenberg's uncertainty principle"]}, "display": "The Uncertainty Principle"},
+        {"id": "2026-03-01_6", "category": "History", "points": 100, "question": "This four-year conflict, fought between 1861 and 1865, pitted the Union states of the North against the Confederate states of the South.", "answer": {"valid": ["civil war", "american civil war", "war between the states"]}, "display": "The American Civil War"},
+        {"id": "2026-03-01_7", "category": "History", "points": 200, "question": "This German dictator rose to power in 1933, led the Nazi Party, and was responsible for the Holocaust and starting World War II.", "answer": {"valid": ["adolf hitler", "hitler"]}, "display": "Adolf Hitler"},
+        {"id": "2026-03-01_8", "category": "History", "points": 300, "question": "This 1789 event, in which Parisian citizens stormed a royal prison fortress, is widely regarded as the symbolic beginning of the French Revolution.", "answer": {"valid": ["storming of the bastille", "fall of the bastille", "bastille", "the bastille"]}, "display": "The Storming of the Bastille"}
+      ]
+    },
+    {
+      "date": "2026-03-02",
+      "categories": ["Literature", "Food & Drink", "Pop Culture"],
+      "questions": [
+        {"id": "2026-03-02_0", "category": "Literature", "points": 100, "question": "This Harper Lee novel, set in the American South, follows lawyer Atticus Finch as he defends a Black man falsely accused of a crime.", "answer": {"valid": ["to kill a mockingbird"]}, "display": "To Kill a Mockingbird"},
+        {"id": "2026-03-02_1", "category": "Literature", "points": 200, "question": "This British author created the fictional detective who solves mysteries from Baker Street alongside his partner Dr. Watson.", "answer": {"valid": ["arthur conan doyle", "conan doyle", "doyle"]}, "display": "Arthur Conan Doyle"},
+        {"id": "2026-03-02_2", "category": "Literature", "points": 300, "question": "This ancient Greek epic poem, attributed to Homer, chronicles the events of the Trojan War, centering on the wrath of the hero Achilles.", "answer": {"valid": ["the iliad", "iliad"]}, "display": "The Iliad"},
+        {"id": "2026-03-02_3", "category": "Food & Drink", "points": 100, "question": "This hot brewed beverage, made from roasted and ground beans, is one of the most widely consumed drinks in the world.", "answer": {"valid": ["coffee"]}, "display": "Coffee"},
+        {"id": "2026-03-02_4", "category": "Food & Drink", "points": 200, "question": "This classic Italian dish is made by slowly adding warm broth to rice while stirring, resulting in a creamy, starchy texture.", "answer": {"valid": ["risotto"]}, "display": "Risotto"},
+        {"id": "2026-03-02_5", "category": "Food & Drink", "points": 300, "question": "This cold Spanish soup, popular in summer, is blended from raw tomatoes, cucumber, peppers, garlic, olive oil, and vinegar.", "answer": {"valid": ["gazpacho"]}, "display": "Gazpacho"},
+        {"id": "2026-03-02_6", "category": "Pop Culture", "points": 100, "question": "This streaming service, which began as a DVD-by-mail rental company, is now the world's largest subscription video-on-demand platform.", "answer": {"valid": ["netflix"]}, "display": "Netflix"},
+        {"id": "2026-03-02_7", "category": "Pop Culture", "points": 200, "question": "This actress played the beloved character Rachel Green on the long-running sitcom 'Friends'.", "answer": {"valid": ["jennifer aniston", "aniston"]}, "display": "Jennifer Aniston"},
+        {"id": "2026-03-02_8", "category": "Pop Culture", "points": 300, "question": "This Canadian rapper, who first gained fame as an actor on the teen drama 'Degrassi', became one of the best-selling music artists of all time.", "answer": {"valid": ["drake"]}, "display": "Drake"}
+      ]
+    },
+    {
+      "date": "2026-03-03",
+      "categories": ["Television", "Animals", "Math & Numbers"],
+      "questions": [
+        {"id": "2026-03-03_0", "category": "Television", "points": 100, "question": "This long-running singing competition, hosted for many seasons by Ryan Seacrest, launched the careers of Kelly Clarkson and Carrie Underwood.", "answer": {"valid": ["american idol"]}, "display": "American Idol"},
+        {"id": "2026-03-03_1", "category": "Television", "points": 200, "question": "This beloved NBC sitcom, set in a New York City apartment building, features the characters Jerry, George, Elaine, and Kramer.", "answer": {"valid": ["seinfeld"]}, "display": "Seinfeld"},
+        {"id": "2026-03-03_2", "category": "Television", "points": 300, "question": "This critically acclaimed HBO crime drama, set primarily in Baltimore, is considered one of the greatest TV series ever made and examines the drug trade, police work, schools, and the media.", "answer": {"valid": ["the wire", "wire"]}, "display": "The Wire"},
+        {"id": "2026-03-03_3", "category": "Animals", "points": 100, "question": "This eight-legged arachnid spins silk webs to capture insects for food.", "answer": {"valid": ["spider"]}, "display": "Spider"},
+        {"id": "2026-03-03_4", "category": "Animals", "points": 200, "question": "This large African bird is both the tallest and heaviest bird on Earth and also holds the record as the fastest running bird.", "answer": {"valid": ["ostrich"]}, "display": "Ostrich"},
+        {"id": "2026-03-03_5", "category": "Animals", "points": 300, "question": "This highly intelligent sea creature has three hearts, blue blood, eight arms, and can instantly change the color and texture of its skin.", "answer": {"valid": ["octopus"]}, "display": "Octopus"},
+        {"id": "2026-03-03_6", "category": "Math & Numbers", "points": 100, "question": "This is the number of sides on a hexagon.", "answer": {"valid": ["6", "six"]}, "display": "Six (6)"},
+        {"id": "2026-03-03_7", "category": "Math & Numbers", "points": 200, "question": "This mathematical concept, represented by the symbol ∞, describes a quantity larger than any finite number.", "answer": {"valid": ["infinity"]}, "display": "Infinity"},
+        {"id": "2026-03-03_8", "category": "Math & Numbers", "points": 300, "question": "This type of number cannot be expressed as a simple fraction and has a decimal expansion that never terminates or repeats, such as √2 or π.", "answer": {"valid": ["irrational number", "irrational"]}, "display": "Irrational Number"}
+      ]
+    },
+    {
+      "date": "2026-03-04",
+      "categories": ["Art", "Geography", "Sports"],
+      "questions": [
+        {"id": "2026-03-04_0", "category": "Art", "points": 100, "question": "This American pop artist is famous for his silk-screen prints of Campbell's Soup cans and colorful portraits of Marilyn Monroe and Elvis Presley.", "answer": {"valid": ["andy warhol", "warhol"]}, "display": "Andy Warhol"},
+        {"id": "2026-03-04_1", "category": "Art", "points": 200, "question": "This American abstract expressionist, known for his 'drip painting' technique, created large canvases by pouring and splattering paint across them.", "answer": {"valid": ["jackson pollock", "pollock"]}, "display": "Jackson Pollock"},
+        {"id": "2026-03-04_2", "category": "Art", "points": 300, "question": "This 15th-century Flemish painter, a pioneer of oil painting technique, is known for the Ghent Altarpiece and his extraordinary attention to detail.", "answer": {"valid": ["jan van eyck", "van eyck"]}, "display": "Jan van Eyck"},
+        {"id": "2026-03-04_3", "category": "Geography", "points": 100, "question": "This narrow strait connects the Atlantic Ocean to the Mediterranean Sea and separates southern Spain from northern Morocco.", "answer": {"valid": ["strait of gibraltar", "gibraltar"]}, "display": "The Strait of Gibraltar"},
+        {"id": "2026-03-04_4", "category": "Geography", "points": 200, "question": "This mountain range forms the natural border between France and Spain, separating the Iberian Peninsula from the rest of Europe.", "answer": {"valid": ["pyrenees", "the pyrenees"]}, "display": "The Pyrenees"},
+        {"id": "2026-03-04_5", "category": "Geography", "points": 300, "question": "This Southeast Asian archipelago nation, composed of over 7,600 islands, is the only predominantly Christian country in Asia.", "answer": {"valid": ["philippines", "the philippines"]}, "display": "The Philippines"},
+        {"id": "2026-03-04_6", "category": "Sports", "points": 100, "question": "In tennis, this word describes a score of zero for a player.", "answer": {"valid": ["love"]}, "display": "Love"},
+        {"id": "2026-03-04_7", "category": "Sports", "points": 200, "question": "This American swimmer won 8 gold medals at the 2008 Beijing Olympics, setting the record for most gold medals won by any athlete at a single Olympic Games.", "answer": {"valid": ["michael phelps", "phelps"]}, "display": "Michael Phelps"},
+        {"id": "2026-03-04_8", "category": "Sports", "points": 300, "question": "This prestigious annual road cycling race, held primarily in France each July, is the most famous event in professional cycling.", "answer": {"valid": ["tour de france"]}, "display": "Tour de France"}
+      ]
+    },
+    {
+      "date": "2026-03-05",
+      "categories": ["Technology", "Mythology", "Music"],
+      "questions": [
+        {"id": "2026-03-05_0", "category": "Technology", "points": 100, "question": "This social media platform, founded by Mark Zuckerberg at Harvard in 2004, became the world's largest social network.", "answer": {"valid": ["facebook"]}, "display": "Facebook"},
+        {"id": "2026-03-05_1", "category": "Technology", "points": 200, "question": "This wireless networking technology allows devices to connect to the internet over short distances without a physical cable.", "answer": {"valid": ["wifi", "wi-fi", "wireless fidelity"]}, "display": "Wi-Fi"},
+        {"id": "2026-03-05_2", "category": "Technology", "points": 300, "question": "This computing model refers to storing, managing, and processing data on remote internet-connected servers rather than on a local machine.", "answer": {"valid": ["cloud computing", "the cloud", "cloud"]}, "display": "Cloud Computing"},
+        {"id": "2026-03-05_3", "category": "Mythology", "points": 100, "question": "This Greek demigod, son of Zeus and a mortal woman, was tasked with performing twelve seemingly impossible labors as punishment.", "answer": {"valid": ["hercules", "heracles"]}, "display": "Hercules"},
+        {"id": "2026-03-05_4", "category": "Mythology", "points": 200, "question": "This creature of Greek mythology, born of Queen Pasiphae and a sacred bull, had the head of a bull and the body of a man and lived in the labyrinth of Crete.", "answer": {"valid": ["minotaur"]}, "display": "Minotaur"},
+        {"id": "2026-03-05_5", "category": "Mythology", "points": 300, "question": "This multi-headed dog of Greek mythology stands guard at the entrance to the underworld, preventing the dead from leaving and the living from entering.", "answer": {"valid": ["cerberus"]}, "display": "Cerberus"},
+        {"id": "2026-03-05_6", "category": "Music", "points": 100, "question": "This country music legend, known for songs like 'Jolene' and 'I Will Always Love You', also owns the Dollywood theme park in Tennessee.", "answer": {"valid": ["dolly parton", "parton"]}, "display": "Dolly Parton"},
+        {"id": "2026-03-05_7", "category": "Music", "points": 200, "question": "This Seattle grunge band, fronted by Kurt Cobain, released the landmark album 'Nevermind' in 1991, bringing alternative rock into the mainstream.", "answer": {"valid": ["nirvana"]}, "display": "Nirvana"},
+        {"id": "2026-03-05_8", "category": "Music", "points": 300, "question": "This jazz vocalist, nicknamed 'Lady Day', is considered one of the greatest jazz singers of all time and recorded the haunting protest song 'Strange Fruit' in 1939.", "answer": {"valid": ["billie holiday", "holiday"]}, "display": "Billie Holiday"}
+      ]
+    },
+    {
+      "date": "2026-03-06",
+      "categories": ["Video Games", "U.S. Presidents", "Nature"],
+      "questions": [
+        {"id": "2026-03-06_0", "category": "Video Games", "points": 100, "question": "This 2016 augmented reality mobile game sent millions of people outdoors to catch virtual creatures using their smartphones.", "answer": {"valid": ["pokemon go", "pokémon go"]}, "display": "Pokémon Go"},
+        {"id": "2026-03-06_1", "category": "Video Games", "points": 200, "question": "This 2011 open-world RPG from Bethesda, set in a snowy Nordic province filled with dragons, features the iconic battle shout 'FUS RO DAH'.", "answer": {"valid": ["skyrim", "the elder scrolls v skyrim", "elder scrolls skyrim", "the elder scrolls v: skyrim"]}, "display": "The Elder Scrolls V: Skyrim"},
+        {"id": "2026-03-06_2", "category": "Video Games", "points": 300, "question": "This 2017 Nintendo open-world game featuring the hero Link was praised for revolutionizing the action-adventure genre with its physics-based puzzles and climbing mechanics.", "answer": {"valid": ["breath of the wild", "zelda breath of the wild", "the legend of zelda breath of the wild", "botw"]}, "display": "The Legend of Zelda: Breath of the Wild"},
+        {"id": "2026-03-06_3", "category": "U.S. Presidents", "points": 100, "question": "This president was in office when the September 11, 2001 terrorist attacks occurred and subsequently launched the War on Terror.", "answer": {"valid": ["george w. bush", "george bush", "george w bush", "bush"]}, "display": "George W. Bush"},
+        {"id": "2026-03-06_4", "category": "U.S. Presidents", "points": 200, "question": "This 35th president, the youngest ever elected to the office, was assassinated in Dallas, Texas in November 1963.", "answer": {"valid": ["john f. kennedy", "john kennedy", "jfk", "kennedy"]}, "display": "John F. Kennedy"},
+        {"id": "2026-03-06_5", "category": "U.S. Presidents", "points": 300, "question": "This 26th president, known as 'The Rough Rider', established the U.S. national park system and was the youngest person ever to assume the presidency.", "answer": {"valid": ["theodore roosevelt", "teddy roosevelt", "roosevelt", "ted roosevelt"]}, "display": "Theodore Roosevelt"},
+        {"id": "2026-03-06_6", "category": "Nature", "points": 100, "question": "This form of precipitation consists of ice crystals that form unique six-sided structures as they fall from clouds.", "answer": {"valid": ["snow", "snowflakes", "snowflake"]}, "display": "Snow"},
+        {"id": "2026-03-06_7", "category": "Nature", "points": 200, "question": "This sudden release of energy in the Earth's crust causes the ground to shake and can trigger tsunamis, landslides, and widespread destruction.", "answer": {"valid": ["earthquake"]}, "display": "Earthquake"},
+        {"id": "2026-03-06_8", "category": "Nature", "points": 300, "question": "This ecological process describes how a community of plants and animals gradually develops and changes over time in a habitat, eventually reaching a stable state called a climax community.", "answer": {"valid": ["ecological succession", "succession"]}, "display": "Ecological Succession"}
+      ]
+    },
+    {
+      "date": "2026-03-07",
+      "categories": ["Space", "Language", "Movies"],
+      "questions": [
+        {"id": "2026-03-07_0", "category": "Space", "points": 100, "question": "This is the name of the spiral galaxy that contains our solar system.", "answer": {"valid": ["milky way", "milky way galaxy", "the milky way"]}, "display": "The Milky Way"},
+        {"id": "2026-03-07_1", "category": "Space", "points": 200, "question": "This planet, the fourth from the Sun, is called the Red Planet due to iron oxide on its surface and is the focus of many future crewed mission plans.", "answer": {"valid": ["mars"]}, "display": "Mars"},
+        {"id": "2026-03-07_2", "category": "Space", "points": 300, "question": "This icy celestial body, composed of dust and frozen gases, develops a bright glowing tail when it passes close to the Sun.", "answer": {"valid": ["comet"]}, "display": "Comet"},
+        {"id": "2026-03-07_3", "category": "Language", "points": 100, "question": "This punctuation mark, placed at the end of a sentence, signals that the writer is asking a direct question.", "answer": {"valid": ["question mark"]}, "display": "Question Mark"},
+        {"id": "2026-03-07_4", "category": "Language", "points": 200, "question": "This ancient language of the Roman Empire gave rise to Spanish, French, Italian, Portuguese, and Romanian, and is still used in Catholic Church ceremonies.", "answer": {"valid": ["latin"]}, "display": "Latin"},
+        {"id": "2026-03-07_5", "category": "Language", "points": 300, "question": "This literary device assigns human characteristics to non-human subjects or abstract concepts, as in the phrase 'the wind whispered through the trees'.", "answer": {"valid": ["personification"]}, "display": "Personification"},
+        {"id": "2026-03-07_6", "category": "Movies", "points": 100, "question": "This 2010 Christopher Nolan thriller follows a team of specialists who enter people's dreams to plant an idea in a target's subconscious.", "answer": {"valid": ["inception"]}, "display": "Inception"},
+        {"id": "2026-03-07_7", "category": "Movies", "points": 200, "question": "This 2003 Peter Jackson film, the third in his epic fantasy trilogy, won the Academy Award for Best Picture along with 10 other Oscars.", "answer": {"valid": ["the lord of the rings the return of the king", "the return of the king", "return of the king", "lord of the rings return of the king"]}, "display": "The Lord of the Rings: The Return of the King"},
+        {"id": "2026-03-07_8", "category": "Movies", "points": 300, "question": "This 1927 Fritz Lang silent sci-fi film depicts a dystopian future city divided between an elite ruling class living above and an oppressed working class laboring below.", "answer": {"valid": ["metropolis"]}, "display": "Metropolis"}
+      ]
     }
   ]
 }

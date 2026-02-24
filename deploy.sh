@@ -20,6 +20,12 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+# Validate trivia questions before doing anything else
+echo "Validating trivia questions..."
+cd "$SRC_DIR/backend"
+go build -o trivia_validator ./validate_trivia/ || { echo "Failed to build trivia validator"; exit 1; }
+./trivia_validator || exit 1
+
 if [ "$DEV_MODE" = true ]; then
     echo "=== DMJ Web Dev Mode ==="
 
