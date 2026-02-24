@@ -78,7 +78,7 @@ func getTriviaForDate(date string) *TriviaDay {
 // forward timezone on Earth. A new day unlocks as soon as it begins anywhere in
 // the world, preventing future-day grids from being served to any player.
 func getTodayDate() string {
-	loc, _ := time.LoadLocation("Pacific/Kiritimati")
+	loc, _ := time.LoadLocation("America/New_York")
 	return time.Now().In(loc).Format("2006-01-02")
 }
 

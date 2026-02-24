@@ -152,17 +152,17 @@
     },
     {
       "date": "2026-02-22",
-      "categories": ["Movies", "Music", "Animals"],
+      "categories": ["History", "Television", "Geography"],
       "questions": [
-        {"id": "2026-02-22_0", "category": "Movies", "points": 100, "question": "This 1993 Steven Spielberg film features a billionaire's dinosaur-filled theme park that descends into chaos.", "answer": {"valid": ["jurassic park"]}, "display": "Jurassic Park"},
-        {"id": "2026-02-22_1", "category": "Movies", "points": 200, "question": "This actress played the lead role of Katniss Everdeen in 'The Hunger Games' film series.", "answer": {"valid": ["jennifer lawrence", "lawrence"]}, "display": "Jennifer Lawrence"},
-        {"id": "2026-02-22_2", "category": "Movies", "points": 300, "question": "This 1968 Stanley Kubrick sci-fi epic features the AI computer HAL 9000 and a mission to Jupiter.", "answer": {"valid": ["2001 a space odyssey", "2001: a space odyssey"]}, "display": "2001: A Space Odyssey"},
-        {"id": "2026-02-22_3", "category": "Music", "points": 100, "question": "This British singer-songwriter, known for her powerful voice, released the album '21' and the hit 'Rolling in the Deep'.", "answer": {"valid": ["adele"]}, "display": "Adele"},
-        {"id": "2026-02-22_4", "category": "Music", "points": 200, "question": "This rapper, born Shawn Carter, is one of the best-selling music artists of all time and is married to Beyoncé.", "answer": {"valid": ["jay-z", "jay z", "jayz"]}, "display": "Jay-Z"},
-        {"id": "2026-02-22_5", "category": "Music", "points": 300, "question": "This jazz trumpeter and bandleader recorded the landmark album 'Kind of Blue' in 1959 and is celebrated for pioneering both cool jazz and modal jazz.", "answer": {"valid": ["miles davis", "davis"]}, "display": "Miles Davis"},
-        {"id": "2026-02-22_6", "category": "Animals", "points": 100, "question": "This black-and-white bear, native to China, eats almost exclusively bamboo.", "answer": {"valid": ["giant panda", "panda"]}, "display": "Giant Panda"},
-        {"id": "2026-02-22_7", "category": "Animals", "points": 200, "question": "This large spotted cat of sub-Saharan Africa is the fastest land animal on Earth, capable of reaching speeds over 70 mph.", "answer": {"valid": ["cheetah"]}, "display": "Cheetah"},
-        {"id": "2026-02-22_8", "category": "Animals", "points": 300, "question": "This venomous, egg-laying Australian mammal has a duck-like bill, a beaver-like tail, and can detect electric fields with its bill.", "answer": {"valid": ["platypus", "duck-billed platypus", "duck billed platypus"]}, "display": "Platypus"}
+        {"id": "2026-02-22_0", "category": "History", "points": 100, "question": "This general and statesman, the first president of the United States, led the Continental Army to victory in the American Revolutionary War.", "answer": {"valid": ["george washington", "washington"]}, "display": "George Washington"},
+        {"id": "2026-02-22_1", "category": "History", "points": 200, "question": "This 1969 NASA mission, crewed by Neil Armstrong, Buzz Aldrin, and Michael Collins, landed the first humans on the Moon.", "answer": {"valid": ["apollo 11", "apollo eleven"]}, "display": "Apollo 11"},
+        {"id": "2026-02-22_2", "category": "History", "points": 300, "question": "This French military leader was exiled to the island of Elba in 1814 but escaped to rule France again before his final defeat at Waterloo.", "answer": {"valid": ["napoleon", "napoleon bonaparte"]}, "display": "Napoleon Bonaparte"},
+        {"id": "2026-02-22_3", "category": "Television", "points": 100, "question": "This long-running medical drama, set at a hospital in Seattle, follows the career of Dr. Meredith Grey.", "answer": {"valid": ["grey's anatomy", "greys anatomy"]}, "display": "Grey's Anatomy"},
+        {"id": "2026-02-22_4", "category": "Television", "points": 200, "question": "This Netflix sci-fi horror series is set in a small Indiana town and begins with the mysterious disappearance of a boy named Will Byers.", "answer": {"valid": ["stranger things"]}, "display": "Stranger Things"},
+        {"id": "2026-02-22_5", "category": "Television", "points": 300, "question": "This critically acclaimed AMC drama follows high school chemistry teacher Walter White as he turns to manufacturing and selling methamphetamine.", "answer": {"valid": ["breaking bad"]}, "display": "Breaking Bad"},
+        {"id": "2026-02-22_6", "category": "Geography", "points": 100, "question": "This city on the Seine River is the capital of France and home to the Eiffel Tower.", "answer": {"valid": ["paris"]}, "display": "Paris"},
+        {"id": "2026-02-22_7", "category": "Geography", "points": 200, "question": "This South American country has the continent's largest population and contains the majority of the Amazon rainforest.", "answer": {"valid": ["brazil"]}, "display": "Brazil"},
+        {"id": "2026-02-22_8", "category": "Geography", "points": 300, "question": "This Southeast Asian archipelago nation is the world's largest by number of islands, with over 17,000 spread across the equator.", "answer": {"valid": ["indonesia"]}, "display": "Indonesia"}
       ]
     },
     {
@@ -182,17 +182,17 @@
     },
     {
       "date": "2026-02-24",
-      "categories": ["History", "Television", "Geography"],
+      "categories": ["Movies", "Music", "Animals"],
       "questions": [
-        {"id": "2026-02-24_0", "category": "History", "points": 100, "question": "This general and statesman, the first president of the United States, led the Continental Army to victory in the American Revolutionary War.", "answer": {"valid": ["george washington", "washington"]}, "display": "George Washington"},
-        {"id": "2026-02-24_1", "category": "History", "points": 200, "question": "This 1969 NASA mission, crewed by Neil Armstrong, Buzz Aldrin, and Michael Collins, landed the first humans on the Moon.", "answer": {"valid": ["apollo 11", "apollo eleven"]}, "display": "Apollo 11"},
-        {"id": "2026-02-24_2", "category": "History", "points": 300, "question": "This French military leader was exiled to the island of Elba in 1814 but escaped to rule France again before his final defeat at Waterloo.", "answer": {"valid": ["napoleon", "napoleon bonaparte"]}, "display": "Napoleon Bonaparte"},
-        {"id": "2026-02-24_3", "category": "Television", "points": 100, "question": "This long-running medical drama, set at a hospital in Seattle, follows the career of Dr. Meredith Grey.", "answer": {"valid": ["grey's anatomy", "greys anatomy"]}, "display": "Grey's Anatomy"},
-        {"id": "2026-02-24_4", "category": "Television", "points": 200, "question": "This Netflix sci-fi horror series is set in a small Indiana town and begins with the mysterious disappearance of a boy named Will Byers.", "answer": {"valid": ["stranger things"]}, "display": "Stranger Things"},
-        {"id": "2026-02-24_5", "category": "Television", "points": 300, "question": "This critically acclaimed AMC drama follows high school chemistry teacher Walter White as he turns to manufacturing and selling methamphetamine.", "answer": {"valid": ["breaking bad"]}, "display": "Breaking Bad"},
-        {"id": "2026-02-24_6", "category": "Geography", "points": 100, "question": "This city on the Seine River is the capital of France and home to the Eiffel Tower.", "answer": {"valid": ["paris"]}, "display": "Paris"},
-        {"id": "2026-02-24_7", "category": "Geography", "points": 200, "question": "This South American country has the continent's largest population and contains the majority of the Amazon rainforest.", "answer": {"valid": ["brazil"]}, "display": "Brazil"},
-        {"id": "2026-02-24_8", "category": "Geography", "points": 300, "question": "This Southeast Asian archipelago nation is the world's largest by number of islands, with over 17,000 spread across the equator.", "answer": {"valid": ["indonesia"]}, "display": "Indonesia"}
+        {"id": "2026-02-24_0", "category": "Movies", "points": 100, "question": "This 1993 Steven Spielberg film features a billionaire's dinosaur-filled theme park that descends into chaos.", "answer": {"valid": ["jurassic park"]}, "display": "Jurassic Park"},
+        {"id": "2026-02-24_1", "category": "Movies", "points": 200, "question": "This actress played the lead role of Katniss Everdeen in 'The Hunger Games' film series.", "answer": {"valid": ["jennifer lawrence", "lawrence"]}, "display": "Jennifer Lawrence"},
+        {"id": "2026-02-24_2", "category": "Movies", "points": 300, "question": "This 1968 Stanley Kubrick sci-fi epic features the AI computer HAL 9000 and a mission to Jupiter.", "answer": {"valid": ["2001 a space odyssey", "2001: a space odyssey"]}, "display": "2001: A Space Odyssey"},
+        {"id": "2026-02-24_3", "category": "Music", "points": 100, "question": "This British singer-songwriter, known for her powerful voice, released the album '21' and the hit 'Rolling in the Deep'.", "answer": {"valid": ["adele"]}, "display": "Adele"},
+        {"id": "2026-02-24_4", "category": "Music", "points": 200, "question": "This rapper, born Shawn Carter, is one of the best-selling music artists of all time and is married to Beyoncé.", "answer": {"valid": ["jay-z", "jay z", "jayz"]}, "display": "Jay-Z"},
+        {"id": "2026-02-24_5", "category": "Music", "points": 300, "question": "This jazz trumpeter and bandleader recorded the landmark album 'Kind of Blue' in 1959 and is celebrated for pioneering both cool jazz and modal jazz.", "answer": {"valid": ["miles davis", "davis"]}, "display": "Miles Davis"},
+        {"id": "2026-02-24_6", "category": "Animals", "points": 100, "question": "This black-and-white bear, native to China, eats almost exclusively bamboo.", "answer": {"valid": ["giant panda", "panda"]}, "display": "Giant Panda"},
+        {"id": "2026-02-24_7", "category": "Animals", "points": 200, "question": "This large spotted cat of sub-Saharan Africa is the fastest land animal on Earth, capable of reaching speeds over 70 mph.", "answer": {"valid": ["cheetah"]}, "display": "Cheetah"},
+        {"id": "2026-02-24_8", "category": "Animals", "points": 300, "question": "This venomous, egg-laying Australian mammal has a duck-like bill, a beaver-like tail, and can detect electric fields with its bill.", "answer": {"valid": ["platypus", "duck-billed platypus", "duck billed platypus"]}, "display": "Platypus"}
       ]
     },
     {
