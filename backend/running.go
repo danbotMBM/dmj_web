@@ -133,7 +133,7 @@ func handleStravaRuns(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			continue
 		}
-		if t.Year() == 2026 && (t.Month() == time.February || t.Month() == time.April) {
+		if t.Year() == 2026 && (t.Month() == time.February || t.Month() == time.March || t.Month() == time.April) {
 			filtered = append(filtered, run)
 		}
 	}
