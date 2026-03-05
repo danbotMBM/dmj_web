@@ -36,9 +36,9 @@ Generate daily trivia grids in the format of `trivia_questions.json`. Each day h
 
 | Points | Target Success Rate | Description |
 |--------|-------------------|-------------|
-| 100 | ~95% | Very accessible. Even someone unfamiliar with the category should get it. Classic, well-known facts. |
-| 200 | ~70% | Moderate. Familiar to anyone with general interest in the category, tougher for someone with no knowledge of it. |
-| 300 | ~50% | Challenging. Still general knowledge, but only recognizable if you have some familiarity with the category. |
+| 100 | ~85% | Very accessible. Even someone unfamiliar with the category should get it. Classic, well-known facts. |
+| 200 | ~60% | Moderate. Familiar to anyone with general interest in the category, tougher for someone with no knowledge of it. |
+| 300 | ~25% | Challenging. Still general knowledge, but only recognizable if you have some familiarity with the category. |
 
 ## Question Writing Rules
 
@@ -58,6 +58,121 @@ Generate daily trivia grids in the format of `trivia_questions.json`. Each day h
 ## Example Categories Used
 
 Science, History, Pop Culture, Geography, Literature, Sports, Music, Food & Drink, Technology, Movies, U.S. Presidents, Animals, Television, World Geography, Nature, Video Games, Space, Art, Language, Math & Numbers, U.S. Geography, Mythology
+
+### More precise categories
+When thinking about categories, feel free to use categories that are one level below these categories. For example:
+- Science
+  - Chemistry
+  - Physics
+  - Biology
+  - Astronomy
+  - Human Body
+  - Inventions
+- History
+  - World War 2
+  - World War 1
+  - Industrial Revolution
+  - Enlightenment
+  - Dark Ages
+  - Ancient Rome
+  - Ancient Egypt
+  - The Cold War
+  - The American Revolution
+  - The Civil War
+  - The Renaissance
+- Pop Culture
+  - Celebrities
+  - Memes & Internet Culture
+  - Awards Shows
+  - Social Media
+- Geography
+  - American Geography
+  - Asian Geography
+  - European Geography
+  - African Geography
+  - South American Geography
+  - World Capitals
+  - Rivers & Lakes
+  - Mountains & Deserts
+- Literature
+  - Fantasy
+  - Sci Fi
+  - Literary Fiction
+  - Shakespeare
+  - Classic Novels
+  - Children's Books
+  - Poetry
+- Sports
+  - Soccer
+  - American Football
+  - Olympics
+  - Baseball
+  - Basketball
+  - Tennis
+  - Golf
+  - Boxing & MMA
+- Movies
+  - Star Wars
+  - Disney
+  - Lord of the Rings
+  - Western movies
+  - Marvel / MCU
+  - DC Comics
+  - Horror movies
+  - Animated Movies
+  - James Bond
+- Music
+  - Rock & Roll
+  - Hip Hop
+  - Classic Rock
+  - Country Music
+  - Pop Music
+  - Jazz & Blues
+- Television
+  - Sitcoms
+  - Reality TV
+  - Game Shows
+  - Animated TV
+  - Crime & Drama
+- Food & Drink
+  - World Cuisine
+  - American Food
+  - Cocktails & Spirits
+  - Wine & Beer
+  - Fast Food
+  - Baking & Desserts
+  - Cooking Techniques
+- Technology
+  - Computers & Software
+  - The Internet
+  - Smartphones
+  - Social Media Platforms
+  - Famous Tech Companies
+  - Coding & Programming
+- Video Games
+  - Nintendo
+  - PlayStation
+  - Classic Arcade Games
+  - RPG Games
+  - First-Person Shooters
+  - Minecraft
+- Animals
+  - Mammals
+  - Birds
+  - Ocean Life
+  - Insects & Bugs
+  - Reptiles
+  - Endangered Species
+- Mythology
+  - Greek Mythology
+  - Roman Mythology
+  - Norse Mythology
+  - Egyptian Mythology
+- Art
+  - Painting
+  - Sculpture
+  - Famous Artists
+  - Modern Art
 
 ## Example Entries
 
