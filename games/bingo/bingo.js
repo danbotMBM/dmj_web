@@ -5,9 +5,9 @@ let gameEntries = null;
 
 // ---- Init ----
 function route() {
-    const hash = window.location.hash.slice(1);
-    if (hash) {
-        const data = decodeBoard(hash);
+    const encoded = new URLSearchParams(location.search).get('bingoboard');
+    if (encoded) {
+        const data = decodeBoard(encoded);
         if (data && data.title && Array.isArray(data.entries) && data.entries.length >= 24) {
             startPlayerMode(data);
         } else {
@@ -23,22 +23,20 @@ function route() {
 route();
 window.addEventListener('popstate', route);
 
-// ---- Encoding ----
+// ---- Encoding (plain text, newline-delimited) ----
+// Format: first line is title, remaining lines are entries
 function encodeBoard(data) {
-    const json = JSON.stringify(data);
-    const bytes = new TextEncoder().encode(json);
-    let binary = '';
-    bytes.forEach(b => binary += String.fromCharCode(b));
-    return btoa(binary);
+    return encodeURIComponent([data.title, ...data.entries].join('\n'));
 }
 
-function decodeBoard(hash) {
+// param is already URL-decoded (from URLSearchParams.get)
+function decodeBoard(param) {
     try {
-        const binary = atob(hash);
-        const bytes = new Uint8Array(binary.length);
-        for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-        const json = new TextDecoder().decode(bytes);
-        return JSON.parse(json);
+        const lines = param.split('\n');
+        const title = lines[0]?.trim();
+        const entries = lines.slice(1).map(s => s.trim()).filter(s => s.length > 0);
+        if (!title || entries.length < 24) return null;
+        return { title, entries };
     } catch (e) {
         return null;
     }
@@ -187,7 +185,7 @@ function startCreatorMode() {
         if (!title || entries.length < 24) return;
 
         lastEncoded = encodeBoard({ title, entries });
-        const url = `${location.origin}${location.pathname}#${lastEncoded}`;
+        const url = `${location.origin}${location.pathname}?bingoboard=${lastEncoded}`;
 
         shareLinkInput.value = url;
         shareSection.classList.remove('hidden');
@@ -198,7 +196,7 @@ function startCreatorMode() {
         e.preventDefault();
         if (!lastEncoded) return;
         const data = decodeBoard(lastEncoded);
-        const url = `${location.origin}${location.pathname}#${lastEncoded}`;
+        const url = `${location.origin}${location.pathname}?bingoboard=${lastEncoded}`;
         history.pushState(null, '', url);
         startPlayerMode(data);
     });
