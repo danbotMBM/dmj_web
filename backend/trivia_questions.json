@@ -569,6 +569,171 @@
         {"id": "2026-03-21_7", "category": "Fast Food", "points": 200, "question": "This fast food chain, known for its square hamburger patties, was founded by Dave Thomas in Columbus, Ohio in 1969 and became famous for its 'Where's the beef?' ad campaign.", "answer": {"valid": ["wendy's", "wendys"]}, "display": "Wendy's"},
         {"id": "2026-03-21_8", "category": "Fast Food", "points": 300, "question": "This fast food chain, headquartered in Louisville, Kentucky and founded by Harland Sanders, specializes in fried chicken and operates in over 150 countries, making it one of the most globally widespread restaurant chains.", "answer": {"valid": ["kfc", "kentucky fried chicken"]}, "display": "KFC"}
       ]
+    },
+    {
+      "date": "2026-03-22",
+      "categories": ["Video Games", "Human Body", "Classic Rock"],
+      "questions": [
+        {"id": "2026-03-22_0", "category": "Video Games", "points": 100, "question": "This Nintendo plumber is the company's mascot and stars in dozens of platform games set in the Mushroom Kingdom.", "answer": {"valid": ["mario", "super mario"]}, "display": "Mario"},
+        {"id": "2026-03-22_1", "category": "Video Games", "points": 200, "question": "This open-world survival game, created by Markus Persson, lets players build and explore worlds made of blocks and features enemies called Creepers.", "answer": {"valid": ["minecraft"]}, "display": "Minecraft"},
+        {"id": "2026-03-22_2", "category": "Video Games", "points": 300, "question": "This Nintendo franchise stars a hero named Link who must rescue Princess Zelda and defeat the villain Ganon across a series of adventure games.", "answer": {"valid": ["the legend of zelda", "legend of zelda", "zelda"]}, "display": "The Legend of Zelda"},
+        {"id": "2026-03-22_3", "category": "Human Body", "points": 100, "question": "This organ pumps blood throughout the entire body and beats around 100,000 times per day.", "answer": {"valid": ["heart"]}, "display": "The Heart"},
+        {"id": "2026-03-22_4", "category": "Human Body", "points": 200, "question": "This bone in the upper leg is the longest and strongest bone in the human body.", "answer": {"valid": ["femur", "thigh bone"]}, "display": "The Femur"},
+        {"id": "2026-03-22_5", "category": "Human Body", "points": 300, "question": "This small gland at the base of the brain is often called the 'master gland' because it controls other hormone-producing glands throughout the body.", "answer": {"valid": ["pituitary gland", "pituitary"]}, "display": "The Pituitary Gland"},
+        {"id": "2026-03-22_6", "category": "Classic Rock", "points": 100, "question": "This British rock band, fronted by Mick Jagger, released iconic songs like 'Paint It Black' and 'Sympathy for the Devil'.", "answer": {"valid": ["rolling stones", "the rolling stones"]}, "display": "The Rolling Stones"},
+        {"id": "2026-03-22_7", "category": "Classic Rock", "points": 200, "question": "This legendary guitarist, known for his psychedelic style and iconic Woodstock performance, released 'Purple Haze' and 'All Along the Watchtower'.", "answer": {"valid": ["jimi hendrix", "hendrix"]}, "display": "Jimi Hendrix"},
+        {"id": "2026-03-22_8", "category": "Classic Rock", "points": 300, "question": "This Irish rock band, formed in Dublin in 1976, is known for anthems like 'With or Without You,' 'One,' and 'Where the Streets Have No Name'.", "answer": {"valid": ["u2"]}, "display": "U2"}
+      ]
+    },
+    {
+      "date": "2026-03-23",
+      "categories": ["American Football", "World Cuisine", "Greek Mythology"],
+      "questions": [
+        {"id": "2026-03-23_0", "category": "American Football", "points": 100, "question": "This professional American football league, consisting of 32 teams, hosts the Super Bowl each year as its championship game.", "answer": {"valid": ["nfl", "national football league"]}, "display": "The NFL"},
+        {"id": "2026-03-23_1", "category": "American Football", "points": 200, "question": "This quarterback won 7 Super Bowl championships over his career and is widely regarded as the greatest to ever play the position.", "answer": {"valid": ["tom brady", "brady"]}, "display": "Tom Brady"},
+        {"id": "2026-03-23_2", "category": "American Football", "points": 300, "question": "This San Francisco 49ers quarterback won four Super Bowls in the 1980s and never threw an interception in Super Bowl play.", "answer": {"valid": ["joe montana", "montana"]}, "display": "Joe Montana"},
+        {"id": "2026-03-23_3", "category": "World Cuisine", "points": 100, "question": "This Japanese dish consists of vinegared rice topped or wrapped with raw fish, vegetables, or other ingredients.", "answer": {"valid": ["sushi"]}, "display": "Sushi"},
+        {"id": "2026-03-23_4", "category": "World Cuisine", "points": 200, "question": "This soft Indian flatbread is traditionally cooked in a clay tandoor oven and commonly served alongside curries.", "answer": {"valid": ["naan", "naan bread"]}, "display": "Naan"},
+        {"id": "2026-03-23_5", "category": "World Cuisine", "points": 300, "question": "This Vietnamese soup made with bone broth, rice noodles, fresh herbs, and thinly sliced meat is considered the country's national dish.", "answer": {"valid": ["pho"]}, "display": "Pho"},
+        {"id": "2026-03-23_6", "category": "Greek Mythology", "points": 100, "question": "This king of the Greek gods rules from Mount Olympus and is associated with lightning bolts and thunder.", "answer": {"valid": ["zeus"]}, "display": "Zeus"},
+        {"id": "2026-03-23_7", "category": "Greek Mythology", "points": 200, "question": "This Greek hero used a mirrored shield to slay the snake-haired Gorgon Medusa without looking at her directly.", "answer": {"valid": ["perseus"]}, "display": "Perseus"},
+        {"id": "2026-03-23_8", "category": "Greek Mythology", "points": 300, "question": "This master craftsman of Greek mythology built wings of feathers and wax for himself and his son, who later flew too close to the sun.", "answer": {"valid": ["daedalus"]}, "display": "Daedalus"}
+      ]
+    },
+    {
+      "date": "2026-03-24",
+      "categories": ["Disney", "Chemistry", "World Capitals"],
+      "questions": [
+        {"id": "2026-03-24_0", "category": "Disney", "points": 100, "question": "In this 1994 Disney animated film, a young lion cub named Simba must overcome tragedy and reclaim his rightful throne from his scheming uncle Scar.", "answer": {"valid": ["the lion king", "lion king"]}, "display": "The Lion King"},
+        {"id": "2026-03-24_1", "category": "Disney", "points": 200, "question": "This Disney princess, locked in a tower by a witch, has 70 feet of magical golden hair with healing powers and is rescued by a charming thief named Flynn Rider.", "answer": {"valid": ["rapunzel", "tangled"]}, "display": "Rapunzel"},
+        {"id": "2026-03-24_2", "category": "Disney", "points": 300, "question": "This 1940 Disney animated film features Mickey Mouse as an ambitious sorcerer's apprentice and is set to classical music pieces including works by Bach and Beethoven.", "answer": {"valid": ["fantasia"]}, "display": "Fantasia"},
+        {"id": "2026-03-24_3", "category": "Chemistry", "points": 100, "question": "This colorless gas makes up about 78% of Earth's atmosphere and is a key component of proteins and DNA.", "answer": {"valid": ["nitrogen"]}, "display": "Nitrogen"},
+        {"id": "2026-03-24_4", "category": "Chemistry", "points": 200, "question": "This table, first organized by Dmitri Mendeleev in 1869, arranges all known chemical elements by atomic number and recurring chemical properties.", "answer": {"valid": ["periodic table", "periodic table of elements", "periodic table of the elements"]}, "display": "The Periodic Table"},
+        {"id": "2026-03-24_5", "category": "Chemistry", "points": 300, "question": "This metabolic process, carried out by yeast and bacteria, converts sugars into alcohol and carbon dioxide and is essential to brewing beer, making wine, and baking bread.", "answer": {"valid": ["fermentation"]}, "display": "Fermentation"},
+        {"id": "2026-03-24_6", "category": "World Capitals", "points": 100, "question": "This city, home to the Eiffel Tower and the Louvre, is the capital and largest city of France.", "answer": {"valid": ["paris"]}, "display": "Paris"},
+        {"id": "2026-03-24_7", "category": "World Capitals", "points": 200, "question": "Many people assume Istanbul is the capital of Turkey, but this inland city on the Anatolian plateau actually holds that distinction.", "answer": {"valid": ["ankara"]}, "display": "Ankara"},
+        {"id": "2026-03-24_8", "category": "World Capitals", "points": 300, "question": "This city, perched over 11,900 feet above sea level in the Andes, serves as the seat of government and de facto capital of Bolivia.", "answer": {"valid": ["la paz"]}, "display": "La Paz"}
+      ]
+    },
+    {
+      "date": "2026-03-25",
+      "categories": ["Hip Hop", "Ancient Rome", "Ocean Life"],
+      "questions": [
+        {"id": "2026-03-25_0", "category": "Hip Hop", "points": 100, "question": "This rapper, born Shawn Carter in Brooklyn, co-founded Roc-A-Fella Records and is one of the best-selling music artists of all time.", "answer": {"valid": ["jay-z", "jay z", "jayz"]}, "display": "Jay-Z"},
+        {"id": "2026-03-25_1", "category": "Hip Hop", "points": 200, "question": "This N.W.A. founding member launched a legendary solo career with the 1992 album 'The Chronic' and later co-founded Death Row Records.", "answer": {"valid": ["dr. dre", "dr dre", "dre"]}, "display": "Dr. Dre"},
+        {"id": "2026-03-25_2", "category": "Hip Hop", "points": 300, "question": "This Compton rapper's 2015 album 'To Pimp a Butterfly,' blending jazz, funk, and spoken word, is widely considered one of the greatest hip hop albums ever made.", "answer": {"valid": ["kendrick lamar", "kendrick"]}, "display": "Kendrick Lamar"},
+        {"id": "2026-03-25_3", "category": "Ancient Rome", "points": 100, "question": "This massive Roman amphitheater, completed in 80 AD under Emperor Titus, could hold up to 80,000 spectators and hosted gladiatorial contests.", "answer": {"valid": ["colosseum", "the colosseum", "coliseum"]}, "display": "The Colosseum"},
+        {"id": "2026-03-25_4", "category": "Ancient Rome", "points": 200, "question": "This Roman general and statesman, who famously crossed the Rubicon River with his army, was assassinated by senators on the Ides of March in 44 BC.", "answer": {"valid": ["julius caesar", "caesar"]}, "display": "Julius Caesar"},
+        {"id": "2026-03-25_5", "category": "Ancient Rome", "points": 300, "question": "This ancient Roman road, stretching over 350 miles from Rome to the port city of Brindisi, was the main route to Greece and the eastern Mediterranean.", "answer": {"valid": ["appian way", "via appia"]}, "display": "The Appian Way"},
+        {"id": "2026-03-25_6", "category": "Ocean Life", "points": 100, "question": "This marine mammal is the largest animal ever known to have existed on Earth, reaching lengths of up to 100 feet.", "answer": {"valid": ["blue whale", "blue whales"]}, "display": "The Blue Whale"},
+        {"id": "2026-03-25_7", "category": "Ocean Life", "points": 200, "question": "This large predatory fish is considered the fastest in the ocean, capable of swimming over 68 miles per hour, and is named for the large fin rising from its back.", "answer": {"valid": ["sailfish"]}, "display": "The Sailfish"},
+        {"id": "2026-03-25_8", "category": "Ocean Life", "points": 300, "question": "This deep-sea fish uses a bioluminescent lure attached to its forehead to attract prey in the pitch-black depths of the ocean.", "answer": {"valid": ["anglerfish", "angler fish"]}, "display": "The Anglerfish"}
+      ]
+    },
+    {
+      "date": "2026-03-26",
+      "categories": ["Horror Movies", "Baking & Desserts", "The Cold War"],
+      "questions": [
+        {"id": "2026-03-26_0", "category": "Horror Movies", "points": 100, "question": "This 1975 Steven Spielberg thriller features a great white shark terrorizing a New England beach town and is credited with creating the summer blockbuster concept.", "answer": {"valid": ["jaws"]}, "display": "Jaws"},
+        {"id": "2026-03-26_1", "category": "Horror Movies", "points": 200, "question": "In this 1980 Stanley Kubrick horror film, a writer played by Jack Nicholson slowly goes mad while serving as caretaker of the isolated Overlook Hotel.", "answer": {"valid": ["the shining", "shining"]}, "display": "The Shining"},
+        {"id": "2026-03-26_2", "category": "Horror Movies", "points": 300, "question": "This 1973 horror film, based on a novel by William Peter Blatty, follows a family whose young daughter Regan becomes possessed by a demonic entity.", "answer": {"valid": ["the exorcist", "exorcist"]}, "display": "The Exorcist"},
+        {"id": "2026-03-26_3", "category": "Baking & Desserts", "points": 100, "question": "This classic French pastry is made from choux dough piped into an oblong shape, filled with cream, and topped with chocolate glaze.", "answer": {"valid": ["eclair", "éclair"]}, "display": "Éclair"},
+        {"id": "2026-03-26_4", "category": "Baking & Desserts", "points": 200, "question": "This popular Italian dessert is made with espresso-soaked ladyfingers layered with a rich mascarpone cream and dusted with cocoa powder.", "answer": {"valid": ["tiramisu", "tiramisù"]}, "display": "Tiramisu"},
+        {"id": "2026-03-26_5", "category": "Baking & Desserts", "points": 300, "question": "This French confection, made from almond flour, egg whites, and sugar, is sandwiched together with ganache, buttercream, or jam filling and comes in a rainbow of colors.", "answer": {"valid": ["macaron", "macaroon", "macarons"]}, "display": "Macaron"},
+        {"id": "2026-03-26_6", "category": "The Cold War", "points": 100, "question": "This concrete barrier, constructed in 1961, physically divided the city of Berlin between East and West for 28 years until it fell in 1989.", "answer": {"valid": ["berlin wall", "the berlin wall"]}, "display": "The Berlin Wall"},
+        {"id": "2026-03-26_7", "category": "The Cold War", "points": 200, "question": "This 1962 political standoff between the U.S. and Soviet Union, triggered by the placement of nuclear missiles in Cuba, is considered the closest the Cold War came to nuclear conflict.", "answer": {"valid": ["cuban missile crisis"]}, "display": "The Cuban Missile Crisis"},
+        {"id": "2026-03-26_8", "category": "The Cold War", "points": 300, "question": "This 1947 U.S. foreign policy, named after a sitting president, pledged American support to nations threatened by Soviet-backed communist expansion, starting with Greece and Turkey.", "answer": {"valid": ["truman doctrine", "the truman doctrine"]}, "display": "The Truman Doctrine"}
+      ]
+    },
+    {
+      "date": "2026-03-27",
+      "categories": ["Basketball", "Famous Artists", "European Geography"],
+      "questions": [
+        {"id": "2026-03-27_0", "category": "Basketball", "points": 100, "question": "This NBA player, nicknamed 'King James,' broke the league's all-time scoring record in 2023 and has won four NBA championships across three different teams.", "answer": {"valid": ["lebron james", "lebron", "james"]}, "display": "LeBron James"},
+        {"id": "2026-03-27_1", "category": "Basketball", "points": 200, "question": "This NBA franchise, based in Boston and playing in green uniforms, holds the record for the most NBA championships won by any team in history.", "answer": {"valid": ["boston celtics", "celtics"]}, "display": "The Boston Celtics"},
+        {"id": "2026-03-27_2", "category": "Basketball", "points": 300, "question": "This LSU guard, nicknamed 'Pistol Pete,' set an NCAA record by averaging 44.2 points per game in a single season and dazzled fans with his behind-the-back passes and flashy dribbling.", "answer": {"valid": ["pete maravich", "maravich", "pistol pete"]}, "display": "Pete Maravich"},
+        {"id": "2026-03-27_3", "category": "Famous Artists", "points": 100, "question": "This Dutch Post-Impressionist painter created 'The Starry Night' and 'Sunflowers,' and famously cut off part of his own ear.", "answer": {"valid": ["van gogh", "vincent van gogh", "vincent"]}, "display": "Vincent van Gogh"},
+        {"id": "2026-03-27_4", "category": "Famous Artists", "points": 200, "question": "This Italian Renaissance artist painted the ceiling of the Sistine Chapel and also sculpted the famous statue of David.", "answer": {"valid": ["michelangelo"]}, "display": "Michelangelo"},
+        {"id": "2026-03-27_5", "category": "Famous Artists", "points": 300, "question": "This Spanish surrealist painter is known for 'The Persistence of Memory,' which features melting clocks draped over a barren dreamlike landscape.", "answer": {"valid": ["salvador dali", "salvador dalí", "dali", "dalí"]}, "display": "Salvador Dalí"},
+        {"id": "2026-03-27_6", "category": "European Geography", "points": 100, "question": "This Western European country is home to the Eiffel Tower, the Louvre museum, and the Palace of Versailles.", "answer": {"valid": ["france"]}, "display": "France"},
+        {"id": "2026-03-27_7", "category": "European Geography", "points": 200, "question": "This mountain range, stretching about 310 miles along the border between France and Spain, acts as a natural barrier between the Iberian Peninsula and the rest of Europe.", "answer": {"valid": ["pyrenees", "the pyrenees", "pyrenees mountains"]}, "display": "The Pyrenees"},
+        {"id": "2026-03-27_8", "category": "European Geography", "points": 300, "question": "This tiny republic perched atop Mount Titano is completely surrounded by Italy and is considered the world's oldest surviving sovereign state, founded in 301 AD.", "answer": {"valid": ["san marino"]}, "display": "San Marino"}
+      ]
+    },
+    {
+      "date": "2026-03-28",
+      "categories": ["Animated TV", "Cocktails & Spirits", "Norse Mythology"],
+      "questions": [
+        {"id": "2026-03-28_0", "category": "Animated TV", "points": 100, "question": "This long-running animated sitcom, set in the fictional town of Springfield, follows the dysfunctional family of Homer, Marge, Bart, Lisa, and Maggie.", "answer": {"valid": ["the simpsons", "simpsons"]}, "display": "The Simpsons"},
+        {"id": "2026-03-28_1", "category": "Animated TV", "points": 200, "question": "This animated adult comedy series follows four foul-mouthed boys — Stan, Kyle, Cartman, and Kenny — in the small Colorado mountain town of the show's title.", "answer": {"valid": ["south park"]}, "display": "South Park"},
+        {"id": "2026-03-28_2", "category": "Animated TV", "points": 300, "question": "This animated Fox sitcom follows the Belcher family — Bob, Linda, and their three kids Tina, Gene, and Louise — who run a struggling burger restaurant.", "answer": {"valid": ["bob's burgers", "bobs burgers"]}, "display": "Bob's Burgers"},
+        {"id": "2026-03-28_3", "category": "Cocktails & Spirits", "points": 100, "question": "This cocktail made with vodka and tomato juice is seasoned with hot sauce and Worcestershire sauce and is a popular brunch drink often garnished with celery.", "answer": {"valid": ["bloody mary"]}, "display": "Bloody Mary"},
+        {"id": "2026-03-28_4", "category": "Cocktails & Spirits", "points": 200, "question": "This classic cocktail from Cuba is made with white rum, fresh lime juice, sugar, and muddled mint leaves, served over crushed ice.", "answer": {"valid": ["mojito"]}, "display": "Mojito"},
+        {"id": "2026-03-28_5", "category": "Cocktails & Spirits", "points": 300, "question": "This iconic cocktail, made with gin and dry vermouth and garnished with an olive or a lemon twist, is associated with sophistication and with a certain fictional British spy.", "answer": {"valid": ["martini", "dry martini"]}, "display": "Martini"},
+        {"id": "2026-03-28_6", "category": "Norse Mythology", "points": 100, "question": "This Norse god of thunder is the son of Odin and wields a magical hammer called Mjolnir, which returns to his hand after being thrown.", "answer": {"valid": ["thor"]}, "display": "Thor"},
+        {"id": "2026-03-28_7", "category": "Norse Mythology", "points": 200, "question": "This shape-shifting trickster god of Norse mythology is the cunning son of a frost giant and adoptive brother of Thor, and is the father of both the wolf Fenrir and the world serpent.", "answer": {"valid": ["loki"]}, "display": "Loki"},
+        {"id": "2026-03-28_8", "category": "Norse Mythology", "points": 300, "question": "This giant serpent of Norse mythology encircles the entire world at the bottom of the ocean, biting its own tail, and is destined to fight and kill Thor during Ragnarök.", "answer": {"valid": ["jormungandr", "jörmungandr", "world serpent", "midgard serpent"]}, "display": "Jörmungandr"}
+      ]
+    },
+    {
+      "date": "2026-03-29",
+      "categories": ["Marvel / MCU", "Biology", "The American Revolution"],
+      "questions": [
+        {"id": "2026-03-29_0", "category": "Marvel / MCU", "points": 100, "question": "This Marvel superhero, played by Robert Downey Jr. in the MCU, is a billionaire inventor who builds a suit of powered armor and goes by a metallic alias.", "answer": {"valid": ["iron man", "tony stark"]}, "display": "Iron Man"},
+        {"id": "2026-03-29_1", "category": "Marvel / MCU", "points": 200, "question": "This 2018 MCU film follows the villain Thanos on his quest to collect all six Infinity Stones and wipe out half of all life in the universe.", "answer": {"valid": ["avengers infinity war", "infinity war", "avengers: infinity war"]}, "display": "Avengers: Infinity War"},
+        {"id": "2026-03-29_2", "category": "Marvel / MCU", "points": 300, "question": "This MCU hero, played by Chadwick Boseman, is the king and protector of the fictional African nation of Wakanda, powered by the rare metal vibranium.", "answer": {"valid": ["black panther", "t'challa", "tchalla"]}, "display": "Black Panther"},
+        {"id": "2026-03-29_3", "category": "Biology", "points": 100, "question": "This process, carried out by plants, algae, and some bacteria, converts sunlight, water, and carbon dioxide into glucose and oxygen.", "answer": {"valid": ["photosynthesis"]}, "display": "Photosynthesis"},
+        {"id": "2026-03-29_4", "category": "Biology", "points": 200, "question": "This English naturalist published 'On the Origin of Species' in 1859, introducing the world to the theory of evolution by natural selection.", "answer": {"valid": ["charles darwin", "darwin"]}, "display": "Charles Darwin"},
+        {"id": "2026-03-29_5", "category": "Biology", "points": 300, "question": "This organelle, found in nearly all eukaryotic cells, is known as the 'powerhouse of the cell' because it generates most of the cell's supply of ATP through cellular respiration.", "answer": {"valid": ["mitochondria", "mitochondrion"]}, "display": "Mitochondria"},
+        {"id": "2026-03-29_6", "category": "The American Revolution", "points": 100, "question": "This document, adopted on July 4, 1776, announced that the thirteen American colonies were separating from British rule and establishing a new nation.", "answer": {"valid": ["declaration of independence", "the declaration of independence"]}, "display": "The Declaration of Independence"},
+        {"id": "2026-03-29_7", "category": "The American Revolution", "points": 200, "question": "This Virginia planter and general commanded the Continental Army throughout the Revolutionary War and later became the first President of the United States.", "answer": {"valid": ["george washington", "washington"]}, "display": "George Washington"},
+        {"id": "2026-03-29_8", "category": "The American Revolution", "points": 300, "question": "This 1775 battle, fought on a hill near Boston, was one of the first major engagements of the Revolution, where colonial militiamen inflicted heavy casualties on British forces despite ultimately retreating.", "answer": {"valid": ["battle of bunker hill", "bunker hill"]}, "display": "The Battle of Bunker Hill"}
+      ]
+    },
+    {
+      "date": "2026-03-30",
+      "categories": ["Country Music", "Asian Geography", "Astronomy"],
+      "questions": [
+        {"id": "2026-03-30_0", "category": "Country Music", "points": 100, "question": "This country musician, known as 'The Man in Black,' released classics like 'Ring of Fire,' 'Folsom Prison Blues,' and later a celebrated cover of Nine Inch Nails' 'Hurt.'", "answer": {"valid": ["johnny cash", "cash"]}, "display": "Johnny Cash"},
+        {"id": "2026-03-30_1", "category": "Country Music", "points": 200, "question": "This Tennessee country superstar is known for heartfelt hits like 'Jolene' and 'I Will Always Love You' and is also a prolific philanthropist who funded COVID-19 vaccine research.", "answer": {"valid": ["dolly parton", "parton"]}, "display": "Dolly Parton"},
+        {"id": "2026-03-30_2", "category": "Country Music", "points": 300, "question": "This Oklahoma country singer became one of the best-selling music artists of all time with hits like 'Friends in Low Places,' 'The Dance,' and 'Unanswered Prayers.'", "answer": {"valid": ["garth brooks", "brooks"]}, "display": "Garth Brooks"},
+        {"id": "2026-03-30_3", "category": "Asian Geography", "points": 100, "question": "This East Asian country, the world's most populous nation, is home to the Great Wall, the Forbidden City, and the Yangtze River.", "answer": {"valid": ["china"]}, "display": "China"},
+        {"id": "2026-03-30_4", "category": "Asian Geography", "points": 200, "question": "This river, the longest in Asia at about 3,900 miles, flows entirely through China and empties into the East China Sea near Shanghai.", "answer": {"valid": ["yangtze", "yangtze river", "chang jiang"]}, "display": "The Yangtze River"},
+        {"id": "2026-03-30_5", "category": "Asian Geography", "points": 300, "question": "This Southeast Asian archipelago nation, made up of over 7,600 islands, has Manila as its capital and is the only predominantly Christian country in Asia.", "answer": {"valid": ["philippines", "the philippines"]}, "display": "The Philippines"},
+        {"id": "2026-03-30_6", "category": "Astronomy", "points": 100, "question": "This is Earth's only natural satellite and the fifth largest moon in the solar system, visible from Earth every night.", "answer": {"valid": ["moon", "the moon"]}, "display": "The Moon"},
+        {"id": "2026-03-30_7", "category": "Astronomy", "points": 200, "question": "This space telescope, launched in 1990 and orbiting Earth at about 340 miles up, has captured iconic images of distant galaxies, nebulae, and the deep universe.", "answer": {"valid": ["hubble", "hubble space telescope", "hubble telescope"]}, "display": "The Hubble Space Telescope"},
+        {"id": "2026-03-30_8", "category": "Astronomy", "points": 300, "question": "This vast, spherical cloud of icy bodies surrounding the solar system at a distance of up to a light-year from the sun is believed to be the source of long-period comets.", "answer": {"valid": ["oort cloud", "the oort cloud"]}, "display": "The Oort Cloud"}
+      ]
+    },
+    {
+      "date": "2026-03-31",
+      "categories": ["Sitcoms", "Physics", "Mountains & Deserts"],
+      "questions": [
+        {"id": "2026-03-31_0", "category": "Sitcoms", "points": 100, "question": "This beloved NBC sitcom, set primarily in New York City, follows six friends — Ross, Rachel, Monica, Chandler, Joey, and Phoebe — through their daily lives over 10 seasons.", "answer": {"valid": ["friends"]}, "display": "Friends"},
+        {"id": "2026-03-31_1", "category": "Sitcoms", "points": 200, "question": "This mockumentary-style NBC sitcom, set at the Scranton branch of the Dunder Mifflin Paper Company, features the clueless but loveable boss Michael Scott.", "answer": {"valid": ["the office", "office"]}, "display": "The Office"},
+        {"id": "2026-03-31_2", "category": "Sitcoms", "points": 300, "question": "This critically acclaimed Fox sitcom about the dysfunctional Bluth family, led by the long-suffering son Michael, was cancelled after three seasons then later revived on Netflix.", "answer": {"valid": ["arrested development"]}, "display": "Arrested Development"},
+        {"id": "2026-03-31_3", "category": "Physics", "points": 100, "question": "This fundamental force of nature keeps planets in orbit around stars, moons in orbit around planets, and objects attached to the surface of Earth.", "answer": {"valid": ["gravity", "gravitation"]}, "display": "Gravity"},
+        {"id": "2026-03-31_4", "category": "Physics", "points": 200, "question": "This English mathematician and physicist formulated the three laws of motion and the law of universal gravitation, and independently co-invented calculus.", "answer": {"valid": ["isaac newton", "newton"]}, "display": "Isaac Newton"},
+        {"id": "2026-03-31_5", "category": "Physics", "points": 300, "question": "This principle of quantum mechanics states that the more precisely you know a particle's position, the less precisely you can know its momentum, and vice versa.", "answer": {"valid": ["uncertainty principle", "heisenberg uncertainty principle", "heisenberg principle"]}, "display": "The Uncertainty Principle"},
+        {"id": "2026-03-31_6", "category": "Mountains & Deserts", "points": 100, "question": "This mountain on the border of Nepal and China is the highest point on Earth, standing at 29,032 feet above sea level.", "answer": {"valid": ["mount everest", "everest"]}, "display": "Mount Everest"},
+        {"id": "2026-03-31_7", "category": "Mountains & Deserts", "points": 200, "question": "This vast hot desert, covering most of North Africa, is the largest hot desert in the world at approximately 3.5 million square miles.", "answer": {"valid": ["sahara", "sahara desert"]}, "display": "The Sahara"},
+        {"id": "2026-03-31_8", "category": "Mountains & Deserts", "points": 300, "question": "This mountain range in South America, running about 4,300 miles along the western edge of the continent, is the longest continental mountain range in the world.", "answer": {"valid": ["andes", "andes mountains", "the andes"]}, "display": "The Andes"}
+      ]
+    },
+    {
+      "date": "2026-04-01",
+      "categories": ["Nintendo", "Jazz & Blues", "Ancient Egypt"],
+      "questions": [
+        {"id": "2026-04-01_0", "category": "Nintendo", "points": 100, "question": "This 1985 Nintendo Entertainment System game, in which players guide a mustachioed plumber through eight worlds to rescue a princess, is credited with reviving the video game industry after the 1983 crash.", "answer": {"valid": ["super mario bros", "super mario bros.", "super mario brothers"]}, "display": "Super Mario Bros."},
+        {"id": "2026-04-01_1", "category": "Nintendo", "points": 200, "question": "This Nintendo racing franchise lets players choose from a cast of beloved characters and race across creative themed tracks, using items like shells and banana peels to gain an edge.", "answer": {"valid": ["mario kart"]}, "display": "Mario Kart"},
+        {"id": "2026-04-01_2", "category": "Nintendo", "points": 300, "question": "This Nintendo franchise stars a space bounty hunter named Samus Aran who explores alien planets and battles Space Pirates and their fearsome leader Ridley.", "answer": {"valid": ["metroid"]}, "display": "Metroid"},
+        {"id": "2026-04-01_3", "category": "Jazz & Blues", "points": 100, "question": "This brass instrument, most associated with jazz legend Louis Armstrong, features a flared bell and three valves and often leads the melody in jazz and blues ensembles.", "answer": {"valid": ["trumpet"]}, "display": "Trumpet"},
+        {"id": "2026-04-01_4", "category": "Jazz & Blues", "points": 200, "question": "This alto saxophonist, nicknamed 'Bird,' was a pioneering figure of the fast and complex bebop style of jazz and recorded groundbreaking sessions in the 1940s.", "answer": {"valid": ["charlie parker", "parker", "bird"]}, "display": "Charlie Parker"},
+        {"id": "2026-04-01_5", "category": "Jazz & Blues", "points": 300, "question": "This Mississippi Delta blues guitarist, who recorded in the 1930s and died at 27, is the subject of the legend that he sold his soul at a crossroads in exchange for extraordinary guitar skills.", "answer": {"valid": ["robert johnson", "johnson"]}, "display": "Robert Johnson"},
+        {"id": "2026-04-01_6", "category": "Ancient Egypt", "points": 100, "question": "This ancient Egyptian writing system used symbols and pictures to represent words and sounds and was carved into monuments and written on papyrus.", "answer": {"valid": ["hieroglyphics", "hieroglyphs"]}, "display": "Hieroglyphics"},
+        {"id": "2026-04-01_7", "category": "Ancient Egypt", "points": 200, "question": "This last active ruler of the Ptolemaic Kingdom of Egypt is known for her relationships with Julius Caesar and Mark Antony and her political genius in trying to preserve Egyptian independence from Rome.", "answer": {"valid": ["cleopatra", "cleopatra vii"]}, "display": "Cleopatra"},
+        {"id": "2026-04-01_8", "category": "Ancient Egypt", "points": 300, "question": "This ancient Egyptian deity, depicted with the head of a jackal and the body of a man, presided over mummification and guided souls through the underworld.", "answer": {"valid": ["anubis"]}, "display": "Anubis"}
+      ]
     }
   ]
 }

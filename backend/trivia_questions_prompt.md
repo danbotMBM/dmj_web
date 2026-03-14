@@ -37,7 +37,7 @@ Generate daily trivia grids in the format of `trivia_questions.json`. Each day h
 | Points | Target Success Rate | Description |
 |--------|-------------------|-------------|
 | 100 | ~85% | Very accessible. Even someone unfamiliar with the category should get it. Classic, well-known facts. |
-| 200 | ~60% | Moderate. Familiar to anyone with general interest in the category, tougher for someone with no knowledge of it. |
+| 200 | ~50% | Moderate. Familiar to anyone with general interest in the category, tougher for someone with no knowledge of it. |
 | 300 | ~25% | Challenging. Still general knowledge, but only recognizable if you have some familiarity with the category. |
 
 ## Question Writing Rules
@@ -60,7 +60,7 @@ Generate daily trivia grids in the format of `trivia_questions.json`. Each day h
 Science, History, Pop Culture, Geography, Literature, Sports, Music, Food & Drink, Technology, Movies, U.S. Presidents, Animals, Television, World Geography, Nature, Video Games, Space, Art, Language, Math & Numbers, U.S. Geography, Mythology
 
 ### More precise categories
-When thinking about categories, feel free to use categories that are one level below these categories. For example:
+When thinking about categories, feel free to make one or 2 of the categories that are one level below these categories. For example:
 - Science
   - Chemistry
   - Physics
@@ -174,6 +174,8 @@ When thinking about categories, feel free to use categories that are one level b
   - Famous Artists
   - Modern Art
 
+To be clear not all categories should be specific only one or two.
+
 ## Example Entries
 
 Below are three examples showing all point levels and how to handle varying numbers of valid answers.
@@ -230,3 +232,4 @@ Below are three examples showing all point levels and how to handle varying numb
 - The backend uses **lexicographical distance** to allow for minor typos, so valid answers don't need to account for every possible misspelling.
 - Each day should have exactly **9 questions** (3 categories × 3 difficulty levels).
 - Dates should be sequential and not reuse dates already in the file.
+- Questions and answers should be unique but categories can be repeated between different days of questions
