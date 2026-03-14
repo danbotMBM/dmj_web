@@ -1,0 +1,335 @@
+.hidden {
+    display: none !important;
+}
+
+/* ---- How to play ---- */
+.how-to-play {
+    background: var(--bgColor-muted);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 28px;
+}
+
+.how-to-play h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.how-to-play ol {
+    margin-bottom: 0;
+    padding-left: 20px;
+    line-height: 1.8;
+}
+
+/* ---- Creator form ---- */
+.creator-form {
+    max-width: 560px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 1rem;
+    border: 2px solid var(--fgColor-muted);
+    border-radius: 8px;
+    background: var(--bgColor-default);
+    color: var(--fgColor-default);
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: border-color 0.15s;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+.form-group textarea {
+    min-height: 200px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+.entry-count {
+    font-size: 0.85rem;
+    font-weight: 400;
+    transition: color 0.2s;
+}
+
+.entry-count.valid {
+    color: #22c55e;
+}
+
+.entry-count.invalid {
+    color: #ef4444;
+}
+
+.entry-warning {
+    color: #ef4444;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+}
+
+/* ---- Share section ---- */
+.share-section {
+    margin-top: 24px;
+    max-width: 560px;
+}
+
+.share-section h3 {
+    color: #22c55e;
+    margin-bottom: 8px;
+}
+
+.share-link-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.share-link-row input {
+    flex: 1;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    border: 2px solid var(--fgColor-muted);
+    border-radius: 8px;
+    background: var(--bgColor-muted);
+    color: var(--fgColor-default);
+    min-width: 0;
+    font-family: monospace;
+}
+
+.copy-confirm {
+    color: #22c55e;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-top: 6px;
+}
+
+/* ---- Buttons ---- */
+.btn-primary {
+    padding: 10px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #3b82f6;
+    color: #fff;
+    transition: background 0.15s, opacity 0.15s;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: #2563eb;
+}
+
+.btn-primary:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: 2px solid var(--fgColor-muted);
+    border-radius: 8px;
+    cursor: pointer;
+    background: transparent;
+    color: var(--fgColor-default);
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.btn-secondary:hover {
+    border-color: var(--fgColor-default);
+    background: var(--bgColor-muted);
+}
+
+.btn-danger {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #ef4444;
+    color: #fff;
+    transition: background 0.15s;
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+}
+
+.btn-ghost {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 2px solid var(--fgColor-muted);
+    border-radius: 8px;
+    cursor: pointer;
+    background: transparent;
+    color: var(--fgColor-muted);
+    transition: border-color 0.15s;
+}
+
+.btn-ghost:hover {
+    border-color: var(--fgColor-default);
+    color: var(--fgColor-default);
+}
+
+/* ---- Player mode ---- */
+#player-view h1 {
+    text-align: center;
+}
+
+#bingo-grid-wrapper {
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.bingo-col-headers {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+    margin-bottom: 4px;
+}
+
+.bingo-col-header {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #3b82f6;
+    line-height: 1;
+    padding: 4px 0;
+}
+
+#bingo-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+}
+
+.bingo-cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4px;
+    border-radius: 6px;
+    cursor: pointer;
+    overflow: hidden;
+    background: var(--bgColor-muted);
+    border: 2px solid transparent;
+    transition: background 0.2s, border-color 0.2s, transform 0.1s;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.bingo-cell:active {
+    transform: scale(0.95);
+}
+
+.bingo-cell .cell-text {
+    font-size: 0.65rem;
+    line-height: 1.25;
+    word-break: break-word;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+}
+
+.bingo-cell.gotten {
+    background: rgba(34, 197, 94, 0.35);
+    border-color: #22c55e;
+}
+
+.bingo-cell.free-space {
+    background: rgba(34, 197, 94, 0.35);
+    border-color: #22c55e;
+    cursor: default;
+}
+
+.bingo-cell.free-space:active {
+    transform: none;
+}
+
+.bingo-cell.free-space .cell-text {
+    font-weight: 800;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+}
+
+/* ---- Action buttons ---- */
+#action-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 24px;
+    flex-wrap: wrap;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.action-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.confirm-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.confirm-row span {
+    font-size: 0.85rem;
+    color: var(--fgColor-muted);
+    width: 100%;
+    text-align: center;
+}
+
+/* ---- Error ---- */
+.error-msg {
+    color: #ef4444;
+    font-size: 1.05rem;
+}
+
+/* ---- Desktop ---- */
+@media (min-width: 480px) {
+    .bingo-cell .cell-text {
+        font-size: 0.75rem;
+    }
+
+    .bingo-col-header {
+        font-size: 1.6rem;
+    }
+}
+
+@media (min-width: 600px) {
+    .bingo-cell .cell-text {
+        font-size: 0.8rem;
+    }
+}
