@@ -20,9 +20,9 @@ Do not edit manually.
 - American Food: Hamburger
 - American Football: Jerry Rice
 - American Football: Joe Montana
+- American Football: Peyton Manning
 - American Football: Quarterback
 - American Football: The NFL
-- American Football: Tom Brady
 - American Football: Tom Brady
 - American Football: Touchdown
 - American Football: Vince Lombardi
@@ -40,9 +40,9 @@ Do not edit manually.
 - Ancient Rome: Cicero
 - Ancient Rome: Julius Caesar
 - Ancient Rome: Pax Romana
+- Ancient Rome: Roman Aqueducts
 - Ancient Rome: Rome
 - Ancient Rome: Spartacus
-- Ancient Rome: The Appian Way
 - Ancient Rome: The Appian Way
 - Ancient Rome: The Colosseum
 - Animals: Cheetah
@@ -64,8 +64,8 @@ Do not edit manually.
 - Animated Movies: Toy Story
 - Animated Movies: Up
 - Animated TV: Bob's Burgers
+- Animated TV: Rick and Morty
 - Animated TV: South Park
-- Animated TV: The Simpsons
 - Art: Andy Warhol
 - Art: Chiaroscuro
 - Art: Cubism
@@ -94,13 +94,13 @@ Do not edit manually.
 - Astronomy: The Moon
 - Astronomy: The Oort Cloud
 - Baking & Desserts: Crème Brûlée
+- Baking & Desserts: Doughnut
 - Baking & Desserts: Macaron
+- Baking & Desserts: Panna Cotta
 - Baking & Desserts: Pie
 - Baking & Desserts: Sachertorte
 - Baking & Desserts: Tarte Tatin
 - Baking & Desserts: Tiramisu
-- Baking & Desserts: Tiramisu
-- Baking & Desserts: Éclair
 - Baking & Desserts: Éclair
 - Baseball: Babe Ruth
 - Baseball: Barry Bonds
@@ -154,11 +154,11 @@ Do not edit manually.
 - Classic Novels: Pride and Prejudice
 - Classic Novels: War and Peace
 - Classic Rock: David Bowie
-- Classic Rock: Jimi Hendrix
+- Classic Rock: Fleetwood Mac
 - Classic Rock: Led Zeppelin
+- Classic Rock: Pink Floyd
 - Classic Rock: Rush
-- Classic Rock: The Rolling Stones
-- Classic Rock: U2
+- Classic Rock: The Who
 - Cocktails & Spirits: Bloody Mary
 - Cocktails & Spirits: Bourbon
 - Cocktails & Spirits: Campari
@@ -171,12 +171,12 @@ Do not edit manually.
 - Cooking Techniques: Deep Frying
 - Cooking Techniques: Flambé
 - Cooking Techniques: Sous Vide
-- Country Music: Dolly Parton
 - Country Music: Garth Brooks
-- Country Music: Johnny Cash
+- Country Music: Hank Williams
 - Country Music: Johnny Cash
 - Country Music: Lil Nas X
 - Country Music: Merle Haggard
+- Country Music: Shania Twain
 - Country Music: Taylor Swift
 - Country Music: Waylon Jennings
 - Country Music: Willie Nelson
@@ -260,11 +260,11 @@ Do not edit manually.
 - Greek Mythology: Zeus
 - Hip Hop: Dr. Dre
 - Hip Hop: Eminem
-- Hip Hop: Hip Hop
-- Hip Hop: Jay-Z
-- Hip Hop: Kendrick Lamar
 - Hip Hop: Nas
 - Hip Hop: OutKast
+- Hip Hop: Pharrell Williams
+- Hip Hop: Public Enemy
+- Hip Hop: RZA
 - Hip Hop: Travis Scott
 - Hip Hop: Will Smith
 - History: Adolf Hitler
@@ -286,16 +286,16 @@ Do not edit manually.
 - Horror Movies: Get Out
 - Horror Movies: Halloween
 - Horror Movies: Jaws
+- Horror Movies: Night of the Living Dead
+- Horror Movies: Psycho
 - Horror Movies: Rosemary's Baby
 - Horror Movies: The Exorcist
-- Horror Movies: The Exorcist
-- Horror Movies: The Shining
 - Horror Movies: The Shining
 - Human Body: Appendix
 - Human Body: Heart
 - Human Body: Skin
 - Human Body: The Femur
-- Human Body: The Heart
+- Human Body: The Liver
 - Human Body: The Lungs
 - Human Body: The Pituitary Gland
 - Human Body: The Small Intestine
@@ -348,15 +348,15 @@ Do not edit manually.
 - Mammals: Bat
 - Mammals: Giraffe
 - Mammals: Hedgehog
+- Marvel / MCU: Ant-Man
 - Marvel / MCU: Avengers: Infinity War
-- Marvel / MCU: Avengers: Infinity War
-- Marvel / MCU: Black Panther
 - Marvel / MCU: Black Panther
 - Marvel / MCU: Black Widow
 - Marvel / MCU: Captain America
 - Marvel / MCU: Doctor Strange
 - Marvel / MCU: Guardians of the Galaxy
 - Marvel / MCU: Iron Man
+- Marvel / MCU: Spider-Man
 - Math & Numbers: Binary
 - Math & Numbers: Calculus
 - Math & Numbers: Division
@@ -445,13 +445,13 @@ Do not edit manually.
 - Nintendo: Super Mario Bros.
 - Nintendo: Super Smash Bros.
 - Norse Mythology: Asgard
+- Norse Mythology: Fenrir
 - Norse Mythology: Freyja
 - Norse Mythology: Jörmungandr
-- Norse Mythology: Jörmungandr
-- Norse Mythology: Loki
 - Norse Mythology: Odin
 - Norse Mythology: Ragnarök
 - Norse Mythology: Sleipnir
+- Norse Mythology: Valhalla
 - Norse Mythology: Yggdrasil
 - Ocean Life: Anglerfish
 - Ocean Life: Coral Reef
@@ -463,8 +463,8 @@ Do not edit manually.
 - Ocean Life: The Sailfish
 - Ocean Life: Whale Shark
 - Olympics: Abebe Bikila
+- Olympics: Athens
 - Olympics: Nadia Comaneci
-- Olympics: The Olympic Games
 - Photography: Ansel Adams
 - Photography: Aperture
 - Photography: Focus Stacking
@@ -473,9 +473,9 @@ Do not edit manually.
 - Physics: Gravity
 - Physics: Heat
 - Physics: Isaac Newton
-- Physics: Isaac Newton
 - Physics: Momentum
 - Physics: Newton's Third Law
+- Physics: Niels Bohr
 - Physics: Schrödinger's Cat
 - Poetry: Emily Dickinson
 - Poetry: John Keats
@@ -535,13 +535,13 @@ Do not edit manually.
 - Shakespeare: Romeo and Juliet
 - Shakespeare: Twelfth Night
 - Sitcoms: Arrested Development
+- Sitcoms: Cheers
+- Sitcoms: Community
 - Sitcoms: Family Guy
-- Sitcoms: Friends
 - Sitcoms: It's Always Sunny in Philadelphia
 - Sitcoms: Parks and Recreation
 - Sitcoms: The Big Bang Theory
 - Sitcoms: The IT Crowd
-- Sitcoms: The Office
 - Sitcoms: The Office
 - Smartphones: Android
 - Smartphones: BlackBerry
@@ -616,10 +616,10 @@ Do not edit manually.
 - Tennis: The French Open
 - Tennis: Wimbledon
 - The American Revolution: Baron von Steuben
-- The American Revolution: George Washington
+- The American Revolution: Benjamin Franklin
+- The American Revolution: Paul Revere
 - The American Revolution: The Battle of Bunker Hill
 - The American Revolution: The Boston Tea Party
-- The American Revolution: The Declaration of Independence
 - The American Revolution: The Declaration of Independence
 - The Civil War: CSS Virginia (Merrimack)
 - The Civil War: Robert E. Lee
@@ -661,17 +661,17 @@ Do not edit manually.
 - U.S. Presidents: William Henry Harrison
 - U.S. Presidents: William Howard Taft
 - Video Games: Apex Legends
+- Video Games: Dark Souls
 - Video Games: Fortnite
 - Video Games: God of War (2018)
 - Video Games: Grand Theft Auto
+- Video Games: Halo
 - Video Games: Mario
-- Video Games: Mario
-- Video Games: Minecraft
 - Video Games: Minecraft
 - Video Games: Pokémon Go
+- Video Games: Tetris
 - Video Games: The Elder Scrolls V: Skyrim
 - Video Games: The Last of Us
-- Video Games: The Legend of Zelda
 - Video Games: The Legend of Zelda
 - Video Games: The Legend of Zelda: Breath of the Wild
 - Video Games: The Witcher 3: Wild Hunt
@@ -681,12 +681,12 @@ Do not edit manually.
 - World Capitals: Addis Ababa
 - World Capitals: Ankara
 - World Capitals: Ho Chi Minh City
-- World Capitals: La Paz
+- World Capitals: Jakarta
 - World Capitals: La Paz
 - World Capitals: Tokyo
+- World Cuisine: Bulgogi
 - World Cuisine: Ceviche
 - World Cuisine: Hummus
-- World Cuisine: Khachapuri
 - World Cuisine: Khachapuri
 - World Cuisine: Naan
 - World Cuisine: Paella

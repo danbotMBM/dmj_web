@@ -1,17 +1,15 @@
 package main
 
 import (
+	"backend/validate_trivia/similarity"
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
-	"math"
-	"net/http"
 	"os"
 	"path/filepath"
 	"regexp"
 	"sort"
-	"strconv"
+	"strings"
 )
 
 type TriviaAnswer struct {
@@ -43,126 +41,6 @@ func fail(format string, args ...any) {
 	fmt.Fprintf(os.Stderr, "ERROR: "+format+"\n", args...)
 	os.Exit(1)
 }
-
-// --- Semantic similarity via Ollama embeddings ---
-
-type ollamaEmbedRequest struct {
-	Model string   `json:"model"`
-	Input []string `json:"input"`
-}
-
-type ollamaEmbedResponse struct {
-	Embeddings [][]float64 `json:"embeddings"`
-}
-
-func ollamaHost() string {
-	if h := os.Getenv("OLLAMA_HOST"); h != "" {
-		return h
-	}
-	return "http://localhost:11434"
-}
-
-func embedModel() string {
-	if m := os.Getenv("EMBED_MODEL"); m != "" {
-		return m
-	}
-	return "nomic-embed-text"
-}
-
-func similarityThreshold() float64 {
-	if s := os.Getenv("SIMILARITY_THRESHOLD"); s != "" {
-		if v, err := strconv.ParseFloat(s, 64); err == nil {
-			return v
-		}
-	}
-	return 0.92
-}
-
-func fetchEmbeddings(texts []string) ([][]float64, error) {
-	body, err := json.Marshal(ollamaEmbedRequest{Model: embedModel(), Input: texts})
-	if err != nil {
-		return nil, err
-	}
-
-	url := ollamaHost() + "/api/embed"
-	resp, err := http.Post(url, "application/json", bytes.NewReader(body))
-	if err != nil {
-		return nil, fmt.Errorf("cannot reach Ollama at %s: %w", url, err)
-	}
-	defer resp.Body.Close()
-
-	raw, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("Ollama returned %d: %s", resp.StatusCode, raw)
-	}
-
-	var er ollamaEmbedResponse
-	if err := json.Unmarshal(raw, &er); err != nil {
-		return nil, fmt.Errorf("decode Ollama response: %w", err)
-	}
-	if len(er.Embeddings) != len(texts) {
-		return nil, fmt.Errorf("expected %d embeddings, got %d", len(texts), len(er.Embeddings))
-	}
-	return er.Embeddings, nil
-}
-
-func cosineSimilarity(a, b []float64) float64 {
-	var dot, normA, normB float64
-	for i := range a {
-		dot += a[i] * b[i]
-		normA += a[i] * a[i]
-		normB += b[i] * b[i]
-	}
-	if normA == 0 || normB == 0 {
-		return 0
-	}
-	return dot / (math.Sqrt(normA) * math.Sqrt(normB))
-}
-
-type questionRef struct {
-	id   string
-	text string
-}
-
-func checkSemanticDuplicates(questions []questionRef) (warnCount int) {
-	threshold := similarityThreshold()
-	model := embedModel()
-
-	fmt.Printf("Fetching embeddings for %d questions (model: %s)...\n", len(questions), model)
-
-	texts := make([]string, len(questions))
-	for i, q := range questions {
-		texts[i] = q.text
-	}
-
-	embeddings, err := fetchEmbeddings(texts)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "WARNING: semantic check skipped: %v\n", err)
-		fmt.Fprintf(os.Stderr, "  (Is Ollama running? Try: ollama serve && ollama pull %s)\n", model)
-		return 0
-	}
-
-	for i := 0; i < len(questions); i++ {
-		for j := i + 1; j < len(questions); j++ {
-			sim := cosineSimilarity(embeddings[i], embeddings[j])
-			if sim >= threshold {
-				fmt.Fprintf(os.Stderr,
-					"WARNING: near-duplicate questions (similarity=%.3f)\n  [%s] %q\n  [%s] %q\n",
-					sim,
-					questions[i].id, questions[i].text,
-					questions[j].id, questions[j].text,
-				)
-				warnCount++
-			}
-		}
-	}
-	return warnCount
-}
-
-// -------------------------------------------------
 
 func generateIndex(jsonPath string) {
 	data, err := os.ReadFile(jsonPath)
@@ -198,15 +76,60 @@ func generateIndex(jsonPath string) {
 	fmt.Printf("Wrote %d entries to %s\n", len(entries), outPath)
 }
 
-func main() {
-	// Handle generate-index subcommand
-	if len(os.Args) >= 2 && os.Args[1] == "generate-index" {
-		jsonPath := "trivia_questions.json"
-		if len(os.Args) >= 3 {
-			jsonPath = os.Args[2]
+func analyzeSimilarity(jsonPath, reportPath string) {
+	data, err := os.ReadFile(jsonPath)
+	if err != nil {
+		fail("cannot read %s: %v", jsonPath, err)
+	}
+
+	var trivia TriviaData
+	if err := json.Unmarshal(data, &trivia); err != nil {
+		fail("invalid JSON in %s: %v", jsonPath, err)
+	}
+
+	var questions []similarity.QuestionRef
+	for _, day := range trivia.Days {
+		for _, q := range day.Questions {
+			questions = append(questions, similarity.QuestionRef{ID: q.ID, Text: q.Question, Answers: q.Answer.Valid})
 		}
-		generateIndex(jsonPath)
-		return
+	}
+
+	pairs, err := similarity.ComputeAllPairs(questions)
+	if err != nil {
+		fail("similarity analysis failed: %v", err)
+	}
+
+	if err := similarity.SaveReport(pairs, reportPath); err != nil {
+		fail("cannot write report to %s: %v", reportPath, err)
+	}
+	fmt.Printf("Saved %d pairwise scores to %s\n", len(pairs), reportPath)
+
+	similarity.PrintSummary(pairs, 20)
+}
+
+func main() {
+	// Handle subcommands
+	if len(os.Args) >= 2 {
+		switch os.Args[1] {
+		case "generate-index":
+			jsonPath := "trivia_questions.json"
+			if len(os.Args) >= 3 {
+				jsonPath = os.Args[2]
+			}
+			generateIndex(jsonPath)
+			return
+		case "analyze-similarity":
+			jsonPath := "trivia_questions.json"
+			reportPath := "similarity_report.json"
+			if len(os.Args) >= 3 {
+				jsonPath = os.Args[2]
+			}
+			if len(os.Args) >= 4 {
+				reportPath = os.Args[3]
+			}
+			analyzeSimilarity(jsonPath, reportPath)
+			return
+		}
 	}
 
 	path := "trivia_questions.json"
@@ -238,7 +161,7 @@ func main() {
 	}
 
 	// Collect all questions across all days for the semantic check.
-	var allQuestions []questionRef
+	var allQuestions []similarity.QuestionRef
 
 	for di, day := range trivia.Days {
 		prefix := fmt.Sprintf("day[%d] (%s)", di, day.Date)
@@ -336,12 +259,19 @@ func main() {
 				}
 			}
 
+			// Answer must not be the category name
+			for _, ans := range q.Answer.Valid {
+				if strings.EqualFold(ans, q.Category) {
+					bad("%s: answer %q matches the category name %q", qprefix, ans, q.Category)
+				}
+			}
+
 			// Display non-empty
 			if q.Display == "" {
 				bad("%s: display is empty", qprefix)
 			}
 
-			allQuestions = append(allQuestions, questionRef{id: q.ID, text: q.Question})
+			allQuestions = append(allQuestions, similarity.QuestionRef{ID: q.ID, Text: q.Question, Answers: q.Answer.Valid})
 		}
 
 		// Each category must have all three point values
@@ -362,7 +292,7 @@ func main() {
 	fmt.Printf("trivia_questions.json OK — %d days, %d questions validated.\n", len(trivia.Days), len(trivia.Days)*9)
 
 	// Semantic duplicate check across all questions (within-day and cross-day).
-	warnCount := checkSemanticDuplicates(allQuestions)
+	warnCount := similarity.CheckSemanticDuplicates(allQuestions)
 	if warnCount > 0 {
 		fmt.Printf("\nSemantic check: %d near-duplicate warning(s). Review above before publishing.\n", warnCount)
 	} else if warnCount == 0 {
