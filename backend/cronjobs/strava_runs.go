@@ -50,7 +50,7 @@ type Activity struct {
 	MaxSpeed           float64 `json:"max_speed"`
 	AverageHeartrate   float64 `json:"average_heartrate"`
 	MaxHeartrate       float64 `json:"max_heartrate"`
-	SufferScore        int     `json:"suffer_score"`
+	SufferScore        float64     `json:"suffer_score"`
 }
 
 type RunSummary struct {
@@ -236,6 +236,7 @@ func fetchActivities(accessToken string, page, perPage int) ([]Activity, error) 
 			return nil, fmt.Errorf("activities request returned %d: %s", resp.StatusCode, string(body))
 		}
 
+    fmt.Printf("%s", body)
 		var activities []Activity
 		if err := json.Unmarshal(body, &activities); err != nil {
 			return nil, fmt.Errorf("parsing activities: %w", err)
