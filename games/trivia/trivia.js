@@ -169,7 +169,7 @@ async function submitAnswer() {
         recalcScore();
     } else {
         state.cells[currentQuestion.id] = "incorrect";
-        state.strikes++;
+        state.strikes = Object.values(state.cells).filter(s => s === "incorrect").length;
     }
 
     // Check game over conditions
