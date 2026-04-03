@@ -48,6 +48,12 @@ function initState(date, questions) {
     };
 }
 
+function recalcScore() {
+    state.score = gridData.questions
+        .filter(q => state.cells[q.id] === "correct")
+        .reduce((sum, q) => sum + q.points, 0);
+}
+
 function saveState() {
     localStorage.setItem(getStorageKey(state.date), JSON.stringify(state));
 }
@@ -160,7 +166,7 @@ async function submitAnswer() {
     // Update state
     if (result.correct) {
         state.cells[currentQuestion.id] = "correct";
-        state.score += result.points;
+        recalcScore();
     } else {
         state.cells[currentQuestion.id] = "incorrect";
         state.strikes++;
