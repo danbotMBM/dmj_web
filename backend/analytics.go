@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -41,7 +42,18 @@ func initAnalyticsDB() {
 	CREATE INDEX IF NOT EXISTS idx_trivia_date ON trivia_events(trivia_date);
 	CREATE INDEX IF NOT EXISTS idx_player_id ON trivia_events(player_id);
 	CREATE INDEX IF NOT EXISTS idx_event_type ON trivia_events(event_type);
-	CREATE INDEX IF NOT EXISTS idx_timestamp ON trivia_events(timestamp);`
+	CREATE INDEX IF NOT EXISTS idx_timestamp ON trivia_events(timestamp);
+	CREATE TABLE IF NOT EXISTS ip_geo_cache (
+		ip_address TEXT PRIMARY KEY,
+		country TEXT,
+		region TEXT,
+		city TEXT,
+		lat REAL,
+		lon REAL,
+		isp TEXT,
+		org TEXT,
+		resolved_at TEXT
+	);`
 
 	if _, err := analyticsDB.Exec(schema); err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to create analytics schema: %v\n", err)
@@ -401,7 +413,205 @@ func handleTriviaStatsDate(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resp)
 }
 
+type geoInfo struct {
+	Country string  `json:"country"`
+	Region  string  `json:"region"`
+	City    string  `json:"city"`
+	Lat     float64 `json:"lat"`
+	Lon     float64 `json:"lon"`
+	ISP     string  `json:"isp"`
+	Org     string  `json:"org"`
+}
+
+// resolveGeoIPs looks up geo data for the given IPs, using the cache first
+// and batch-resolving any misses via ip-api.com.
+func resolveGeoIPs(ips []string) map[string]*geoInfo {
+	result := make(map[string]*geoInfo)
+	var uncached []string
+
+	for _, ip := range ips {
+		// Skip private/local IPs
+		if strings.HasPrefix(ip, "127.") || strings.HasPrefix(ip, "10.") ||
+			strings.HasPrefix(ip, "192.168.") || strings.HasPrefix(ip, "172.") ||
+			ip == "::1" || ip == "localhost" {
+			continue
+		}
+
+		var geo geoInfo
+		err := analyticsDB.QueryRow(
+			`SELECT country, region, city, lat, lon, isp, org FROM ip_geo_cache WHERE ip_address = ?`, ip,
+		).Scan(&geo.Country, &geo.Region, &geo.City, &geo.Lat, &geo.Lon, &geo.ISP, &geo.Org)
+		if err == nil {
+			result[ip] = &geo
+		} else {
+			uncached = append(uncached, ip)
+		}
+	}
+
+	if len(uncached) == 0 {
+		return result
+	}
+
+	// Batch resolve uncached IPs via ip-api.com (max 100 per request)
+	type batchQuery struct {
+		Query  string `json:"query"`
+		Fields string `json:"fields"`
+	}
+	for i := 0; i < len(uncached); i += 100 {
+		end := i + 100
+		if end > len(uncached) {
+			end = len(uncached)
+		}
+		chunk := uncached[i:end]
+
+		var batch []batchQuery
+		for _, ip := range chunk {
+			batch = append(batch, batchQuery{
+				Query:  ip,
+				Fields: "query,country,regionName,city,lat,lon,isp,org,status",
+			})
+		}
+
+		body, err := json.Marshal(batch)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "GeoIP marshal error: %v\n", err)
+			continue
+		}
+
+		client := &http.Client{Timeout: 10 * time.Second}
+		resp, err := client.Post("http://ip-api.com/batch", "application/json", bytes.NewReader(body))
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "GeoIP lookup error: %v\n", err)
+			continue
+		}
+
+		var results []struct {
+			Status     string  `json:"status"`
+			Query      string  `json:"query"`
+			Country    string  `json:"country"`
+			RegionName string  `json:"regionName"`
+			City       string  `json:"city"`
+			Lat        float64 `json:"lat"`
+			Lon        float64 `json:"lon"`
+			ISP        string  `json:"isp"`
+			Org        string  `json:"org"`
+		}
+		if err := json.NewDecoder(resp.Body).Decode(&results); err != nil {
+			fmt.Fprintf(os.Stderr, "GeoIP decode error: %v\n", err)
+			resp.Body.Close()
+			continue
+		}
+		resp.Body.Close()
+
+		now := time.Now().UTC().Format(time.RFC3339)
+		for _, r := range results {
+			if r.Status != "success" {
+				continue
+			}
+			geo := &geoInfo{
+				Country: r.Country,
+				Region:  r.RegionName,
+				City:    r.City,
+				Lat:     r.Lat,
+				Lon:     r.Lon,
+				ISP:     r.ISP,
+				Org:     r.Org,
+			}
+			result[r.Query] = geo
+
+			// Cache in DB
+			analyticsDB.Exec(
+				`INSERT OR REPLACE INTO ip_geo_cache (ip_address, country, region, city, lat, lon, isp, org, resolved_at)
+				 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+				r.Query, geo.Country, geo.Region, geo.City, geo.Lat, geo.Lon, geo.ISP, geo.Org, now,
+			)
+		}
+	}
+
+	return result
+}
+
+func handleTriviaStatsIPs(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	token := r.Header.Get("Authorization")
+	token = strings.TrimPrefix(token, "Bearer ")
+	if !validateToken(token) {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	dateFilter := r.URL.Query().Get("date")
+
+	query := `
+		SELECT ip_address,
+			COUNT(*) as total_events,
+			MIN(timestamp) as first_seen,
+			MAX(timestamp) as last_seen,
+			COUNT(DISTINCT trivia_date) as days_active,
+			COUNT(DISTINCT player_id) as player_ids_used
+		FROM trivia_events
+		WHERE ip_address != ''`
+	var args []interface{}
+	if dateFilter != "" {
+		query += ` AND trivia_date = ?`
+		args = append(args, dateFilter)
+	}
+	query += `
+		GROUP BY ip_address
+		ORDER BY total_events DESC`
+
+	rows, err := analyticsDB.Query(query, args...)
+	if err != nil {
+		http.Error(w, "Query error", http.StatusInternalServerError)
+		return
+	}
+	defer rows.Close()
+
+	type ipStats struct {
+		IP            string   `json:"ip"`
+		TotalEvents   int      `json:"total_events"`
+		FirstSeen     string   `json:"first_seen"`
+		LastSeen      string   `json:"last_seen"`
+		DaysActive    int      `json:"days_active"`
+		PlayerIDsUsed int      `json:"player_ids_used"`
+		Geo           *geoInfo `json:"geo"`
+	}
+
+	var ips []ipStats
+	var ipAddrs []string
+	totalEvents := 0
+	for rows.Next() {
+		var ip ipStats
+		rows.Scan(&ip.IP, &ip.TotalEvents, &ip.FirstSeen, &ip.LastSeen, &ip.DaysActive, &ip.PlayerIDsUsed)
+		totalEvents += ip.TotalEvents
+		ipAddrs = append(ipAddrs, ip.IP)
+		ips = append(ips, ip)
+	}
+
+	// Resolve geo data for all IPs
+	geoMap := resolveGeoIPs(ipAddrs)
+	for i := range ips {
+		ips[i].Geo = geoMap[ips[i].IP]
+	}
+
+	resp := map[string]interface{}{
+		"total_unique_ips": len(ips),
+		"total_events":     totalEvents,
+		"ips":              ips,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(resp)
+}
+
 func registerAnalyticsRoutes() {
+	http.HandleFunc("/trivia/stats/ips", cors(handleTriviaStatsIPs))
+	registerRoute("GET", "/trivia/stats/ips", "Trivia IP address analytics with geo data (auth required)")
+
 	http.HandleFunc("/trivia/stats", cors(handleTriviaStats))
 	registerRoute("GET", "/trivia/stats", "Trivia analytics overview (auth required)")
 

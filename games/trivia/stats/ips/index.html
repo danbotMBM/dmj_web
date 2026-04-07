@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>trivia ip analysis</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../../../gitlab_md.css">
+    <link rel="stylesheet" href="../../../../header.css">
+    <link rel="stylesheet" href="../../../../mainStyle.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        .stats-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Login form */
+        #login-section {
+            max-width: 360px;
+            margin: 40px auto;
+            text-align: center;
+        }
+        #login-section input {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 1rem;
+            border: 2px solid var(--fgColor-muted);
+            border-radius: 8px;
+            background: var(--bgColor-default);
+            color: var(--fgColor-default);
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        #login-section input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        #login-error {
+            color: #ef4444;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        .btn-primary-custom {
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #3b82f6;
+            color: #fff;
+            transition: background 0.15s;
+        }
+        .btn-primary-custom:hover {
+            background: #2563eb;
+        }
+
+        /* Summary cards */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .summary-card {
+            background: var(--bgColor-muted);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+        .summary-card .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--fgColor-default);
+        }
+        .summary-card .label {
+            font-size: 0.8rem;
+            color: var(--fgColor-muted);
+            margin-top: 4px;
+        }
+
+        /* Map */
+        #ip-map {
+            height: 400px;
+            border-radius: 10px;
+            margin-bottom: 24px;
+            border: 1px solid var(--bgColor-neutral-muted, #333);
+        }
+
+        /* Map legend */
+        #map-legend {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: -12px 0 24px 0;
+            font-size: 0.75rem;
+            color: var(--fgColor-muted);
+        }
+        .legend-gradient {
+            width: 160px;
+            height: 10px;
+            border-radius: 5px;
+            background: linear-gradient(to right, rgb(34,197,94), rgb(234,179,0), rgb(239,68,0), rgb(185,28,60));
+        }
+        .legend-label {
+            font-weight: 600;
+        }
+
+        /* Bar charts */
+        .bar-chart {
+            margin-bottom: 24px;
+        }
+        .bar-chart h4 {
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+        .bar-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+        }
+        .bar-label {
+            width: 120px;
+            text-align: right;
+            padding-right: 10px;
+            color: var(--fgColor-muted);
+            flex-shrink: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .bar-track {
+            flex: 1;
+            height: 22px;
+            background: var(--bgColor-muted);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .bar-fill {
+            height: 100%;
+            background: #3b82f6;
+            border-radius: 4px;
+            transition: width 0.3s;
+            min-width: 1px;
+        }
+        .bar-value {
+            width: 50px;
+            padding-left: 8px;
+            color: var(--fgColor-muted);
+            flex-shrink: 0;
+        }
+
+        /* Table */
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+        }
+        .stats-table th, .stats-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--bgColor-neutral-muted, #333);
+            font-size: 0.85rem;
+        }
+        .stats-table th {
+            font-weight: 700;
+            color: var(--fgColor-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .stats-table th:hover {
+            color: var(--fgColor-default);
+        }
+        .stats-table th .sort-arrow {
+            margin-left: 4px;
+            font-size: 0.7rem;
+        }
+        .stats-table tbody tr:hover {
+            background: var(--bgColor-muted);
+        }
+        .multi-player {
+            color: #eab308;
+            font-weight: 600;
+        }
+
+        /* Date filter */
+        #date-filter {
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            border: 2px solid var(--fgColor-muted);
+            border-radius: 8px;
+            background: var(--bgColor-default);
+            color: var(--fgColor-default);
+            margin-bottom: 24px;
+        }
+        #date-filter:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .hidden { display: none !important; }
+
+        #loading-stats {
+            text-align: center;
+            color: var(--fgColor-muted);
+            padding: 32px 0;
+        }
+
+        @media (max-width: 600px) {
+            .stats-table th, .stats-table td {
+                padding: 8px 6px;
+                font-size: 0.75rem;
+            }
+            .summary-card .value {
+                font-size: 1.4rem;
+            }
+            .bar-label { width: 80px; }
+            #ip-map { height: 280px; }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header_loc"></div>
+    <article class="markdown-body">
+        <h1>IP Analysis</h1>
+        <p><a href="/games/trivia/stats/">&larr; Back to stats</a></p>
+
+        <div id="login-section">
+            <input type="text" id="login-user" placeholder="Username" autocomplete="username">
+            <input type="password" id="login-pass" placeholder="Password" autocomplete="current-password">
+            <button class="btn-primary-custom" id="login-btn">Log In</button>
+            <p id="login-error" class="hidden"></p>
+        </div>
+
+        <div id="stats-section" class="hidden stats-container">
+            <div id="loading-stats">Loading IP data...</div>
+
+            <div id="content-section" class="hidden">
+                <select id="date-filter">
+                    <option value="">All Time</option>
+                </select>
+
+                <div id="summary-cards" class="summary-grid"></div>
+
+                <h4>Geographic Distribution</h4>
+                <div id="ip-map"></div>
+                <div id="map-legend">
+                    <span class="legend-label">Low</span>
+                    <div class="legend-gradient"></div>
+                    <span class="legend-label">High</span>
+                </div>
+
+                <div id="country-chart" class="bar-chart">
+                    <h4>By Country</h4>
+                    <div id="country-bars"></div>
+                </div>
+
+                <div id="top-ips-chart" class="bar-chart">
+                    <h4>Top IPs by Requests</h4>
+                    <div id="top-ips-bars"></div>
+                </div>
+
+                <h4>All IPs</h4>
+                <table class="stats-table" id="ip-table">
+                    <thead>
+                        <tr>
+                            <th data-sort="ip">IP <span class="sort-arrow"></span></th>
+                            <th data-sort="location">Location <span class="sort-arrow"></span></th>
+                            <th data-sort="total_events">Events <span class="sort-arrow"></span></th>
+                            <th data-sort="days_active">Days <span class="sort-arrow"></span></th>
+                            <th data-sort="player_ids_used">Players <span class="sort-arrow"></span></th>
+                            <th data-sort="first_seen">First Seen <span class="sort-arrow"></span></th>
+                            <th data-sort="last_seen">Last Seen <span class="sort-arrow"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="ip-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </article>
+
+    <script type="module">
+        import { import_html, API_BASE } from "/utils.js";
+        import_html("/header.html", "header_loc");
+
+        const TOKEN_KEY = "dmj-auth-token";
+        let authToken = localStorage.getItem(TOKEN_KEY);
+        let leafletMap = null;
+        let markerLayer = null;
+        let currentIPData = [];
+        let sortCol = "total_events";
+        let sortAsc = false;
+
+        if (authToken) {
+            startWithToken();
+        }
+
+        // Login
+        document.getElementById("login-btn").addEventListener("click", doLogin);
+        document.getElementById("login-pass").addEventListener("keydown", (e) => {
+            if (e.key === "Enter") doLogin();
+        });
+
+        function startWithToken() {
+            document.getElementById("login-section").classList.add("hidden");
+            document.getElementById("stats-section").classList.remove("hidden");
+            initMap();
+            loadData();
+        }
+
+        async function doLogin() {
+            const user = document.getElementById("login-user").value.trim();
+            const pass = document.getElementById("login-pass").value;
+            const errEl = document.getElementById("login-error");
+            errEl.classList.add("hidden");
+
+            if (!user || !pass) {
+                errEl.textContent = "Enter username and password";
+                errEl.classList.remove("hidden");
+                return;
+            }
+
+            try {
+                const resp = await fetch(API_BASE + "/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username: user, password: pass }),
+                });
+                if (!resp.ok) {
+                    errEl.textContent = "Invalid credentials";
+                    errEl.classList.remove("hidden");
+                    return;
+                }
+                const data = await resp.json();
+                authToken = data.token;
+                localStorage.setItem(TOKEN_KEY, authToken);
+                startWithToken();
+            } catch (e) {
+                errEl.textContent = "Login failed";
+                errEl.classList.remove("hidden");
+            }
+        }
+
+        async function apiFetch(path) {
+            const resp = await fetch(API_BASE + path, {
+                headers: { "Authorization": "Bearer " + authToken },
+            });
+            if (resp.status === 401) {
+                authToken = null;
+                localStorage.removeItem(TOKEN_KEY);
+                document.getElementById("stats-section").classList.add("hidden");
+                document.getElementById("login-section").classList.remove("hidden");
+                throw new Error("Token expired");
+            }
+            if (!resp.ok) throw new Error(resp.statusText);
+            return resp.json();
+        }
+
+        function initMap() {
+            const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            const tileUrl = isDark
+                ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+                : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+            const attribution = isDark
+                ? '&copy; <a href="https://carto.com/">CARTO</a>'
+                : '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>';
+
+            leafletMap = L.map("ip-map").setView([30, 0], 2);
+            L.tileLayer(tileUrl, { attribution, maxZoom: 18 }).addTo(leafletMap);
+            markerLayer = L.layerGroup().addTo(leafletMap);
+        }
+
+        async function loadData(date) {
+            const loading = document.getElementById("loading-stats");
+            const content = document.getElementById("content-section");
+            loading.classList.remove("hidden");
+            content.classList.add("hidden");
+
+            try {
+                const path = date ? "/trivia/stats/ips?date=" + date : "/trivia/stats/ips";
+                const ipData = await apiFetch(path);
+                currentIPData = ipData.ips || [];
+
+                // Populate date filter on first load
+                if (!date) {
+                    try {
+                        const statsData = await apiFetch("/trivia/stats");
+                        const dateFilter = document.getElementById("date-filter");
+                        const daily = statsData.daily || [];
+                        for (const d of daily) {
+                            const opt = document.createElement("option");
+                            opt.value = d.date;
+                            opt.textContent = d.date;
+                            dateFilter.appendChild(opt);
+                        }
+                    } catch (e) { /* date filter is optional */ }
+                }
+
+                loading.classList.add("hidden");
+                content.classList.remove("hidden");
+                leafletMap.invalidateSize();
+                renderAll(ipData);
+            } catch (e) {
+                loading.textContent = "Failed to load IP data.";
+            }
+        }
+
+        function renderAll(ipData) {
+            renderSummary(ipData);
+            renderMap();
+            renderCountryChart();
+            renderTopIPsChart();
+            renderTable();
+        }
+
+        function renderSummary(ipData) {
+            const cards = document.getElementById("summary-cards");
+            cards.innerHTML = "";
+
+            const countries = new Set();
+            for (const ip of currentIPData) {
+                if (ip.geo?.country) countries.add(ip.geo.country);
+            }
+
+            const mostActive = currentIPData.length > 0 ? currentIPData[0] : null;
+            const mostActiveLabel = mostActive
+                ? (mostActive.geo?.city || mostActive.ip)
+                : "--";
+
+            const items = [
+                { value: ipData.total_unique_ips, label: "Unique IPs" },
+                { value: ipData.total_events, label: "Total Events" },
+                { value: countries.size, label: "Countries" },
+                { value: mostActiveLabel, label: "Most Active" },
+            ];
+
+            for (const item of items) {
+                const card = document.createElement("div");
+                card.className = "summary-card";
+                card.innerHTML = `<div class="value">${escapeHtml(String(item.value))}</div><div class="label">${item.label}</div>`;
+                cards.appendChild(card);
+            }
+        }
+
+        // Map a 0-1 intensity to a color: green -> yellow -> orange -> red
+        function heatColor(t) {
+            // t=0: cool (green), t=1: hot (red)
+            t = Math.max(0, Math.min(1, t));
+            let r, g, b;
+            if (t < 0.33) {
+                const s = t / 0.33;
+                r = Math.round(34 + s * (234 - 34));
+                g = Math.round(197 + s * (179 - 197));
+                b = Math.round(94 - s * 94);
+            } else if (t < 0.66) {
+                const s = (t - 0.33) / 0.33;
+                r = Math.round(234 + s * (239 - 234));
+                g = Math.round(179 - s * (179 - 68));
+                b = 0;
+            } else {
+                const s = (t - 0.66) / 0.34;
+                r = Math.round(239 - s * (239 - 185));
+                g = Math.round(68 - s * 40);
+                b = Math.round(s * 60);
+            }
+            return `rgb(${r},${g},${b})`;
+        }
+
+        function renderMap() {
+            markerLayer.clearLayers();
+            const bounds = [];
+
+            const geoIPs = currentIPData.filter(ip => ip.geo?.lat && ip.geo?.lon);
+            const maxEvents = Math.max(1, ...geoIPs.map(ip => ip.total_events));
+
+            for (const ip of geoIPs) {
+                const geo = ip.geo;
+                const intensity = Math.log(ip.total_events + 1) / Math.log(maxEvents + 1);
+                const color = heatColor(intensity);
+                const radius = Math.max(4, Math.min(10, 3 + intensity * 7));
+
+                const marker = L.circleMarker([geo.lat, geo.lon], {
+                    radius,
+                    fillColor: color,
+                    fillOpacity: 0.8,
+                    color: color,
+                    weight: 1,
+                    opacity: 0.9,
+                });
+
+                const location = [geo.city, geo.region, geo.country].filter(Boolean).join(", ");
+                marker.bindPopup(`
+                    <strong>${escapeHtml(ip.ip)}</strong><br>
+                    ${escapeHtml(location)}<br>
+                    Events: ${ip.total_events}<br>
+                    Days active: ${ip.days_active}<br>
+                    ${geo.isp ? "ISP: " + escapeHtml(geo.isp) : ""}
+                `);
+
+                markerLayer.addLayer(marker);
+                bounds.push([geo.lat, geo.lon]);
+            }
+
+            if (bounds.length > 0) {
+                leafletMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 10 });
+            }
+        }
+
+        function renderCountryChart() {
+            const container = document.getElementById("country-bars");
+            container.innerHTML = "";
+
+            const countryMap = {};
+            for (const ip of currentIPData) {
+                const country = ip.geo?.country || "Unknown";
+                countryMap[country] = (countryMap[country] || 0) + ip.total_events;
+            }
+
+            const sorted = Object.entries(countryMap).sort((a, b) => b[1] - a[1]);
+            const max = sorted.length > 0 ? sorted[0][1] : 1;
+
+            for (const [country, count] of sorted.slice(0, 10)) {
+                const pct = (count / max) * 100;
+                const row = document.createElement("div");
+                row.className = "bar-row";
+                row.innerHTML = `
+                    <span class="bar-label">${escapeHtml(country)}</span>
+                    <span class="bar-track"><span class="bar-fill" style="width:${pct}%"></span></span>
+                    <span class="bar-value">${count}</span>
+                `;
+                container.appendChild(row);
+            }
+
+            if (sorted.length === 0) {
+                container.textContent = "No data";
+            }
+        }
+
+        function renderTopIPsChart() {
+            const container = document.getElementById("top-ips-bars");
+            container.innerHTML = "";
+
+            const top = currentIPData.slice(0, 15);
+            const max = top.length > 0 ? top[0].total_events : 1;
+
+            for (const ip of top) {
+                const pct = (ip.total_events / max) * 100;
+                const label = ip.geo?.city || ip.ip;
+                const row = document.createElement("div");
+                row.className = "bar-row";
+                row.title = ip.ip;
+                row.innerHTML = `
+                    <span class="bar-label">${escapeHtml(label)}</span>
+                    <span class="bar-track"><span class="bar-fill" style="width:${pct}%"></span></span>
+                    <span class="bar-value">${ip.total_events}</span>
+                `;
+                container.appendChild(row);
+            }
+
+            if (top.length === 0) {
+                container.textContent = "No data";
+            }
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById("ip-tbody");
+            tbody.innerHTML = "";
+
+            const sorted = [...currentIPData].sort((a, b) => {
+                let va = a[sortCol], vb = b[sortCol];
+                if (sortCol === "location") {
+                    va = a.geo?.city || "";
+                    vb = b.geo?.city || "";
+                }
+                if (sortCol === "ip") {
+                    va = a.ip; vb = b.ip;
+                }
+                if (typeof va === "string") {
+                    return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+                }
+                return sortAsc ? va - vb : vb - va;
+            });
+
+            for (const ip of sorted) {
+                const geo = ip.geo;
+                const location = geo
+                    ? [geo.city, geo.country].filter(Boolean).join(", ")
+                    : "--";
+                const playerClass = ip.player_ids_used > 1 ? "multi-player" : "";
+
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${escapeHtml(ip.ip)}</td>
+                    <td>${escapeHtml(location)}</td>
+                    <td>${ip.total_events}</td>
+                    <td>${ip.days_active}</td>
+                    <td class="${playerClass}">${ip.player_ids_used}</td>
+                    <td>${formatDate(ip.first_seen)}</td>
+                    <td>${formatDate(ip.last_seen)}</td>
+                `;
+                tbody.appendChild(tr);
+            }
+        }
+
+        function formatDate(ts) {
+            if (!ts) return "--";
+            try {
+                const d = new Date(ts);
+                return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+            } catch (e) {
+                return ts.slice(0, 10);
+            }
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement("div");
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // Column sorting
+        document.querySelectorAll("#ip-table th[data-sort]").forEach(th => {
+            th.addEventListener("click", () => {
+                const col = th.dataset.sort;
+                if (sortCol === col) {
+                    sortAsc = !sortAsc;
+                } else {
+                    sortCol = col;
+                    sortAsc = col === "ip" || col === "location";
+                }
+                document.querySelectorAll("#ip-table th .sort-arrow").forEach(s => s.textContent = "");
+                th.querySelector(".sort-arrow").textContent = sortAsc ? "\u25B2" : "\u25BC";
+                renderTable();
+            });
+        });
+
+        // Date filter
+        document.getElementById("date-filter").addEventListener("change", (e) => {
+            loadData(e.target.value || undefined);
+        });
+    </script>
+</body>
+</html>
