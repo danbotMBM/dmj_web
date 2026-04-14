@@ -255,7 +255,7 @@
       "date": "2026-02-14",
       "categories": [
         "Music",
-        "Food & Drink",
+        "Food \u0026 Drink",
         "Technology"
       ],
       "questions": [
@@ -300,7 +300,7 @@
         },
         {
           "id": "2026-02-14_3",
-          "category": "Food & Drink",
+          "category": "Food \u0026 Drink",
           "points": 100,
           "question": "This Italian dish consists of wide, flat pasta layered with sauce, cheese, and meat.",
           "answer": {
@@ -313,7 +313,7 @@
         },
         {
           "id": "2026-02-14_4",
-          "category": "Food & Drink",
+          "category": "Food \u0026 Drink",
           "points": 200,
           "question": "This spice, derived from the Crocus sativus flower, is the most expensive spice by weight.",
           "answer": {
@@ -325,7 +325,7 @@
         },
         {
           "id": "2026-02-14_5",
-          "category": "Food & Drink",
+          "category": "Food \u0026 Drink",
           "points": 300,
           "question": "This Japanese rice wine is brewed using a fermentation process involving koji mold.",
           "answer": {
@@ -880,7 +880,7 @@
       "categories": [
         "Literature",
         "Space",
-        "Food & Drink"
+        "Food \u0026 Drink"
       ],
       "questions": [
         {
@@ -962,7 +962,7 @@
         },
         {
           "id": "2026-02-19_6",
-          "category": "Food & Drink",
+          "category": "Food \u0026 Drink",
           "points": 100,
           "question": "This popular breakfast food, often served in a stack with syrup, is made from batter cooked on a griddle.",
           "answer": {
@@ -975,7 +975,7 @@
         },
         {
           "id": "2026-02-19_7",
-          "category": "Food & Drink",
+          "category": "Food \u0026 Drink",
           "points": 200,
           "question": "This fermented Korean side dish is made primarily from salted and seasoned napa cabbage.",
           "answer": {
@@ -987,7 +987,7 @@
         },
         {
           "id": "2026-02-19_8",
-          "category": "Food & Drink",
+          "category": "Food \u0026 Drink",
           "points": 300,
           "question": "This French culinary term refers to preparing all ingredients and having them measured and ready before cooking begins.",
           "answer": {
@@ -1129,7 +1129,7 @@
       "date": "2026-02-21",
       "categories": [
         "Pop Culture",
-        "Math & Numbers",
+        "Math \u0026 Numbers",
         "U.S. Geography"
       ],
       "questions": [
@@ -1175,7 +1175,7 @@
         },
         {
           "id": "2026-02-21_3",
-          "category": "Math & Numbers",
+          "category": "Math \u0026 Numbers",
           "points": 100,
           "question": "This mathematical constant, approximately 3.14159, represents the ratio of a circle's circumference to its diameter.",
           "answer": {
@@ -1187,7 +1187,7 @@
         },
         {
           "id": "2026-02-21_4",
-          "category": "Math & Numbers",
+          "category": "Math \u0026 Numbers",
           "points": 200,
           "question": "This number system, used in computing, uses only the digits 0 and 1.",
           "answer": {
@@ -1199,7 +1199,7 @@
         },
         {
           "id": "2026-02-21_5",
-          "category": "Math & Numbers",
+          "category": "Math \u0026 Numbers",
           "points": 300,
           "question": "This sequence of numbers, where each term is the sum of the two preceding ones, begins 0, 1, 1, 2, 3, 5, 8, 13...",
           "answer": {
@@ -1377,7 +1377,7 @@
       "categories": [
         "Science",
         "Sports",
-        "Food & Drink"
+        "Food \u0026 Drink"
       ],
       "questions": [
         {
@@ -1459,7 +1459,7 @@
         },
         {
           "id": "2026-02-23_6",
-          "category": "Food & Drink",
+          "category": "Food \u0026 Drink",
           "points": 100,
           "question": "This soft Italian cheese, available fresh or aged, is the classic topping for a Margherita pizza.",
           "answer": {
@@ -1471,7 +1471,7 @@
         },
         {
           "id": "2026-02-23_7",
-          "category": "Food & Drink",
+          "category": "Food \u0026 Drink",
           "points": 200,
           "question": "This creamy Mexican dip, made primarily from mashed avocado, is commonly served with tortilla chips.",
           "answer": {
@@ -1483,7 +1483,7 @@
         },
         {
           "id": "2026-02-23_8",
-          "category": "Food & Drink",
+          "category": "Food \u0026 Drink",
           "points": 300,
           "question": "This Italian cured meat, made from salt-cured and seasoned pork belly, is a key ingredient in pasta dishes like carbonara.",
           "answer": {
@@ -2264,7 +2264,7 @@
       "date": "2026-03-02",
       "categories": [
         "Literature",
-        "Food & Drink",
+        "Food \u0026 Drink",
         "Pop Culture"
       ],
       "questions": [
@@ -2309,7 +2309,7 @@
         },
         {
           "id": "2026-03-02_3",
-          "category": "Food & Drink",
+          "category": "Food \u0026 Drink",
           "points": 100,
           "question": "This hot brewed beverage, made from roasted and ground beans, is one of the most widely consumed drinks in the world.",
           "answer": {
@@ -2321,7 +2321,7 @@
         },
         {
           "id": "2026-03-02_4",
-          "category": "Food & Drink",
+          "category": "Food \u0026 Drink",
           "points": 200,
           "question": "This classic Italian dish is made by slowly adding warm broth to rice while stirring, resulting in a creamy, starchy texture.",
           "answer": {
@@ -2333,7 +2333,7 @@
         },
         {
           "id": "2026-03-02_5",
-          "category": "Food & Drink",
+          "category": "Food \u0026 Drink",
           "points": 300,
           "question": "This cold Spanish soup, popular in summer, is blended from raw tomatoes, cucumber, peppers, garlic, olive oil, and vinegar.",
           "answer": {
@@ -2387,7 +2387,7 @@
       "categories": [
         "Television",
         "Animals",
-        "Math & Numbers"
+        "Math \u0026 Numbers"
       ],
       "questions": [
         {
@@ -2465,7 +2465,7 @@
         },
         {
           "id": "2026-03-03_6",
-          "category": "Math & Numbers",
+          "category": "Math \u0026 Numbers",
           "points": 100,
           "question": "This is the number of sides on a hexagon.",
           "answer": {
@@ -2478,7 +2478,7 @@
         },
         {
           "id": "2026-03-03_7",
-          "category": "Math & Numbers",
+          "category": "Math \u0026 Numbers",
           "points": 200,
           "question": "This mathematical concept, represented by the symbol ∞, describes a quantity larger than any finite number.",
           "answer": {
@@ -2490,7 +2490,7 @@
         },
         {
           "id": "2026-03-03_8",
-          "category": "Math & Numbers",
+          "category": "Math \u0026 Numbers",
           "points": 300,
           "question": "This type of number cannot be expressed as a simple fraction and has a decimal expansion that never terminates or repeats, such as √2 or π.",
           "answer": {
@@ -3272,7 +3272,7 @@
       "date": "2026-03-10",
       "categories": [
         "World War II",
-        "Cocktails & Spirits",
+        "Cocktails \u0026 Spirits",
         "Nintendo"
       ],
       "questions": [
@@ -3319,7 +3319,7 @@
         },
         {
           "id": "2026-03-10_3",
-          "category": "Cocktails & Spirits",
+          "category": "Cocktails \u0026 Spirits",
           "points": 100,
           "question": "This classic cocktail, made with tequila, lime juice, and triple sec, is traditionally served in a glass with a salted rim.",
           "answer": {
@@ -3331,7 +3331,7 @@
         },
         {
           "id": "2026-03-10_4",
-          "category": "Cocktails & Spirits",
+          "category": "Cocktails \u0026 Spirits",
           "points": 200,
           "question": "This American whiskey, distilled from a grain mash of at least 51% corn and aged in charred new oak barrels, is primarily produced in Kentucky.",
           "answer": {
@@ -3344,7 +3344,7 @@
         },
         {
           "id": "2026-03-10_5",
-          "category": "Cocktails & Spirits",
+          "category": "Cocktails \u0026 Spirits",
           "points": 300,
           "question": "This bright red Italian bitter liqueur is a key ingredient in the classic Negroni, combined with gin and sweet vermouth.",
           "answer": {
@@ -3647,14 +3647,14 @@
     {
       "date": "2026-03-13",
       "categories": [
-        "Rock & Roll",
+        "Rock \u0026 Roll",
         "Ocean Life",
         "Dragon Ball Z"
       ],
       "questions": [
         {
           "id": "2026-03-13_0",
-          "category": "Rock & Roll",
+          "category": "Rock \u0026 Roll",
           "points": 100,
           "question": "This British rock band, featuring Mick Jagger and Keith Richards, has been billed as 'The Greatest Rock and Roll Band in the World' and recorded classics like 'Paint It Black' and 'Gimme Shelter'.",
           "answer": {
@@ -3667,7 +3667,7 @@
         },
         {
           "id": "2026-03-13_1",
-          "category": "Rock & Roll",
+          "category": "Rock \u0026 Roll",
           "points": 200,
           "question": "This guitarist, known for songs like 'Purple Haze' and 'Little Wing' and his flamboyant stage presence, is widely considered the greatest electric guitarist in rock history.",
           "answer": {
@@ -3680,7 +3680,7 @@
         },
         {
           "id": "2026-03-13_2",
-          "category": "Rock & Roll",
+          "category": "Rock \u0026 Roll",
           "points": 300,
           "question": "This 1971 Led Zeppelin track, often cited as the greatest rock song ever recorded, opens with a delicate acoustic guitar intro and builds to a thunderous electric finale.",
           "answer": {
@@ -4031,7 +4031,7 @@
       "categories": [
         "Shakespeare",
         "Baseball",
-        "Baking & Desserts"
+        "Baking \u0026 Desserts"
       ],
       "questions": [
         {
@@ -4111,7 +4111,7 @@
         },
         {
           "id": "2026-03-16_6",
-          "category": "Baking & Desserts",
+          "category": "Baking \u0026 Desserts",
           "points": 100,
           "question": "This Italian dessert, whose name means 'pick me up', is made with layers of espresso-soaked ladyfingers and a rich mascarpone cream.",
           "answer": {
@@ -4124,7 +4124,7 @@
         },
         {
           "id": "2026-03-16_7",
-          "category": "Baking & Desserts",
+          "category": "Baking \u0026 Desserts",
           "points": 200,
           "question": "This long French pastry, made from choux dough and typically filled with cream and glazed with chocolate, takes its name from the French word for 'lightning'.",
           "answer": {
@@ -4137,7 +4137,7 @@
         },
         {
           "id": "2026-03-16_8",
-          "category": "Baking & Desserts",
+          "category": "Baking \u0026 Desserts",
           "points": 300,
           "question": "This classic French upside-down tart, made with caramelized apples baked on a pastry base then inverted when served, was said to have been invented accidentally by the Tatin sisters in the 1880s.",
           "answer": {
@@ -5275,7 +5275,7 @@
       "date": "2026-03-26",
       "categories": [
         "Horror Movies",
-        "Baking & Desserts",
+        "Baking \u0026 Desserts",
         "The Cold War"
       ],
       "questions": [
@@ -5317,7 +5317,7 @@
         },
         {
           "id": "2026-03-26_3",
-          "category": "Baking & Desserts",
+          "category": "Baking \u0026 Desserts",
           "points": 100,
           "question": "This ring-shaped fried dough treat, often glazed or covered in sugar, was popularized in the United States and comes in varieties like jelly-filled and old-fashioned.",
           "answer": {
@@ -5330,7 +5330,7 @@
         },
         {
           "id": "2026-03-26_4",
-          "category": "Baking & Desserts",
+          "category": "Baking \u0026 Desserts",
           "points": 200,
           "question": "This light Italian dessert, whose name means 'cooked cream', is a set custard made from cream, sugar, and gelatin, often served with a berry coulis.",
           "answer": {
@@ -5342,7 +5342,7 @@
         },
         {
           "id": "2026-03-26_5",
-          "category": "Baking & Desserts",
+          "category": "Baking \u0026 Desserts",
           "points": 300,
           "question": "This French confection, made from almond flour, egg whites, and sugar, is sandwiched together with ganache, buttercream, or jam filling and comes in a rainbow of colors.",
           "answer": {
@@ -5524,7 +5524,7 @@
       "date": "2026-03-28",
       "categories": [
         "Animated TV",
-        "Cocktails & Spirits",
+        "Cocktails \u0026 Spirits",
         "Norse Mythology"
       ],
       "questions": [
@@ -5567,7 +5567,7 @@
         },
         {
           "id": "2026-03-28_3",
-          "category": "Cocktails & Spirits",
+          "category": "Cocktails \u0026 Spirits",
           "points": 100,
           "question": "This cocktail made with vodka and tomato juice is seasoned with hot sauce and Worcestershire sauce and is a popular brunch drink often garnished with celery.",
           "answer": {
@@ -5579,7 +5579,7 @@
         },
         {
           "id": "2026-03-28_4",
-          "category": "Cocktails & Spirits",
+          "category": "Cocktails \u0026 Spirits",
           "points": 200,
           "question": "This classic cocktail from Cuba is made with white rum, fresh lime juice, sugar, and muddled mint leaves, served over crushed ice.",
           "answer": {
@@ -5591,7 +5591,7 @@
         },
         {
           "id": "2026-03-28_5",
-          "category": "Cocktails & Spirits",
+          "category": "Cocktails \u0026 Spirits",
           "points": 300,
           "question": "This iconic cocktail, made with gin and dry vermouth and garnished with an olive or a lemon twist, is associated with sophistication and with a certain fictional British spy.",
           "answer": {
@@ -5906,7 +5906,7 @@
       "categories": [
         "Sitcoms",
         "Physics",
-        "Mountains & Deserts"
+        "Mountains \u0026 Deserts"
       ],
       "questions": [
         {
@@ -5987,7 +5987,7 @@
         },
         {
           "id": "2026-03-31_6",
-          "category": "Mountains & Deserts",
+          "category": "Mountains \u0026 Deserts",
           "points": 100,
           "question": "This mountain on the border of Nepal and China is the highest point on Earth, standing at 29,032 feet above sea level.",
           "answer": {
@@ -6000,7 +6000,7 @@
         },
         {
           "id": "2026-03-31_7",
-          "category": "Mountains & Deserts",
+          "category": "Mountains \u0026 Deserts",
           "points": 200,
           "question": "This vast hot desert, covering most of North Africa, is the largest hot desert in the world at approximately 3.5 million square miles.",
           "answer": {
@@ -6013,7 +6013,7 @@
         },
         {
           "id": "2026-03-31_8",
-          "category": "Mountains & Deserts",
+          "category": "Mountains \u0026 Deserts",
           "points": 300,
           "question": "This mountain range in South America, running about 4,300 miles along the western edge of the continent, is the longest continental mountain range in the world.",
           "answer": {
@@ -6031,7 +6031,7 @@
       "date": "2026-04-01",
       "categories": [
         "Nintendo",
-        "Jazz & Blues",
+        "Jazz \u0026 Blues",
         "Ancient Egypt"
       ],
       "questions": [
@@ -6076,7 +6076,7 @@
         },
         {
           "id": "2026-04-01_3",
-          "category": "Jazz & Blues",
+          "category": "Jazz \u0026 Blues",
           "points": 100,
           "question": "This brass instrument, most associated with jazz legend Louis Armstrong, features a flared bell and three valves and often leads the melody in jazz and blues ensembles.",
           "answer": {
@@ -6088,7 +6088,7 @@
         },
         {
           "id": "2026-04-01_4",
-          "category": "Jazz & Blues",
+          "category": "Jazz \u0026 Blues",
           "points": 200,
           "question": "This alto saxophonist, nicknamed 'Bird,' was a pioneering figure of the fast and complex bebop style of jazz and recorded groundbreaking sessions in the 1940s.",
           "answer": {
@@ -6102,7 +6102,7 @@
         },
         {
           "id": "2026-04-01_5",
-          "category": "Jazz & Blues",
+          "category": "Jazz \u0026 Blues",
           "points": 300,
           "question": "This Mississippi Delta blues guitarist, who recorded in the 1930s and died at 27, is the subject of the legend that he sold his soul at a crossroads in exchange for extraordinary guitar skills.",
           "answer": {
@@ -6415,14 +6415,14 @@
     {
       "date": "2026-04-04",
       "categories": [
-        "Boxing & MMA",
-        "Insects & Bugs",
+        "Boxing \u0026 MMA",
+        "Insects \u0026 Bugs",
         "Classic Novels"
       ],
       "questions": [
         {
           "id": "2026-04-04_0",
-          "category": "Boxing & MMA",
+          "category": "Boxing \u0026 MMA",
           "points": 100,
           "question": "This combat sport, popularized by the UFC, allows fighters to use techniques from multiple disciplines including wrestling, jiu-jitsu, and kickboxing.",
           "answer": {
@@ -6436,7 +6436,7 @@
         },
         {
           "id": "2026-04-04_1",
-          "category": "Boxing & MMA",
+          "category": "Boxing \u0026 MMA",
           "points": 200,
           "question": "This undefeated boxing champion, known as 'Money,' retired with a 50-0 record and was famous for his defensive fighting style and flashy lifestyle.",
           "answer": {
@@ -6450,7 +6450,7 @@
         },
         {
           "id": "2026-04-04_2",
-          "category": "Boxing & MMA",
+          "category": "Boxing \u0026 MMA",
           "points": 300,
           "question": "This Irish MMA fighter became the first UFC fighter to hold titles in two weight classes simultaneously, known for his brash trash talk and left-hand knockout power.",
           "answer": {
@@ -6463,7 +6463,7 @@
         },
         {
           "id": "2026-04-04_3",
-          "category": "Insects & Bugs",
+          "category": "Insects \u0026 Bugs",
           "points": 100,
           "question": "This insect, known for its beautiful orange and black wings, makes an incredible multi-generational migration of thousands of miles between Mexico and North America each year.",
           "answer": {
@@ -6476,7 +6476,7 @@
         },
         {
           "id": "2026-04-04_4",
-          "category": "Insects & Bugs",
+          "category": "Insects \u0026 Bugs",
           "points": 200,
           "question": "This tiny insect lives in highly organized colonies with a queen, workers, and soldiers, and can carry objects many times its own body weight.",
           "answer": {
@@ -6489,7 +6489,7 @@
         },
         {
           "id": "2026-04-04_5",
-          "category": "Insects & Bugs",
+          "category": "Insects \u0026 Bugs",
           "points": 300,
           "question": "This bioluminescent beetle produces light through a chemical reaction in its abdomen, and is a common sight on warm summer evenings across the eastern United States.",
           "answer": {
@@ -6544,7 +6544,7 @@
       "date": "2026-04-05",
       "categories": [
         "The Internet",
-        "Wine & Beer",
+        "Wine \u0026 Beer",
         "Greek Mythology"
       ],
       "questions": [
@@ -6586,7 +6586,7 @@
         },
         {
           "id": "2026-04-05_3",
-          "category": "Wine & Beer",
+          "category": "Wine \u0026 Beer",
           "points": 100,
           "question": "This type of beer, known for its golden color and crisp, refreshing taste, is the most popular beer style in the world and includes brands like Budweiser and Heineken.",
           "answer": {
@@ -6598,7 +6598,7 @@
         },
         {
           "id": "2026-04-05_4",
-          "category": "Wine & Beer",
+          "category": "Wine \u0026 Beer",
           "points": 200,
           "question": "This French wine region, known for its sparkling wine, lends its name to the celebratory bubbly drink served at New Year's and weddings.",
           "answer": {
@@ -6610,7 +6610,7 @@
         },
         {
           "id": "2026-04-05_5",
-          "category": "Wine & Beer",
+          "category": "Wine \u0026 Beer",
           "points": 300,
           "question": "This Belgian style of beer is fermented with wild yeast and bacteria, giving it a distinctively sour and funky flavor profile.",
           "answer": {
@@ -7045,7 +7045,7 @@
       "categories": [
         "Basketball",
         "Literature",
-        "Baking & Desserts"
+        "Baking \u0026 Desserts"
       ],
       "questions": [
         {
@@ -7131,7 +7131,7 @@
         },
         {
           "id": "2026-04-09_6",
-          "category": "Baking & Desserts",
+          "category": "Baking \u0026 Desserts",
           "points": 100,
           "question": "This classic American dessert consists of a flaky pastry crust filled with a sweet fruit filling, commonly made with apples, cherries, or blueberries.",
           "answer": {
@@ -7143,7 +7143,7 @@
         },
         {
           "id": "2026-04-09_7",
-          "category": "Baking & Desserts",
+          "category": "Baking \u0026 Desserts",
           "points": 200,
           "question": "This rich French dessert consists of a crisp, caramelized top over a smooth custard base, typically cracked with a spoon before eating.",
           "answer": {
@@ -7157,7 +7157,7 @@
         },
         {
           "id": "2026-04-09_8",
-          "category": "Baking & Desserts",
+          "category": "Baking \u0026 Desserts",
           "points": 300,
           "question": "This layered Austrian cake features dense chocolate sponge with apricot jam and a shiny chocolate glaze, and originated at the Hotel Sacher in Vienna.",
           "answer": {
@@ -7421,7 +7421,7 @@
       "categories": [
         "Video Games",
         "Music",
-        "Food & Drink"
+        "Food \u0026 Drink"
       ],
       "questions": [
         {
@@ -7505,7 +7505,7 @@
         },
         {
           "id": "2026-04-12_6",
-          "category": "Food & Drink",
+          "category": "Food \u0026 Drink",
           "points": 100,
           "question": "This popular Italian dish consists of a round, flat base of dough topped with tomato sauce, cheese, and various toppings, then baked in an oven.",
           "answer": {
@@ -7517,7 +7517,7 @@
         },
         {
           "id": "2026-04-12_7",
-          "category": "Food & Drink",
+          "category": "Food \u0026 Drink",
           "points": 200,
           "question": "This spicy Thai soup, known for its hot and sour flavors, typically contains shrimp, lemongrass, galangal, and lime juice.",
           "answer": {
@@ -7531,7 +7531,7 @@
         },
         {
           "id": "2026-04-12_8",
-          "category": "Food & Drink",
+          "category": "Food \u0026 Drink",
           "points": 300,
           "question": "This Ethiopian and Eritrean flatbread, made from teff flour, has a spongy, slightly sour texture and serves as both plate and utensil for the stews placed on top.",
           "answer": {
@@ -7571,9 +7571,7 @@
           "question": "This Grand Slam tournament, played on red clay courts in Paris each spring, is officially known as Roland-Garros.",
           "answer": {
             "valid": [
-              "french open",
-              "roland garros",
-              "roland-garros"
+              "french open"
             ]
           },
           "display": "The French Open"
@@ -7601,7 +7599,8 @@
               "james webb space telescope",
               "james webb",
               "jwst",
-              "webb telescope"
+              "webb telescope",
+              "james webb telescope"
             ]
           },
           "display": "James Webb Space Telescope"
@@ -7674,7 +7673,7 @@
       "categories": [
         "Animals",
         "Pop Culture",
-        "Math & Numbers"
+        "Math \u0026 Numbers"
       ],
       "questions": [
         {
@@ -7756,7 +7755,7 @@
         },
         {
           "id": "2026-04-14_6",
-          "category": "Math & Numbers",
+          "category": "Math \u0026 Numbers",
           "points": 100,
           "question": "This mathematical operation is the inverse of multiplication and involves splitting a number into equal parts.",
           "answer": {
@@ -7768,7 +7767,7 @@
         },
         {
           "id": "2026-04-14_7",
-          "category": "Math & Numbers",
+          "category": "Math \u0026 Numbers",
           "points": 200,
           "question": "This term describes a number greater than 1 that has no positive divisors other than 1 and itself, such as 2, 3, 5, 7, and 11.",
           "answer": {
@@ -7782,7 +7781,7 @@
         },
         {
           "id": "2026-04-14_8",
-          "category": "Math & Numbers",
+          "category": "Math \u0026 Numbers",
           "points": 300,
           "question": "This branch of mathematics, developed independently by Newton and Leibniz, deals with rates of change and the accumulation of quantities.",
           "answer": {
@@ -7920,7 +7919,7 @@
       "categories": [
         "U.S. Presidents",
         "Nature",
-        "Rock & Roll"
+        "Rock \u0026 Roll"
       ],
       "questions": [
         {
@@ -8004,7 +8003,7 @@
         },
         {
           "id": "2026-04-16_6",
-          "category": "Rock & Roll",
+          "category": "Rock \u0026 Roll",
           "points": 100,
           "question": "This American rock band from Los Angeles, fronted by Axl Rose, released the iconic 1987 debut album 'Appetite for Destruction' featuring 'Sweet Child O' Mine.'",
           "answer": {
@@ -8019,7 +8018,7 @@
         },
         {
           "id": "2026-04-16_7",
-          "category": "Rock & Roll",
+          "category": "Rock \u0026 Roll",
           "points": 200,
           "question": "This American rock band, known for 'Hotel California' and 'Take It Easy,' was one of the best-selling bands of the 1970s.",
           "answer": {
@@ -8032,7 +8031,7 @@
         },
         {
           "id": "2026-04-16_8",
-          "category": "Rock & Roll",
+          "category": "Rock \u0026 Roll",
           "points": 300,
           "question": "This Australian hard rock band, formed in 1973, is known for 'Back in Black,' 'Highway to Hell,' and 'Thunderstruck,' and is one of the best-selling bands of all time.",
           "answer": {
@@ -8676,14 +8675,14 @@
     {
       "date": "2026-04-22",
       "categories": [
-        "Cocktails & Spirits",
+        "Cocktails \u0026 Spirits",
         "Ancient Rome",
         "Smartphones"
       ],
       "questions": [
         {
           "id": "2026-04-22_0",
-          "category": "Cocktails & Spirits",
+          "category": "Cocktails \u0026 Spirits",
           "points": 100,
           "question": "This clear spirit, made from juniper berries and other botanicals, is the base of the classic gin and tonic.",
           "answer": {
@@ -8695,7 +8694,7 @@
         },
         {
           "id": "2026-04-22_1",
-          "category": "Cocktails & Spirits",
+          "category": "Cocktails \u0026 Spirits",
           "points": 200,
           "question": "This Mexican spirit, made from the blue agave plant, is the key ingredient in a margarita.",
           "answer": {
@@ -8707,7 +8706,7 @@
         },
         {
           "id": "2026-04-22_2",
-          "category": "Cocktails & Spirits",
+          "category": "Cocktails \u0026 Spirits",
           "points": 300,
           "question": "This classic cocktail, made with rye whiskey, sweet vermouth, and Angostura bitters, is named after a New York City borough.",
           "answer": {
@@ -9174,27 +9173,27 @@
     {
       "date": "2026-04-26",
       "categories": [
-        "Crime & Drama TV",
-        "Mountains & Deserts",
+        "Crime \u0026 Drama TV",
+        "Mountains \u0026 Deserts",
         "Inventions"
       ],
       "questions": [
         {
           "id": "2026-04-26_0",
-          "category": "Crime & Drama TV",
+          "category": "Crime \u0026 Drama TV",
           "points": 100,
           "question": "This long-running NBC series, created by Dick Wolf, follows New York City police detectives and prosecutors through criminal cases, and has spawned numerous spinoffs.",
           "answer": {
             "valid": [
               "law and order",
-              "law & order"
+              "law \u0026 order"
             ]
           },
-          "display": "Law & Order"
+          "display": "Law \u0026 Order"
         },
         {
           "id": "2026-04-26_1",
-          "category": "Crime & Drama TV",
+          "category": "Crime \u0026 Drama TV",
           "points": 200,
           "question": "This Netflix series follows a charming bookstore manager whose obsessive romantic fixations lead him to increasingly dark and violent actions.",
           "answer": {
@@ -9206,7 +9205,7 @@
         },
         {
           "id": "2026-04-26_2",
-          "category": "Crime & Drama TV",
+          "category": "Crime \u0026 Drama TV",
           "points": 300,
           "question": "This HBO series, set in the 1920s during Prohibition, follows Nucky Thompson, a political boss in Atlantic City who controls bootlegging operations.",
           "answer": {
@@ -9218,7 +9217,7 @@
         },
         {
           "id": "2026-04-26_3",
-          "category": "Mountains & Deserts",
+          "category": "Mountains \u0026 Deserts",
           "points": 100,
           "question": "This mountain range in Europe, stretching across eight countries, is known for skiing, hiking, and peaks like the Matterhorn and Mont Blanc.",
           "answer": {
@@ -9231,7 +9230,7 @@
         },
         {
           "id": "2026-04-26_4",
-          "category": "Mountains & Deserts",
+          "category": "Mountains \u0026 Deserts",
           "points": 200,
           "question": "This arid desert in the southwestern United States and northwestern Mexico is known for its iconic saguaro cacti and extreme heat.",
           "answer": {
@@ -9245,7 +9244,7 @@
         },
         {
           "id": "2026-04-26_5",
-          "category": "Mountains & Deserts",
+          "category": "Mountains \u0026 Deserts",
           "points": 300,
           "question": "This dormant stratovolcano in Tanzania is the highest peak in Africa at 19,341 feet and is popular with climbers despite not requiring technical climbing skills.",
           "answer": {
@@ -9671,14 +9670,14 @@
     {
       "date": "2026-04-30",
       "categories": [
-        "Memes & Internet Culture",
+        "Memes \u0026 Internet Culture",
         "Geology",
         "Olympics"
       ],
       "questions": [
         {
           "id": "2026-04-30_0",
-          "category": "Memes & Internet Culture",
+          "category": "Memes \u0026 Internet Culture",
           "points": 100,
           "question": "This viral 2012 video by Korean artist Psy featured a horse-riding dance and became the first YouTube video to reach one billion views.",
           "answer": {
@@ -9690,7 +9689,7 @@
         },
         {
           "id": "2026-04-30_1",
-          "category": "Memes & Internet Culture",
+          "category": "Memes \u0026 Internet Culture",
           "points": 200,
           "question": "This social media challenge, which went viral in 2014, involved dumping a bucket of ice water over your head to raise awareness for ALS.",
           "answer": {
@@ -9703,7 +9702,7 @@
         },
         {
           "id": "2026-04-30_2",
-          "category": "Memes & Internet Culture",
+          "category": "Memes \u0026 Internet Culture",
           "points": 300,
           "question": "This 2015 internet debate divided the world over whether a photograph of a dress showed it as blue and black or white and gold.",
           "answer": {

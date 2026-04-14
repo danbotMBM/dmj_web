@@ -348,6 +348,134 @@ func handleTriviaDays(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+func handleAdminQuestions(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	token := r.Header.Get("Authorization")
+	token = strings.TrimPrefix(token, "Bearer ")
+	if !validateToken(token) {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	date := r.URL.Query().Get("date")
+	if date == "" {
+		http.Error(w, "Missing date parameter", http.StatusBadRequest)
+		return
+	}
+
+	day := getTriviaForDate(date)
+	if day == nil {
+		http.Error(w, "No trivia for that date", http.StatusNotFound)
+		return
+	}
+
+	type adminQuestion struct {
+		ID       string   `json:"id"`
+		Category string   `json:"category"`
+		Points   int      `json:"points"`
+		Question string   `json:"question"`
+		Display  string   `json:"display"`
+		Valid    []string `json:"valid"`
+	}
+
+	questions := make([]adminQuestion, len(day.Questions))
+	for i, q := range day.Questions {
+		questions[i] = adminQuestion{
+			ID:       q.ID,
+			Category: q.Category,
+			Points:   q.Points,
+			Question: q.Question,
+			Display:  q.Display,
+			Valid:    q.Answer.Valid,
+		}
+	}
+
+	resp := map[string]interface{}{
+		"date":       day.Date,
+		"categories": day.Categories,
+		"questions":  questions,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(resp)
+}
+
+func handleAdminUpdateAnswers(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPut {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	token := r.Header.Get("Authorization")
+	token = strings.TrimPrefix(token, "Bearer ")
+	if !validateToken(token) {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	var req struct {
+		Date       string   `json:"date"`
+		QuestionID string   `json:"question_id"`
+		Valid      []string `json:"valid"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+		return
+	}
+
+	if req.Date == "" || req.QuestionID == "" {
+		http.Error(w, "Missing date or question_id", http.StatusBadRequest)
+		return
+	}
+	if len(req.Valid) == 0 {
+		http.Error(w, "Valid answers list cannot be empty", http.StatusBadRequest)
+		return
+	}
+
+	// Find the day in the actual data (not the hashed fallback)
+	var day *TriviaDay
+	for i := range triviaData.Days {
+		if triviaData.Days[i].Date == req.Date {
+			day = &triviaData.Days[i]
+			break
+		}
+	}
+	if day == nil {
+		http.Error(w, "No trivia day with that exact date", http.StatusNotFound)
+		return
+	}
+
+	q := findQuestion(day, req.QuestionID)
+	if q == nil {
+		http.Error(w, "Question not found", http.StatusNotFound)
+		return
+	}
+
+	// Update in memory
+	q.Answer.Valid = req.Valid
+
+	// Persist to disk
+	data, err := json.MarshalIndent(triviaData, "", "  ")
+	if err != nil {
+		http.Error(w, "Failed to serialize trivia data", http.StatusInternalServerError)
+		return
+	}
+	if err := os.WriteFile(triviaFile, data, 0644); err != nil {
+		http.Error(w, "Failed to write trivia file", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"ok":    true,
+		"valid": q.Answer.Valid,
+	})
+}
+
 func registerTriviaRoutes() {
 	loadTriviaData()
 
@@ -362,4 +490,10 @@ func registerTriviaRoutes() {
 
 	http.HandleFunc("/trivia/answer", cors(handleTriviaAnswer))
 	registerRoute("POST", "/trivia/answer", "Submit trivia answer (public)")
+
+	http.HandleFunc("/trivia/admin/questions", cors(handleAdminQuestions))
+	registerRoute("GET", "/trivia/admin/questions", "Get questions with valid answers (auth required)")
+
+	http.HandleFunc("/trivia/admin/answers", cors(handleAdminUpdateAnswers))
+	registerRoute("PUT", "/trivia/admin/answers", "Update valid answers for a question (auth required)")
 }

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>trivia answer editor</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../../../gitlab_md.css">
+    <link rel="stylesheet" href="../../../../header.css">
+    <link rel="stylesheet" href="../../../../mainStyle.css">
+    <style>
+        .stats-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Login form */
+        #login-section {
+            max-width: 360px;
+            margin: 40px auto;
+            text-align: center;
+        }
+        #login-section input {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 1rem;
+            border: 2px solid var(--fgColor-muted);
+            border-radius: 8px;
+            background: var(--bgColor-default);
+            color: var(--fgColor-default);
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        #login-section input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        #login-error {
+            color: #ef4444;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        .btn-primary-custom {
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #3b82f6;
+            color: #fff;
+            transition: background 0.15s;
+        }
+        .btn-primary-custom:hover {
+            background: #2563eb;
+        }
+
+        /* Date picker */
+        #date-picker {
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            border: 2px solid var(--fgColor-muted);
+            border-radius: 8px;
+            background: var(--bgColor-default);
+            color: var(--fgColor-default);
+            margin-bottom: 24px;
+        }
+        #date-picker:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        /* Question cards */
+        .question-card {
+            background: var(--bgColor-muted);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .question-card .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 4px;
+        }
+        .question-card .q-category {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #3b82f6;
+        }
+        .question-card .q-points {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--fgColor-muted);
+        }
+        .question-card .q-text {
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+        .question-card .q-display {
+            font-size: 0.8rem;
+            color: #22c55e;
+            margin-bottom: 10px;
+        }
+
+        /* Answer tags */
+        .answers-section {
+            margin-top: 8px;
+        }
+        .answers-section label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--fgColor-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .answer-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        .answer-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(59, 130, 246, 0.15);
+            color: #3b82f6;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+        .answer-tag .remove-btn {
+            cursor: pointer;
+            font-size: 0.75rem;
+            opacity: 0.7;
+            padding: 0 2px;
+            border: none;
+            background: none;
+            color: inherit;
+            line-height: 1;
+        }
+        .answer-tag .remove-btn:hover {
+            opacity: 1;
+            color: #ef4444;
+        }
+        .answer-tag.editing {
+            background: rgba(234, 179, 8, 0.15);
+            color: #eab308;
+        }
+        .answer-tag input {
+            background: transparent;
+            border: none;
+            color: inherit;
+            font-size: 0.85rem;
+            width: 120px;
+            outline: none;
+        }
+
+        /* Add answer input row */
+        .add-answer-row {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        .add-answer-row input {
+            flex: 1;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            border: 1px solid var(--fgColor-muted);
+            border-radius: 6px;
+            background: var(--bgColor-default);
+            color: var(--fgColor-default);
+        }
+        .add-answer-row input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        .add-answer-row button {
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #22c55e;
+            color: #fff;
+            white-space: nowrap;
+        }
+        .add-answer-row button:hover {
+            background: #16a34a;
+        }
+
+        /* Save button */
+        .save-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+            gap: 8px;
+            align-items: center;
+        }
+        .save-btn {
+            padding: 6px 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #3b82f6;
+            color: #fff;
+        }
+        .save-btn:hover {
+            background: #2563eb;
+        }
+        .save-btn:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+        .save-status {
+            font-size: 0.8rem;
+            color: #22c55e;
+            font-weight: 600;
+        }
+        .save-status.error {
+            color: #ef4444;
+        }
+
+        .hidden { display: none !important; }
+
+        #loading {
+            text-align: center;
+            color: var(--fgColor-muted);
+            padding: 32px 0;
+        }
+
+        @media (max-width: 600px) {
+            .answer-tag input {
+                width: 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header_loc"></div>
+    <article class="markdown-body">
+        <h1>Answer Editor</h1>
+        <p><a href="/games/trivia/stats/">&larr; Back to stats</a></p>
+
+        <div id="login-section">
+            <input type="text" id="login-user" placeholder="Username" autocomplete="username">
+            <input type="password" id="login-pass" placeholder="Password" autocomplete="current-password">
+            <button class="btn-primary-custom" id="login-btn">Log In</button>
+            <p id="login-error" class="hidden"></p>
+        </div>
+
+        <div id="main-section" class="hidden stats-container">
+            <select id="date-picker">
+                <option value="">Select a date...</option>
+            </select>
+
+            <div id="loading" class="hidden">Loading questions...</div>
+            <div id="questions-container"></div>
+        </div>
+    </article>
+
+    <script type="module">
+        import { import_html, API_BASE } from "/utils.js";
+        import_html("/header.html", "header_loc");
+
+        const TOKEN_KEY = "dmj-auth-token";
+        let authToken = localStorage.getItem(TOKEN_KEY);
+        // Track pending edits per question: questionId -> [...valid answers]
+        let pendingEdits = {};
+
+        if (authToken) {
+            startWithToken();
+        }
+
+        document.getElementById("login-btn").addEventListener("click", doLogin);
+        document.getElementById("login-pass").addEventListener("keydown", (e) => {
+            if (e.key === "Enter") doLogin();
+        });
+
+        function startWithToken() {
+            document.getElementById("login-section").classList.add("hidden");
+            document.getElementById("main-section").classList.remove("hidden");
+            loadDates();
+        }
+
+        async function doLogin() {
+            const user = document.getElementById("login-user").value.trim();
+            const pass = document.getElementById("login-pass").value;
+            const errEl = document.getElementById("login-error");
+            errEl.classList.add("hidden");
+
+            if (!user || !pass) {
+                errEl.textContent = "Enter username and password";
+                errEl.classList.remove("hidden");
+                return;
+            }
+
+            try {
+                const resp = await fetch(API_BASE + "/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username: user, password: pass }),
+                });
+                if (!resp.ok) {
+                    errEl.textContent = "Invalid credentials";
+                    errEl.classList.remove("hidden");
+                    return;
+                }
+                const data = await resp.json();
+                authToken = data.token;
+                localStorage.setItem(TOKEN_KEY, authToken);
+                startWithToken();
+            } catch (e) {
+                errEl.textContent = "Login failed";
+                errEl.classList.remove("hidden");
+            }
+        }
+
+        async function apiFetch(path, options = {}) {
+            const resp = await fetch(API_BASE + path, {
+                ...options,
+                headers: {
+                    "Authorization": "Bearer " + authToken,
+                    ...(options.headers || {}),
+                },
+            });
+            if (resp.status === 401) {
+                authToken = null;
+                localStorage.removeItem(TOKEN_KEY);
+                document.getElementById("main-section").classList.add("hidden");
+                document.getElementById("login-section").classList.remove("hidden");
+                throw new Error("Token expired");
+            }
+            if (!resp.ok) throw new Error(await resp.text());
+            return resp.json();
+        }
+
+        async function loadDates() {
+            try {
+                const data = await apiFetch("/trivia/days");
+                const picker = document.getElementById("date-picker");
+                const dates = (data.dates || []).sort().reverse();
+                for (const d of dates) {
+                    const opt = document.createElement("option");
+                    opt.value = d;
+                    opt.textContent = d;
+                    picker.appendChild(opt);
+                }
+            } catch (e) {
+                // non-critical
+            }
+        }
+
+        document.getElementById("date-picker").addEventListener("change", (e) => {
+            const date = e.target.value;
+            if (date) loadQuestions(date);
+            else document.getElementById("questions-container").innerHTML = "";
+        });
+
+        async function loadQuestions(date) {
+            const loading = document.getElementById("loading");
+            const container = document.getElementById("questions-container");
+            loading.classList.remove("hidden");
+            container.innerHTML = "";
+            pendingEdits = {};
+
+            try {
+                const data = await apiFetch("/trivia/admin/questions?date=" + date);
+                loading.classList.add("hidden");
+                renderQuestions(data);
+            } catch (e) {
+                loading.textContent = "Failed to load questions.";
+            }
+        }
+
+        function renderQuestions(data) {
+            const container = document.getElementById("questions-container");
+            container.innerHTML = "";
+
+            const questions = data.questions || [];
+            for (const q of questions) {
+                const card = document.createElement("div");
+                card.className = "question-card";
+                card.dataset.qid = q.id;
+
+                let html = `
+                    <div class="q-header">
+                        <span class="q-category">${escapeHtml(q.category)}</span>
+                        <span class="q-points">${q.points} pts</span>
+                    </div>
+                    <div class="q-text">${escapeHtml(q.question)}</div>
+                    <div class="q-display">Display: ${escapeHtml(q.display)}</div>
+                    <div class="answers-section">
+                        <label>Valid Answers</label>
+                        <div class="answer-tags" data-qid="${q.id}"></div>
+                        <div class="add-answer-row">
+                            <input type="text" placeholder="Add answer..." data-qid="${q.id}">
+                            <button data-qid="${q.id}">Add</button>
+                        </div>
+                        <div class="save-row">
+                            <span class="save-status" data-qid="${q.id}"></span>
+                            <button class="save-btn" data-qid="${q.id}" disabled>Save</button>
+                        </div>
+                    </div>
+                `;
+                card.innerHTML = html;
+                container.appendChild(card);
+
+                // Initialize tags
+                renderTags(q.id, q.valid);
+
+                // Add button
+                card.querySelector(`.add-answer-row button[data-qid="${q.id}"]`).addEventListener("click", () => {
+                    addAnswer(q.id);
+                });
+
+                // Enter key on input
+                card.querySelector(`.add-answer-row input[data-qid="${q.id}"]`).addEventListener("keydown", (e) => {
+                    if (e.key === "Enter") addAnswer(q.id);
+                });
+
+                // Save button
+                card.querySelector(`.save-btn[data-qid="${q.id}"]`).addEventListener("click", () => {
+                    saveAnswers(q.id);
+                });
+            }
+        }
+
+        function renderTags(qid, answers) {
+            const tagsEl = document.querySelector(`.answer-tags[data-qid="${qid}"]`);
+            tagsEl.innerHTML = "";
+
+            for (let i = 0; i < answers.length; i++) {
+                const tag = document.createElement("span");
+                tag.className = "answer-tag";
+
+                const text = document.createElement("span");
+                text.textContent = answers[i];
+                text.style.cursor = "pointer";
+                text.title = "Click to edit";
+                text.addEventListener("click", () => startEditTag(qid, i));
+                tag.appendChild(text);
+
+                const removeBtn = document.createElement("button");
+                removeBtn.className = "remove-btn";
+                removeBtn.textContent = "\u00d7";
+                removeBtn.title = "Remove";
+                removeBtn.addEventListener("click", () => removeAnswer(qid, i));
+                tag.appendChild(removeBtn);
+
+                tagsEl.appendChild(tag);
+            }
+        }
+
+        function getCurrentAnswers(qid) {
+            if (pendingEdits[qid]) return pendingEdits[qid];
+            const tagsEl = document.querySelector(`.answer-tags[data-qid="${qid}"]`);
+            const tags = tagsEl.querySelectorAll(".answer-tag > span:first-child");
+            return Array.from(tags).map(t => t.textContent);
+        }
+
+        function setAnswers(qid, answers) {
+            pendingEdits[qid] = [...answers];
+            renderTags(qid, answers);
+            markDirty(qid);
+        }
+
+        function markDirty(qid) {
+            const saveBtn = document.querySelector(`.save-btn[data-qid="${qid}"]`);
+            saveBtn.disabled = false;
+            const status = document.querySelector(`.save-status[data-qid="${qid}"]`);
+            status.textContent = "";
+            status.className = "save-status";
+        }
+
+        function addAnswer(qid) {
+            const input = document.querySelector(`.add-answer-row input[data-qid="${qid}"]`);
+            const val = input.value.trim();
+            if (!val) return;
+
+            const answers = getCurrentAnswers(qid);
+            answers.push(val);
+            setAnswers(qid, answers);
+            input.value = "";
+            input.focus();
+        }
+
+        function removeAnswer(qid, index) {
+            const answers = getCurrentAnswers(qid);
+            if (answers.length <= 1) return; // must have at least one
+            answers.splice(index, 1);
+            setAnswers(qid, answers);
+        }
+
+        function startEditTag(qid, index) {
+            const answers = getCurrentAnswers(qid);
+            const tagsEl = document.querySelector(`.answer-tags[data-qid="${qid}"]`);
+            const tags = tagsEl.querySelectorAll(".answer-tag");
+            const tag = tags[index];
+            if (!tag || tag.classList.contains("editing")) return;
+
+            const currentValue = answers[index];
+            tag.classList.add("editing");
+            tag.innerHTML = "";
+
+            const input = document.createElement("input");
+            input.type = "text";
+            input.value = currentValue;
+
+            const finish = () => {
+                const newVal = input.value.trim();
+                if (newVal && newVal !== currentValue) {
+                    answers[index] = newVal;
+                    pendingEdits[qid] = [...answers];
+                    markDirty(qid);
+                }
+                renderTags(qid, pendingEdits[qid] || answers);
+            };
+
+            input.addEventListener("blur", finish);
+            input.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") input.blur();
+                if (e.key === "Escape") {
+                    input.value = currentValue;
+                    input.blur();
+                }
+            });
+
+            tag.appendChild(input);
+            input.focus();
+            input.select();
+        }
+
+        async function saveAnswers(qid) {
+            const answers = getCurrentAnswers(qid);
+            const date = document.getElementById("date-picker").value;
+            const saveBtn = document.querySelector(`.save-btn[data-qid="${qid}"]`);
+            const status = document.querySelector(`.save-status[data-qid="${qid}"]`);
+
+            saveBtn.disabled = true;
+            status.textContent = "Saving...";
+            status.className = "save-status";
+
+            try {
+                await apiFetch("/trivia/admin/answers", {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        date: date,
+                        question_id: qid,
+                        valid: answers,
+                    }),
+                });
+                status.textContent = "Saved";
+                status.className = "save-status";
+                delete pendingEdits[qid];
+            } catch (e) {
+                status.textContent = "Error: " + e.message;
+                status.className = "save-status error";
+                saveBtn.disabled = false;
+            }
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement("div");
+            div.textContent = str;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
