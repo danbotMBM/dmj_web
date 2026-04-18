@@ -192,6 +192,62 @@
     margin-top: 8px;
 }
 
+#gameover-stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin: 12px 0 16px;
+}
+
+.stat-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--fgColor-muted);
+}
+
+.stat-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--fgColor-default);
+}
+
+#gameover-chart-wrap {
+    margin: 8px 0 20px;
+}
+
+.chart-title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--fgColor-muted);
+    margin-bottom: 6px;
+}
+
+.score-chart {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    color: var(--fgColor-muted);
+}
+
+.score-chart .chart-label,
+.score-chart .chart-value {
+    font-size: 10px;
+    fill: currentColor;
+    font-family: inherit;
+}
+
+.score-chart .chart-value {
+    font-weight: 600;
+}
+
 .hidden {
     display: none !important;
 }

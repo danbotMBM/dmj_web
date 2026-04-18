@@ -4,6 +4,134 @@ let gridData = null;
 let state = null;
 let currentQuestion = null;
 const STORAGE_PREFIX = "dmj-trivia-";
+const HISTORY_COOKIE = "dmj-trivia-history";
+const HISTORY_COOKIE_DAYS = 365;
+const HISTORY_MAX_ENTRIES = 60;
+
+function setCookie(name, value, days) {
+    const expires = new Date(Date.now() + days * 86400000).toUTCString();
+    document.cookie = name + "=" + encodeURIComponent(value) +
+        "; expires=" + expires + "; path=/; SameSite=Lax";
+}
+
+function getCookie(name) {
+    const prefix = name + "=";
+    for (const part of document.cookie.split(";")) {
+        const trimmed = part.trim();
+        if (trimmed.startsWith(prefix)) {
+            return decodeURIComponent(trimmed.slice(prefix.length));
+        }
+    }
+    return null;
+}
+
+function loadHistory() {
+    const raw = getCookie(HISTORY_COOKIE);
+    if (!raw) return [];
+    try {
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+        return [];
+    }
+}
+
+function saveHistory(history) {
+    const trimmed = history.slice(-HISTORY_MAX_ENTRIES);
+    setCookie(HISTORY_COOKIE, JSON.stringify(trimmed), HISTORY_COOKIE_DAYS);
+}
+
+function recordGameResult(date, score, maxScore) {
+    const history = loadHistory().filter(e => e.d !== date);
+    history.push({ d: date, s: score, m: maxScore });
+    history.sort((a, b) => a.d.localeCompare(b.d));
+    saveHistory(history);
+}
+
+function todayStr() {
+    const d = new Date();
+    return d.getFullYear() + "-" +
+        String(d.getMonth() + 1).padStart(2, "0") + "-" +
+        String(d.getDate()).padStart(2, "0");
+}
+
+function shiftDate(dateStr, deltaDays) {
+    const [y, m, d] = dateStr.split("-").map(Number);
+    const date = new Date(y, m - 1, d);
+    date.setDate(date.getDate() + deltaDays);
+    return date.getFullYear() + "-" +
+        String(date.getMonth() + 1).padStart(2, "0") + "-" +
+        String(date.getDate()).padStart(2, "0");
+}
+
+function formatDateShort(dateStr) {
+    const [, m, d] = dateStr.split("-").map(Number);
+    return m + "/" + d;
+}
+
+function computeAverage(history) {
+    if (!history.length) return 0;
+    const sum = history.reduce((a, e) => a + e.s, 0);
+    return sum / history.length;
+}
+
+function computeStreak(history) {
+    if (!history.length) return 0;
+    const dates = new Set(history.map(e => e.d));
+    const today = todayStr();
+    const yesterday = shiftDate(today, -1);
+    let cursor = dates.has(today) ? today : (dates.has(yesterday) ? yesterday : null);
+    if (!cursor) return 0;
+    let streak = 0;
+    while (dates.has(cursor)) {
+        streak++;
+        cursor = shiftDate(cursor, -1);
+    }
+    return streak;
+}
+
+function renderSevenDayChart(history) {
+    const byDate = {};
+    for (const e of history) byDate[e.d] = e;
+
+    const days = [];
+    for (let i = 6; i >= 0; i--) days.push(shiftDate(todayStr(), -i));
+
+    let maxVal = 0;
+    for (const d of days) {
+        const e = byDate[d];
+        if (e && e.s > maxVal) maxVal = e.s;
+    }
+    if (maxVal === 0) maxVal = 1;
+
+    const w = 320, chartH = 110, labelH = 16, valueH = 12;
+    const totalH = chartH + labelH + valueH;
+    const slot = w / 7;
+    const barW = slot - 10;
+
+    const parts = [];
+    parts.push('<svg viewBox="0 0 ' + w + ' ' + totalH + '" xmlns="http://www.w3.org/2000/svg" class="score-chart" role="img" aria-label="Score over past 7 days">');
+    for (let i = 0; i < 7; i++) {
+        const d = days[i];
+        const e = byDate[d];
+        const score = e ? e.s : 0;
+        const barH = e ? Math.max(2, (score / maxVal) * chartH) : 0;
+        const x = i * slot + (slot - barW) / 2;
+        const y = valueH + (chartH - barH);
+        const fill = e ? "#3b82f6" : "#d1d5db";
+        parts.push('<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) +
+            '" width="' + barW.toFixed(1) + '" height="' + barH.toFixed(1) +
+            '" fill="' + fill + '" rx="3"/>');
+        if (e) {
+            parts.push('<text x="' + (x + barW / 2).toFixed(1) + '" y="' + (y - 2).toFixed(1) +
+                '" text-anchor="middle" class="chart-value">' + score + '</text>');
+        }
+        parts.push('<text x="' + (x + barW / 2).toFixed(1) + '" y="' + (valueH + chartH + labelH - 3) +
+            '" text-anchor="middle" class="chart-label">' + formatDateShort(d) + '</text>');
+    }
+    parts.push('</svg>');
+    return parts.join("");
+}
 
 function getOrCreatePlayerId() {
     const key = "dmj-player-id";
@@ -242,6 +370,20 @@ function showGameOver() {
         "Score: " + state.score + " / " + maxScore;
     document.getElementById("gameover-grid").textContent = buildEmojiGrid();
     document.getElementById("copy-confirm").classList.add("hidden");
+
+    // Only record stats for today's game, not past-trivia replays.
+    if (!requestedDate) {
+        recordGameResult(state.date, state.score, maxScore);
+    }
+
+    const history = loadHistory();
+    const avg = computeAverage(history);
+    const streak = computeStreak(history);
+    document.getElementById("stat-average").textContent =
+        history.length ? avg.toFixed(1) : "-";
+    document.getElementById("stat-streak").textContent =
+        streak + (streak === 1 ? " day" : " days");
+    document.getElementById("gameover-chart").innerHTML = renderSevenDayChart(history);
 
     document.getElementById("gameover-overlay").classList.remove("hidden");
 }
