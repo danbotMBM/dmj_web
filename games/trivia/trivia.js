@@ -5,14 +5,9 @@ let state = null;
 let currentQuestion = null;
 const STORAGE_PREFIX = "dmj-trivia-";
 const HISTORY_COOKIE = "dmj-trivia-history";
-const HISTORY_COOKIE_DAYS = 365;
+const HISTORY_KEY = "dmj-trivia-history";
+const STATS_UPDATED_KEY = "dmj-stats-updated";
 const HISTORY_MAX_ENTRIES = 60;
-
-function setCookie(name, value, days) {
-    const expires = new Date(Date.now() + days * 86400000).toUTCString();
-    document.cookie = name + "=" + encodeURIComponent(value) +
-        "; expires=" + expires + "; path=/; SameSite=Lax";
-}
 
 function getCookie(name) {
     const prefix = name + "=";
@@ -25,8 +20,17 @@ function getCookie(name) {
     return null;
 }
 
-function loadHistory() {
+function migrateHistoryFromCookie() {
+    if (localStorage.getItem(HISTORY_KEY)) return;
     const raw = getCookie(HISTORY_COOKIE);
+    if (raw) {
+        localStorage.setItem(HISTORY_KEY, raw);
+        document.cookie = HISTORY_COOKIE + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax";
+    }
+}
+
+function loadHistory() {
+    const raw = localStorage.getItem(HISTORY_KEY);
     if (!raw) return [];
     try {
         const parsed = JSON.parse(raw);
@@ -38,7 +42,7 @@ function loadHistory() {
 
 function saveHistory(history) {
     const trimmed = history.slice(-HISTORY_MAX_ENTRIES);
-    setCookie(HISTORY_COOKIE, JSON.stringify(trimmed), HISTORY_COOKIE_DAYS);
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(trimmed));
 }
 
 function recordGameResult(date, score, maxScore) {
@@ -46,6 +50,9 @@ function recordGameResult(date, score, maxScore) {
     history.push({ d: date, s: score, m: maxScore });
     history.sort((a, b) => a.d.localeCompare(b.d));
     saveHistory(history);
+    const now = new Date().toISOString();
+    localStorage.setItem(STATS_UPDATED_KEY, now);
+    uploadStats(history, now);
 }
 
 function todayStr() {
@@ -133,13 +140,54 @@ function renderSevenDayChart(history) {
     return parts.join("");
 }
 
+function generatePlayerId() {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const arr = new Uint8Array(16);
+    crypto.getRandomValues(arr);
+    return Array.from(arr, b => chars[b % chars.length]).join("");
+}
+
 function getOrCreatePlayerId() {
     const key = "dmj-player-id";
     let id = localStorage.getItem(key);
-    if (!id) { id = crypto.randomUUID(); localStorage.setItem(key, id); }
+    if (!id || id.includes("-")) {
+        id = generatePlayerId();
+        localStorage.setItem(key, id);
+    }
     return id;
 }
-const playerId = getOrCreatePlayerId();
+let playerId = getOrCreatePlayerId();
+
+async function uploadStats(history, lastUpdated) {
+    try {
+        await fetch(API_BASE + "/trivia/player-stats", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                player_id: playerId,
+                history: history,
+                last_updated: lastUpdated,
+            }),
+        });
+    } catch (e) {
+        // best-effort, silent fail
+    }
+}
+
+async function syncRemoteStats() {
+    const localUpdated = localStorage.getItem(STATS_UPDATED_KEY) || "";
+    try {
+        const resp = await fetch(API_BASE + "/trivia/player-stats/" + playerId);
+        if (!resp.ok) return;
+        const remote = await resp.json();
+        if (remote.last_updated > localUpdated) {
+            saveHistory(remote.history);
+            localStorage.setItem(STATS_UPDATED_KEY, remote.last_updated);
+        }
+    } catch (e) {
+        // best-effort, silent fail
+    }
+}
 
 // Check for ?date= URL parameter to load a specific day's trivia
 const urlParams = new URLSearchParams(window.location.search);
@@ -414,7 +462,71 @@ function copyResults() {
     }
 }
 
+function openSettings() {
+    document.getElementById("settings-player-id").textContent = playerId;
+    document.getElementById("settings-id-input").value = "";
+    const statusEl = document.getElementById("settings-status");
+    statusEl.textContent = "";
+    statusEl.classList.add("hidden");
+    document.getElementById("settings-copy-confirm").classList.add("hidden");
+    document.getElementById("settings-overlay").classList.remove("hidden");
+}
+
+function closeSettings() {
+    document.getElementById("settings-overlay").classList.add("hidden");
+}
+
+async function syncFromId() {
+    const input = document.getElementById("settings-id-input").value.trim();
+    const statusEl = document.getElementById("settings-status");
+    statusEl.classList.remove("hidden");
+
+    if (!/^[A-Za-z0-9]{16}$/.test(input)) {
+        statusEl.style.color = "#ef4444";
+        statusEl.textContent = "Invalid ID — must be exactly 16 letters/numbers.";
+        return;
+    }
+
+    if (input === playerId) {
+        statusEl.style.color = "var(--fgColor-muted)";
+        statusEl.textContent = "That's already your current ID.";
+        return;
+    }
+
+    statusEl.style.color = "var(--fgColor-muted)";
+    statusEl.textContent = "Syncing…";
+
+    try {
+        const resp = await fetch(API_BASE + "/trivia/player-stats/" + input);
+        if (resp.ok) {
+            const remote = await resp.json();
+            localStorage.setItem("dmj-player-id", input);
+            playerId = input;
+            saveHistory(remote.history);
+            localStorage.setItem(STATS_UPDATED_KEY, remote.last_updated);
+            document.getElementById("settings-player-id").textContent = playerId;
+            statusEl.style.color = "#22c55e";
+            statusEl.textContent = "Synced! Stats imported from the other browser.";
+        } else if (resp.status === 404) {
+            localStorage.setItem("dmj-player-id", input);
+            playerId = input;
+            document.getElementById("settings-player-id").textContent = playerId;
+            statusEl.style.color = "#22c55e";
+            statusEl.textContent = "ID adopted. Future completed games will sync to this ID.";
+        } else {
+            statusEl.style.color = "#ef4444";
+            statusEl.textContent = "Could not fetch stats for that ID. Try again.";
+        }
+    } catch (e) {
+        statusEl.style.color = "#ef4444";
+        statusEl.textContent = "Network error. Please try again.";
+    }
+}
+
 async function init() {
+    migrateHistoryFromCookie();
+    await syncRemoteStats();
+
     try {
         const resp = await fetch(API_BASE + "/trivia/grid" + dateQuery, {
             headers: { "X-Player-ID": playerId },
@@ -472,6 +584,21 @@ async function init() {
         renderScore();
         renderStrikes();
         updateResetButton();
+    });
+
+    // Settings
+    document.getElementById("settings-btn").addEventListener("click", openSettings);
+    document.getElementById("settings-close-btn").addEventListener("click", closeSettings);
+    document.getElementById("settings-copy-id-btn").addEventListener("click", () => {
+        navigator.clipboard.writeText(playerId).then(() => {
+            const el = document.getElementById("settings-copy-confirm");
+            el.classList.remove("hidden");
+            setTimeout(() => el.classList.add("hidden"), 2000);
+        });
+    });
+    document.getElementById("settings-sync-btn").addEventListener("click", syncFromId);
+    document.getElementById("settings-id-input").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") syncFromId();
     });
 }
 

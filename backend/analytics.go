@@ -53,6 +53,11 @@ func initAnalyticsDB() {
 		isp TEXT,
 		org TEXT,
 		resolved_at TEXT
+	);
+	CREATE TABLE IF NOT EXISTS player_stats (
+		player_id TEXT PRIMARY KEY,
+		history TEXT NOT NULL,
+		last_updated TEXT NOT NULL
 	);`
 
 	if _, err := analyticsDB.Exec(schema); err != nil {
@@ -608,6 +613,107 @@ func handleTriviaStatsIPs(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resp)
 }
 
+func isValidPlayerID(id string) bool {
+	if len(id) != 16 {
+		return false
+	}
+	for _, c := range id {
+		if !((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9')) {
+			return false
+		}
+	}
+	return true
+}
+
+type playerStatsRecord struct {
+	PlayerID    string          `json:"player_id"`
+	History     json.RawMessage `json:"history"`
+	LastUpdated string          `json:"last_updated"`
+}
+
+func handlePlayerStatsUpload(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	var body struct {
+		PlayerID    string          `json:"player_id"`
+		History     json.RawMessage `json:"history"`
+		LastUpdated string          `json:"last_updated"`
+	}
+
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+		return
+	}
+
+	if !isValidPlayerID(body.PlayerID) {
+		http.Error(w, "Invalid player_id", http.StatusBadRequest)
+		return
+	}
+
+	if len(body.History) == 0 || body.LastUpdated == "" {
+		http.Error(w, "Missing fields", http.StatusBadRequest)
+		return
+	}
+
+	if body.History[0] != '[' {
+		http.Error(w, "History must be a JSON array", http.StatusBadRequest)
+		return
+	}
+
+	_, err := analyticsDB.Exec(`
+		INSERT INTO player_stats (player_id, history, last_updated)
+		VALUES (?, ?, ?)
+		ON CONFLICT(player_id) DO UPDATE SET
+			history = excluded.history,
+			last_updated = excluded.last_updated
+	`, body.PlayerID, string(body.History), body.LastUpdated)
+
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "player_stats insert error: %v\n", err)
+		http.Error(w, "DB error", http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+}
+
+func handlePlayerStatsGet(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	id := strings.TrimPrefix(r.URL.Path, "/trivia/player-stats/")
+	if !isValidPlayerID(id) {
+		http.Error(w, "Invalid player_id", http.StatusBadRequest)
+		return
+	}
+
+	var historyStr, lastUpdated string
+	err := analyticsDB.QueryRow(`
+		SELECT history, last_updated FROM player_stats WHERE player_id = ?
+	`, id).Scan(&historyStr, &lastUpdated)
+
+	if err == sql.ErrNoRows {
+		http.Error(w, "Not found", http.StatusNotFound)
+		return
+	}
+	if err != nil {
+		http.Error(w, "DB error", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(playerStatsRecord{
+		PlayerID:    id,
+		History:     json.RawMessage(historyStr),
+		LastUpdated: lastUpdated,
+	})
+}
+
 func registerAnalyticsRoutes() {
 	http.HandleFunc("/trivia/stats/ips", cors(handleTriviaStatsIPs))
 	registerRoute("GET", "/trivia/stats/ips", "Trivia IP address analytics with geo data (auth required)")
@@ -617,4 +723,10 @@ func registerAnalyticsRoutes() {
 
 	http.HandleFunc("/trivia/stats/", cors(handleTriviaStatsDate))
 	registerRoute("GET", "/trivia/stats/{date}", "Trivia analytics for date (auth required)")
+
+	http.HandleFunc("/trivia/player-stats", cors(handlePlayerStatsUpload))
+	registerRoute("POST", "/trivia/player-stats", "Upload/overwrite player stats by ID")
+
+	http.HandleFunc("/trivia/player-stats/", cors(handlePlayerStatsGet))
+	registerRoute("GET", "/trivia/player-stats/{id}", "Fetch player stats by ID")
 }
