@@ -82,20 +82,6 @@ function computeAverage(history) {
     return sum / history.length;
 }
 
-function computeStreak(history) {
-    if (!history.length) return 0;
-    const dates = new Set(history.map(e => e.d));
-    const today = todayStr();
-    const yesterday = shiftDate(today, -1);
-    let cursor = dates.has(today) ? today : (dates.has(yesterday) ? yesterday : null);
-    if (!cursor) return 0;
-    let streak = 0;
-    while (dates.has(cursor)) {
-        streak++;
-        cursor = shiftDate(cursor, -1);
-    }
-    return streak;
-}
 
 function renderSevenDayChart(history) {
     const byDate = {};
@@ -426,11 +412,8 @@ function showGameOver() {
 
     const history = loadHistory();
     const avg = computeAverage(history);
-    const streak = computeStreak(history);
     document.getElementById("stat-average").textContent =
         history.length ? avg.toFixed(1) : "-";
-    document.getElementById("stat-streak").textContent =
-        streak + (streak === 1 ? " day" : " days");
     document.getElementById("gameover-chart").innerHTML = renderSevenDayChart(history);
 
     document.getElementById("gameover-overlay").classList.remove("hidden");
