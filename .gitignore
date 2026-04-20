@@ -18,3 +18,4 @@ backend/trivia_analytics.db
 backend/trivia_analytics.db-wal
 backend/trivia_analytics.db-shm
 backend/trivia_validator
+backend/main
