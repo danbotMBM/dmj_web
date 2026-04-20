@@ -19,6 +19,7 @@
 
         <div id="status-bar">
             <span id="score-display">Score: 0</span>
+            <button id="settings-btn" class="settings-gear-btn" title="Settings">⚙</button>
             <span id="strikes-display"></span>
         </div>
 
@@ -43,6 +44,32 @@
                     <p id="result-answer"></p>
                     <button id="continue-btn">Continue</button>
                 </div>
+            </div>
+        </div>
+
+        <div id="settings-overlay" class="overlay hidden">
+            <div class="overlay-card">
+                <h2>Settings</h2>
+                <div class="settings-section">
+                    <p class="settings-label">Your Player ID</p>
+                    <p class="settings-desc">Copy this ID to sync your stats to another browser.</p>
+                    <div class="settings-id-row">
+                        <code id="settings-player-id"></code>
+                        <button id="settings-copy-id-btn">Copy</button>
+                    </div>
+                    <p id="settings-copy-confirm" class="hidden settings-success">Copied!</p>
+                </div>
+                <hr class="settings-divider">
+                <div class="settings-section">
+                    <p class="settings-label">Sync from another browser</p>
+                    <p class="settings-desc">Paste a Player ID from another browser to import its stats.</p>
+                    <div class="settings-sync-row">
+                        <input type="text" id="settings-id-input" placeholder="Paste 16-character ID…" maxlength="16" autocomplete="off" spellcheck="false">
+                        <button id="settings-sync-btn">Sync</button>
+                    </div>
+                    <p id="settings-status" class="hidden settings-status-text"></p>
+                </div>
+                <button id="settings-close-btn">Close</button>
             </div>
         </div>
 
