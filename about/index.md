@@ -27,3 +27,4 @@ Making this site allows me to catalog and share my explorations into all these d
 
 ## External links
 * [github](https://github.com/danbotMBM/)
+* [substack](https://substack.com/@danbotjo)
