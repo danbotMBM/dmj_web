@@ -1,6 +1,8 @@
 # Recall in the Age of AI
 > Written April 2026
 
+See this article on [substack](https://danbotjo.substack.com/p/recall-in-the-age-of-ai)
+
 ## The Shortcut Problem
 It's largely believed that AI is hurting schooling by lowering the barrier to cheating.
 This tempting shortcut can inhibit a student's compulsion to learn.
@@ -11,7 +13,7 @@ A specific source of tension for me is the need for organic, human-powered recal
 
 The reality that people offload recall is not new.
 We have books, dictionaries, and search engines.
-But I believe AI has a unique set of advantages that allow one to offload some retenstion but also to encourage internalized recall.
+But I believe AI has a unique set of advantages that allow one to offload some retention but also to encourage internalized recall.
 With unparalleled access to information, you should leverage expansive knowledge to improve your own mind by retaining it.
 How can one use the infinite word machine to retain and recall in an age of offloading thought?
 
@@ -49,7 +51,7 @@ AI has made getting that info way easier than even Google had years ago.
 But there is a point where offloading those commands takes its toll, and I find myself searching for how to do the same thing multiple times.
 A search deja vu of sorts.
 At that point I reflect. 
-I think that in a rush to get something done, it's easy to forget to take in everything and treat it as a proper learning opportinity.
+I think that in a rush to get something done, it's easy to forget to take in everything and treat it as a proper learning opportunity.
 
 
 ## AI for Personalized, Quick Studying
