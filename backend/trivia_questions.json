@@ -9791,6 +9791,1809 @@
           "display": "Abebe Bikila"
         }
       ]
+    },
+    {
+      "date": "2026-05-01",
+      "categories": [
+        "The Renaissance",
+        "Sci Fi",
+        "World Capitals"
+      ],
+      "questions": [
+        {
+          "id": "2026-05-01_0",
+          "category": "The Renaissance",
+          "points": 100,
+          "question": "This Italian Renaissance artist painted 'The Birth of Venus,' depicting the goddess emerging from a seashell.",
+          "answer": {
+            "valid": [
+              "botticelli",
+              "sandro botticelli"
+            ]
+          },
+          "display": "Sandro Botticelli"
+        },
+        {
+          "id": "2026-05-01_1",
+          "category": "The Renaissance",
+          "points": 200,
+          "question": "This early Italian Renaissance sculptor created the bronze 'David,' the first freestanding nude statue since antiquity.",
+          "answer": {
+            "valid": [
+              "donatello"
+            ]
+          },
+          "display": "Donatello"
+        },
+        {
+          "id": "2026-05-01_2",
+          "category": "The Renaissance",
+          "points": 300,
+          "question": "This architect designed the iconic dome of the Florence Cathedral, solving an engineering puzzle that had stumped builders for over a century.",
+          "answer": {
+            "valid": [
+              "brunelleschi",
+              "filippo brunelleschi"
+            ]
+          },
+          "display": "Filippo Brunelleschi"
+        },
+        {
+          "id": "2026-05-01_3",
+          "category": "Sci Fi",
+          "points": 100,
+          "question": "This 1898 H.G. Wells novel features Martians invading Earth in towering three-legged war machines.",
+          "answer": {
+            "valid": [
+              "war of the worlds",
+              "the war of the worlds"
+            ]
+          },
+          "display": "The War of the Worlds"
+        },
+        {
+          "id": "2026-05-01_4",
+          "category": "Sci Fi",
+          "points": 200,
+          "question": "This 1985 Orson Scott Card novel follows a child genius trained in a zero-gravity battle school to fight an alien insectoid race.",
+          "answer": {
+            "valid": [
+              "enders game",
+              "ender's game"
+            ]
+          },
+          "display": "Ender's Game"
+        },
+        {
+          "id": "2026-05-01_5",
+          "category": "Sci Fi",
+          "points": 300,
+          "question": "This 1953 Ray Bradbury novel imagines a future society where 'firemen' burn books, with its title referring to the temperature at which paper ignites.",
+          "answer": {
+            "valid": [
+              "fahrenheit 451"
+            ]
+          },
+          "display": "Fahrenheit 451"
+        },
+        {
+          "id": "2026-05-01_6",
+          "category": "World Capitals",
+          "points": 100,
+          "question": "This East Asian capital hosted the 1988 Summer Olympics and is the largest metropolis on the Korean Peninsula.",
+          "answer": {
+            "valid": [
+              "seoul"
+            ]
+          },
+          "display": "Seoul"
+        },
+        {
+          "id": "2026-05-01_7",
+          "category": "World Capitals",
+          "points": 200,
+          "question": "This Australian capital, often confused with Sydney, was purpose-built as a planned city in 1913.",
+          "answer": {
+            "valid": [
+              "canberra"
+            ]
+          },
+          "display": "Canberra"
+        },
+        {
+          "id": "2026-05-01_8",
+          "category": "World Capitals",
+          "points": 300,
+          "question": "The capital of Mongolia, this city's name translates to 'Red Hero' and it ranks among the coldest capital cities in the world.",
+          "answer": {
+            "valid": [
+              "ulaanbaatar",
+              "ulan bator"
+            ]
+          },
+          "display": "Ulaanbaatar"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-02",
+      "categories": [
+        "Cocktails & Spirits",
+        "Ancient Greece",
+        "Wine & Beer"
+      ],
+      "questions": [
+        {
+          "id": "2026-05-02_0",
+          "category": "Cocktails & Spirits",
+          "points": 100,
+          "question": "This sweet tropical cocktail traditionally combines rum, coconut cream, and pineapple juice and is the official drink of Puerto Rico.",
+          "answer": {
+            "valid": [
+              "pina colada",
+              "piña colada"
+            ]
+          },
+          "display": "Piña Colada"
+        },
+        {
+          "id": "2026-05-02_1",
+          "category": "Cocktails & Spirits",
+          "points": 200,
+          "question": "This Cuban cocktail allegedly favored by Ernest Hemingway combines white rum, lime juice, and sugar.",
+          "answer": {
+            "valid": [
+              "daiquiri"
+            ]
+          },
+          "display": "Daiquiri"
+        },
+        {
+          "id": "2026-05-02_2",
+          "category": "Cocktails & Spirits",
+          "points": 300,
+          "question": "Considered one of the oldest cocktails, this drink combines whiskey, sugar, bitters, and a citrus peel garnish over ice.",
+          "answer": {
+            "valid": [
+              "old fashioned",
+              "old-fashioned"
+            ]
+          },
+          "display": "Old Fashioned"
+        },
+        {
+          "id": "2026-05-02_3",
+          "category": "Ancient Greece",
+          "points": 100,
+          "question": "This Athenian philosopher, teacher of Plato, was sentenced to death by drinking hemlock for 'corrupting the youth.'",
+          "answer": {
+            "valid": [
+              "socrates"
+            ]
+          },
+          "display": "Socrates"
+        },
+        {
+          "id": "2026-05-02_4",
+          "category": "Ancient Greece",
+          "points": 200,
+          "question": "This semi-mythological Greek poet is credited with composing the epic poems 'The Iliad' and 'The Odyssey.'",
+          "answer": {
+            "valid": [
+              "homer"
+            ]
+          },
+          "display": "Homer"
+        },
+        {
+          "id": "2026-05-02_5",
+          "category": "Ancient Greece",
+          "points": 300,
+          "question": "At this 480 BCE battle, a small force of 300 Spartans held off a massive Persian army at a narrow mountain pass before being overwhelmed.",
+          "answer": {
+            "valid": [
+              "thermopylae",
+              "battle of thermopylae"
+            ]
+          },
+          "display": "The Battle of Thermopylae"
+        },
+        {
+          "id": "2026-05-02_6",
+          "category": "Wine & Beer",
+          "points": 100,
+          "question": "This French wine region in the southwest is known for prestigious red blends typically dominated by Cabernet Sauvignon and Merlot grapes.",
+          "answer": {
+            "valid": [
+              "bordeaux"
+            ]
+          },
+          "display": "Bordeaux"
+        },
+        {
+          "id": "2026-05-02_7",
+          "category": "Wine & Beer",
+          "points": 200,
+          "question": "This dark, creamy Irish dry stout was first brewed in Dublin in 1759 by Arthur ___.",
+          "answer": {
+            "valid": [
+              "guinness"
+            ]
+          },
+          "display": "Guinness"
+        },
+        {
+          "id": "2026-05-02_8",
+          "category": "Wine & Beer",
+          "points": 300,
+          "question": "This wine grape variety is the most widely planted red wine grape in the world and the dominant grape of left-bank Bordeaux blends.",
+          "answer": {
+            "valid": [
+              "cabernet sauvignon",
+              "cabernet"
+            ]
+          },
+          "display": "Cabernet Sauvignon"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-03",
+      "categories": [
+        "Astronomy",
+        "Television",
+        "World Cuisine"
+      ],
+      "questions": [
+        {
+          "id": "2026-05-03_0",
+          "category": "Astronomy",
+          "points": 100,
+          "question": "Of all the planets in our solar system, this one rotates on its side, with its axis nearly parallel to its orbital plane.",
+          "answer": {
+            "valid": [
+              "uranus"
+            ]
+          },
+          "display": "Uranus"
+        },
+        {
+          "id": "2026-05-03_1",
+          "category": "Astronomy",
+          "points": 200,
+          "question": "This term refers to the dense remnant of a massive star that has collapsed under its own gravity, packing more than the sun's mass into a city-sized sphere.",
+          "answer": {
+            "valid": [
+              "neutron star"
+            ]
+          },
+          "display": "Neutron Star"
+        },
+        {
+          "id": "2026-05-03_2",
+          "category": "Astronomy",
+          "points": 300,
+          "question": "This Belgian priest and physicist first proposed the cosmological theory now known as the Big Bang, originally calling it the 'primeval atom.'",
+          "answer": {
+            "valid": [
+              "lemaitre",
+              "lemaître",
+              "georges lemaitre",
+              "georges lemaître"
+            ]
+          },
+          "display": "Georges Lemaître"
+        },
+        {
+          "id": "2026-05-03_3",
+          "category": "Television",
+          "points": 100,
+          "question": "This long-running NBC late-night sketch comedy show, created by Lorne Michaels in 1975, has launched the careers of countless American comedians.",
+          "answer": {
+            "valid": [
+              "snl",
+              "saturday night live"
+            ]
+          },
+          "display": "Saturday Night Live"
+        },
+        {
+          "id": "2026-05-03_4",
+          "category": "Television",
+          "points": 200,
+          "question": "This Showtime series starring Michael C. Hall follows a Miami forensic blood-spatter analyst who moonlights as a vigilante serial killer.",
+          "answer": {
+            "valid": [
+              "dexter"
+            ]
+          },
+          "display": "Dexter"
+        },
+        {
+          "id": "2026-05-03_5",
+          "category": "Television",
+          "points": 300,
+          "question": "This British anthology series created by Charlie Brooker explores the dark side of technology, with each standalone episode telling a different cautionary tale.",
+          "answer": {
+            "valid": [
+              "black mirror"
+            ]
+          },
+          "display": "Black Mirror"
+        },
+        {
+          "id": "2026-05-03_6",
+          "category": "World Cuisine",
+          "points": 100,
+          "question": "This Mexican dish consists of a large flour tortilla wrapped around fillings such as rice, beans, meat, and cheese.",
+          "answer": {
+            "valid": [
+              "burrito"
+            ]
+          },
+          "display": "Burrito"
+        },
+        {
+          "id": "2026-05-03_7",
+          "category": "World Cuisine",
+          "points": 200,
+          "question": "This Indian dish features chicken in a creamy, mildly spiced tomato-based sauce enriched with butter and cream.",
+          "answer": {
+            "valid": [
+              "butter chicken",
+              "murgh makhani"
+            ]
+          },
+          "display": "Butter Chicken"
+        },
+        {
+          "id": "2026-05-03_8",
+          "category": "World Cuisine",
+          "points": 300,
+          "question": "This French Provençal stew of summer vegetables — eggplant, zucchini, tomatoes, and bell peppers — shares its name with a 2007 Pixar film.",
+          "answer": {
+            "valid": [
+              "ratatouille"
+            ]
+          },
+          "display": "Ratatouille"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-04",
+      "categories": [
+        "Star Wars",
+        "Computers & Software",
+        "Roman Mythology"
+      ],
+      "questions": [
+        {
+          "id": "2026-05-04_0",
+          "category": "Star Wars",
+          "points": 100,
+          "question": "This iconic Sith villain, the father of Luke Skywalker, breathes through a black mechanical mask after being severely injured in a duel with Obi-Wan Kenobi.",
+          "answer": {
+            "valid": [
+              "darth vader",
+              "vader",
+              "anakin skywalker",
+              "anakin"
+            ]
+          },
+          "display": "Darth Vader"
+        },
+        {
+          "id": "2026-05-04_1",
+          "category": "Star Wars",
+          "points": 200,
+          "question": "This towering Wookiee, co-pilot of the Millennium Falcon, is best friends with Han Solo and famous for his expressive roar.",
+          "answer": {
+            "valid": [
+              "chewbacca",
+              "chewie"
+            ]
+          },
+          "display": "Chewbacca"
+        },
+        {
+          "id": "2026-05-04_2",
+          "category": "Star Wars",
+          "points": 300,
+          "question": "This horned, red-skinned Sith Lord, played by Ray Park, wields a double-bladed red lightsaber and kills Qui-Gon Jinn in 'The Phantom Menace.'",
+          "answer": {
+            "valid": [
+              "darth maul",
+              "maul"
+            ]
+          },
+          "display": "Darth Maul"
+        },
+        {
+          "id": "2026-05-04_3",
+          "category": "Computers & Software",
+          "points": 100,
+          "question": "This Microsoft operating system, first released in 1985, is the most widely used desktop OS in the world.",
+          "answer": {
+            "valid": [
+              "windows",
+              "microsoft windows"
+            ]
+          },
+          "display": "Windows"
+        },
+        {
+          "id": "2026-05-04_4",
+          "category": "Computers & Software",
+          "points": 200,
+          "question": "This open-source web browser, developed by the Mozilla Foundation, was the spiritual successor to Netscape Navigator.",
+          "answer": {
+            "valid": [
+              "firefox",
+              "mozilla firefox"
+            ]
+          },
+          "display": "Firefox"
+        },
+        {
+          "id": "2026-05-04_5",
+          "category": "Computers & Software",
+          "points": 300,
+          "question": "This American computer scientist, often called the 'mother of debugging,' worked on the Harvard Mark I and was instrumental in the development of COBOL.",
+          "answer": {
+            "valid": [
+              "grace hopper",
+              "hopper"
+            ]
+          },
+          "display": "Grace Hopper"
+        },
+        {
+          "id": "2026-05-04_6",
+          "category": "Roman Mythology",
+          "points": 100,
+          "question": "This two-faced Roman god of beginnings, transitions, and endings gives his name to the first month of the year.",
+          "answer": {
+            "valid": [
+              "janus"
+            ]
+          },
+          "display": "Janus"
+        },
+        {
+          "id": "2026-05-04_7",
+          "category": "Roman Mythology",
+          "points": 200,
+          "question": "In this founding myth of Rome, twin brothers raised by a she-wolf grew up to quarrel, with one killing the other and naming the new city after himself.",
+          "answer": {
+            "valid": [
+              "romulus and remus",
+              "romulus",
+              "romulus & remus"
+            ]
+          },
+          "display": "Romulus and Remus"
+        },
+        {
+          "id": "2026-05-04_8",
+          "category": "Roman Mythology",
+          "points": 300,
+          "question": "This Roman goddess of the hearth was served by chaste priestesses called the Vestal Virgins, who tended the sacred fire of her temple in the Roman Forum.",
+          "answer": {
+            "valid": [
+              "vesta"
+            ]
+          },
+          "display": "Vesta"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-05",
+      "categories": [
+        "Mexico",
+        "Pop Music",
+        "Birds"
+      ],
+      "questions": [
+        {
+          "id": "2026-05-05_0",
+          "category": "Mexico",
+          "points": 100,
+          "question": "This Mexican holiday on November 1st and 2nd honors deceased loved ones with sugar skulls, marigolds, and altars called ofrendas.",
+          "answer": {
+            "valid": [
+              "dia de los muertos",
+              "día de los muertos",
+              "day of the dead"
+            ]
+          },
+          "display": "Día de los Muertos"
+        },
+        {
+          "id": "2026-05-05_1",
+          "category": "Mexico",
+          "points": 200,
+          "question": "This UNESCO World Heritage site in Mexico's Yucatán Peninsula is home to the famous Mayan stepped pyramid of El Castillo, also called the Temple of Kukulcán.",
+          "answer": {
+            "valid": [
+              "chichen itza",
+              "chichén itzá"
+            ]
+          },
+          "display": "Chichén Itzá"
+        },
+        {
+          "id": "2026-05-05_2",
+          "category": "Mexico",
+          "points": 300,
+          "question": "This Mexican muralist, husband of Frida Kahlo, painted enormous frescoes depicting Mexican history and labor across walls in Mexico City and the United States.",
+          "answer": {
+            "valid": [
+              "diego rivera",
+              "rivera"
+            ]
+          },
+          "display": "Diego Rivera"
+        },
+        {
+          "id": "2026-05-05_3",
+          "category": "Pop Music",
+          "points": 100,
+          "question": "This American pop star released the hits 'Bad Guy' and 'Happier Than Ever' and at age 18 swept the four major Grammys in 2020.",
+          "answer": {
+            "valid": [
+              "billie eilish",
+              "eilish"
+            ]
+          },
+          "display": "Billie Eilish"
+        },
+        {
+          "id": "2026-05-05_4",
+          "category": "Pop Music",
+          "points": 200,
+          "question": "This British boy band formed on 'The X Factor' in 2010 included Harry Styles, Niall Horan, Liam Payne, Louis Tomlinson, and Zayn Malik.",
+          "answer": {
+            "valid": [
+              "one direction",
+              "1d"
+            ]
+          },
+          "display": "One Direction"
+        },
+        {
+          "id": "2026-05-05_5",
+          "category": "Pop Music",
+          "points": 300,
+          "question": "This American singer, often dubbed the 'Princess of Pop,' had her breakout hit with '...Baby One More Time' in 1998.",
+          "answer": {
+            "valid": [
+              "britney spears",
+              "britney"
+            ]
+          },
+          "display": "Britney Spears"
+        },
+        {
+          "id": "2026-05-05_6",
+          "category": "Birds",
+          "points": 100,
+          "question": "This common urban bird, often considered a pest, is famous for its homing abilities and was used to carry messages during wartime.",
+          "answer": {
+            "valid": [
+              "pigeon",
+              "pigeons",
+              "rock dove"
+            ]
+          },
+          "display": "Pigeon"
+        },
+        {
+          "id": "2026-05-05_7",
+          "category": "Birds",
+          "points": 200,
+          "question": "This colorful, long-tailed member of the parrot family native to Central and South America can live for over 50 years.",
+          "answer": {
+            "valid": [
+              "macaw",
+              "macaws"
+            ]
+          },
+          "display": "Macaw"
+        },
+        {
+          "id": "2026-05-05_8",
+          "category": "Birds",
+          "points": 300,
+          "question": "This flightless New Zealand bird is the country's national symbol and shares its name with a small fuzzy green fruit.",
+          "answer": {
+            "valid": [
+              "kiwi"
+            ]
+          },
+          "display": "Kiwi"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-06",
+      "categories": [
+        "World War I",
+        "Reptiles",
+        "Hip Hop"
+      ],
+      "questions": [
+        {
+          "id": "2026-05-06_0",
+          "category": "World War I",
+          "points": 100,
+          "question": "The 1914 assassination of this Austro-Hungarian heir in Sarajevo by Gavrilo Princip is widely considered the spark that ignited World War I.",
+          "answer": {
+            "valid": [
+              "franz ferdinand",
+              "archduke franz ferdinand",
+              "ferdinand"
+            ]
+          },
+          "display": "Archduke Franz Ferdinand"
+        },
+        {
+          "id": "2026-05-06_1",
+          "category": "World War I",
+          "points": 200,
+          "question": "This 1916 battle on the Western Front, between British and French forces against Germany, lasted nearly five months and produced over a million casualties.",
+          "answer": {
+            "valid": [
+              "the somme",
+              "battle of the somme",
+              "somme"
+            ]
+          },
+          "display": "The Battle of the Somme"
+        },
+        {
+          "id": "2026-05-06_2",
+          "category": "World War I",
+          "points": 300,
+          "question": "This 1919 peace treaty officially ended World War I and imposed harsh reparations on Germany, sowing the seeds of the next world war.",
+          "answer": {
+            "valid": [
+              "treaty of versailles",
+              "versailles treaty",
+              "the treaty of versailles"
+            ]
+          },
+          "display": "The Treaty of Versailles"
+        },
+        {
+          "id": "2026-05-06_3",
+          "category": "Reptiles",
+          "points": 100,
+          "question": "This long, legless reptile sheds its skin periodically and includes species like the cobra, python, and rattlesnake.",
+          "answer": {
+            "valid": [
+              "snake",
+              "snakes"
+            ]
+          },
+          "display": "Snake"
+        },
+        {
+          "id": "2026-05-06_4",
+          "category": "Reptiles",
+          "points": 200,
+          "question": "This largest living turtle species can weigh over 1,500 pounds and migrates thousands of miles across the world's oceans.",
+          "answer": {
+            "valid": [
+              "leatherback",
+              "leatherback sea turtle",
+              "leatherback turtle"
+            ]
+          },
+          "display": "The Leatherback Sea Turtle"
+        },
+        {
+          "id": "2026-05-06_5",
+          "category": "Reptiles",
+          "points": 300,
+          "question": "This South American reptile, the world's heaviest snake, is non-venomous and kills its prey by constriction.",
+          "answer": {
+            "valid": [
+              "anaconda",
+              "green anaconda"
+            ]
+          },
+          "display": "The Anaconda"
+        },
+        {
+          "id": "2026-05-06_6",
+          "category": "Hip Hop",
+          "points": 100,
+          "question": "This West Coast rapper, born Calvin Broadus Jr., is known for his laid-back drawl and hits like 'Gin and Juice.'",
+          "answer": {
+            "valid": [
+              "snoop dogg",
+              "snoop",
+              "snoop doggy dogg"
+            ]
+          },
+          "display": "Snoop Dogg"
+        },
+        {
+          "id": "2026-05-06_7",
+          "category": "Hip Hop",
+          "points": 200,
+          "question": "This Brooklyn rapper, also known as Biggie Smalls, was murdered in Los Angeles in 1997, just six months after the death of Tupac Shakur.",
+          "answer": {
+            "valid": [
+              "notorious big",
+              "notorious b.i.g.",
+              "biggie",
+              "biggie smalls",
+              "the notorious big"
+            ]
+          },
+          "display": "The Notorious B.I.G."
+        },
+        {
+          "id": "2026-05-06_8",
+          "category": "Hip Hop",
+          "points": 300,
+          "question": "This pioneering 1980s hip-hop trio from Queens — featuring Run, DMC, and Jam Master Jay — was one of the first rap acts to achieve mainstream rock crossover with their 'Walk This Way' collaboration.",
+          "answer": {
+            "valid": [
+              "run dmc",
+              "run-dmc",
+              "run d.m.c."
+            ]
+          },
+          "display": "Run-DMC"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-07",
+      "categories": [
+        "Photography",
+        "Tennis",
+        "Disney"
+      ],
+      "questions": [
+        {
+          "id": "2026-05-07_0",
+          "category": "Photography",
+          "points": 100,
+          "question": "This adjustable camera setting controls the sensitivity of the sensor or film to light, with higher values producing more grain or noise.",
+          "answer": {
+            "valid": [
+              "iso"
+            ]
+          },
+          "display": "ISO"
+        },
+        {
+          "id": "2026-05-07_1",
+          "category": "Photography",
+          "points": 200,
+          "question": "This French inventor produced the world's earliest surviving photograph in 1826, an image titled 'View from the Window at Le Gras.'",
+          "answer": {
+            "valid": [
+              "niepce",
+              "niépce",
+              "joseph niepce",
+              "nicephore niepce",
+              "joseph nicephore niepce",
+              "joseph nicéphore niépce"
+            ]
+          },
+          "display": "Joseph Nicéphore Niépce"
+        },
+        {
+          "id": "2026-05-07_2",
+          "category": "Photography",
+          "points": 300,
+          "question": "This French photographer, considered the master of the 'decisive moment,' co-founded the Magnum Photos cooperative in 1947.",
+          "answer": {
+            "valid": [
+              "cartier-bresson",
+              "henri cartier-bresson",
+              "cartier bresson",
+              "henri cartier bresson"
+            ]
+          },
+          "display": "Henri Cartier-Bresson"
+        },
+        {
+          "id": "2026-05-07_3",
+          "category": "Tennis",
+          "points": 100,
+          "question": "This tennis tournament held in Melbourne is the first Grand Slam of each calendar year.",
+          "answer": {
+            "valid": [
+              "australian open",
+              "the australian open"
+            ]
+          },
+          "display": "The Australian Open"
+        },
+        {
+          "id": "2026-05-07_4",
+          "category": "Tennis",
+          "points": 200,
+          "question": "This Czech-American tennis legend dominated the WTA tour throughout the 1980s, winning 18 Grand Slam singles titles in her career.",
+          "answer": {
+            "valid": [
+              "martina navratilova",
+              "navratilova"
+            ]
+          },
+          "display": "Martina Navratilova"
+        },
+        {
+          "id": "2026-05-07_5",
+          "category": "Tennis",
+          "points": 300,
+          "question": "This stoic Swedish tennis champion won 11 Grand Slam singles titles in the 1970s and early 80s before abruptly retiring at age 26.",
+          "answer": {
+            "valid": [
+              "bjorn borg",
+              "björn borg",
+              "borg"
+            ]
+          },
+          "display": "Björn Borg"
+        },
+        {
+          "id": "2026-05-07_6",
+          "category": "Disney",
+          "points": 100,
+          "question": "This 1998 Disney animated film follows a young Chinese woman who disguises herself as a man to take her father's place in the army.",
+          "answer": {
+            "valid": [
+              "mulan"
+            ]
+          },
+          "display": "Mulan"
+        },
+        {
+          "id": "2026-05-07_7",
+          "category": "Disney",
+          "points": 200,
+          "question": "This 2009 Disney film, set in New Orleans, stars a waitress turned into a frog by a voodoo priest and features Disney's first Black princess.",
+          "answer": {
+            "valid": [
+              "princess and the frog",
+              "the princess and the frog"
+            ]
+          },
+          "display": "The Princess and the Frog"
+        },
+        {
+          "id": "2026-05-07_8",
+          "category": "Disney",
+          "points": 300,
+          "question": "This 1953 Disney animated film, based on a J.M. Barrie play, features a boy who never grows up and his adventures with the Darling children in Neverland.",
+          "answer": {
+            "valid": [
+              "peter pan"
+            ]
+          },
+          "display": "Peter Pan"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-08",
+      "categories": [
+        "World War II",
+        "European Geography",
+        "Boxing & MMA"
+      ],
+      "questions": [
+        {
+          "id": "2026-05-08_0",
+          "category": "World War II",
+          "points": 100,
+          "question": "This Japanese surprise attack on the U.S. naval base in Hawaii on December 7, 1941 brought the United States into World War II.",
+          "answer": {
+            "valid": [
+              "pearl harbor",
+              "attack on pearl harbor"
+            ]
+          },
+          "display": "Pearl Harbor"
+        },
+        {
+          "id": "2026-05-08_1",
+          "category": "World War II",
+          "points": 200,
+          "question": "This Soviet leader, sometimes called the 'Man of Steel,' led the USSR throughout WWII and into the early Cold War.",
+          "answer": {
+            "valid": [
+              "stalin",
+              "joseph stalin",
+              "josef stalin"
+            ]
+          },
+          "display": "Joseph Stalin"
+        },
+        {
+          "id": "2026-05-08_2",
+          "category": "World War II",
+          "points": 300,
+          "question": "This 1944 German surprise offensive in Belgium's Ardennes forest was the last major German attack on the Western Front.",
+          "answer": {
+            "valid": [
+              "battle of the bulge",
+              "the bulge",
+              "ardennes offensive"
+            ]
+          },
+          "display": "The Battle of the Bulge"
+        },
+        {
+          "id": "2026-05-08_3",
+          "category": "European Geography",
+          "points": 100,
+          "question": "This Iberian neighbor of Portugal has its capital at Madrid and is known for tapas, flamenco, and bullfighting.",
+          "answer": {
+            "valid": [
+              "spain"
+            ]
+          },
+          "display": "Spain"
+        },
+        {
+          "id": "2026-05-08_4",
+          "category": "European Geography",
+          "points": 200,
+          "question": "This European microstate, the smallest country in the world by area, is governed by the Pope and entirely surrounded by the city of Rome.",
+          "answer": {
+            "valid": [
+              "vatican city",
+              "the vatican",
+              "vatican"
+            ]
+          },
+          "display": "Vatican City"
+        },
+        {
+          "id": "2026-05-08_5",
+          "category": "European Geography",
+          "points": 300,
+          "question": "This European river flows through ten countries — including Germany, Austria, Hungary, Serbia, and Romania — before emptying into the Black Sea.",
+          "answer": {
+            "valid": [
+              "danube",
+              "the danube",
+              "danube river"
+            ]
+          },
+          "display": "The Danube"
+        },
+        {
+          "id": "2026-05-08_6",
+          "category": "Boxing & MMA",
+          "points": 100,
+          "question": "This American heavyweight, often called 'Iron Mike,' became the youngest heavyweight champion in history at age 20 in 1986.",
+          "answer": {
+            "valid": [
+              "mike tyson",
+              "tyson"
+            ]
+          },
+          "display": "Mike Tyson"
+        },
+        {
+          "id": "2026-05-08_7",
+          "category": "Boxing & MMA",
+          "points": 200,
+          "question": "This Filipino boxer, an eight-division world champion, also served in his country's Senate before retiring from the ring in 2021.",
+          "answer": {
+            "valid": [
+              "manny pacquiao",
+              "pacquiao",
+              "pacman"
+            ]
+          },
+          "display": "Manny Pacquiao"
+        },
+        {
+          "id": "2026-05-08_8",
+          "category": "Boxing & MMA",
+          "points": 300,
+          "question": "This Brazilian fighter, a former UFC middleweight champion, holds the record for the most consecutive title defenses in UFC history at 16.",
+          "answer": {
+            "valid": [
+              "anderson silva",
+              "silva"
+            ]
+          },
+          "display": "Anderson Silva"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-09",
+      "categories": [
+        "Famous Artists",
+        "Fast Food",
+        "Mountains & Deserts"
+      ],
+      "questions": [
+        {
+          "id": "2026-05-09_0",
+          "category": "Famous Artists",
+          "points": 100,
+          "question": "This American realist painter is best known for his 1942 work 'Nighthawks,' depicting four figures in a late-night urban diner.",
+          "answer": {
+            "valid": [
+              "edward hopper",
+              "hopper"
+            ]
+          },
+          "display": "Edward Hopper"
+        },
+        {
+          "id": "2026-05-09_1",
+          "category": "Famous Artists",
+          "points": 200,
+          "question": "This Russian-born French artist is known for vibrant stained-glass windows and dreamlike paintings such as 'I and the Village.'",
+          "answer": {
+            "valid": [
+              "marc chagall",
+              "chagall"
+            ]
+          },
+          "display": "Marc Chagall"
+        },
+        {
+          "id": "2026-05-09_2",
+          "category": "Famous Artists",
+          "points": 300,
+          "question": "This British painter, born in 1937 and based for much of his career in California, is celebrated for vivid swimming-pool paintings such as 'A Bigger Splash.'",
+          "answer": {
+            "valid": [
+              "david hockney",
+              "hockney"
+            ]
+          },
+          "display": "David Hockney"
+        },
+        {
+          "id": "2026-05-09_3",
+          "category": "Fast Food",
+          "points": 100,
+          "question": "This American fast-food chain headquartered in Atlanta is famous for being closed on Sundays and for its breaded chicken sandwich.",
+          "answer": {
+            "valid": [
+              "chick-fil-a",
+              "chick fil a",
+              "chickfila"
+            ]
+          },
+          "display": "Chick-fil-A"
+        },
+        {
+          "id": "2026-05-09_4",
+          "category": "Fast Food",
+          "points": 200,
+          "question": "This American sandwich chain founded in 1965 is known for its 'footlong' subs and its 'Eat Fresh' marketing slogan.",
+          "answer": {
+            "valid": [
+              "subway"
+            ]
+          },
+          "display": "Subway"
+        },
+        {
+          "id": "2026-05-09_5",
+          "category": "Fast Food",
+          "points": 300,
+          "question": "This American doughnut and coffee chain founded in Quincy, Massachusetts in 1950 dropped the 'Donuts' from its name in 2018.",
+          "answer": {
+            "valid": [
+              "dunkin",
+              "dunkin'",
+              "dunkin donuts",
+              "dunkin' donuts"
+            ]
+          },
+          "display": "Dunkin'"
+        },
+        {
+          "id": "2026-05-09_6",
+          "category": "Mountains & Deserts",
+          "points": 100,
+          "question": "This active Italian volcano famously buried the Roman cities of Pompeii and Herculaneum under ash and pumice in 79 AD.",
+          "answer": {
+            "valid": [
+              "mount vesuvius",
+              "vesuvius"
+            ]
+          },
+          "display": "Mount Vesuvius"
+        },
+        {
+          "id": "2026-05-09_7",
+          "category": "Mountains & Deserts",
+          "points": 200,
+          "question": "This desert in northern Chile is considered the driest non-polar desert on Earth, with parts of it that have never recorded measurable rainfall.",
+          "answer": {
+            "valid": [
+              "atacama",
+              "atacama desert",
+              "the atacama desert"
+            ]
+          },
+          "display": "The Atacama Desert"
+        },
+        {
+          "id": "2026-05-09_8",
+          "category": "Mountains & Deserts",
+          "points": 300,
+          "question": "This North American mountain range stretches roughly 3,000 miles from British Columbia in the north to New Mexico in the south.",
+          "answer": {
+            "valid": [
+              "rocky mountains",
+              "rockies",
+              "the rockies",
+              "the rocky mountains"
+            ]
+          },
+          "display": "The Rocky Mountains"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-10",
+      "categories": [
+        "Famous Women in History",
+        "Marvel / MCU",
+        "Animated Movies"
+      ],
+      "questions": [
+        {
+          "id": "2026-05-10_0",
+          "category": "Famous Women in History",
+          "points": 100,
+          "question": "This British monarch reigned from 1837 until 1901 and gave her name to an entire era of British history.",
+          "answer": {
+            "valid": [
+              "queen victoria",
+              "victoria"
+            ]
+          },
+          "display": "Queen Victoria"
+        },
+        {
+          "id": "2026-05-10_1",
+          "category": "Famous Women in History",
+          "points": 200,
+          "question": "This French Catholic peasant girl, claiming divine guidance, led the French army to victory at the Siege of Orléans before being burned at the stake at age 19.",
+          "answer": {
+            "valid": [
+              "joan of arc",
+              "jeanne d'arc"
+            ]
+          },
+          "display": "Joan of Arc"
+        },
+        {
+          "id": "2026-05-10_2",
+          "category": "Famous Women in History",
+          "points": 300,
+          "question": "This Polish-French scientist became the first person to win Nobel Prizes in two different sciences, for her pioneering work on radioactivity.",
+          "answer": {
+            "valid": [
+              "marie curie",
+              "madame curie",
+              "curie"
+            ]
+          },
+          "display": "Marie Curie"
+        },
+        {
+          "id": "2026-05-10_3",
+          "category": "Marvel / MCU",
+          "points": 100,
+          "question": "This green-skinned Avenger, transformed by gamma radiation, is the alter ego of physicist Bruce Banner.",
+          "answer": {
+            "valid": [
+              "hulk",
+              "the hulk",
+              "incredible hulk",
+              "bruce banner"
+            ]
+          },
+          "display": "The Hulk"
+        },
+        {
+          "id": "2026-05-10_4",
+          "category": "Marvel / MCU",
+          "points": 200,
+          "question": "This Marvel team of mutants, led by telepath Charles Xavier, operates from a school in upstate New York and includes Wolverine, Cyclops, and Storm.",
+          "answer": {
+            "valid": [
+              "x-men",
+              "xmen",
+              "the x-men"
+            ]
+          },
+          "display": "The X-Men"
+        },
+        {
+          "id": "2026-05-10_5",
+          "category": "Marvel / MCU",
+          "points": 300,
+          "question": "This 2019 MCU film, the highest-grossing movie of all time at its release, features the surviving Avengers attempting to undo Thanos's Snap.",
+          "answer": {
+            "valid": [
+              "avengers endgame",
+              "endgame",
+              "avengers: endgame"
+            ]
+          },
+          "display": "Avengers: Endgame"
+        },
+        {
+          "id": "2026-05-10_6",
+          "category": "Animated Movies",
+          "points": 100,
+          "question": "This 2010 DreamWorks film follows a young Viking named Hiccup who befriends an injured Night Fury dragon named Toothless.",
+          "answer": {
+            "valid": [
+              "how to train your dragon"
+            ]
+          },
+          "display": "How to Train Your Dragon"
+        },
+        {
+          "id": "2026-05-10_7",
+          "category": "Animated Movies",
+          "points": 200,
+          "question": "This 1988 Studio Ghibli film features two young sisters who befriend the spirits of the forest while living in postwar rural Japan.",
+          "answer": {
+            "valid": [
+              "my neighbor totoro",
+              "totoro"
+            ]
+          },
+          "display": "My Neighbor Totoro"
+        },
+        {
+          "id": "2026-05-10_8",
+          "category": "Animated Movies",
+          "points": 300,
+          "question": "This 2017 Pixar film follows a young Mexican boy named Miguel who travels to the Land of the Dead in pursuit of his musical dreams.",
+          "answer": {
+            "valid": [
+              "coco"
+            ]
+          },
+          "display": "Coco"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-11",
+      "categories": [
+        "Soccer",
+        "Memes & Internet Culture",
+        "Insects & Bugs"
+      ],
+      "questions": [
+        {
+          "id": "2026-05-11_0",
+          "category": "Soccer",
+          "points": 100,
+          "question": "This international soccer tournament, held every four years since 1930, is the most-watched sporting event in the world.",
+          "answer": {
+            "valid": [
+              "world cup",
+              "fifa world cup",
+              "the world cup"
+            ]
+          },
+          "display": "The FIFA World Cup"
+        },
+        {
+          "id": "2026-05-11_1",
+          "category": "Soccer",
+          "points": 200,
+          "question": "This Brazilian soccer legend, often called the 'King of Football,' won three FIFA World Cups with his national team and is widely regarded as one of the greatest ever.",
+          "answer": {
+            "valid": [
+              "pele",
+              "pelé"
+            ]
+          },
+          "display": "Pelé"
+        },
+        {
+          "id": "2026-05-11_2",
+          "category": "Soccer",
+          "points": 300,
+          "question": "This Argentine player, captain of his country's 1986 World Cup-winning team, scored the infamous 'Hand of God' goal against England.",
+          "answer": {
+            "valid": [
+              "maradona",
+              "diego maradona"
+            ]
+          },
+          "display": "Diego Maradona"
+        },
+        {
+          "id": "2026-05-11_3",
+          "category": "Memes & Internet Culture",
+          "points": 100,
+          "question": "This square-format photo and video sharing app, owned by Meta, is famous for its filters, Stories, and influencer culture.",
+          "answer": {
+            "valid": [
+              "instagram",
+              "ig",
+              "the gram"
+            ]
+          },
+          "display": "Instagram"
+        },
+        {
+          "id": "2026-05-11_4",
+          "category": "Memes & Internet Culture",
+          "points": 200,
+          "question": "This 2000s internet phenomenon featured doctored cat photos with broken-English captions, often beginning with 'I Can Has...'",
+          "answer": {
+            "valid": [
+              "lolcats",
+              "lolcat",
+              "i can has cheezburger"
+            ]
+          },
+          "display": "LOLcats"
+        },
+        {
+          "id": "2026-05-11_5",
+          "category": "Memes & Internet Culture",
+          "points": 300,
+          "question": "This Reddit community focused on speculative stock trading became national news during the January 2021 GameStop short squeeze.",
+          "answer": {
+            "valid": [
+              "wallstreetbets",
+              "r/wallstreetbets",
+              "wsb"
+            ]
+          },
+          "display": "r/WallStreetBets"
+        },
+        {
+          "id": "2026-05-11_6",
+          "category": "Insects & Bugs",
+          "points": 100,
+          "question": "These flying social insects produce honey and pollinate flowers, living in large colonies organized around a single queen.",
+          "answer": {
+            "valid": [
+              "bee",
+              "bees",
+              "honeybee",
+              "honey bee",
+              "honeybees"
+            ]
+          },
+          "display": "Honeybees"
+        },
+        {
+          "id": "2026-05-11_7",
+          "category": "Insects & Bugs",
+          "points": 200,
+          "question": "These extremely loud insects emerge from the soil in massive synchronized broods every 13 or 17 years.",
+          "answer": {
+            "valid": [
+              "cicada",
+              "cicadas"
+            ]
+          },
+          "display": "Cicadas"
+        },
+        {
+          "id": "2026-05-11_8",
+          "category": "Insects & Bugs",
+          "points": 300,
+          "question": "This blood-feeding African fly, found primarily in sub-Saharan Africa, transmits the parasites that cause 'sleeping sickness' in humans and livestock.",
+          "answer": {
+            "valid": [
+              "tsetse",
+              "tsetse fly"
+            ]
+          },
+          "display": "Tsetse Fly"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-12",
+      "categories": [
+        "U.S. Presidents",
+        "Coding & Programming",
+        "Famous Tech Companies"
+      ],
+      "questions": [
+        {
+          "id": "2026-05-12_0",
+          "category": "U.S. Presidents",
+          "points": 100,
+          "question": "This 40th president of the United States, a former Hollywood actor and California governor, served two terms from 1981 to 1989.",
+          "answer": {
+            "valid": [
+              "ronald reagan",
+              "reagan"
+            ]
+          },
+          "display": "Ronald Reagan"
+        },
+        {
+          "id": "2026-05-12_1",
+          "category": "U.S. Presidents",
+          "points": 200,
+          "question": "This 33rd president, who took office after FDR's death in 1945, authorized the use of atomic bombs against Japan to end World War II.",
+          "answer": {
+            "valid": [
+              "harry truman",
+              "truman",
+              "harry s truman",
+              "harry s. truman"
+            ]
+          },
+          "display": "Harry S. Truman"
+        },
+        {
+          "id": "2026-05-12_2",
+          "category": "U.S. Presidents",
+          "points": 300,
+          "question": "This 11th president, a Tennessee Democrat, expanded U.S. territory through the Mexican-American War, served only one term, and died just three months after leaving office.",
+          "answer": {
+            "valid": [
+              "polk",
+              "james k polk",
+              "james k. polk",
+              "james polk"
+            ]
+          },
+          "display": "James K. Polk"
+        },
+        {
+          "id": "2026-05-12_3",
+          "category": "Coding & Programming",
+          "points": 100,
+          "question": "This term refers to a fault or error in a computer program — popularized by an early Harvard Mark II incident in which an actual moth was found inside a relay.",
+          "answer": {
+            "valid": [
+              "bug",
+              "software bug"
+            ]
+          },
+          "display": "Bug"
+        },
+        {
+          "id": "2026-05-12_4",
+          "category": "Coding & Programming",
+          "points": 200,
+          "question": "This high-level scripting language, designed by Brendan Eich at Netscape in 1995, is the standard programming language of the web and runs in every browser.",
+          "answer": {
+            "valid": [
+              "javascript",
+              "js"
+            ]
+          },
+          "display": "JavaScript"
+        },
+        {
+          "id": "2026-05-12_5",
+          "category": "Coding & Programming",
+          "points": 300,
+          "question": "This single-letter-named programming language, created by Dennis Ritchie at Bell Labs in 1972, served as the foundation for C++, Objective-C, and many modern languages.",
+          "answer": {
+            "valid": [
+              "c",
+              "c programming language",
+              "c language"
+            ]
+          },
+          "display": "C"
+        },
+        {
+          "id": "2026-05-12_6",
+          "category": "Famous Tech Companies",
+          "points": 100,
+          "question": "This Seattle-based e-commerce giant, founded by Jeff Bezos in 1994, started as an online bookstore.",
+          "answer": {
+            "valid": [
+              "amazon"
+            ]
+          },
+          "display": "Amazon"
+        },
+        {
+          "id": "2026-05-12_7",
+          "category": "Famous Tech Companies",
+          "points": 200,
+          "question": "This American chipmaker, originally known for graphics processing units, became the most valuable public company in the world in 2024 amid the AI boom.",
+          "answer": {
+            "valid": [
+              "nvidia"
+            ]
+          },
+          "display": "NVIDIA"
+        },
+        {
+          "id": "2026-05-12_8",
+          "category": "Famous Tech Companies",
+          "points": 300,
+          "question": "This American semiconductor pioneer, founded in 1968 in Santa Clara, dominated the PC processor market for decades with its 'x86' chip architecture.",
+          "answer": {
+            "valid": [
+              "intel",
+              "intel corporation"
+            ]
+          },
+          "display": "Intel"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-13",
+      "categories": [
+        "Horror Movies",
+        "Greek Mythology",
+        "Crime & Drama TV"
+      ],
+      "questions": [
+        {
+          "id": "2026-05-13_0",
+          "category": "Horror Movies",
+          "points": 100,
+          "question": "This 1996 Wes Craven slasher about a small-town California killer wearing a 'Ghostface' mask spawned a long-running franchise.",
+          "answer": {
+            "valid": [
+              "scream"
+            ]
+          },
+          "display": "Scream"
+        },
+        {
+          "id": "2026-05-13_1",
+          "category": "Horror Movies",
+          "points": 200,
+          "question": "This 1984 Wes Craven supernatural slasher introduced the dream-haunting child killer Freddy Krueger to the town of Springwood.",
+          "answer": {
+            "valid": [
+              "a nightmare on elm street",
+              "nightmare on elm street"
+            ]
+          },
+          "display": "A Nightmare on Elm Street"
+        },
+        {
+          "id": "2026-05-13_2",
+          "category": "Horror Movies",
+          "points": 300,
+          "question": "This 1974 Tobe Hooper horror film, set in rural Texas, introduced the chainsaw-wielding cannibal villain Leatherface.",
+          "answer": {
+            "valid": [
+              "the texas chain saw massacre",
+              "texas chainsaw massacre",
+              "the texas chainsaw massacre",
+              "texas chain saw massacre"
+            ]
+          },
+          "display": "The Texas Chain Saw Massacre"
+        },
+        {
+          "id": "2026-05-13_3",
+          "category": "Greek Mythology",
+          "points": 100,
+          "question": "This Greek goddess of wisdom and warfare, daughter of Zeus, gave her name to the capital of Greece.",
+          "answer": {
+            "valid": [
+              "athena",
+              "pallas athena"
+            ]
+          },
+          "display": "Athena"
+        },
+        {
+          "id": "2026-05-13_4",
+          "category": "Greek Mythology",
+          "points": 200,
+          "question": "This winged messenger god of the Greeks, carrying a staff called the caduceus, served as the equivalent of the Roman god Mercury.",
+          "answer": {
+            "valid": [
+              "hermes"
+            ]
+          },
+          "display": "Hermes"
+        },
+        {
+          "id": "2026-05-13_5",
+          "category": "Greek Mythology",
+          "points": 300,
+          "question": "This king of Mycenae led the combined Greek forces during the Trojan War and was later murdered by his wife Clytemnestra after returning home.",
+          "answer": {
+            "valid": [
+              "agamemnon"
+            ]
+          },
+          "display": "Agamemnon"
+        },
+        {
+          "id": "2026-05-13_6",
+          "category": "Crime & Drama TV",
+          "points": 100,
+          "question": "This long-running CBS crime procedural set in Las Vegas spawned multiple spin-offs and follows investigators using forensic evidence to solve cases.",
+          "answer": {
+            "valid": [
+              "csi",
+              "csi: crime scene investigation",
+              "crime scene investigation"
+            ]
+          },
+          "display": "CSI: Crime Scene Investigation"
+        },
+        {
+          "id": "2026-05-13_7",
+          "category": "Crime & Drama TV",
+          "points": 200,
+          "question": "This Netflix series dramatizes the rise and fall of Pablo Escobar and other South American drug kingpins.",
+          "answer": {
+            "valid": [
+              "narcos"
+            ]
+          },
+          "display": "Narcos"
+        },
+        {
+          "id": "2026-05-13_8",
+          "category": "Crime & Drama TV",
+          "points": 300,
+          "question": "This BBC period crime drama set in 1920s Birmingham follows the Shelby crime family led by Tommy Shelby.",
+          "answer": {
+            "valid": [
+              "peaky blinders"
+            ]
+          },
+          "display": "Peaky Blinders"
+        }
+      ]
+    },
+    {
+      "date": "2026-05-14",
+      "categories": [
+        "Geology",
+        "U.S. Geography",
+        "Animated TV"
+      ],
+      "questions": [
+        {
+          "id": "2026-05-14_0",
+          "category": "Geology",
+          "points": 100,
+          "question": "This term refers to molten rock that has erupted from a volcano onto the Earth's surface.",
+          "answer": {
+            "valid": [
+              "lava"
+            ]
+          },
+          "display": "Lava"
+        },
+        {
+          "id": "2026-05-14_1",
+          "category": "Geology",
+          "points": 200,
+          "question": "This dating technique uses the predictable decay of carbon-14 to estimate the age of organic materials up to about 50,000 years old.",
+          "answer": {
+            "valid": [
+              "radiocarbon dating",
+              "carbon dating",
+              "carbon-14 dating"
+            ]
+          },
+          "display": "Radiocarbon Dating"
+        },
+        {
+          "id": "2026-05-14_2",
+          "category": "Geology",
+          "points": 300,
+          "question": "This 1812 scale, named for a German mineralogist, ranks mineral hardness from 1 (talc) to 10 (diamond) by what scratches what.",
+          "answer": {
+            "valid": [
+              "mohs scale",
+              "mohs",
+              "mohs hardness scale",
+              "the mohs scale"
+            ]
+          },
+          "display": "The Mohs Scale"
+        },
+        {
+          "id": "2026-05-14_3",
+          "category": "U.S. Geography",
+          "points": 100,
+          "question": "This longest river in the United States flows from northern Minnesota through ten states before emptying into the Gulf of Mexico.",
+          "answer": {
+            "valid": [
+              "mississippi river",
+              "the mississippi",
+              "mississippi"
+            ]
+          },
+          "display": "The Mississippi River"
+        },
+        {
+          "id": "2026-05-14_4",
+          "category": "U.S. Geography",
+          "points": 200,
+          "question": "This Hawaiian shield volcano on the Big Island is the largest active volcano in the world by volume.",
+          "answer": {
+            "valid": [
+              "mauna loa"
+            ]
+          },
+          "display": "Mauna Loa"
+        },
+        {
+          "id": "2026-05-14_5",
+          "category": "U.S. Geography",
+          "points": 300,
+          "question": "This Pacific Northwest U.S. state, the only one named after a U.S. president, was admitted to the Union in 1889 as the 42nd state.",
+          "answer": {
+            "valid": [
+              "washington",
+              "washington state",
+              "state of washington"
+            ]
+          },
+          "display": "Washington"
+        },
+        {
+          "id": "2026-05-14_6",
+          "category": "Animated TV",
+          "points": 100,
+          "question": "This crude MTV animated series created by Mike Judge follows two delinquent teenage couch potatoes who watch and mock music videos.",
+          "answer": {
+            "valid": [
+              "beavis and butt-head",
+              "beavis and butthead",
+              "beavis & butthead",
+              "beavis and butt head"
+            ]
+          },
+          "display": "Beavis and Butt-Head"
+        },
+        {
+          "id": "2026-05-14_7",
+          "category": "Animated TV",
+          "points": 200,
+          "question": "This Matt Groening adult animated sitcom, set 1,000 years in the future, follows pizza delivery boy Fry, a bending unit named Bender, and a one-eyed captain named Leela.",
+          "answer": {
+            "valid": [
+              "futurama"
+            ]
+          },
+          "display": "Futurama"
+        },
+        {
+          "id": "2026-05-14_8",
+          "category": "Animated TV",
+          "points": 300,
+          "question": "This Cartoon Network series created by Pendleton Ward follows the adventures of a boy named Finn and his shape-shifting dog Jake in the magical Land of Ooo.",
+          "answer": {
+            "valid": [
+              "adventure time"
+            ]
+          },
+          "display": "Adventure Time"
+        }
+      ]
     }
   ]
 }

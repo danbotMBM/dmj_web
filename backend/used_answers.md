@@ -35,7 +35,10 @@ Do not edit manually.
 - Ancient Egypt: Tutankhamun
 - Ancient Greece: Aristotle
 - Ancient Greece: Euclid
+- Ancient Greece: Homer
+- Ancient Greece: Socrates
 - Ancient Greece: Sparta
+- Ancient Greece: The Battle of Thermopylae
 - Ancient Rome: Augustus
 - Ancient Rome: Cicero
 - Ancient Rome: Julius Caesar
@@ -57,13 +60,19 @@ Do not edit manually.
 - Animals: The Blue Whale
 - Animals: The Elephant
 - Animals: Tiger
+- Animated Movies: Coco
 - Animated Movies: Finding Nemo
 - Animated Movies: Grave of the Fireflies
+- Animated Movies: How to Train Your Dragon
 - Animated Movies: Monsters, Inc.
+- Animated Movies: My Neighbor Totoro
 - Animated Movies: Spirited Away
 - Animated Movies: Toy Story
 - Animated Movies: Up
+- Animated TV: Adventure Time
+- Animated TV: Beavis and Butt-Head
 - Animated TV: Bob's Burgers
+- Animated TV: Futurama
 - Animated TV: Rick and Morty
 - Animated TV: South Park
 - Art: Andy Warhol
@@ -87,12 +96,15 @@ Do not edit manually.
 - Asian Geography: Sri Lanka
 - Asian Geography: Thailand
 - Asian Geography: Uzbekistan
+- Astronomy: Georges Lemaître
 - Astronomy: James Webb Space Telescope
+- Astronomy: Neutron Star
 - Astronomy: Pulsar
 - Astronomy: Solar Eclipse
 - Astronomy: The Hubble Space Telescope
 - Astronomy: The Moon
 - Astronomy: The Oort Cloud
+- Astronomy: Uranus
 - Baking & Desserts: Crème Brûlée
 - Baking & Desserts: Doughnut
 - Baking & Desserts: Macaron
@@ -127,10 +139,16 @@ Do not edit manually.
 - Biology: Mitosis
 - Biology: Photosynthesis
 - Birds: Bald Eagle
+- Birds: Kiwi
+- Birds: Macaw
 - Birds: Penguin
+- Birds: Pigeon
 - Birds: Toucan
+- Boxing & MMA: Anderson Silva
 - Boxing & MMA: Conor McGregor
 - Boxing & MMA: Floyd Mayweather Jr.
+- Boxing & MMA: Manny Pacquiao
+- Boxing & MMA: Mike Tyson
 - Boxing & MMA: Mixed Martial Arts (MMA)
 - Chemistry: Combustion
 - Chemistry: Covalent Bond
@@ -162,12 +180,21 @@ Do not edit manually.
 - Cocktails & Spirits: Bloody Mary
 - Cocktails & Spirits: Bourbon
 - Cocktails & Spirits: Campari
+- Cocktails & Spirits: Daiquiri
 - Cocktails & Spirits: Gin
 - Cocktails & Spirits: Manhattan
 - Cocktails & Spirits: Margarita
 - Cocktails & Spirits: Martini
 - Cocktails & Spirits: Mojito
+- Cocktails & Spirits: Old Fashioned
+- Cocktails & Spirits: Piña Colada
 - Cocktails & Spirits: Tequila
+- Coding & Programming: Bug
+- Coding & Programming: C
+- Coding & Programming: JavaScript
+- Computers & Software: Firefox
+- Computers & Software: Grace Hopper
+- Computers & Software: Windows
 - Cooking Techniques: Deep Frying
 - Cooking Techniques: Flambé
 - Cooking Techniques: Sous Vide
@@ -181,16 +208,22 @@ Do not edit manually.
 - Country Music: Waylon Jennings
 - Country Music: Willie Nelson
 - Crime & Drama TV: Boardwalk Empire
+- Crime & Drama TV: CSI: Crime Scene Investigation
 - Crime & Drama TV: Law & Order
+- Crime & Drama TV: Narcos
+- Crime & Drama TV: Peaky Blinders
 - Crime & Drama TV: You
 - Disney: Aladdin
 - Disney: Beauty and the Beast
 - Disney: Fantasia
 - Disney: Frozen
+- Disney: Mulan
+- Disney: Peter Pan
 - Disney: Rapunzel
 - Disney: Snow White and the Seven Dwarfs
 - Disney: The Emperor's New Groove
 - Disney: The Little Mermaid
+- Disney: The Princess and the Frog
 - Disney: Zootopia
 - Dragon Ball Z: Fusion Dance
 - Dragon Ball Z: Goku
@@ -203,17 +236,32 @@ Do not edit manually.
 - European Geography: Liechtenstein
 - European Geography: Norway
 - European Geography: San Marino
+- European Geography: Spain
+- European Geography: The Danube
 - European Geography: The Volga River
+- European Geography: Vatican City
 - Famous Artists: Artemisia Gentileschi
 - Famous Artists: Claude Monet
+- Famous Artists: David Hockney
+- Famous Artists: Edward Hopper
 - Famous Artists: Frida Kahlo
 - Famous Artists: Gustav Klimt
+- Famous Artists: Marc Chagall
 - Famous Artists: Paul Gauguin
 - Famous Artists: Rembrandt
+- Famous Tech Companies: Amazon
+- Famous Tech Companies: Intel
+- Famous Tech Companies: NVIDIA
+- Famous Women in History: Joan of Arc
+- Famous Women in History: Marie Curie
+- Famous Women in History: Queen Victoria
 - Fast Food: Burger King
+- Fast Food: Chick-fil-A
+- Fast Food: Dunkin'
 - Fast Food: In-N-Out Burger
 - Fast Food: KFC
 - Fast Food: McDonald's
+- Fast Food: Subway
 - Fast Food: Taco Bell
 - Fast Food: Wendy's
 - Food & Drink: Coffee
@@ -246,15 +294,21 @@ Do not edit manually.
 - Geography: The Philippines
 - Geography: The Pyrenees
 - Geography: The Strait of Gibraltar
+- Geology: Lava
 - Geology: Pangaea
+- Geology: Radiocarbon Dating
 - Geology: The Mesozoic Era
+- Geology: The Mohs Scale
 - Geology: Volcano
 - Greek Mythology: Achilles
+- Greek Mythology: Agamemnon
 - Greek Mythology: Aphrodite
+- Greek Mythology: Athena
 - Greek Mythology: Atlas
 - Greek Mythology: Daedalus
 - Greek Mythology: Dionysus
 - Greek Mythology: Hector
+- Greek Mythology: Hermes
 - Greek Mythology: Icarus
 - Greek Mythology: Perseus
 - Greek Mythology: Zeus
@@ -265,6 +319,9 @@ Do not edit manually.
 - Hip Hop: Pharrell Williams
 - Hip Hop: Public Enemy
 - Hip Hop: RZA
+- Hip Hop: Run-DMC
+- Hip Hop: Snoop Dogg
+- Hip Hop: The Notorious B.I.G.
 - Hip Hop: Travis Scott
 - Hip Hop: Will Smith
 - History: Adolf Hitler
@@ -282,6 +339,7 @@ Do not edit manually.
 - History: The Silk Road
 - History: The Storming of the Bastille
 - History: Woodstock
+- Horror Movies: A Nightmare on Elm Street
 - Horror Movies: A Quiet Place
 - Horror Movies: Get Out
 - Horror Movies: Halloween
@@ -289,8 +347,10 @@ Do not edit manually.
 - Horror Movies: Night of the Living Dead
 - Horror Movies: Psycho
 - Horror Movies: Rosemary's Baby
+- Horror Movies: Scream
 - Horror Movies: The Exorcist
 - Horror Movies: The Shining
+- Horror Movies: The Texas Chain Saw Massacre
 - Human Body: Appendix
 - Human Body: Heart
 - Human Body: Skin
@@ -304,8 +364,11 @@ Do not edit manually.
 - Industrial Revolution: Steam Engine
 - Industrial Revolution: The Luddites
 - Insects & Bugs: Ant
+- Insects & Bugs: Cicadas
 - Insects & Bugs: Firefly
+- Insects & Bugs: Honeybees
 - Insects & Bugs: Monarch Butterfly
+- Insects & Bugs: Tsetse Fly
 - Inventions: James Watt
 - Inventions: Rubik's Cube
 - Inventions: The Printing Press
@@ -349,6 +412,7 @@ Do not edit manually.
 - Mammals: Giraffe
 - Mammals: Hedgehog
 - Marvel / MCU: Ant-Man
+- Marvel / MCU: Avengers: Endgame
 - Marvel / MCU: Avengers: Infinity War
 - Marvel / MCU: Black Panther
 - Marvel / MCU: Black Widow
@@ -357,6 +421,8 @@ Do not edit manually.
 - Marvel / MCU: Guardians of the Galaxy
 - Marvel / MCU: Iron Man
 - Marvel / MCU: Spider-Man
+- Marvel / MCU: The Hulk
+- Marvel / MCU: The X-Men
 - Math & Numbers: Binary
 - Math & Numbers: Calculus
 - Math & Numbers: Division
@@ -367,12 +433,21 @@ Do not edit manually.
 - Math & Numbers: Six (6)
 - Math & Numbers: The Fibonacci Sequence
 - Memes & Internet Culture: Gangnam Style
+- Memes & Internet Culture: Instagram
+- Memes & Internet Culture: LOLcats
 - Memes & Internet Culture: The Dress
 - Memes & Internet Culture: The Ice Bucket Challenge
+- Memes & Internet Culture: r/WallStreetBets
+- Mexico: Chichén Itzá
+- Mexico: Diego Rivera
+- Mexico: Día de los Muertos
 - Mountains & Deserts: Mount Everest
 - Mountains & Deserts: Mount Kilimanjaro
+- Mountains & Deserts: Mount Vesuvius
 - Mountains & Deserts: The Alps
 - Mountains & Deserts: The Andes
+- Mountains & Deserts: The Atacama Desert
+- Mountains & Deserts: The Rocky Mountains
 - Mountains & Deserts: The Sahara
 - Mountains & Deserts: The Sonoran Desert
 - Movies: 12 Angry Men
@@ -468,6 +543,9 @@ Do not edit manually.
 - Photography: Ansel Adams
 - Photography: Aperture
 - Photography: Focus Stacking
+- Photography: Henri Cartier-Bresson
+- Photography: ISO
+- Photography: Joseph Nicéphore Niépce
 - Physics: E=mc²
 - Physics: Gravitational Waves
 - Physics: Gravity
@@ -496,7 +574,10 @@ Do not edit manually.
 - Pop Culture: Squid Game
 - Pop Culture: TikTok
 - Pop Music: ABBA
+- Pop Music: Billie Eilish
+- Pop Music: Britney Spears
 - Pop Music: Justin Bieber
+- Pop Music: One Direction
 - Pop Music: Rihanna
 - Reality TV: Love Is Blind
 - Reality TV: Survivor
@@ -504,15 +585,24 @@ Do not edit manually.
 - Reptiles: Chameleon
 - Reptiles: Crocodile
 - Reptiles: Komodo Dragon
+- Reptiles: Snake
+- Reptiles: The Anaconda
+- Reptiles: The Leatherback Sea Turtle
 - Rock & Roll: AC/DC
 - Rock & Roll: Guns N' Roses
 - Rock & Roll: Jimi Hendrix
 - Rock & Roll: Stairway to Heaven
 - Rock & Roll: The Eagles
 - Rock & Roll: The Rolling Stones
+- Roman Mythology: Janus
+- Roman Mythology: Romulus and Remus
+- Roman Mythology: Vesta
 - Sci Fi: Dune
+- Sci Fi: Ender's Game
+- Sci Fi: Fahrenheit 451
 - Sci Fi: Foundation
 - Sci Fi: The Hitchhiker's Guide to the Galaxy
+- Sci Fi: The War of the Worlds
 - Science: Albert Einstein
 - Science: Artery
 - Science: Biology
@@ -547,7 +637,10 @@ Do not edit manually.
 - Smartphones: BlackBerry
 - Smartphones: Samsung
 - Soccer: Cristiano Ronaldo
+- Soccer: Diego Maradona
 - Soccer: Lionel Messi
+- Soccer: Pelé
+- Soccer: The FIFA World Cup
 - Soccer: The UEFA Champions League
 - South American Geography: Iguazu Falls
 - South American Geography: Salar de Uyuni
@@ -584,6 +677,9 @@ Do not edit manually.
 - Sports: Usain Bolt
 - Star Wars: Boba Fett
 - Star Wars: C-3PO
+- Star Wars: Chewbacca
+- Star Wars: Darth Maul
+- Star Wars: Darth Vader
 - Star Wars: Emperor Palpatine
 - Star Wars: Tatooine
 - Star Wars: The Empire Strikes Back
@@ -598,10 +694,13 @@ Do not edit manually.
 - Technology: WhatsApp
 - Technology: Wi-Fi
 - Television: American Idol
+- Television: Black Mirror
 - Television: Breaking Bad
 - Television: Dad's Army
+- Television: Dexter
 - Television: Game of Thrones
 - Television: Grey's Anatomy
+- Television: Saturday Night Live
 - Television: Seinfeld
 - Television: Stranger Things
 - Television: Ted Lasso
@@ -609,10 +708,13 @@ Do not edit manually.
 - Television: The Handmaid's Tale
 - Television: The Simpsons
 - Television: The Wire
+- Tennis: Björn Borg
 - Tennis: Boris Becker
+- Tennis: Martina Navratilova
 - Tennis: Rafael Nadal
 - Tennis: Roger Federer
 - Tennis: Serena Williams
+- Tennis: The Australian Open
 - Tennis: The French Open
 - Tennis: Wimbledon
 - The American Revolution: Baron von Steuben
@@ -639,23 +741,32 @@ Do not edit manually.
 - The Internet: Reddit
 - The Internet: Wikipedia
 - The Internet: YouTube
+- The Renaissance: Donatello
+- The Renaissance: Filippo Brunelleschi
 - The Renaissance: Florence
 - The Renaissance: Leonardo da Vinci
 - The Renaissance: Niccolò Machiavelli
+- The Renaissance: Sandro Botticelli
 - U.S. Geography: Alaska
 - U.S. Geography: Arizona
 - U.S. Geography: Lake Superior
+- U.S. Geography: Mauna Loa
 - U.S. Geography: Santa Fe, New Mexico
+- U.S. Geography: The Mississippi River
 - U.S. Geography: The Strait of Mackinac
 - U.S. Geography: U.S. Virgin Islands
+- U.S. Geography: Washington
 - U.S. Presidents: Abraham Lincoln
 - U.S. Presidents: Andrew Jackson
 - U.S. Presidents: Barack Obama
 - U.S. Presidents: Dwight D. Eisenhower
 - U.S. Presidents: Franklin D. Roosevelt
 - U.S. Presidents: George W. Bush
+- U.S. Presidents: Harry S. Truman
+- U.S. Presidents: James K. Polk
 - U.S. Presidents: James Monroe
 - U.S. Presidents: John F. Kennedy
+- U.S. Presidents: Ronald Reagan
 - U.S. Presidents: Theodore Roosevelt
 - U.S. Presidents: Thomas Jefferson
 - U.S. Presidents: William Henry Harrison
@@ -675,22 +786,31 @@ Do not edit manually.
 - Video Games: The Legend of Zelda
 - Video Games: The Legend of Zelda: Breath of the Wild
 - Video Games: The Witcher 3: Wild Hunt
+- Wine & Beer: Bordeaux
+- Wine & Beer: Cabernet Sauvignon
 - Wine & Beer: Champagne
+- Wine & Beer: Guinness
 - Wine & Beer: Lager
 - Wine & Beer: Lambic
 - World Capitals: Addis Ababa
 - World Capitals: Ankara
+- World Capitals: Canberra
 - World Capitals: Ho Chi Minh City
 - World Capitals: Jakarta
 - World Capitals: La Paz
+- World Capitals: Seoul
 - World Capitals: Tokyo
+- World Capitals: Ulaanbaatar
 - World Cuisine: Bulgogi
+- World Cuisine: Burrito
+- World Cuisine: Butter Chicken
 - World Cuisine: Ceviche
 - World Cuisine: Hummus
 - World Cuisine: Khachapuri
 - World Cuisine: Naan
 - World Cuisine: Paella
 - World Cuisine: Pho
+- World Cuisine: Ratatouille
 - World Cuisine: Sushi
 - World Cuisine: Tempura
 - World Geography: Australia
@@ -699,9 +819,15 @@ Do not edit manually.
 - World Geography: Lima, Peru
 - World Geography: Russia
 - World Geography: Tanzania
+- World War I: Archduke Franz Ferdinand
+- World War I: The Battle of the Somme
+- World War I: The Treaty of Versailles
 - World War II: Auschwitz
 - World War II: D-Day
+- World War II: Joseph Stalin
 - World War II: Nagasaki
+- World War II: Pearl Harbor
 - World War II: The Battle of Stalingrad
+- World War II: The Battle of the Bulge
 - World War II: The Manhattan Project
 - World War II: Winston Churchill
