@@ -266,6 +266,18 @@ func main() {
 				}
 			}
 
+			// Answer must not appear verbatim in the question text (whole-word match).
+			lowerQuestion := strings.ToLower(q.Question)
+			for _, ans := range q.Answer.Valid {
+				if ans == "" {
+					continue
+				}
+				pat := `(?i)\b` + regexp.QuoteMeta(ans) + `\b`
+				if matched, _ := regexp.MatchString(pat, lowerQuestion); matched {
+					bad("%s: answer %q appears in the question text", qprefix, ans)
+				}
+			}
+
 			// Display non-empty
 			if q.Display == "" {
 				bad("%s: display is empty", qprefix)

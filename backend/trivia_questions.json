@@ -363,7 +363,7 @@
           "id": "2026-02-14_8",
           "category": "Technology",
           "points": 300,
-          "question": "This protocol, the foundation of data communication on the World Wide Web, stands for HyperText Transfer Protocol.",
+          "question": "This four-letter protocol, the foundation of data communication on the World Wide Web, can be seen at the start of most web addresses.",
           "answer": {
             "valid": [
               "http",
@@ -610,7 +610,7 @@
           "id": "2026-02-16_8",
           "category": "Science",
           "points": 300,
-          "question": "This subatomic particle, theorized by Peter Higgs, was confirmed by CERN in 2012 and is associated with giving particles mass.",
+          "question": "This subatomic particle, theorized in 1964 by a British physicist whose surname it carries, was confirmed by CERN in 2012 and is associated with giving particles mass.",
           "answer": {
             "valid": [
               "higgs boson",
@@ -1887,7 +1887,7 @@
           "id": "2026-02-27_0",
           "category": "Video Games",
           "points": 100,
-          "question": "This Nintendo action-adventure franchise features a green-clad hero named Link on a quest to rescue Princess Zelda.",
+          "question": "This Nintendo action-adventure franchise features a green-clad hero named Link on a quest to rescue an elven princess of Hyrule.",
           "answer": {
             "valid": [
               "the legend of zelda",
@@ -2112,7 +2112,7 @@
           "id": "2026-02-28_8",
           "category": "Nature",
           "points": 300,
-          "question": "This scientific theory, introduced by Charles Darwin in 1859, explains how species change over successive generations through natural selection.",
+          "question": "This scientific theory, introduced by Charles Darwin in his 1859 book 'On the Origin of Species,' explains how populations change over successive generations through inherited variation.",
           "answer": {
             "valid": [
               "evolution",
@@ -3025,11 +3025,10 @@
           "id": "2026-03-08_0",
           "category": "Hip Hop",
           "points": 100,
-          "question": "This rapper, born Marshall Mathers, is known as Rap God and hails from Detroit.",
+          "question": "This Detroit-born rapper, the protagonist of the 2002 film '8 Mile,' has been called 'Rap God' and uses the alter ego Slim Shady.",
           "answer": {
             "valid": [
               "eminem",
-              "slim shady",
               "marshall mathers"
             ]
           },
@@ -3232,7 +3231,7 @@
           "id": "2026-03-09_6",
           "category": "90s TV",
           "points": 100,
-          "question": "This NBC sitcom, which ran from 1994 to 2004, followed six friends navigating relationships, careers, and life in New York City from their coffee-shop booth at Central Perk.",
+          "question": "This NBC sitcom, which ran from 1994 to 2004, followed Rachel, Ross, Monica, Chandler, Joey, and Phoebe as they navigated life in New York City from their booth at the Central Perk coffee shop.",
           "answer": {
             "valid": [
               "friends"
@@ -4050,7 +4049,7 @@
           "id": "2026-03-16_1",
           "category": "Shakespeare",
           "points": 200,
-          "question": "This Shakespeare tragedy features the Moorish general Othello, his devoted wife Desdemona, and the manipulative villain Iago who destroys them both with jealousy.",
+          "question": "This Shakespeare tragedy features a Moorish general, his devoted wife Desdemona, and the manipulative villain Iago who destroys them both with jealousy.",
           "answer": {
             "valid": [
               "othello"
@@ -4139,7 +4138,7 @@
           "id": "2026-03-16_8",
           "category": "Baking \u0026 Desserts",
           "points": 300,
-          "question": "This classic French upside-down tart, made with caramelized apples baked on a pastry base then inverted when served, was said to have been invented accidentally by the Tatin sisters in the 1880s.",
+          "question": "This classic French upside-down tart, made with caramelized apples baked on a pastry base then inverted when served, is said to have been invented accidentally by two sisters running a hotel in the Loire Valley in the 1880s.",
           "answer": {
             "valid": [
               "tarte tatin",
@@ -4175,7 +4174,7 @@
           "id": "2026-03-17_1",
           "category": "Norse Mythology",
           "points": 200,
-          "question": "This enormous sea serpent of Norse mythology, offspring of Loki, encircles the entire world and bites its own tail, giving it the nickname 'the World Serpent'.",
+          "question": "This enormous sea serpent of Norse mythology, offspring of Loki, encircles the entire realm of Midgard and bites its own tail.",
           "answer": {
             "valid": [
               "jormungandr",
@@ -4576,7 +4575,7 @@
           "id": "2026-03-20_3",
           "category": "Horror Movies",
           "points": 100,
-          "question": "This 1978 John Carpenter film features a masked killer named Michael Myers who stalks babysitters on Halloween night in the fictional town of Haddonfield, Illinois.",
+          "question": "This 1978 John Carpenter film features a masked killer named Michael Myers who stalks babysitters on October 31st in the fictional town of Haddonfield, Illinois.",
           "answer": {
             "valid": [
               "halloween"
@@ -5219,7 +5218,7 @@
           "id": "2026-03-25_5",
           "category": "Ancient Rome",
           "points": 300,
-          "question": "This massive system of aqueducts, roads, and public baths was supplied by structures that carried water over long distances, with the most famous surviving example being the triple-arched Pont du Gard in southern France.",
+          "question": "These engineering marvels of ancient Rome carried fresh water over long distances into cities, with the most famous surviving example being the triple-arched Pont du Gard in southern France.",
           "answer": {
             "valid": [
               "aqueduct",
@@ -5234,7 +5233,7 @@
           "id": "2026-03-25_6",
           "category": "Ocean Life",
           "points": 100,
-          "question": "This slow-moving, plant-eating sea creature — related to the elephant on land — is also called a sea cow and is frequently injured by boat propellers in shallow coastal waters.",
+          "question": "This slow-moving, plant-eating marine mammal — distantly related to the elephant — grazes on seagrass and is frequently injured by boat propellers in shallow coastal waters.",
           "answer": {
             "valid": [
               "manatee",
@@ -5406,7 +5405,7 @@
           "id": "2026-03-27_0",
           "category": "Basketball",
           "points": 100,
-          "question": "This NBA player, nicknamed 'King James,' broke the league's all-time scoring record in 2023 and has won four NBA championships across three different teams.",
+          "question": "This NBA superstar broke the league's all-time scoring record in 2023 and has won four championships across three different teams during his career that began in Cleveland.",
           "answer": {
             "valid": [
               "lebron james",
@@ -5433,7 +5432,7 @@
           "id": "2026-03-27_2",
           "category": "Basketball",
           "points": 300,
-          "question": "This LSU guard, nicknamed 'Pistol Pete,' set an NCAA record by averaging 44.2 points per game in a single season and dazzled fans with his behind-the-back passes and flashy dribbling.",
+          "question": "This flashy LSU guard set an NCAA record by averaging 44.2 points per game in a single season and dazzled fans with his behind-the-back passes and showmanship.",
           "answer": {
             "valid": [
               "pete maravich",
@@ -5838,7 +5837,7 @@
           "id": "2026-03-30_4",
           "category": "Asian Geography",
           "points": 200,
-          "question": "This island nation south of India, known for its tea plantations and ancient Buddhist temples, was formerly called Ceylon and has Colombo as its commercial capital.",
+          "question": "This island nation south of India, known for its tea plantations and ancient Buddhist temples, has Colombo as its commercial capital and was once a British colony with a different name.",
           "answer": {
             "valid": [
               "sri lanka",
@@ -5863,7 +5862,7 @@
           "id": "2026-03-30_6",
           "category": "Astronomy",
           "points": 100,
-          "question": "This is Earth's only natural satellite and the fifth largest moon in the solar system, visible from Earth every night.",
+          "question": "This is Earth's only natural satellite, the fifth largest in the solar system, and the celestial body where Apollo 11 first landed humans in 1969.",
           "answer": {
             "valid": [
               "moon",
@@ -5925,7 +5924,7 @@
           "id": "2026-03-31_1",
           "category": "Sitcoms",
           "points": 200,
-          "question": "This NBC comedy, created by Dan Harmon, follows a group of misfit students at the fictional Greendale Community College and is known for its genre-bending themed episodes.",
+          "question": "This NBC comedy, created by Dan Harmon, follows a study group of misfit students at the fictional Greendale College and is known for its genre-bending themed episodes.",
           "answer": {
             "valid": [
               "community"
@@ -6090,7 +6089,7 @@
           "id": "2026-04-01_4",
           "category": "Jazz \u0026 Blues",
           "points": 200,
-          "question": "This alto saxophonist, nicknamed 'Bird,' was a pioneering figure of the fast and complex bebop style of jazz and recorded groundbreaking sessions in the 1940s.",
+          "question": "This alto saxophonist was a pioneering figure of the fast and complex bebop style of jazz, recording groundbreaking 1940s sessions and earning an avian nickname that lives on in the title of a Clint Eastwood biopic.",
           "answer": {
             "valid": [
               "charlie parker",
@@ -6305,7 +6304,7 @@
           "id": "2026-04-03_1",
           "category": "Reality TV",
           "points": 200,
-          "question": "This reality dating show features a single bachelor or bachelorette choosing from a pool of contestants, handing out roses each week to those who stay.",
+          "question": "On this long-running ABC reality dating show, a single suitor chooses from a pool of contestants, handing out roses each week to those who stay.",
           "answer": {
             "valid": [
               "the bachelor",
@@ -6424,7 +6423,7 @@
           "id": "2026-04-04_0",
           "category": "Boxing \u0026 MMA",
           "points": 100,
-          "question": "This combat sport, popularized by the UFC, allows fighters to use techniques from multiple disciplines including wrestling, jiu-jitsu, and kickboxing.",
+          "question": "This full-contact combat sport, popularized by promotions like Bellator and the world's largest fight league, allows competitors to use techniques from wrestling, jiu-jitsu, and kickboxing inside an octagonal cage.",
           "answer": {
             "valid": [
               "mma",
@@ -6881,7 +6880,7 @@
           "id": "2026-04-07_6",
           "category": "Hip Hop",
           "points": 100,
-          "question": "This rapper and actor from West Philadelphia starred in 'The Fresh Prince of Bel-Air' and has won multiple Grammy Awards for songs like 'Gettin' Jiggy wit It.'",
+          "question": "This rapper and actor from West Philadelphia starred in a 90s NBC sitcom about an inner-city teen sent to live with wealthy relatives in Bel-Air, and has won multiple Grammy Awards for songs like 'Gettin' Jiggy wit It.'",
           "answer": {
             "valid": [
               "will smith",
@@ -6907,7 +6906,7 @@
           "id": "2026-04-07_8",
           "category": "Hip Hop",
           "points": 300,
-          "question": "This Brooklyn rapper, born Nasir Jones, released the critically acclaimed 1994 debut album 'Illmatic,' widely considered one of the greatest hip hop albums ever made.",
+          "question": "This Queensbridge rapper released the critically acclaimed 1994 debut album 'Illmatic,' widely considered one of the greatest hip hop albums ever made, and later feuded famously with Jay-Z.",
           "answer": {
             "valid": [
               "nas",
@@ -7831,7 +7830,7 @@
           "id": "2026-04-15_2",
           "category": "World War II",
           "points": 300,
-          "question": "This secret Allied project, codenamed the Manhattan Project, developed the first nuclear weapons, which were used on Japan in August 1945.",
+          "question": "This secret Allied research effort, led by J. Robert Oppenheimer at Los Alamos, developed the first nuclear weapons, which were used on Japan in August 1945.",
           "answer": {
             "valid": [
               "manhattan project",
@@ -8158,7 +8157,7 @@
           "id": "2026-04-17_8",
           "category": "World Capitals",
           "points": 300,
-          "question": "This Southeast Asian capital city was known as Saigon until 1976 and is the largest city in Vietnam.",
+          "question": "Renamed in 1976 after a famous communist revolutionary leader, this is the largest city in Vietnam and serves as its primary economic hub.",
           "answer": {
             "valid": [
               "ho chi minh city",
@@ -8233,7 +8232,7 @@
           "id": "2026-04-18_4",
           "category": "Mythology",
           "points": 200,
-          "question": "In Norse mythology, this realm of the dead is ruled by the goddess Hel and is where those who die of illness or old age go in the afterlife.",
+          "question": "In Norse mythology, this realm of the dead is ruled by Loki's daughter and is where those who die of illness or old age go in the afterlife, in contrast to the warriors' hall of Valhalla.",
           "answer": {
             "valid": [
               "helheim",
@@ -8457,7 +8456,7 @@
           "id": "2026-04-20_2",
           "category": "Star Wars",
           "points": 300,
-          "question": "This Sith Lord, born as Sheev Palpatine, manipulated the galaxy from the shadows before declaring himself Emperor.",
+          "question": "This Sith Lord, posing for decades as a humble senator from Naboo, manipulated the galaxy from the shadows before declaring himself Emperor of the new Galactic Empire.",
           "answer": {
             "valid": [
               "emperor palpatine",
@@ -8510,7 +8509,7 @@
           "id": "2026-04-20_6",
           "category": "Asian Geography",
           "points": 100,
-          "question": "This Asian country, once known as Persia, is home to ancient ruins like Persepolis and has Tehran as its capital.",
+          "question": "This Asian country, home to ancient ruins like Persepolis, has Tehran as its capital and underwent an Islamic Revolution in 1979.",
           "answer": {
             "valid": [
               "iran",
@@ -8523,7 +8522,7 @@
           "id": "2026-04-20_7",
           "category": "Asian Geography",
           "points": 200,
-          "question": "This Southeast Asian country, formerly known as Siam, is known for its ornate temples, tropical beaches, and spicy cuisine.",
+          "question": "This Southeast Asian kingdom, with Bangkok as its capital, is known for its ornate Buddhist temples, tropical beaches, and spicy cuisine.",
           "answer": {
             "valid": [
               "thailand",
@@ -8684,7 +8683,7 @@
           "id": "2026-04-22_0",
           "category": "Cocktails \u0026 Spirits",
           "points": 100,
-          "question": "This clear spirit, made from juniper berries and other botanicals, is the base of the classic gin and tonic.",
+          "question": "This clear spirit, flavored predominantly with juniper berries and other botanicals, is the base of a classic martini and pairs famously with tonic water.",
           "answer": {
             "valid": [
               "gin"
@@ -8781,7 +8780,7 @@
           "id": "2026-04-22_8",
           "category": "Smartphones",
           "points": 300,
-          "question": "This Canadian company, formerly known as Research In Motion, was famous for its QWERTY-keyboard smartphones popular with business professionals in the 2000s.",
+          "question": "This Canadian smartphone maker, headquartered in Waterloo, Ontario, was famous for its QWERTY-keyboard devices popular with business professionals in the 2000s.",
           "answer": {
             "valid": [
               "blackberry",
@@ -8805,7 +8804,7 @@
           "id": "2026-04-23_0",
           "category": "Sports",
           "points": 100,
-          "question": "This Jamaican sprinter, nicknamed 'Lightning Bolt,' holds the world records in both the 100m and 200m events and is considered the fastest person ever.",
+          "question": "This Jamaican sprinter, who struck a famous lightning pose at the 2008 Olympics, holds the world records in both the 100m and 200m events and is considered the fastest person ever.",
           "answer": {
             "valid": [
               "usain bolt",
@@ -8818,7 +8817,7 @@
           "id": "2026-04-23_1",
           "category": "Sports",
           "points": 200,
-          "question": "This sport, played on a large grass field with 11 players per side, is the most popular sport in the world and is called 'football' outside of North America.",
+          "question": "This sport, played on a large grass pitch with 11 players per side, is the most popular sport in the world and crowns its World Cup champion every four years.",
           "answer": {
             "valid": [
               "soccer",
@@ -10524,7 +10523,7 @@
           "id": "2026-05-06_7",
           "category": "Hip Hop",
           "points": 200,
-          "question": "This Brooklyn rapper, also known as Biggie Smalls, was murdered in Los Angeles in 1997, just six months after the death of Tupac Shakur.",
+          "question": "This Brooklyn rapper born Christopher Wallace was murdered in Los Angeles in 1997, just six months after the death of Tupac Shakur.",
           "answer": {
             "valid": [
               "notorious big",
@@ -10998,13 +10997,12 @@
           "id": "2026-05-10_3",
           "category": "Marvel / MCU",
           "points": 100,
-          "question": "This green-skinned Avenger, transformed by gamma radiation, is the alter ego of physicist Bruce Banner.",
+          "question": "This green-skinned Avenger emerges when scientist Robert Bruce Banner becomes angry, having been transformed by exposure to gamma radiation.",
           "answer": {
             "valid": [
               "hulk",
               "the hulk",
-              "incredible hulk",
-              "bruce banner"
+              "incredible hulk"
             ]
           },
           "display": "The Hulk"
@@ -11291,7 +11289,7 @@
           "id": "2026-05-12_5",
           "category": "Coding & Programming",
           "points": 300,
-          "question": "This single-letter-named programming language, created by Dennis Ritchie at Bell Labs in 1972, served as the foundation for C++, Objective-C, and many modern languages.",
+          "question": "This single-letter-named programming language, created by Dennis Ritchie at Bell Labs in 1972, served as the foundation for many modern languages including its successor designed by Bjarne Stroustrup.",
           "answer": {
             "valid": [
               "c",
