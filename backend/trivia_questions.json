@@ -11592,6 +11592,261 @@
           "display": "Adventure Time"
         }
       ]
+    },
+    {
+      "date": "2026-05-15",
+      "categories": ["World Cuisine", "Sci Fi", "U.S. Presidents"],
+      "questions": [
+        {"id": "2026-05-15_0", "category": "World Cuisine", "points": 100, "question": "This Mexican staple consists of a folded or rolled tortilla filled with various ingredients like meat, beans, and cheese.", "answer": {"valid": ["taco", "tacos"]}, "display": "Tacos"},
+        {"id": "2026-05-15_1", "category": "World Cuisine", "points": 200, "question": "This Hungarian stew, traditionally made with beef, paprika, and onions, is considered the national dish of Hungary.", "answer": {"valid": ["goulash", "gulyas", "gulyás"]}, "display": "Goulash"},
+        {"id": "2026-05-15_2", "category": "World Cuisine", "points": 300, "question": "This Korean rice dish, whose name literally means 'mixed rice', is typically served in a hot stone bowl topped with vegetables, beef, and a fried egg.", "answer": {"valid": ["bibimbap"]}, "display": "Bibimbap"},
+        {"id": "2026-05-15_3", "category": "Sci Fi", "points": 100, "question": "This 1895 H.G. Wells novella about a Victorian inventor traveling to the year 802,701 is considered a foundational work of the genre.", "answer": {"valid": ["the time machine", "time machine"]}, "display": "The Time Machine"},
+        {"id": "2026-05-15_4", "category": "Sci Fi", "points": 200, "question": "This 1984 William Gibson novel, which popularized the term 'cyberspace', won the Hugo, Nebula, and Philip K. Dick awards.", "answer": {"valid": ["neuromancer"]}, "display": "Neuromancer"},
+        {"id": "2026-05-15_5", "category": "Sci Fi", "points": 300, "question": "This 1959 Walter M. Miller Jr. novel follows a Catholic monastic order preserving knowledge across centuries after a nuclear apocalypse.", "answer": {"valid": ["a canticle for leibowitz", "canticle for leibowitz"]}, "display": "A Canticle for Leibowitz"},
+        {"id": "2026-05-15_6", "category": "U.S. Presidents", "points": 100, "question": "This 41st president, who served from 1989 to 1993, oversaw the end of the Cold War and the Gulf War, and was the father of the 43rd president.", "answer": {"valid": ["george h.w. bush", "george hw bush", "george bush sr", "h.w. bush", "bush sr", "george bush sr.", "george h w bush"]}, "display": "George H.W. Bush"},
+        {"id": "2026-05-15_7", "category": "U.S. Presidents", "points": 200, "question": "Often called the 'Father of the Constitution', this fourth U.S. president led the country during the War of 1812.", "answer": {"valid": ["james madison", "madison"]}, "display": "James Madison"},
+        {"id": "2026-05-15_8", "category": "U.S. Presidents", "points": 300, "question": "This 21st president took office after the assassination of James A. Garfield in 1881 and signed the Pendleton Civil Service Reform Act.", "answer": {"valid": ["chester a. arthur", "chester arthur", "arthur", "chester alan arthur"]}, "display": "Chester A. Arthur"}
+      ]
+    },
+    {
+      "date": "2026-05-16",
+      "categories": ["Soccer", "Pop Music", "Asian Geography"],
+      "questions": [
+        {"id": "2026-05-16_0", "category": "Soccer", "points": 100, "question": "This is the only player on a soccer team allowed to use their hands within the field of play.", "answer": {"valid": ["goalkeeper", "goalie", "keeper", "goal keeper"]}, "display": "Goalkeeper"},
+        {"id": "2026-05-16_1", "category": "Soccer", "points": 200, "question": "This Spanish club, based in the country's capital, has won more European Cup / Champions League titles than any other club in history.", "answer": {"valid": ["real madrid", "real madrid cf"]}, "display": "Real Madrid"},
+        {"id": "2026-05-16_2", "category": "Soccer", "points": 300, "question": "This French midfielder won the 1998 World Cup as a player and later coached Real Madrid to three consecutive Champions League titles.", "answer": {"valid": ["zinedine zidane", "zidane", "zizou"]}, "display": "Zinedine Zidane"},
+        {"id": "2026-05-16_3", "category": "Pop Music", "points": 100, "question": "This American singer, born Stefani Germanotta, is known for hits like 'Bad Romance', 'Poker Face', and 'Shallow'.", "answer": {"valid": ["lady gaga", "gaga"]}, "display": "Lady Gaga"},
+        {"id": "2026-05-16_4", "category": "Pop Music", "points": 200, "question": "This British group, with members nicknamed Scary, Sporty, Posh, Ginger, and Baby, dominated the late 1990s with hits like 'Wannabe'.", "answer": {"valid": ["spice girls", "the spice girls"]}, "display": "Spice Girls"},
+        {"id": "2026-05-16_5", "category": "Pop Music", "points": 300, "question": "This American singer-songwriter's 2021 debut single 'drivers license' broke streaming records, launching her album 'SOUR'.", "answer": {"valid": ["olivia rodrigo", "rodrigo"]}, "display": "Olivia Rodrigo"},
+        {"id": "2026-05-16_6", "category": "Asian Geography", "points": 100, "question": "This South Asian country, with capital New Delhi, is home to the Taj Mahal and the Ganges River.", "answer": {"valid": ["india"]}, "display": "India"},
+        {"id": "2026-05-16_7", "category": "Asian Geography", "points": 200, "question": "This Southeast Asian country, with capital Hanoi, stretches in a long S-shape along the eastern coast of the Indochinese Peninsula.", "answer": {"valid": ["vietnam"]}, "display": "Vietnam"},
+        {"id": "2026-05-16_8", "category": "Asian Geography", "points": 300, "question": "This small Himalayan kingdom between India and China measures national success using a metric called Gross National Happiness.", "answer": {"valid": ["bhutan"]}, "display": "Bhutan"}
+      ]
+    },
+    {
+      "date": "2026-05-17",
+      "categories": ["Animals", "Marvel / MCU", "History"],
+      "questions": [
+        {"id": "2026-05-17_0", "category": "Animals", "points": 100, "question": "Often called the 'King of the Jungle', this big cat is the only one that lives in social groups called prides.", "answer": {"valid": ["lion"]}, "display": "Lion"},
+        {"id": "2026-05-17_1", "category": "Animals", "points": 200, "question": "This iconic Australian marsupial carries its joey in a pouch and moves by powerful hopping on its hind legs.", "answer": {"valid": ["kangaroo"]}, "display": "Kangaroo"},
+        {"id": "2026-05-17_2", "category": "Animals", "points": 300, "question": "This critically endangered Mexican salamander, native to lakes near Mexico City, can regenerate lost limbs and retains larval features into adulthood.", "answer": {"valid": ["axolotl"]}, "display": "Axolotl"},
+        {"id": "2026-05-17_3", "category": "Marvel / MCU", "points": 100, "question": "This master archer Avenger, played by Jeremy Renner in the MCU, uses a bow as his primary weapon.", "answer": {"valid": ["hawkeye", "clint barton"]}, "display": "Hawkeye"},
+        {"id": "2026-05-17_4", "category": "Marvel / MCU", "points": 200, "question": "This co-creator of many Marvel characters, who died in 2018, made cameo appearances in nearly every MCU film through 'Avengers: Endgame'.", "answer": {"valid": ["stan lee", "stanley martin lieber"]}, "display": "Stan Lee"},
+        {"id": "2026-05-17_5", "category": "Marvel / MCU", "points": 300, "question": "This fictional African nation, hidden from the world and rich in vibranium, is the home of the Black Panther.", "answer": {"valid": ["wakanda"]}, "display": "Wakanda"},
+        {"id": "2026-05-17_6", "category": "History", "points": 100, "question": "This Italian explorer, sailing for Spain in 1492, made a voyage that led to widespread European awareness of the Americas.", "answer": {"valid": ["christopher columbus", "columbus", "cristoforo colombo"]}, "display": "Christopher Columbus"},
+        {"id": "2026-05-17_7", "category": "History", "points": 200, "question": "According to legend, the Greeks used this giant wooden offering to smuggle soldiers into the city of Troy and end the Trojan War.", "answer": {"valid": ["trojan horse", "the trojan horse"]}, "display": "The Trojan Horse"},
+        {"id": "2026-05-17_8", "category": "History", "points": 300, "question": "This 1648 set of treaties ended the Thirty Years' War and is widely credited with establishing the modern concept of state sovereignty.", "answer": {"valid": ["peace of westphalia", "treaty of westphalia", "westphalia", "the peace of westphalia", "the treaty of westphalia"]}, "display": "The Peace of Westphalia"}
+      ]
+    },
+    {
+      "date": "2026-05-18",
+      "categories": ["Chemistry", "Hip Hop", "European Geography"],
+      "questions": [
+        {"id": "2026-05-18_0", "category": "Chemistry", "points": 100, "question": "With the symbol Fe, this metallic element makes up most of the Earth's core and is essential for transporting oxygen in human blood.", "answer": {"valid": ["iron"]}, "display": "Iron"},
+        {"id": "2026-05-18_1", "category": "Chemistry", "points": 200, "question": "This logarithmic scale from 0 to 14 measures how acidic or basic a solution is, with 7 being neutral.", "answer": {"valid": ["ph", "ph scale", "the ph scale"]}, "display": "The pH Scale"},
+        {"id": "2026-05-18_2", "category": "Chemistry", "points": 300, "question": "This 19th-century Russian chemist created the first widely recognized version of the periodic table, leaving gaps that correctly predicted undiscovered elements.", "answer": {"valid": ["mendeleev", "dmitri mendeleev", "dmitry mendeleev"]}, "display": "Dmitri Mendeleev"},
+        {"id": "2026-05-18_3", "category": "Hip Hop", "points": 100, "question": "This West Coast rapper, born Lesane Crooks, was killed in a Las Vegas drive-by shooting in 1996 and is widely regarded as one of the greatest rappers of all time.", "answer": {"valid": ["tupac", "tupac shakur", "2pac", "makaveli"]}, "display": "Tupac Shakur"},
+        {"id": "2026-05-18_4", "category": "Hip Hop", "points": 200, "question": "This Chicago-raised rapper and producer's debut album 'The College Dropout' launched a career that includes 'Graduation' and 'My Beautiful Dark Twisted Fantasy'.", "answer": {"valid": ["kanye west", "kanye", "ye"]}, "display": "Kanye West"},
+        {"id": "2026-05-18_5", "category": "Hip Hop", "points": 300, "question": "This Queens, NY group, with members Q-Tip, Phife Dawg, Ali Shaheed Muhammad, and Jarobi White, released the influential 1991 album 'The Low End Theory'.", "answer": {"valid": ["a tribe called quest", "tribe called quest", "atcq"]}, "display": "A Tribe Called Quest"},
+        {"id": "2026-05-18_6", "category": "European Geography", "points": 100, "question": "This Central European country, reunified in 1990, has Berlin as its capital.", "answer": {"valid": ["germany"]}, "display": "Germany"},
+        {"id": "2026-05-18_7", "category": "European Geography", "points": 200, "question": "This westernmost country on the European mainland, whose capital is Lisbon, was a major colonial power and is famous for port wine.", "answer": {"valid": ["portugal"]}, "display": "Portugal"},
+        {"id": "2026-05-18_8", "category": "European Geography", "points": 300, "question": "This island nation in the central Mediterranean, the smallest country in the EU, has Valletta as its capital.", "answer": {"valid": ["malta"]}, "display": "Malta"}
+      ]
+    },
+    {
+      "date": "2026-05-19",
+      "categories": ["Tennis", "Disney", "Famous Artists"],
+      "questions": [
+        {"id": "2026-05-19_0", "category": "Tennis", "points": 100, "question": "Held in New York City each summer, this is the fourth and final Grand Slam of the tennis calendar.", "answer": {"valid": ["us open", "u.s. open", "the us open", "united states open", "the u.s. open"]}, "display": "The U.S. Open"},
+        {"id": "2026-05-19_1", "category": "Tennis", "points": 200, "question": "This German player won 22 Grand Slam singles titles and is the only player to win all four majors and Olympic gold in the same year (1988).", "answer": {"valid": ["steffi graf", "stefanie graf", "graf"]}, "display": "Steffi Graf"},
+        {"id": "2026-05-19_2", "category": "Tennis", "points": 300, "question": "This left-handed Australian is the only player in history to win the calendar-year Grand Slam twice in singles, in 1962 and 1969.", "answer": {"valid": ["rod laver", "laver", "rodney laver"]}, "display": "Rod Laver"},
+        {"id": "2026-05-19_3", "category": "Disney", "points": 100, "question": "In this 1950 Disney film, a young woman whose name evokes ashes loses a glass slipper at a royal ball.", "answer": {"valid": ["cinderella"]}, "display": "Cinderella"},
+        {"id": "2026-05-19_4", "category": "Disney", "points": 200, "question": "This 1995 Disney film loosely retells the story of a Powhatan woman's encounter with English colonist John Smith.", "answer": {"valid": ["pocahontas"]}, "display": "Pocahontas"},
+        {"id": "2026-05-19_5", "category": "Disney", "points": 300, "question": "This 1942 Disney animated film, based on a Felix Salten novel, is famous for the heartbreaking off-screen death of the title fawn's mother.", "answer": {"valid": ["bambi"]}, "display": "Bambi"},
+        {"id": "2026-05-19_6", "category": "Famous Artists", "points": 100, "question": "This American TV painter became a cultural icon for his soothing voice, 'happy little trees', and the show 'The Joy of Painting'.", "answer": {"valid": ["bob ross"]}, "display": "Bob Ross"},
+        {"id": "2026-05-19_7", "category": "Famous Artists", "points": 200, "question": "This French painter, known for his bold use of color and the cut-paper works of his later years, was a leading figure of the Fauvism movement.", "answer": {"valid": ["henri matisse", "matisse"]}, "display": "Henri Matisse"},
+        {"id": "2026-05-19_8", "category": "Famous Artists", "points": 300, "question": "This American Neo-Expressionist artist, who rose from the New York graffiti scene of the late 1970s, collaborated with Andy Warhol before dying at 27.", "answer": {"valid": ["jean-michel basquiat", "basquiat", "jean michel basquiat"]}, "display": "Jean-Michel Basquiat"}
+      ]
+    },
+    {
+      "date": "2026-05-20",
+      "categories": ["Astronomy", "Sitcoms", "Cocktails & Spirits"],
+      "questions": [
+        {"id": "2026-05-20_0", "category": "Astronomy", "points": 100, "question": "This unit of distance equals the distance light travels in one year, roughly 5.88 trillion miles.", "answer": {"valid": ["light year", "light-year", "lightyear", "a light year"]}, "display": "Light Year"},
+        {"id": "2026-05-20_1", "category": "Astronomy", "points": 200, "question": "This is the nearest large spiral galaxy to the Milky Way and is on a collision course to merge with it in about 4.5 billion years.", "answer": {"valid": ["andromeda", "andromeda galaxy", "the andromeda galaxy", "m31"]}, "display": "The Andromeda Galaxy"},
+        {"id": "2026-05-20_2", "category": "Astronomy", "points": 300, "question": "This NASA-ESA spacecraft orbited Saturn from 2004 to 2017, deployed the Huygens probe onto Titan, and ended its mission with a planned plunge into the planet.", "answer": {"valid": ["cassini", "cassini-huygens", "cassini huygens", "the cassini probe", "cassini probe"]}, "display": "Cassini-Huygens"},
+        {"id": "2026-05-20_3", "category": "Sitcoms", "points": 100, "question": "This CBS sitcom from 2005-2014 framed each episode as Ted Mosby telling his children about events leading up to meeting their mother.", "answer": {"valid": ["how i met your mother", "himym"]}, "display": "How I Met Your Mother"},
+        {"id": "2026-05-20_4", "category": "Sitcoms", "points": 200, "question": "This ABC mockumentary sitcom (2009-2020) followed three branches of an extended Los Angeles family, including the Pritchett-Dunphys.", "answer": {"valid": ["modern family"]}, "display": "Modern Family"},
+        {"id": "2026-05-20_5", "category": "Sitcoms", "points": 300, "question": "This 'Cheers' spin-off (1993-2004) followed psychiatrist Dr. Crane's life as a Seattle radio host, with his brother Niles and father Martin.", "answer": {"valid": ["frasier"]}, "display": "Frasier"},
+        {"id": "2026-05-20_6", "category": "Cocktails & Spirits", "points": 100, "question": "Traditionally distilled from grain or potatoes in Russia and Poland, this clear, neutral-flavored spirit is the base of drinks like the Cosmopolitan.", "answer": {"valid": ["vodka"]}, "display": "Vodka"},
+        {"id": "2026-05-20_7", "category": "Cocktails & Spirits", "points": 200, "question": "This bright-red Italian aperitif, made of equal parts gin, sweet vermouth, and Campari, is typically served with an orange peel.", "answer": {"valid": ["negroni"]}, "display": "Negroni"},
+        {"id": "2026-05-20_8", "category": "Cocktails & Spirits", "points": 300, "question": "This anise-flavored green spirit was banned in many countries in the early 20th century due to fears about its psychoactive properties.", "answer": {"valid": ["absinthe"]}, "display": "Absinthe"}
+      ]
+    },
+    {
+      "date": "2026-05-21",
+      "categories": ["Video Games", "World Geography", "Children's Books"],
+      "questions": [
+        {"id": "2026-05-21_0", "category": "Video Games", "points": 100, "question": "This blue speedy hedgehog has been Sega's mascot since debuting on the Genesis in 1991.", "answer": {"valid": ["sonic", "sonic the hedgehog"]}, "display": "Sonic the Hedgehog"},
+        {"id": "2026-05-21_1", "category": "Video Games", "points": 200, "question": "This Rockstar Games western series stars outlaws like John Marston and Arthur Morgan in the dying days of the American frontier.", "answer": {"valid": ["red dead redemption", "red dead", "rdr"]}, "display": "Red Dead Redemption"},
+        {"id": "2026-05-21_2", "category": "Video Games", "points": 300, "question": "This 1995 SNES role-playing game became a cult classic with its quirky modern setting, distinctive battle system, and a young hero named Ness.", "answer": {"valid": ["earthbound", "mother 2"]}, "display": "EarthBound"},
+        {"id": "2026-05-21_3", "category": "World Geography", "points": 100, "question": "This South American country with capital Buenos Aires is the second largest in the continent and famous for tango and beef.", "answer": {"valid": ["argentina"]}, "display": "Argentina"},
+        {"id": "2026-05-21_4", "category": "World Geography", "points": 200, "question": "This narrow Central American country connects North and South America and contains a famous interoceanic canal completed in 1914.", "answer": {"valid": ["panama"]}, "display": "Panama"},
+        {"id": "2026-05-21_5", "category": "World Geography", "points": 300, "question": "This tiny Polynesian nation of nine atolls and reef islands, with a population under 12,000, is one of the smallest countries by both area and population.", "answer": {"valid": ["tuvalu"]}, "display": "Tuvalu"},
+        {"id": "2026-05-21_6", "category": "Children's Books", "points": 100, "question": "Margaret Wise Brown's 1947 bedtime classic narrates a small bunny saying farewell to objects in his 'great green room'.", "answer": {"valid": ["goodnight moon"]}, "display": "Goodnight Moon"},
+        {"id": "2026-05-21_7", "category": "Children's Books", "points": 200, "question": "This 1985 Chris Van Allsburg picture book follows a boy on a mysterious midnight train ride to the North Pole on Christmas Eve.", "answer": {"valid": ["the polar express", "polar express"]}, "display": "The Polar Express"},
+        {"id": "2026-05-21_8", "category": "Children's Books", "points": 300, "question": "This 1968 Don Freeman picture book follows a teddy bear in a department store searching at night for his missing button.", "answer": {"valid": ["corduroy"]}, "display": "Corduroy"}
+      ]
+    },
+    {
+      "date": "2026-05-22",
+      "categories": ["Basketball", "James Bond", "Inventions"],
+      "questions": [
+        {"id": "2026-05-22_0", "category": "Basketball", "points": 100, "question": "An uncontested shot taken from the line 15 feet from the basket, awarded after a foul, is worth one of these.", "answer": {"valid": ["free throw", "free throws", "freethrow"]}, "display": "Free Throw"},
+        {"id": "2026-05-22_1", "category": "Basketball", "points": 200, "question": "Known as 'Larry Legend', this Boston Celtics forward won three NBA championships and three MVPs in the 1980s.", "answer": {"valid": ["larry bird", "bird"]}, "display": "Larry Bird"},
+        {"id": "2026-05-22_2", "category": "Basketball", "points": 300, "question": "This Boston Celtics center won 11 NBA championships in 13 seasons, more than any other player in the history of the league.", "answer": {"valid": ["bill russell", "russell", "william russell"]}, "display": "Bill Russell"},
+        {"id": "2026-05-22_3", "category": "James Bond", "points": 100, "question": "This British luxury car brand, most iconically the DB5, is closely associated with 007's vehicles on screen.", "answer": {"valid": ["aston martin"]}, "display": "Aston Martin"},
+        {"id": "2026-05-22_4", "category": "James Bond", "points": 200, "question": "This English actor first played 007 in 'Casino Royale' (2006) and ended his run with 'No Time to Die' (2021).", "answer": {"valid": ["daniel craig", "craig"]}, "display": "Daniel Craig"},
+        {"id": "2026-05-22_5", "category": "James Bond", "points": 300, "question": "In this 1964 film, Bond confronts a villain whose plot involves contaminating the U.S. gold reserves at Fort Knox.", "answer": {"valid": ["goldfinger"]}, "display": "Goldfinger"},
+        {"id": "2026-05-22_6", "category": "Inventions", "points": 100, "question": "Often considered humanity's most important invention, this circular device drastically improved transport and is thought to have originated in Mesopotamia around 3500 BC.", "answer": {"valid": ["wheel", "the wheel"]}, "display": "The Wheel"},
+        {"id": "2026-05-22_7", "category": "Inventions", "points": 200, "question": "Discovered by Alexander Fleming in 1928 from a contaminated petri dish, this antibiotic revolutionized the treatment of bacterial infections.", "answer": {"valid": ["penicillin"]}, "display": "Penicillin"},
+        {"id": "2026-05-22_8", "category": "Inventions", "points": 300, "question": "Patented by Eli Whitney in 1794, this machine dramatically sped up the separation of cotton fibers from seeds and reshaped the economy of the American South.", "answer": {"valid": ["cotton gin", "the cotton gin"]}, "display": "The Cotton Gin"}
+      ]
+    },
+    {
+      "date": "2026-05-23",
+      "categories": ["Norse Mythology", "Country Music", "Animated Movies"],
+      "questions": [
+        {"id": "2026-05-23_0", "category": "Norse Mythology", "points": 100, "question": "This is the legendary hammer wielded by Thor, capable of returning to his hand after being thrown.", "answer": {"valid": ["mjolnir", "mjölnir", "mjollnir"]}, "display": "Mjölnir"},
+        {"id": "2026-05-23_1", "category": "Norse Mythology", "points": 200, "question": "This one-handed Norse god of war and law lost his hand to the wolf Fenrir while helping bind him.", "answer": {"valid": ["tyr", "týr"]}, "display": "Týr"},
+        {"id": "2026-05-23_2", "category": "Norse Mythology", "points": 300, "question": "This vigilant Norse god guards the Bifrost rainbow bridge and will sound the Gjallarhorn to signal the onset of Ragnarök.", "answer": {"valid": ["heimdall", "heimdallr"]}, "display": "Heimdall"},
+        {"id": "2026-05-23_3", "category": "Country Music", "points": 100, "question": "This Oklahoma-born country pop superstar, the most-awarded female artist in CMA history, rose to fame after winning American Idol in 2005.", "answer": {"valid": ["carrie underwood", "underwood"]}, "display": "Carrie Underwood"},
+        {"id": "2026-05-23_4", "category": "Country Music", "points": 200, "question": "Known as the 'Queen of Country Music', this Virginia-born singer's signature hits include 'Crazy' and 'Walkin' After Midnight' before her death in a 1963 plane crash.", "answer": {"valid": ["patsy cline", "cline", "virginia patterson hensley"]}, "display": "Patsy Cline"},
+        {"id": "2026-05-23_5", "category": "Country Music", "points": 300, "question": "Often called the 'King of Country', this Texas-born singer has charted more number-one singles than any artist in any genre.", "answer": {"valid": ["george strait", "strait"]}, "display": "George Strait"},
+        {"id": "2026-05-23_6", "category": "Animated Movies", "points": 100, "question": "This 2001 DreamWorks film follows a green ogre and a talking donkey on a quest to rescue Princess Fiona from a dragon.", "answer": {"valid": ["shrek"]}, "display": "Shrek"},
+        {"id": "2026-05-23_7", "category": "Animated Movies", "points": 200, "question": "This 2008 Pixar film features a small waste-collecting robot left alone on a deserted Earth who falls in love with a sleek probe named EVE.", "answer": {"valid": ["wall-e", "wall e", "walle"]}, "display": "WALL-E"},
+        {"id": "2026-05-23_8", "category": "Animated Movies", "points": 300, "question": "This 1999 Brad Bird film, set in 1957 Maine, follows the friendship between a boy named Hogarth and a giant alien robot.", "answer": {"valid": ["the iron giant", "iron giant"]}, "display": "The Iron Giant"}
+      ]
+    },
+    {
+      "date": "2026-05-24",
+      "categories": ["Ancient Rome", "Wine & Beer", "Star Wars"],
+      "questions": [
+        {"id": "2026-05-24_0", "category": "Ancient Rome", "points": 100, "question": "This loose-fitting outer garment, draped around the body in folds, was the distinctive garment of male Roman citizens.", "answer": {"valid": ["toga"]}, "display": "Toga"},
+        {"id": "2026-05-24_1", "category": "Ancient Rome", "points": 200, "question": "This domed Roman temple, originally commissioned by Marcus Agrippa and rebuilt under Hadrian, still stands in Rome and has an open oculus in its roof.", "answer": {"valid": ["pantheon", "the pantheon"]}, "display": "The Pantheon"},
+        {"id": "2026-05-24_2", "category": "Ancient Rome", "points": 300, "question": "This 2nd-century Roman emperor, the third of the 'Five Good Emperors', is best known for the defensive wall he ordered built across northern Britain.", "answer": {"valid": ["hadrian", "publius aelius hadrianus"]}, "display": "Hadrian"},
+        {"id": "2026-05-24_3", "category": "Wine & Beer", "points": 100, "question": "This hoppy, often bitter style of beer, frequently abbreviated with three letters, originated in England and became a flagship style of the modern craft beer movement.", "answer": {"valid": ["ipa", "india pale ale"]}, "display": "India Pale Ale"},
+        {"id": "2026-05-24_4", "category": "Wine & Beer", "points": 200, "question": "This dry white wine grape, originally from Burgundy, is one of the most widely planted white wine varieties in the world.", "answer": {"valid": ["chardonnay"]}, "display": "Chardonnay"},
+        {"id": "2026-05-24_5", "category": "Wine & Beer", "points": 300, "question": "This aromatic white wine grape originated in Germany's Rhine region and produces wines ranging from bone dry to lusciously sweet.", "answer": {"valid": ["riesling"]}, "display": "Riesling"},
+        {"id": "2026-05-24_6", "category": "Star Wars", "points": 100, "question": "This original-trilogy hero, played by Mark Hamill, trains as a Jedi after discovering Vader is his father.", "answer": {"valid": ["luke skywalker", "luke"]}, "display": "Luke Skywalker"},
+        {"id": "2026-05-24_7", "category": "Star Wars", "points": 200, "question": "This dome-headed astromech droid carries the secret Death Star plans at the start of 'A New Hope'.", "answer": {"valid": ["r2-d2", "r2d2", "artoo", "artoo detoo", "artoo-detoo"]}, "display": "R2-D2"},
+        {"id": "2026-05-24_8", "category": "Star Wars", "points": 300, "question": "This Jedi Master, played by Samuel L. Jackson, wields a distinctive purple lightsaber across the prequel trilogy.", "answer": {"valid": ["mace windu", "windu"]}, "display": "Mace Windu"}
+      ]
+    },
+    {
+      "date": "2026-05-25",
+      "categories": ["Reptiles", "Television", "Math & Numbers"],
+      "questions": [
+        {"id": "2026-05-25_0", "category": "Reptiles", "points": 100, "question": "This large herbivorous lizard, common in Central and South America and a popular pet, often has a distinctive crest of spines along its back.", "answer": {"valid": ["iguana", "green iguana"]}, "display": "Iguana"},
+        {"id": "2026-05-25_1", "category": "Reptiles", "points": 200, "question": "Native to the southwestern United States and Mexico, this stocky black-and-orange lizard is one of the few venomous lizard species.", "answer": {"valid": ["gila monster"]}, "display": "Gila Monster"},
+        {"id": "2026-05-25_2", "category": "Reptiles", "points": 300, "question": "Found only in New Zealand, this lizard-like reptile is the sole surviving member of an order distinct from snakes and lizards that once flourished 200 million years ago.", "answer": {"valid": ["tuatara"]}, "display": "Tuatara"},
+        {"id": "2026-05-25_3", "category": "Television", "points": 100, "question": "This ABC drama (2004-2010) followed survivors of Oceanic Flight 815 on a mysterious tropical island.", "answer": {"valid": ["lost"]}, "display": "Lost"},
+        {"id": "2026-05-25_4", "category": "Television", "points": 200, "question": "This AMC period drama (2007-2015) followed advertising executive Don Draper through the changing culture of 1960s Madison Avenue.", "answer": {"valid": ["mad men"]}, "display": "Mad Men"},
+        {"id": "2026-05-25_5", "category": "Television", "points": 300, "question": "This HBO drama (2001-2005) created by Alan Ball followed the Fisher family running a Los Angeles funeral home.", "answer": {"valid": ["six feet under"]}, "display": "Six Feet Under"},
+        {"id": "2026-05-25_6", "category": "Math & Numbers", "points": 100, "question": "This whole number, neither positive nor negative, sits between -1 and 1 on the number line.", "answer": {"valid": ["zero", "0", "naught", "nought"]}, "display": "Zero"},
+        {"id": "2026-05-25_7", "category": "Math & Numbers", "points": 200, "question": "This famous theorem about right triangles states that a² + b² = c².", "answer": {"valid": ["pythagorean theorem", "pythagoras theorem", "the pythagorean theorem", "pythagoras's theorem"]}, "display": "The Pythagorean Theorem"},
+        {"id": "2026-05-25_8", "category": "Math & Numbers", "points": 300, "question": "This irrational mathematical constant, approximately equal to 2.71828, is the base of the natural logarithm.", "answer": {"valid": ["e", "eulers number", "euler's number", "the number e", "napier's constant"]}, "display": "Euler's Number (e)"}
+      ]
+    },
+    {
+      "date": "2026-05-26",
+      "categories": ["Olympics", "Horror Movies", "Smartphones"],
+      "questions": [
+        {"id": "2026-05-26_0", "category": "Olympics", "points": 100, "question": "This is awarded to first-place finishers in each Olympic event.", "answer": {"valid": ["gold medal", "gold", "the gold medal"]}, "display": "Gold Medal"},
+        {"id": "2026-05-26_1", "category": "Olympics", "points": 200, "question": "This African-American track and field athlete famously won four gold medals at the 1936 Berlin Olympics, undermining Nazi propaganda.", "answer": {"valid": ["jesse owens", "owens", "james cleveland owens"]}, "display": "Jesse Owens"},
+        {"id": "2026-05-26_2", "category": "Olympics", "points": 300, "question": "This French aristocrat is credited as the founder of the modern Olympic Games and the International Olympic Committee in the late 19th century.", "answer": {"valid": ["pierre de coubertin", "coubertin", "baron de coubertin"]}, "display": "Pierre de Coubertin"},
+        {"id": "2026-05-26_3", "category": "Horror Movies", "points": 100, "question": "Based on a Stephen King novel, this 2017 film features a shape-shifting entity, often appearing as a clown named Pennywise, that terrorizes children in Derry, Maine.", "answer": {"valid": ["it", "it (2017)", "stephen king's it"]}, "display": "It"},
+        {"id": "2026-05-26_4", "category": "Horror Movies", "points": 200, "question": "This 2002 American remake of a Japanese film features a cursed videotape that kills the viewer seven days after watching.", "answer": {"valid": ["the ring", "ring"]}, "display": "The Ring"},
+        {"id": "2026-05-26_5", "category": "Horror Movies", "points": 300, "question": "This 2018 Ari Aster directorial debut stars Toni Collette in a slow-burn family horror story about grief, miniatures, and a secret demonic legacy.", "answer": {"valid": ["hereditary"]}, "display": "Hereditary"},
+        {"id": "2026-05-26_6", "category": "Smartphones", "points": 100, "question": "This Apple smartphone line, first released in 2007, helped popularize the modern touchscreen phone.", "answer": {"valid": ["iphone", "the iphone"]}, "display": "iPhone"},
+        {"id": "2026-05-26_7", "category": "Smartphones", "points": 200, "question": "Introduced on the iPhone 4S in 2011, this voice-activated virtual assistant is built into Apple devices.", "answer": {"valid": ["siri"]}, "display": "Siri"},
+        {"id": "2026-05-26_8", "category": "Smartphones", "points": 300, "question": "This mobile operating system, championed by Nokia, dominated the smartphone market in the late 2000s before being eclipsed by iOS and Android.", "answer": {"valid": ["symbian", "symbian os"]}, "display": "Symbian"}
+      ]
+    },
+    {
+      "date": "2026-05-27",
+      "categories": ["World Capitals", "Classic Rock", "Biology"],
+      "questions": [
+        {"id": "2026-05-27_0", "category": "World Capitals", "points": 100, "question": "Home to the Prado Museum and the soccer club Atlético, this Spanish city has the Royal Palace at its heart.", "answer": {"valid": ["madrid"]}, "display": "Madrid"},
+        {"id": "2026-05-27_1", "category": "World Capitals", "points": 200, "question": "This planned, futuristic city designed largely by Oscar Niemeyer became Brazil's capital in 1960, replacing Rio de Janeiro.", "answer": {"valid": ["brasilia", "brasília"]}, "display": "Brasília"},
+        {"id": "2026-05-27_2", "category": "World Capitals", "points": 300, "question": "Briefly renamed from 2019 to 2022 in honor of a former president before its original name was restored, this is the capital of Kazakhstan.", "answer": {"valid": ["astana", "nur-sultan", "nur sultan"]}, "display": "Astana"},
+        {"id": "2026-05-27_3", "category": "Classic Rock", "points": 100, "question": "This Boston-formed band led by Steven Tyler and Joe Perry is known for hits like 'Dream On' and 'Sweet Emotion'.", "answer": {"valid": ["aerosmith"]}, "display": "Aerosmith"},
+        {"id": "2026-05-27_4", "category": "Classic Rock", "points": 200, "question": "Nicknamed 'Slowhand', this English guitarist played with the Yardbirds, Cream, and Derek and the Dominos before launching a celebrated solo career.", "answer": {"valid": ["eric clapton", "clapton"]}, "display": "Eric Clapton"},
+        {"id": "2026-05-27_5", "category": "Classic Rock", "points": 300, "question": "This jazz-rock duo of Walter Becker and Donald Fagen released highly polished albums like 'Aja' and 'Pretzel Logic' in the 1970s.", "answer": {"valid": ["steely dan"]}, "display": "Steely Dan"},
+        {"id": "2026-05-27_6", "category": "Biology", "points": 100, "question": "This is the basic structural and functional unit of all known living organisms.", "answer": {"valid": ["cell", "the cell"]}, "display": "Cell"},
+        {"id": "2026-05-27_7", "category": "Biology", "points": 200, "question": "This cellular structure, found in both prokaryotes and eukaryotes, is responsible for synthesizing proteins by translating mRNA.", "answer": {"valid": ["ribosome", "ribosomes"]}, "display": "Ribosome"},
+        {"id": "2026-05-27_8", "category": "Biology", "points": 300, "question": "This 18th-century Swedish botanist formalized the binomial nomenclature system for naming organisms, like 'Homo sapiens'.", "answer": {"valid": ["carl linnaeus", "linnaeus", "carolus linnaeus"]}, "display": "Carl Linnaeus"}
+      ]
+    },
+    {
+      "date": "2026-05-28",
+      "categories": ["American Football", "Photography", "Fast Food"],
+      "questions": [
+        {"id": "2026-05-28_0", "category": "American Football", "points": 100, "question": "Worth three points, this is the kick that sends the ball through the uprights from the field of play.", "answer": {"valid": ["field goal"]}, "display": "Field Goal"},
+        {"id": "2026-05-28_1", "category": "American Football", "points": 200, "question": "This Wisconsin-based NFL franchise, the only community-owned team in major American pro sports, has won four Super Bowls.", "answer": {"valid": ["green bay packers", "packers", "the packers"]}, "display": "Green Bay Packers"},
+        {"id": "2026-05-28_2", "category": "American Football", "points": 300, "question": "This Cleveland Browns running back led the NFL in rushing in eight of his nine seasons before retiring in 1965 to pursue acting.", "answer": {"valid": ["jim brown"]}, "display": "Jim Brown"},
+        {"id": "2026-05-28_3", "category": "Photography", "points": 100, "question": "Along with aperture and ISO, this exposure setting controls how long the camera's sensor is exposed to light.", "answer": {"valid": ["shutter speed"]}, "display": "Shutter Speed"},
+        {"id": "2026-05-28_4", "category": "Photography", "points": 200, "question": "Introduced commercially in 1839, this was the first publicly available photographic process, using polished silver-coated copper plates.", "answer": {"valid": ["daguerreotype"]}, "display": "Daguerreotype"},
+        {"id": "2026-05-28_5", "category": "Photography", "points": 300, "question": "This American documentary photographer is best known for her Depression-era image 'Migrant Mother', taken for the Farm Security Administration.", "answer": {"valid": ["dorothea lange", "lange"]}, "display": "Dorothea Lange"},
+        {"id": "2026-05-28_6", "category": "Fast Food", "points": 100, "question": "This American chain founded by the Carney brothers in 1958 in Wichita, Kansas, is among the world's largest pizza companies by number of locations.", "answer": {"valid": ["pizza hut"]}, "display": "Pizza Hut"},
+        {"id": "2026-05-28_7", "category": "Fast Food", "points": 200, "question": "Founded in 1960 in Ypsilanti, Michigan, this pizza chain pioneered the '30 minutes or it's free' delivery promise.", "answer": {"valid": ["dominos", "domino's", "domino's pizza"]}, "display": "Domino's"},
+        {"id": "2026-05-28_8", "category": "Fast Food", "points": 300, "question": "Founded in 1921, this is widely credited as America's first fast-food hamburger chain, famous for its small square sliders.", "answer": {"valid": ["white castle"]}, "display": "White Castle"}
+      ]
+    },
+    {
+      "date": "2026-05-29",
+      "categories": ["Greek Mythology", "80s Movies", "U.S. Geography"],
+      "questions": [
+        {"id": "2026-05-29_0", "category": "Greek Mythology", "points": 100, "question": "Queen of the gods and wife of Zeus, this Greek goddess is associated with marriage and famously jealous of Zeus's many lovers.", "answer": {"valid": ["hera"]}, "display": "Hera"},
+        {"id": "2026-05-29_1", "category": "Greek Mythology", "points": 200, "question": "This snake-haired Gorgon could turn anyone who looked at her to stone; she was eventually slain by Perseus.", "answer": {"valid": ["medusa"]}, "display": "Medusa"},
+        {"id": "2026-05-29_2", "category": "Greek Mythology", "points": 300, "question": "Lame god of fire, metalworking, and the forge, this Greek smith made armor and weapons for the gods, including Achilles' shield.", "answer": {"valid": ["hephaestus", "hephaistos"]}, "display": "Hephaestus"},
+        {"id": "2026-05-29_3", "category": "80s Movies", "points": 100, "question": "This 1982 Steven Spielberg film follows a stranded alien who befriends a young boy named Elliott and tries to phone home.", "answer": {"valid": ["et", "e.t.", "et the extra-terrestrial", "e.t. the extra-terrestrial", "e.t. the extraterrestrial"]}, "display": "E.T. the Extra-Terrestrial"},
+        {"id": "2026-05-29_4", "category": "80s Movies", "points": 200, "question": "This 1985 John Hughes film traps five very different high school students in a Saturday detention together.", "answer": {"valid": ["the breakfast club", "breakfast club"]}, "display": "The Breakfast Club"},
+        {"id": "2026-05-29_5", "category": "80s Movies", "points": 300, "question": "This 1988 action movie stars Bruce Willis as cop John McClane fighting terrorists in Nakatomi Plaza on Christmas Eve.", "answer": {"valid": ["die hard"]}, "display": "Die Hard"},
+        {"id": "2026-05-29_6", "category": "U.S. Geography", "points": 100, "question": "Nicknamed the 'Lone Star State', this is the second-largest U.S. state by both area and population.", "answer": {"valid": ["texas"]}, "display": "Texas"},
+        {"id": "2026-05-29_7", "category": "U.S. Geography", "points": 200, "question": "Carved by the Colorado River, this massive Arizona gorge is more than a mile deep and one of the United States' most-visited national parks.", "answer": {"valid": ["grand canyon", "the grand canyon"]}, "display": "The Grand Canyon"},
+        {"id": "2026-05-29_8", "category": "U.S. Geography", "points": 300, "question": "This South Dakota monument, sculpted by Gutzon Borglum, depicts the faces of four U.S. presidents carved into a granite mountain.", "answer": {"valid": ["mount rushmore", "rushmore", "mt. rushmore", "mt rushmore"]}, "display": "Mount Rushmore"}
+      ]
+    },
+    {
+      "date": "2026-05-30",
+      "categories": ["Pop Culture", "Baking & Desserts", "Physics"],
+      "questions": [
+        {"id": "2026-05-30_0", "category": "Pop Culture", "points": 100, "question": "This 2023 Greta Gerwig film starring Margot Robbie became one of the highest-grossing films ever and turned everything pink.", "answer": {"valid": ["barbie", "barbie movie", "the barbie movie"]}, "display": "Barbie"},
+        {"id": "2026-05-30_1", "category": "Pop Culture", "points": 200, "question": "This famous Calabasas-based reality family rose to fame on E! before launching their Hulu series in 2022.", "answer": {"valid": ["the kardashians", "kardashians", "kardashian", "the kardashian-jenners"]}, "display": "The Kardashians"},
+        {"id": "2026-05-30_2", "category": "Pop Culture", "points": 300, "question": "This daily browser-based word puzzle, created by Josh Wardle and acquired by The New York Times in 2022, asks players to guess a five-letter word in six tries.", "answer": {"valid": ["wordle"]}, "display": "Wordle"},
+        {"id": "2026-05-30_3", "category": "Baking & Desserts", "points": 100, "question": "This rich, sweet dessert features a thick, creamy filling — typically based on soft cheese — atop a graham-cracker or biscuit base.", "answer": {"valid": ["cheesecake"]}, "display": "Cheesecake"},
+        {"id": "2026-05-30_4", "category": "Baking & Desserts", "points": 200, "question": "This rich Middle Eastern pastry consists of layers of phyllo dough filled with chopped nuts and held together with syrup or honey.", "answer": {"valid": ["baklava"]}, "display": "Baklava"},
+        {"id": "2026-05-30_5", "category": "Baking & Desserts", "points": 300, "question": "This French celebratory dessert is a tall conical tower of cream-filled choux pastry balls bound together with threads of caramel.", "answer": {"valid": ["croquembouche"]}, "display": "Croquembouche"},
+        {"id": "2026-05-30_6", "category": "Physics", "points": 100, "question": "This force opposes the relative motion of two surfaces in contact and is what allows you to walk without slipping.", "answer": {"valid": ["friction"]}, "display": "Friction"},
+        {"id": "2026-05-30_7", "category": "Physics", "points": 200, "question": "This effect, named for an Austrian physicist, explains the change in pitch of a passing siren as it approaches and recedes.", "answer": {"valid": ["doppler effect", "the doppler effect", "doppler shift"]}, "display": "The Doppler Effect"},
+        {"id": "2026-05-30_8", "category": "Physics", "points": 300, "question": "This British theoretical physicist, who lived with ALS for over 50 years, wrote 'A Brief History of Time' and made groundbreaking contributions to black hole theory.", "answer": {"valid": ["stephen hawking", "hawking"]}, "display": "Stephen Hawking"}
+      ]
+    },
+    {
+      "date": "2026-05-31",
+      "categories": ["Geography", "The Cold War", "Reality TV"],
+      "questions": [
+        {"id": "2026-05-31_0", "category": "Geography", "points": 100, "question": "This is the second-largest continent by both area and population.", "answer": {"valid": ["africa"]}, "display": "Africa"},
+        {"id": "2026-05-31_1", "category": "Geography", "points": 200, "question": "Opened in 1869, this Egyptian waterway connects the Mediterranean Sea to the Red Sea, dramatically shortening shipping routes between Europe and Asia.", "answer": {"valid": ["suez canal", "the suez canal"]}, "display": "The Suez Canal"},
+        {"id": "2026-05-31_2", "category": "Geography", "points": 300, "question": "This Siberian rift lake is the world's deepest and contains roughly 20% of the planet's unfrozen surface fresh water.", "answer": {"valid": ["lake baikal", "baikal"]}, "display": "Lake Baikal"},
+        {"id": "2026-05-31_3", "category": "The Cold War", "points": 100, "question": "Founded in 1949, this military alliance was created to provide collective defense for Western nations against the Soviet bloc.", "answer": {"valid": ["nato", "north atlantic treaty organization", "north atlantic treaty organisation"]}, "display": "NATO"},
+        {"id": "2026-05-31_4", "category": "The Cold War", "points": 200, "question": "Fought from 1950 to 1953, this conflict began when communist forces from the north invaded their southern neighbor across the 38th parallel.", "answer": {"valid": ["korean war", "the korean war"]}, "display": "The Korean War"},
+        {"id": "2026-05-31_5", "category": "The Cold War", "points": 300, "question": "Launched by the Soviet Union in October 1957, this was the first artificial satellite to orbit Earth and triggered the Space Race.", "answer": {"valid": ["sputnik", "sputnik 1"]}, "display": "Sputnik 1"},
+        {"id": "2026-05-31_6", "category": "Reality TV", "points": 100, "question": "In this long-running global reality franchise, contestants live together in a house under constant camera surveillance, voting one another out each week.", "answer": {"valid": ["big brother"]}, "display": "Big Brother"},
+        {"id": "2026-05-31_7", "category": "Reality TV", "points": 200, "question": "On this VH1/MTV competition show that began in 2009, drag queens compete to be crowned 'America's Next Drag Superstar'.", "answer": {"valid": ["rupauls drag race", "rupaul's drag race", "drag race"]}, "display": "RuPaul's Drag Race"},
+        {"id": "2026-05-31_8", "category": "Reality TV", "points": 300, "question": "Premiering on MTV in 1992, this groundbreaking series put seven strangers in a house together to 'find out what happens when people stop being polite'.", "answer": {"valid": ["the real world", "real world", "the real world (mtv)"]}, "display": "The Real World"}
+      ]
     }
   ]
 }
