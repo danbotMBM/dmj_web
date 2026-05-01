@@ -1,0 +1,281 @@
+/* Race Results visualization styles - respects light/dark theme */
+
+#stat-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
+    margin: 1.25rem 0 2rem 0;
+}
+
+.stat-card {
+    border: 1px solid var(--borderColor-default, #d0d7de);
+    border-radius: 6px;
+    padding: 0.85rem 1rem;
+    background: var(--bgColor-muted, #f6f8fa);
+}
+
+.stat-card .stat-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--fgColor-muted, #636c76);
+    margin-bottom: 0.25rem;
+}
+
+.stat-card .stat-value {
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.stat-card .stat-sub {
+    font-size: 0.78rem;
+    color: var(--fgColor-muted, #636c76);
+    margin-top: 0.2rem;
+}
+
+.chart-card {
+    border: 1px solid var(--borderColor-default, #d0d7de);
+    border-radius: 6px;
+    padding: 1rem;
+    margin: 1rem 0 1.75rem 0;
+    background: var(--bgColor-default, #ffffff);
+}
+
+.chart-card svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.chart-caption {
+    margin-top: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--fgColor-muted, #636c76);
+    text-align: center;
+}
+
+/* Theme-aware colors via CSS vars on chart elements */
+.chart-axis line,
+.chart-axis path {
+    stroke: var(--borderColor-default, #d0d7de);
+}
+
+.chart-axis text {
+    fill: var(--fgColor-muted, #636c76);
+    font-size: 11px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Pink palette */
+.chart-bar {
+    fill: #f4a3c2;
+    opacity: 0.85;
+}
+
+.chart-bar.me {
+    fill: #c2185b;
+    opacity: 1;
+}
+
+.chart-line {
+    fill: none;
+    stroke: #f4a3c2;
+    stroke-width: 2;
+}
+
+.chart-line.me {
+    stroke: #c2185b;
+    stroke-width: 2.5;
+}
+
+.chart-dot {
+    fill: #f4a3c2;
+}
+
+.chart-dot.me {
+    fill: #c2185b;
+}
+
+/* All chart text uses neutral foreground colors so it stands apart from the pink fills */
+.chart-label {
+    fill: var(--fgColor-default, #1f2328);
+    font-size: 11px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.chart-label.me {
+    fill: var(--fgColor-default, #1f2328);
+    font-weight: 600;
+}
+
+.chart-grid line {
+    stroke: var(--borderColor-muted, #d8dee4);
+    stroke-dasharray: 2 3;
+}
+
+/* Participant search */
+.participant-search {
+    margin: 0.75rem 0 1rem 0;
+}
+
+.search-wrap {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+    position: relative;
+}
+
+.search-input {
+    flex: 1 1 240px;
+    min-width: 200px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.95rem;
+    border: 1px solid var(--borderColor-default, #d0d7de);
+    border-radius: 6px;
+    background: var(--bgColor-default, #ffffff);
+    color: var(--fgColor-default, #1f2328);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #c2185b;
+    box-shadow: 0 0 0 3px rgba(194, 24, 91, 0.15);
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    max-height: 320px;
+    overflow-y: auto;
+    background: var(--bgColor-default, #ffffff);
+    border: 1px solid var(--borderColor-default, #d0d7de);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    z-index: 50;
+}
+
+.search-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    text-align: left;
+    padding: 0.55rem 0.75rem;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--borderColor-muted, #d8dee4);
+    cursor: pointer;
+    color: var(--fgColor-default, #1f2328);
+}
+
+.search-item:last-child { border-bottom: none; }
+
+.search-item:hover, .search-item:focus {
+    background: rgba(194, 24, 91, 0.08);
+    outline: none;
+}
+
+.search-item-name {
+    font-weight: 600;
+    font-size: 0.92rem;
+}
+
+.search-item-meta {
+    font-size: 0.78rem;
+    color: var(--fgColor-muted, #636c76);
+    margin-top: 0.15rem;
+}
+
+.search-empty {
+    padding: 0.75rem;
+    text-align: center;
+    color: var(--fgColor-muted, #636c76);
+    font-size: 0.88rem;
+}
+
+/* Scope toggle */
+.scope-toggle {
+    display: inline-flex;
+    border: 1px solid var(--borderColor-default, #d0d7de);
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 0.5rem 0 0.75rem 0;
+    background: var(--bgColor-muted, #f6f8fa);
+}
+
+.scope-btn {
+    background: transparent;
+    border: none;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: var(--fgColor-default, #1f2328);
+    border-right: 1px solid var(--borderColor-default, #d0d7de);
+    transition: background 0.15s;
+}
+
+.scope-btn:last-child { border-right: none; }
+
+.scope-btn:hover {
+    background: var(--bgColor-default, #ffffff);
+}
+
+.scope-btn.active {
+    background: #c2185b;
+    color: #fff;
+    font-weight: 600;
+}
+
+.scope-summary {
+    font-size: 0.9rem;
+    color: var(--fgColor-muted, #636c76);
+    margin-bottom: 0.75rem;
+}
+
+.rank-note {
+    font-size: 0.82rem;
+    color: var(--fgColor-muted, #636c76);
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+/* Rank bars */
+.rank-row {
+    display: grid;
+    grid-template-columns: 110px 1fr 90px;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0.5rem 0;
+}
+
+.rank-label {
+    font-size: 0.85rem;
+    color: var(--fgColor-muted, #636c76);
+}
+
+.rank-bar-track {
+    background: var(--bgColor-muted, #eaeef2);
+    border-radius: 4px;
+    height: 18px;
+    overflow: hidden;
+    position: relative;
+}
+
+.rank-bar-fill {
+    background: linear-gradient(90deg, #c2185b, #f48fb1);
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s ease;
+}
+
+.rank-text {
+    font-size: 0.82rem;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    color: var(--fgColor-default, #1f2328);
+}
