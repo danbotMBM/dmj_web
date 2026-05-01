@@ -4,3 +4,6 @@ The Alexandria Half Marathon, will be my first every official race and I will be
 I wanted to visualize my training progress and thought it would be fun to put a little system on my website. It's also been a fun exercise in using AI coding tools. Since, I have all the infrastructure and know how its really nice to just whip up a simple little system. So far I've been impressed with claude code, but I do have to hold its hand a bit. 
 
 Overall, I'm looking forward to running faster this year after a good level of consistency last year. Hopefully, I'm keeping with the program right now otherwise this is going to be a really awkward blog post. I'll circle back and add my race results in after the race.
+
+## Post race reflections
+As you can see, I did not complete my training program. Almost 0 weeks are done properly, only the first. However, I do think this schedule was a helpful guideline for my training and helped me a lot on my race. All this data is from my strava but I have actual race data in a [follow up blog](/blogs/race_results).
