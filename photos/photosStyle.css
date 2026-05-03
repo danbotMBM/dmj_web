@@ -1,12 +1,12 @@
 /* Photos gallery — uses the warm-neutral palette from mainStyle.css */
 @media (prefers-color-scheme: light) {
     :root, [data-theme="light"] {
-        --bgColor-default: #f7f3ec;
-        --bgColor-muted: #efe9dc;
-        --fgColor-default: #1d1a17;
-        --fgColor-muted: #6b635a;
+        --bgColor-default: #ffffff;
+        --bgColor-muted: #f4f4f5;
+        --fgColor-default: #1f2328;
+        --fgColor-muted: #636c76;
         --accent: #A2BFE6;
-        --borderColor-muted: #ece5d6;
+        --borderColor-muted: #ececef;
     }
 }
 
@@ -37,7 +37,7 @@ body {
 }
 
 .gallery-page h2 {
-    font-family: "Fraunces", "Iowan Old Style", "Charter", Georgia, serif;
+    font-family: "Iowan Old Style", "Charter", "Source Serif Pro", Georgia, "Times New Roman", serif;
     font-weight: 500;
     font-size: clamp(2rem, 4vw, 2.6rem);
     letter-spacing: -0.015em;

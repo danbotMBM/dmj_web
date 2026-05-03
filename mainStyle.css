@@ -5,24 +5,24 @@
     --accent-strong: #6f9bd1;
     --header-height: 64px;
     --container-max: 1080px;
-    --serif: "Fraunces", "Iowan Old Style", "Charter", "Source Serif 4", Georgia, serif;
+    --serif: "Iowan Old Style", "Charter", "Source Serif Pro", "Source Serif 4", Georgia, "Times New Roman", serif;
     --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 }
 
 @media (prefers-color-scheme: light) {
     :root, [data-theme="light"] {
-        --bgColor-default: #f7f3ec;
-        --bgColor-muted: #efe9dc;
-        --bgColor-elevated: #fcf8f1;
-        --bgColor-neutral-muted: rgba(28, 24, 18, 0.08);
-        --fgColor-default: #1d1a17;
-        --fgColor-muted: #6b635a;
-        --fgColor-subtle: #8a8275;
+        --bgColor-default: #ffffff;
+        --bgColor-muted: #f4f4f5;
+        --bgColor-elevated: #ffffff;
+        --bgColor-neutral-muted: rgba(20, 24, 30, 0.06);
+        --fgColor-default: #1f2328;
+        --fgColor-muted: #636c76;
+        --fgColor-subtle: #8a8f98;
         --fgColor-accent: #406ea0;
-        --borderColor-default: #e0d8c8;
-        --borderColor-muted: #ece5d6;
-        --shadowColor: rgba(40, 30, 15, 0.08);
+        --borderColor-default: #e2e4e8;
+        --borderColor-muted: #ececef;
+        --shadowColor: rgba(20, 24, 30, 0.06);
     }
 }
 
@@ -121,14 +121,14 @@ html, body {
    restate ours here (rather than inherit from :root) for the article. */
 @media (prefers-color-scheme: light) {
     .markdown-body, [data-theme="light"] .markdown-body {
-        --bgColor-default: #f7f3ec;
-        --bgColor-muted: #efe9dc;
-        --bgColor-neutral-muted: rgba(28, 24, 18, 0.08);
-        --fgColor-default: #1d1a17;
-        --fgColor-muted: #6b635a;
+        --bgColor-default: #ffffff;
+        --bgColor-muted: #f4f4f5;
+        --bgColor-neutral-muted: rgba(20, 24, 30, 0.06);
+        --fgColor-default: #1f2328;
+        --fgColor-muted: #636c76;
         --fgColor-accent: #406ea0;
-        --borderColor-default: #e0d8c8;
-        --borderColor-muted: #ece5d6;
+        --borderColor-default: #e2e4e8;
+        --borderColor-muted: #ececef;
     }
 }
 
