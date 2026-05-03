@@ -47,13 +47,22 @@
     <script>
         var jumbo = document.getElementById("jumbo");
         var photo = get_one_random_photo();
-        jumbo.classList.add("lazyload");
         jumbo.title = get_title(photo);
+        // Progressive load: show low-res immediately, then swap in the
+        // full-resolution image once it's ready. Always upgrades to /high/
+        // regardless of connection speed.
         jumbo.src = "/photos/pics/low/" + photo.filename;
+        var heroFull = new Image();
+        heroFull.onload = function () { jumbo.src = heroFull.src; };
+        heroFull.src = "/photos/pics/high/" + photo.filename;
         var caption = document.getElementById("hero-caption");
         if (caption && photo.location) {
             caption.textContent = photo.location;
         }
+        // Wire up click-to-zoom once lazyload.js has defined set_up_zoomable.
+        document.addEventListener("DOMContentLoaded", function () {
+            if (typeof set_up_zoomable === "function") set_up_zoomable(jumbo);
+        });
     </script>
     <script type="module">
         import { import_html, import_htmls } from "/utils.js";
