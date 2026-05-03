@@ -1,38 +1,64 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="utf-8">
     <title>daniel mark jones</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&display=swap">
+
     <link rel="stylesheet" href="gitlab_md.css">
+    <link rel="stylesheet" href="mainStyle.css">
     <link rel="stylesheet" href="header.css">
-    <link href="mainStyle.css" type="text/css" rel="stylesheet">
 </head>
 
 <body>
     <div id="header_loc"></div>
-    <div class="container">
-            <div id="jumbodiv">
-                <img id="jumbo" src="">
+
+    <main class="page">
+        <figure class="hero-banner" id="jumbodiv">
+            <img id="jumbo" alt="">
+            <div class="hero-overlay"></div>
+            <figcaption class="hero-caption" id="hero-caption"></figcaption>
+        </figure>
+
+        <article class="markdown-body" id="markdown_loc">
+            <div class="skeleton skeleton-h1" aria-hidden="true"></div>
+            <div class="feature-grid" aria-hidden="true">
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
             </div>
-    </div>
+        </article>
+    </main>
+
     <div id="image-viewer">
         <span id="close-btn">&times;</span>
         <img id="full-image" src="" alt="Full View" />
         <h3 id="full-image-caption"></h3>
     </div>
-    <article class="markdown-body" id="markdown_loc">
-    </article>
+
     <script src="photos.js"></script>
     <script>
         var jumbo = document.getElementById("jumbo");
         var photo = get_one_random_photo();
-        jumbo.classList.add("lazyload")
+        jumbo.classList.add("lazyload");
         jumbo.title = get_title(photo);
         jumbo.src = "/photos/pics/low/" + photo.filename;
+        var caption = document.getElementById("hero-caption");
+        if (caption && photo.location) {
+            caption.textContent = photo.location;
+        }
     </script>
     <script type="module">
         import { import_html, import_htmls } from "/utils.js";
@@ -46,9 +72,9 @@
             "/blogs/ddns/feature_md.html",
             "/blogs/webgpu/feature_md.html",
             "/photos/feature_md.html",
-        ]
+        ];
         import_html("/header.html", "header_loc");
-        import_htmls(paths, "markdown_loc")
+        import_htmls(paths, "markdown_loc");
     </script>
     <script src="lazyload.js"></script>
 </body>

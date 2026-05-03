@@ -1,22 +1,26 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 
 <head>
-    <title>daniel mark jones</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <title>photos · daniel mark jones</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&display=swap">
+
     <link rel="stylesheet" href="/header.css">
     <link href="photosStyle.css" type="text/css" rel="stylesheet">
 </head>
 
-<body id="body" style="text-align:center;">
+<body>
     <div id="header_loc"></div>
-    <div class="meat">
-        <h2 class="text-center" id="title">photos</h1>
-            <div id="jumbodiv"></div>
-    </div>
+    <main class="gallery-page">
+        <h2 id="title">photos</h2>
+        <div id="jumbodiv"></div>
+    </main>
     <div id="image-viewer">
         <span id="close-btn">&times;</span>
         <img id="full-image" src="" alt="Full View" />
@@ -28,15 +32,18 @@
     </script>
     <script src="/photos.js"></script>
     <script>
-        writePhotos(get_photos());
-
-        function writePhotos(pictures) {
-            pictures.forEach(element => {
-                document.write("<div id='picRow'>");
-                document.write(`<img id='pic' src='pics/low/` + element.filename + `' title="` + get_title(element) + `" class='lazyload'> `);
-                document.write("</div>");
-            });
-        }
+        const grid = document.getElementById("jumbodiv");
+        get_photos().forEach(element => {
+            const cell = document.createElement("div");
+            cell.className = "pic-row";
+            const img = document.createElement("img");
+            img.src = "pics/low/" + element.filename;
+            img.title = get_title(element);
+            img.className = "lazyload";
+            img.alt = element.description || element.location || "";
+            cell.appendChild(img);
+            grid.appendChild(cell);
+        });
     </script>
     <script src="../lazyload.js"></script>
 </body>

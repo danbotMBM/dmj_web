@@ -1,35 +1,75 @@
-@media (prefers-color-scheme: dark) {
-  header,
-  [data-theme="dark"] {
-    /*dark*/
-    color-scheme: dark;
-    --background: #0d1117;
-    --foreground: #ffffff;
-    --accent: #A2BFE6;
-    }
+/* Header — sticky, semi-transparent, syncs with the warm-neutral palette */
+header.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    height: var(--header-height, 64px);
+    background-color: var(--bgColor-default);
+    border-bottom: 1px solid var(--borderColor-muted);
+    backdrop-filter: saturate(180%) blur(8px);
+    -webkit-backdrop-filter: saturate(180%) blur(8px);
+    background-color: color-mix(in srgb, var(--bgColor-default) 88%, transparent);
 }
 
-@media (prefers-color-scheme: light) {
-  header,
-  [data-theme="light"] {
-    /*light*/
-    color-scheme: light;
-    --background: #1f2328;
-    --foreground: #ffffff;
-    --accent: #A2BFE6;
-  }
+.site-header__inner {
+    max-width: var(--container-max, 1080px);
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
 }
 
-header{
-    background-color: var(--background);
-    color: var(--foreground);
+.site-header__brand {
     margin: 0;
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
+    color: var(--fgColor-default);
+    white-space: nowrap;
 }
 
-.navlink{
-    padding: 4px;
-    color: var(--foreground);
+.site-header__brand a {
+    color: inherit;
+    text-decoration: none;
 }
-.navlink:hover{
-    color: var(--accent);
+
+.site-header__nav {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.navlink {
+    padding: 6px 12px;
+    color: var(--fgColor-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    border-radius: 999px;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.navlink:hover,
+.navlink:focus-visible {
+    color: var(--fgColor-default);
+    background-color: var(--bgColor-muted);
+    outline: none;
+}
+
+.navlink.is-active {
+    color: var(--fgColor-default);
+    background-color: var(--bgColor-muted);
+}
+
+@media (max-width: 540px) {
+    .site-header__inner {
+        padding: 0 16px;
+        gap: 12px;
+    }
+    .site-header__brand { font-size: 1rem; }
+    .navlink { padding: 6px 10px; font-size: 0.9rem; }
 }
