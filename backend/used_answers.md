@@ -9,23 +9,35 @@ Do not edit manually.
 - 80s Movies: Ghostbusters
 - 80s Movies: The Breakfast Club
 - 80s Movies: The Thing
+- 90s TV: ER
 - 90s TV: Friends
+- 90s TV: Northern Exposure
 - 90s TV: The Sopranos
 - 90s TV: The West Wing
+- 90s TV: The X-Files
 - African Geography: Egypt
+- African Geography: Ethiopia
 - African Geography: Kenya
 - African Geography: Lesotho
 - African Geography: Mali
+- African Geography: Morocco
+- African Geography: Namibia
 - African Geography: Nigeria
 - African Geography: South Africa
+- American Food: Buffalo Wings
 - American Food: Grits
 - American Food: Gumbo
 - American Food: Hamburger
+- American Food: Hot Dog
+- American Food: Key Lime Pie
+- American Football: Dallas Cowboys
 - American Football: Field Goal
+- American Football: Football Helmet
 - American Football: Green Bay Packers
 - American Football: Jerry Rice
 - American Football: Jim Brown
 - American Football: Joe Montana
+- American Football: Patrick Mahomes
 - American Football: Peyton Manning
 - American Football: Quarterback
 - American Football: The NFL
@@ -38,6 +50,9 @@ Do not edit manually.
 - Ancient Egypt: Isis
 - Ancient Egypt: Obelisk
 - Ancient Egypt: Pharaoh
+- Ancient Egypt: Ra
+- Ancient Egypt: The Great Sphinx of Giza
+- Ancient Egypt: The Rosetta Stone
 - Ancient Egypt: Tutankhamun
 - Ancient Greece: Aristotle
 - Ancient Greece: Euclid
@@ -47,8 +62,11 @@ Do not edit manually.
 - Ancient Greece: The Battle of Thermopylae
 - Ancient Rome: Augustus
 - Ancient Rome: Cicero
+- Ancient Rome: Constantine the Great
+- Ancient Rome: Gladiator
 - Ancient Rome: Hadrian
 - Ancient Rome: Julius Caesar
+- Ancient Rome: Nero
 - Ancient Rome: Pax Romana
 - Ancient Rome: Roman Aqueducts
 - Ancient Rome: Rome
@@ -76,20 +94,26 @@ Do not edit manually.
 - Animated Movies: Finding Nemo
 - Animated Movies: Grave of the Fireflies
 - Animated Movies: How to Train Your Dragon
+- Animated Movies: Inside Out
 - Animated Movies: Monsters, Inc.
 - Animated Movies: My Neighbor Totoro
+- Animated Movies: Persepolis
 - Animated Movies: Shrek
 - Animated Movies: Spirited Away
+- Animated Movies: The Incredibles
 - Animated Movies: The Iron Giant
 - Animated Movies: Toy Story
 - Animated Movies: Up
 - Animated Movies: WALL-E
 - Animated TV: Adventure Time
+- Animated TV: Avatar: The Last Airbender
 - Animated TV: Beavis and Butt-Head
 - Animated TV: Bob's Burgers
 - Animated TV: Futurama
+- Animated TV: King of the Hill
 - Animated TV: Rick and Morty
 - Animated TV: South Park
+- Animated TV: SpongeBob SquarePants
 - Art: Andy Warhol
 - Art: Chiaroscuro
 - Art: Cubism
@@ -102,19 +126,24 @@ Do not edit manually.
 - Art: Salvador Dalí
 - Art: The Mona Lisa
 - Art: Vincent van Gogh
+- Asian Geography: Angkor Wat
 - Asian Geography: Bhutan
+- Asian Geography: Borobudur
 - Asian Geography: Brunei
 - Asian Geography: China
 - Asian Geography: India
 - Asian Geography: Iran
 - Asian Geography: Japan
 - Asian Geography: Mongolia
+- Asian Geography: Mount Fuji
 - Asian Geography: Singapore
 - Asian Geography: Sri Lanka
 - Asian Geography: Thailand
 - Asian Geography: Uzbekistan
 - Asian Geography: Vietnam
 - Astronomy: Cassini-Huygens
+- Astronomy: Constellation
+- Astronomy: Edwin Hubble
 - Astronomy: Georges Lemaître
 - Astronomy: James Webb Space Telescope
 - Astronomy: Light Year
@@ -126,25 +155,36 @@ Do not edit manually.
 - Astronomy: The Moon
 - Astronomy: The Oort Cloud
 - Astronomy: Uranus
+- Astronomy: Venus
+- Awards Shows: EGOT
+- Awards Shows: The Oscars
+- Awards Shows: The Tonys
 - Baking & Desserts: Baklava
+- Baking & Desserts: Brownie
 - Baking & Desserts: Cheesecake
 - Baking & Desserts: Croquembouche
 - Baking & Desserts: Crème Brûlée
 - Baking & Desserts: Doughnut
 - Baking & Desserts: Macaron
 - Baking & Desserts: Panna Cotta
+- Baking & Desserts: Pavlova
 - Baking & Desserts: Pie
 - Baking & Desserts: Sachertorte
+- Baking & Desserts: Soufflé
 - Baking & Desserts: Tarte Tatin
 - Baking & Desserts: Tiramisu
 - Baking & Desserts: Éclair
 - Baseball: Babe Ruth
 - Baseball: Barry Bonds
 - Baseball: Catcher
+- Baseball: Cy Young
+- Baseball: Diamond
 - Baseball: Home Run
 - Baseball: Jackie Robinson
 - Baseball: Sandy Koufax
+- Baseball: Ty Cobb
 - Basketball: Bill Russell
+- Basketball: Dribble
 - Basketball: Free Throw
 - Basketball: Golden State Warriors
 - Basketball: Hakeem Olajuwon
@@ -155,7 +195,9 @@ Do not edit manually.
 - Basketball: Magic Johnson
 - Basketball: Michael Jordan
 - Basketball: Pete Maravich
+- Basketball: Shaquille O'Neal
 - Basketball: The Boston Celtics
+- Basketball: Wilt Chamberlain
 - Biology: Bacteria
 - Biology: Carl Linnaeus
 - Biology: Cell
@@ -168,20 +210,28 @@ Do not edit manually.
 - Biology: Mitosis
 - Biology: Photosynthesis
 - Biology: Ribosome
+- Birds: Albatross
 - Birds: Bald Eagle
+- Birds: Hoatzin
 - Birds: Kiwi
 - Birds: Macaw
+- Birds: Owl
 - Birds: Penguin
 - Birds: Pigeon
 - Birds: Toucan
 - Boxing & MMA: Anderson Silva
+- Boxing & MMA: Boxing Ring
 - Boxing & MMA: Conor McGregor
 - Boxing & MMA: Floyd Mayweather Jr.
+- Boxing & MMA: George Foreman
+- Boxing & MMA: Knockout
 - Boxing & MMA: Manny Pacquiao
 - Boxing & MMA: Mike Tyson
 - Boxing & MMA: Mixed Martial Arts (MMA)
+- Chemistry: Catalyst
 - Chemistry: Combustion
 - Chemistry: Covalent Bond
+- Chemistry: Diamond
 - Chemistry: Dmitri Mendeleev
 - Chemistry: Fermentation
 - Chemistry: Helium
@@ -189,24 +239,31 @@ Do not edit manually.
 - Chemistry: Iron
 - Chemistry: Neutralization
 - Chemistry: Nitrogen
+- Chemistry: Robert Boyle
 - Chemistry: Salt (Sodium Chloride)
 - Chemistry: The Periodic Table
 - Chemistry: The pH Scale
 - Children's Books: Charlie and the Chocolate Factory
 - Children's Books: Corduroy
 - Children's Books: Goodnight Moon
+- Children's Books: Madeline
+- Children's Books: The Cat in the Hat
+- Children's Books: The Giving Tree
 - Children's Books: The Polar Express
 - Children's Books: The Very Hungry Caterpillar
 - Children's Books: Where the Wild Things Are
 - Classic Arcade Games: Asteroids
 - Classic Arcade Games: Donkey Kong
 - Classic Arcade Games: Pac-Man
+- Classic Novels: Anna Karenina
+- Classic Novels: Don Quixote
 - Classic Novels: Frankenstein
 - Classic Novels: Jane Eyre
 - Classic Novels: Moby-Dick
 - Classic Novels: Oliver Twist
 - Classic Novels: Pride and Prejudice
 - Classic Novels: War and Peace
+- Classic Novels: Wuthering Heights
 - Classic Rock: Aerosmith
 - Classic Rock: David Bowie
 - Classic Rock: Eric Clapton
@@ -225,90 +282,132 @@ Do not edit manually.
 - Cocktails & Spirits: Manhattan
 - Cocktails & Spirits: Margarita
 - Cocktails & Spirits: Martini
+- Cocktails & Spirits: Mint Julep
 - Cocktails & Spirits: Mojito
 - Cocktails & Spirits: Negroni
 - Cocktails & Spirits: Old Fashioned
 - Cocktails & Spirits: Piña Colada
+- Cocktails & Spirits: Sidecar
 - Cocktails & Spirits: Tequila
 - Cocktails & Spirits: Vodka
+- Cocktails & Spirits: Whiskey
 - Coding & Programming: Bug
 - Coding & Programming: C
+- Coding & Programming: Git
+- Coding & Programming: HTML
 - Coding & Programming: JavaScript
+- Coding & Programming: Lambda
+- Computers & Software: Ada Lovelace
+- Computers & Software: Alan Turing
+- Computers & Software: Computer Mouse
 - Computers & Software: Firefox
 - Computers & Software: Grace Hopper
 - Computers & Software: Windows
+- Cooking Techniques: Baking
+- Cooking Techniques: Boiling
+- Cooking Techniques: Braising
+- Cooking Techniques: Caramelization
 - Cooking Techniques: Deep Frying
 - Cooking Techniques: Flambé
+- Cooking Techniques: Julienne
 - Cooking Techniques: Sous Vide
+- Cooking Techniques: The Maillard Reaction
 - Country Music: Carrie Underwood
 - Country Music: Garth Brooks
 - Country Music: George Strait
 - Country Music: Hank Williams
 - Country Music: Johnny Cash
+- Country Music: Kenny Rogers
 - Country Music: Lil Nas X
+- Country Music: Loretta Lynn
 - Country Music: Merle Haggard
 - Country Music: Patsy Cline
+- Country Music: Reba McEntire
 - Country Music: Shania Twain
 - Country Music: Taylor Swift
 - Country Music: Waylon Jennings
 - Country Music: Willie Nelson
+- Crime & Drama TV: Better Call Saul
 - Crime & Drama TV: Boardwalk Empire
 - Crime & Drama TV: CSI: Crime Scene Investigation
+- Crime & Drama TV: Fargo
 - Crime & Drama TV: Law & Order
+- Crime & Drama TV: NCIS
 - Crime & Drama TV: Narcos
 - Crime & Drama TV: Peaky Blinders
 - Crime & Drama TV: You
+- DC Comics: Aquaman
+- DC Comics: Batman
+- DC Comics: Wonder Woman
 - Disney: Aladdin
 - Disney: Bambi
 - Disney: Beauty and the Beast
 - Disney: Cinderella
 - Disney: Fantasia
 - Disney: Frozen
+- Disney: Mickey Mouse
 - Disney: Mulan
 - Disney: Peter Pan
 - Disney: Pocahontas
 - Disney: Rapunzel
 - Disney: Snow White and the Seven Dwarfs
+- Disney: Tarzan
 - Disney: The Emperor's New Groove
 - Disney: The Little Mermaid
 - Disney: The Princess and the Frog
+- Disney: Walt Disney
 - Disney: Zootopia
 - Dragon Ball Z: Fusion Dance
 - Dragon Ball Z: Goku
 - Dragon Ball Z: Porunga
+- Endangered Species: Black Rhinoceros
+- Endangered Species: Sumatran Tiger
+- Endangered Species: Vaquita
 - European Geography: Andorra
 - European Geography: Belgium
 - European Geography: Cyprus
 - European Geography: France
 - European Geography: Germany
+- European Geography: Greece
 - European Geography: Iceland
 - European Geography: Liechtenstein
 - European Geography: Malta
 - European Geography: Norway
 - European Geography: Portugal
 - European Geography: San Marino
+- European Geography: Slovenia
 - European Geography: Spain
+- European Geography: Switzerland
 - European Geography: The Danube
 - European Geography: The Volga River
 - European Geography: Vatican City
 - Famous Artists: Artemisia Gentileschi
+- Famous Artists: Banksy
 - Famous Artists: Bob Ross
 - Famous Artists: Claude Monet
 - Famous Artists: David Hockney
+- Famous Artists: Edgar Degas
 - Famous Artists: Edward Hopper
 - Famous Artists: Frida Kahlo
 - Famous Artists: Gustav Klimt
 - Famous Artists: Henri Matisse
 - Famous Artists: Jean-Michel Basquiat
 - Famous Artists: Marc Chagall
+- Famous Artists: Mary Cassatt
 - Famous Artists: Paul Gauguin
 - Famous Artists: Rembrandt
 - Famous Tech Companies: Amazon
 - Famous Tech Companies: Intel
+- Famous Tech Companies: Microsoft
 - Famous Tech Companies: NVIDIA
+- Famous Tech Companies: Oracle
+- Famous Tech Companies: Tesla
 - Famous Women in History: Joan of Arc
 - Famous Women in History: Marie Curie
 - Famous Women in History: Queen Victoria
+- Fantasy: A Song of Ice and Fire
+- Fantasy: Brandon Sanderson
+- Fantasy: Gandalf
 - Fast Food: Burger King
 - Fast Food: Chick-fil-A
 - Fast Food: Domino's
@@ -337,18 +436,24 @@ Do not edit manually.
 - Food & Drink: Sake
 - Food & Drink: Tom Yum
 - Game Shows: Deal or No Deal
+- Game Shows: Family Feud
 - Game Shows: Jeopardy!
+- Game Shows: The Price Is Right
 - Game Shows: Wheel of Fortune
+- Game Shows: Who Wants to Be a Millionaire
 - Geography: Africa
+- Geography: Antarctica
 - Geography: Brazil
 - Geography: Canada
 - Geography: Chile
 - Geography: Cuba
 - Geography: Indonesia
 - Geography: Lake Baikal
+- Geography: Lake Titicaca
 - Geography: Madagascar
 - Geography: Paris
 - Geography: The Bosphorus
+- Geography: The Caspian Sea
 - Geography: The Nile
 - Geography: The Philippines
 - Geography: The Pyrenees
@@ -375,10 +480,16 @@ Do not edit manually.
 - Greek Mythology: Medusa
 - Greek Mythology: Perseus
 - Greek Mythology: Zeus
+- Hip Hop: 50 Cent
 - Hip Hop: A Tribe Called Quest
+- Hip Hop: Beastie Boys
+- Hip Hop: De La Soul
 - Hip Hop: Dr. Dre
 - Hip Hop: Eminem
 - Hip Hop: Kanye West
+- Hip Hop: Lauryn Hill
+- Hip Hop: MF DOOM
+- Hip Hop: Missy Elliott
 - Hip Hop: Nas
 - Hip Hop: OutKast
 - Hip Hop: Pharrell Williams
@@ -410,6 +521,8 @@ Do not edit manually.
 - History: Woodstock
 - Horror Movies: A Nightmare on Elm Street
 - Horror Movies: A Quiet Place
+- Horror Movies: Carrie
+- Horror Movies: Friday the 13th
 - Horror Movies: Get Out
 - Horror Movies: Halloween
 - Horror Movies: Hereditary
@@ -418,49 +531,68 @@ Do not edit manually.
 - Horror Movies: Night of the Living Dead
 - Horror Movies: Psycho
 - Horror Movies: Rosemary's Baby
+- Horror Movies: Saw
 - Horror Movies: Scream
 - Horror Movies: The Exorcist
 - Horror Movies: The Ring
 - Horror Movies: The Shining
 - Horror Movies: The Texas Chain Saw Massacre
 - Human Body: Appendix
+- Human Body: Bones
 - Human Body: Heart
 - Human Body: Skin
 - Human Body: The Femur
+- Human Body: The Hippocampus
 - Human Body: The Liver
 - Human Body: The Lungs
+- Human Body: The Pancreas
 - Human Body: The Pituitary Gland
 - Human Body: The Small Intestine
 - Human Body: The Thyroid Gland
+- Industrial Revolution: Coal
 - Industrial Revolution: Manchester
+- Industrial Revolution: Richard Arkwright
 - Industrial Revolution: Steam Engine
 - Industrial Revolution: The Luddites
+- Industrial Revolution: The Spinning Jenny
 - Insects & Bugs: Ant
 - Insects & Bugs: Cicadas
+- Insects & Bugs: Dragonfly
 - Insects & Bugs: Firefly
 - Insects & Bugs: Honeybees
 - Insects & Bugs: Monarch Butterfly
+- Insects & Bugs: Mosquito
+- Insects & Bugs: Praying Mantis
 - Insects & Bugs: Tsetse Fly
 - Inventions: James Watt
+- Inventions: Karl Benz
 - Inventions: Penicillin
 - Inventions: Rubik's Cube
 - Inventions: The Cotton Gin
+- Inventions: The Light Bulb
 - Inventions: The Printing Press
 - Inventions: The Telephone
 - Inventions: The Wheel
 - Inventions: The Wright Brothers
 - Inventions: Thomas Edison
+- Inventions: Velcro
 - James Bond: Aston Martin
 - James Bond: Daniel Craig
+- James Bond: Dr. No
 - James Bond: Francisco Scaramanga
 - James Bond: Goldfinger
 - James Bond: Ian Fleming
+- James Bond: M
 - James Bond: MI6
 - James Bond: Pierce Brosnan
+- James Bond: Roger Moore
 - James Bond: Sean Connery
 - James Bond: Skyfall
 - Jazz & Blues: Charlie Parker
+- Jazz & Blues: Ella Fitzgerald
+- Jazz & Blues: Louis Armstrong
 - Jazz & Blues: Robert Johnson
+- Jazz & Blues: Thelonious Monk
 - Jazz & Blues: Trumpet
 - Language: Esperanto
 - Language: Hieroglyphics
@@ -486,9 +618,15 @@ Do not edit manually.
 - Literature: The Iliad
 - Literature: To Kill a Mockingbird
 - Literature: William Shakespeare
+- Lord of the Rings: Aragorn
+- Lord of the Rings: Frodo Baggins
+- Lord of the Rings: Rivendell
 - Mammals: Bat
 - Mammals: Giraffe
 - Mammals: Hedgehog
+- Mammals: Pangolin
+- Mammals: Polar Bear
+- Mammals: Wombat
 - Marvel / MCU: Ant-Man
 - Marvel / MCU: Avengers: Endgame
 - Marvel / MCU: Avengers: Infinity War
@@ -499,44 +637,61 @@ Do not edit manually.
 - Marvel / MCU: Guardians of the Galaxy
 - Marvel / MCU: Hawkeye
 - Marvel / MCU: Iron Man
+- Marvel / MCU: Scarlet Witch
 - Marvel / MCU: Spider-Man
 - Marvel / MCU: Stan Lee
 - Marvel / MCU: The Hulk
 - Marvel / MCU: The X-Men
+- Marvel / MCU: Vibranium
+- Marvel / MCU: Vision
 - Marvel / MCU: Wakanda
 - Math & Numbers: Binary
 - Math & Numbers: Calculus
 - Math & Numbers: Division
 - Math & Numbers: Euler's Number (e)
+- Math & Numbers: Geometry
+- Math & Numbers: Googol
 - Math & Numbers: Infinity
 - Math & Numbers: Irrational Number
 - Math & Numbers: Pi
+- Math & Numbers: Pierre de Fermat
 - Math & Numbers: Prime Number
 - Math & Numbers: Six (6)
 - Math & Numbers: The Fibonacci Sequence
 - Math & Numbers: The Pythagorean Theorem
 - Math & Numbers: Zero
+- Memes & Internet Culture: Doge
 - Memes & Internet Culture: Gangnam Style
+- Memes & Internet Culture: Grumpy Cat
 - Memes & Internet Culture: Instagram
 - Memes & Internet Culture: LOLcats
+- Memes & Internet Culture: Rickrolling
 - Memes & Internet Culture: The Dress
 - Memes & Internet Culture: The Ice Bucket Challenge
 - Memes & Internet Culture: r/WallStreetBets
 - Mexico: Chichén Itzá
 - Mexico: Diego Rivera
 - Mexico: Día de los Muertos
+- Modern Art: Marcel Duchamp
+- Modern Art: Pop Art
+- Modern Art: Yayoi Kusama
+- Mountains & Deserts: Denali
+- Mountains & Deserts: K2
 - Mountains & Deserts: Mount Everest
 - Mountains & Deserts: Mount Kilimanjaro
 - Mountains & Deserts: Mount Vesuvius
 - Mountains & Deserts: The Alps
 - Mountains & Deserts: The Andes
 - Mountains & Deserts: The Atacama Desert
+- Mountains & Deserts: The Gobi Desert
 - Mountains & Deserts: The Rocky Mountains
 - Mountains & Deserts: The Sahara
 - Mountains & Deserts: The Sonoran Desert
 - Movies: 12 Angry Men
 - Movies: 2001: A Space Odyssey
 - Movies: Blade Runner
+- Movies: Casablanca
+- Movies: Citizen Kane
 - Movies: Dog Day Afternoon
 - Movies: Inception
 - Movies: Jennifer Lawrence
@@ -554,6 +709,7 @@ Do not edit manually.
 - Movies: The Lord of the Rings: The Return of the King
 - Movies: The Matrix
 - Movies: The Shawshank Redemption
+- Movies: The Wizard of Oz
 - Movies: Titanic
 - Music: Adele
 - Music: Beethoven
@@ -597,10 +753,13 @@ Do not edit manually.
 - Nature: The Redwood
 - Nature: Tsunami
 - Nature: Tundra
+- Nintendo: Animal Crossing
+- Nintendo: Game Boy
 - Nintendo: Mario Kart
 - Nintendo: Metroid
 - Nintendo: Nintendo Switch
 - Nintendo: Pikachu
+- Nintendo: Pokémon
 - Nintendo: Super Mario Bros.
 - Nintendo: Super Smash Bros.
 - Norse Mythology: Asgard
@@ -620,16 +779,25 @@ Do not edit manually.
 - Ocean Life: Dolphin
 - Ocean Life: Giant Squid
 - Ocean Life: Great White Shark
+- Ocean Life: Jellyfish
 - Ocean Life: Manatee
+- Ocean Life: Mantis Shrimp
 - Ocean Life: Nautilus
+- Ocean Life: Orca
 - Ocean Life: The Sailfish
 - Ocean Life: Whale Shark
 - Olympics: Abebe Bikila
 - Olympics: Athens
+- Olympics: Carl Lewis
 - Olympics: Gold Medal
 - Olympics: Jesse Owens
+- Olympics: Mark Spitz
 - Olympics: Nadia Comaneci
 - Olympics: Pierre de Coubertin
+- Olympics: The Olympic Torch
+- Painting: Nighthawks
+- Painting: The Last Supper
+- Painting: The Starry Night
 - Photography: Ansel Adams
 - Photography: Aperture
 - Photography: Daguerreotype
@@ -645,21 +813,32 @@ Do not edit manually.
 - Physics: Gravity
 - Physics: Heat
 - Physics: Isaac Newton
+- Physics: Magnet
 - Physics: Momentum
 - Physics: Newton's Third Law
 - Physics: Niels Bohr
+- Physics: Richard Feynman
 - Physics: Schrödinger's Cat
+- Physics: Special Relativity
 - Physics: Stephen Hawking
 - Physics: The Doppler Effect
+- PlayStation: Bloodborne
+- PlayStation: Crash Bandicoot
+- PlayStation: Sony
 - Poetry: Emily Dickinson
+- Poetry: Haiku
 - Poetry: John Keats
+- Poetry: Maya Angelou
 - Poetry: Robert Frost
+- Poetry: William Wordsworth
 - Pop Culture: BTS
 - Pop Culture: Barbie
 - Pop Culture: Beyoncé
+- Pop Culture: ChatGPT
 - Pop Culture: Disney+
 - Pop Culture: Drake
 - Pop Culture: Forrest Gump
+- Pop Culture: Hamilton
 - Pop Culture: Harry Potter
 - Pop Culture: Hayao Miyazaki
 - Pop Culture: J.R.R. Tolkien
@@ -669,34 +848,53 @@ Do not edit manually.
 - Pop Culture: Prince
 - Pop Culture: Shigeru Miyamoto
 - Pop Culture: Squid Game
+- Pop Culture: Stephen Colbert
 - Pop Culture: The Kardashians
 - Pop Culture: TikTok
 - Pop Culture: Wordle
 - Pop Music: ABBA
 - Pop Music: Billie Eilish
 - Pop Music: Britney Spears
+- Pop Music: George Michael
 - Pop Music: Justin Bieber
 - Pop Music: Lady Gaga
 - Pop Music: Olivia Rodrigo
 - Pop Music: One Direction
 - Pop Music: Rihanna
 - Pop Music: Spice Girls
+- Pop Music: The Weeknd
+- Pop Music: Whitney Houston
+- RPG Games: Chrono Trigger
+- RPG Games: Final Fantasy
+- RPG Games: Mass Effect 2
 - Reality TV: Big Brother
 - Reality TV: Love Is Blind
 - Reality TV: RuPaul's Drag Race
 - Reality TV: Survivor
+- Reality TV: The Amazing Race
 - Reality TV: The Bachelor
 - Reality TV: The Real World
+- Reality TV: The Voice
+- Reality TV: Top Chef
+- Reptiles: Alligator
 - Reptiles: Chameleon
 - Reptiles: Crocodile
+- Reptiles: Gecko
 - Reptiles: Gila Monster
 - Reptiles: Iguana
 - Reptiles: Komodo Dragon
 - Reptiles: Snake
 - Reptiles: The Anaconda
 - Reptiles: The Leatherback Sea Turtle
+- Reptiles: Tortoise
 - Reptiles: Tuatara
+- Rivers & Lakes: Lake Victoria
+- Rivers & Lakes: The Yangtze River
+- Rivers & Lakes: The Yenisei
 - Rock & Roll: AC/DC
+- Rock & Roll: Bruce Springsteen
+- Rock & Roll: Buddy Holly
+- Rock & Roll: Chuck Berry
 - Rock & Roll: Guns N' Roses
 - Rock & Roll: Jimi Hendrix
 - Rock & Roll: Stairway to Heaven
@@ -711,7 +909,10 @@ Do not edit manually.
 - Sci Fi: Fahrenheit 451
 - Sci Fi: Foundation
 - Sci Fi: Neuromancer
+- Sci Fi: Solaris
 - Sci Fi: The Hitchhiker's Guide to the Galaxy
+- Sci Fi: The Left Hand of Darkness
+- Sci Fi: The Martian
 - Sci Fi: The Time Machine
 - Sci Fi: The War of the Worlds
 - Science: Albert Einstein
@@ -729,40 +930,58 @@ Do not edit manually.
 - Science: The Speed of Light
 - Science: The Uncertainty Principle
 - Science: Water
+- Sculpture: The Statue of Liberty
+- Sculpture: The Thinker
+- Sculpture: Venus de Milo
+- Shakespeare: A Midsummer Night's Dream
 - Shakespeare: As You Like It
 - Shakespeare: Hamlet
+- Shakespeare: King Lear
 - Shakespeare: Macbeth
 - Shakespeare: Othello
 - Shakespeare: Romeo and Juliet
+- Shakespeare: The Globe Theatre
 - Shakespeare: Twelfth Night
+- Sitcoms: 30 Rock
 - Sitcoms: Arrested Development
 - Sitcoms: Cheers
 - Sitcoms: Community
+- Sitcoms: Curb Your Enthusiasm
 - Sitcoms: Family Guy
 - Sitcoms: Frasier
 - Sitcoms: How I Met Your Mother
 - Sitcoms: It's Always Sunny in Philadelphia
 - Sitcoms: Modern Family
 - Sitcoms: Parks and Recreation
+- Sitcoms: Schitt's Creek
 - Sitcoms: The Big Bang Theory
 - Sitcoms: The IT Crowd
 - Sitcoms: The Office
 - Smartphones: Android
 - Smartphones: BlackBerry
+- Smartphones: Bluetooth
 - Smartphones: Samsung
 - Smartphones: Siri
+- Smartphones: Snapdragon
 - Smartphones: Symbian
+- Smartphones: The App Store
 - Smartphones: iPhone
 - Soccer: Cristiano Ronaldo
 - Soccer: Diego Maradona
+- Soccer: Free Kick
 - Soccer: Goalkeeper
+- Soccer: Johan Cruyff
 - Soccer: Lionel Messi
+- Soccer: Manchester United
 - Soccer: Pelé
 - Soccer: Real Madrid
 - Soccer: The FIFA World Cup
 - Soccer: The UEFA Champions League
 - Soccer: Zinedine Zidane
+- South American Geography: Bolivia
+- South American Geography: Guyana
 - South American Geography: Iguazu Falls
+- South American Geography: Patagonia
 - South American Geography: Salar de Uyuni
 - South American Geography: The Amazon River
 - Space: Black Hole
@@ -798,11 +1017,14 @@ Do not edit manually.
 - Star Wars: Boba Fett
 - Star Wars: C-3PO
 - Star Wars: Chewbacca
+- Star Wars: Coruscant
 - Star Wars: Darth Maul
 - Star Wars: Darth Vader
 - Star Wars: Emperor Palpatine
+- Star Wars: Han Solo
 - Star Wars: Luke Skywalker
 - Star Wars: Mace Windu
+- Star Wars: Princess Leia
 - Star Wars: R2-D2
 - Star Wars: Tatooine
 - Star Wars: The Empire Strikes Back
@@ -824,6 +1046,7 @@ Do not edit manually.
 - Television: Game of Thrones
 - Television: Grey's Anatomy
 - Television: Lost
+- Television: M*A*S*H
 - Television: Mad Men
 - Television: Saturday Night Live
 - Television: Seinfeld
@@ -833,10 +1056,14 @@ Do not edit manually.
 - Television: The Americans
 - Television: The Handmaid's Tale
 - Television: The Simpsons
+- Television: The Walking Dead
 - Television: The Wire
+- Television: Twin Peaks
+- Tennis: Andre Agassi
 - Tennis: Björn Borg
 - Tennis: Boris Becker
 - Tennis: Martina Navratilova
+- Tennis: Pete Sampras
 - Tennis: Rafael Nadal
 - Tennis: Rod Laver
 - Tennis: Roger Federer
@@ -844,16 +1071,23 @@ Do not edit manually.
 - Tennis: Steffi Graf
 - Tennis: The Australian Open
 - Tennis: The French Open
+- Tennis: The Net
 - Tennis: The U.S. Open
 - Tennis: Wimbledon
 - The American Revolution: Baron von Steuben
 - The American Revolution: Benjamin Franklin
+- The American Revolution: Lexington and Concord
+- The American Revolution: Marquis de Lafayette
 - The American Revolution: Paul Revere
+- The American Revolution: Redcoats
 - The American Revolution: The Battle of Bunker Hill
 - The American Revolution: The Boston Tea Party
 - The American Revolution: The Declaration of Independence
 - The Civil War: CSS Virginia (Merrimack)
+- The Civil War: Fort Sumter
 - The Civil War: Robert E. Lee
+- The Civil War: Stonewall Jackson
+- The Civil War: The Battle of Antietam
 - The Civil War: The Battle of Gettysburg
 - The Civil War: The Emancipation Proclamation
 - The Civil War: Ulysses S. Grant
@@ -864,23 +1098,37 @@ Do not edit manually.
 - The Cold War: Sputnik 1
 - The Cold War: The Berlin Wall
 - The Cold War: The Cuban Missile Crisis
+- The Cold War: The Iron Curtain
 - The Cold War: The Korean War
 - The Cold War: The Marshall Plan
+- The Cold War: The Soviet Union
 - The Cold War: The Truman Doctrine
+- The Cold War: The Vietnam War
+- The Enlightenment: Adam Smith
+- The Enlightenment: Jean-Jacques Rousseau
 - The Enlightenment: John Locke
 - The Enlightenment: The Encyclopédie
+- The Enlightenment: Thomas Paine
 - The Enlightenment: Voltaire
+- The Internet: ARPANET
 - The Internet: Reddit
+- The Internet: Spam
+- The Internet: The World Wide Web
 - The Internet: Wikipedia
 - The Internet: YouTube
 - The Renaissance: Donatello
 - The Renaissance: Filippo Brunelleschi
 - The Renaissance: Florence
+- The Renaissance: Johannes Gutenberg
 - The Renaissance: Leonardo da Vinci
 - The Renaissance: Niccolò Machiavelli
+- The Renaissance: Raphael
 - The Renaissance: Sandro Botticelli
+- The Renaissance: The Medici Family
 - U.S. Geography: Alaska
 - U.S. Geography: Arizona
+- U.S. Geography: Cape Cod
+- U.S. Geography: Hawaii
 - U.S. Geography: Lake Superior
 - U.S. Geography: Mauna Loa
 - U.S. Geography: Mount Rushmore
@@ -891,9 +1139,11 @@ Do not edit manually.
 - U.S. Geography: The Strait of Mackinac
 - U.S. Geography: U.S. Virgin Islands
 - U.S. Geography: Washington
+- U.S. Geography: Yellowstone National Park
 - U.S. Presidents: Abraham Lincoln
 - U.S. Presidents: Andrew Jackson
 - U.S. Presidents: Barack Obama
+- U.S. Presidents: Bill Clinton
 - U.S. Presidents: Chester A. Arthur
 - U.S. Presidents: Dwight D. Eisenhower
 - U.S. Presidents: Franklin D. Roosevelt
@@ -904,6 +1154,8 @@ Do not edit manually.
 - U.S. Presidents: James Madison
 - U.S. Presidents: James Monroe
 - U.S. Presidents: John F. Kennedy
+- U.S. Presidents: John Quincy Adams
+- U.S. Presidents: Richard Nixon
 - U.S. Presidents: Ronald Reagan
 - U.S. Presidents: Theodore Roosevelt
 - U.S. Presidents: Thomas Jefferson
@@ -927,6 +1179,10 @@ Do not edit manually.
 - Video Games: The Legend of Zelda
 - Video Games: The Legend of Zelda: Breath of the Wild
 - Video Games: The Witcher 3: Wild Hunt
+- Western Movies: High Noon
+- Western Movies: John Wayne
+- Western Movies: The Good, the Bad and the Ugly
+- Wine & Beer: Beer
 - Wine & Beer: Bordeaux
 - Wine & Beer: Cabernet Sauvignon
 - Wine & Beer: Champagne
@@ -935,12 +1191,16 @@ Do not edit manually.
 - Wine & Beer: India Pale Ale
 - Wine & Beer: Lager
 - Wine & Beer: Lambic
+- Wine & Beer: Pinot Noir
 - Wine & Beer: Riesling
+- Wine & Beer: Stout
 - World Capitals: Addis Ababa
 - World Capitals: Ankara
 - World Capitals: Astana
 - World Capitals: Brasília
+- World Capitals: Cairo
 - World Capitals: Canberra
+- World Capitals: Helsinki
 - World Capitals: Ho Chi Minh City
 - World Capitals: Jakarta
 - World Capitals: La Paz
@@ -948,6 +1208,7 @@ Do not edit manually.
 - World Capitals: Seoul
 - World Capitals: Tokyo
 - World Capitals: Ulaanbaatar
+- World Capitals: Vientiane
 - World Cuisine: Bibimbap
 - World Cuisine: Bulgogi
 - World Cuisine: Burrito
@@ -957,8 +1218,11 @@ Do not edit manually.
 - World Cuisine: Hummus
 - World Cuisine: Khachapuri
 - World Cuisine: Naan
+- World Cuisine: Pad Thai
 - World Cuisine: Paella
+- World Cuisine: Pastel de Nata
 - World Cuisine: Pho
+- World Cuisine: Pierogi
 - World Cuisine: Ratatouille
 - World Cuisine: Sushi
 - World Cuisine: Tacos
@@ -974,11 +1238,17 @@ Do not edit manually.
 - World Geography: Tuvalu
 - World War I: Archduke Franz Ferdinand
 - World War I: The Battle of the Somme
+- World War I: The Lusitania
 - World War I: The Treaty of Versailles
+- World War I: Trenches
+- World War I: Woodrow Wilson
+- World War II: Anne Frank
 - World War II: Auschwitz
 - World War II: D-Day
+- World War II: Iwo Jima
 - World War II: Joseph Stalin
 - World War II: Nagasaki
+- World War II: Operation Barbarossa
 - World War II: Pearl Harbor
 - World War II: The Battle of Stalingrad
 - World War II: The Battle of the Bulge
