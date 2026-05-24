@@ -35,10 +35,13 @@
         --fgColor-default: #ece6d9;
         --fgColor-muted: #918a7c;
         --fgColor-subtle: #6c6557;
-        --fgColor-accent: #A2BFE6;
+        --fgColor-accent: #e8a36b;
         --borderColor-default: #2c271f;
         --borderColor-muted: #221e18;
         --shadowColor: rgba(0, 0, 0, 0.5);
+        /* Warm amber accent — pairs with the warm-neutral dark palette */
+        --accent: #d98e5a;
+        --accent-strong: #e8a36b;
     }
 }
 
@@ -76,7 +79,7 @@ html, body {
 .hero-banner {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 5;
+    aspect-ratio: 16 / 5.75;
     overflow: hidden;
     border-radius: 14px;
     margin: 24px 0 8px;
@@ -139,7 +142,7 @@ html, body {
         --bgColor-neutral-muted: rgba(236, 230, 217, 0.08);
         --fgColor-default: #ece6d9;
         --fgColor-muted: #918a7c;
-        --fgColor-accent: #A2BFE6;
+        --fgColor-accent: #e8a36b;
         --borderColor-default: #2c271f;
         --borderColor-muted: #221e18;
     }
@@ -352,7 +355,7 @@ html, body {
 #full-image {
     max-width: 92%;
     max-height: 92%;
-    transition: transform 0.3s ease, transform-origin 0.3s ease;
+    transition: transform 0.3s ease;
     transform-origin: center center;
     cursor: zoom-in;
     border-radius: 4px;

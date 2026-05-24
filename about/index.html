@@ -71,9 +71,9 @@
         var heroFull = new Image();
         heroFull.onload = function () { jumbo.src = heroFull.src; };
         heroFull.src = "/photos/pics/high/" + photo.filename;
-        var caption = document.getElementById("hero-caption");
-        if (caption && photo.location) {
-            caption.textContent = photo.location;
+        var heroCaption = document.getElementById("hero-caption");
+        if (heroCaption && photo.location) {
+            heroCaption.textContent = photo.location;
         }
         // Wire up click-to-zoom once lazyload.js has defined set_up_zoomable.
         document.addEventListener("DOMContentLoaded", function () {

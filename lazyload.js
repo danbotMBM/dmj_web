@@ -78,18 +78,18 @@ function closeViewer() {
 }
 
 fullImage.addEventListener('click', (e) => {
-    const rect = fullImage.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left;
-    const offsetY = e.clientY - rect.top;
-    const originX = (offsetX / rect.width) * 100;
-    const originY = (offsetY / rect.height) * 100;
-
     if (!zoomed) {
+    // Anchor the zoom at the click point so it scales up from there.
+    // Use offsetX/offsetWidth (the click position in the image's own layout
+    // coordinates) rather than getBoundingClientRect, which is distorted by
+    // the current transform/transition and would land the origin off-target.
+    const originX = (e.offsetX / fullImage.offsetWidth) * 100;
+    const originY = (e.offsetY / fullImage.offsetHeight) * 100;
     fullImage.style.transformOrigin = `${originX}% ${originY}%`;
     fullImage.style.transform = 'scale(3)';
     fullImage.style.cursor = 'zoom-out';
     } else {
-    fullImage.style.transformOrigin = `${originX}% ${originY}%`;
+    // Zoom back out from wherever it currently is; keep the existing origin.
     fullImage.style.transform = 'scale(1)';
     fullImage.style.cursor = 'zoom-in';
     }

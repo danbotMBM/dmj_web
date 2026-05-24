@@ -26,7 +26,7 @@ header.site-header {
     margin: 0;
     font-family: var(--serif);
     font-weight: 500;
-    font-size: 1.15rem;
+    font-size: 1.5rem;
     letter-spacing: -0.01em;
     color: var(--fgColor-default);
     white-space: nowrap;
@@ -39,8 +39,8 @@ header.site-header {
 
 .site-header__nav {
     display: flex;
-    gap: 4px;
-    flex-wrap: wrap;
+    gap: 0;
+    flex-wrap: nowrap;
     justify-content: flex-end;
 }
 
@@ -66,10 +66,16 @@ header.site-header {
 }
 
 @media (max-width: 540px) {
-    .site-header__inner {
-        padding: 0 16px;
-        gap: 12px;
+    header.site-header {
+        height: auto;
     }
-    .site-header__brand { font-size: 1rem; }
+    .site-header__inner {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 16px;
+        gap: 8px;
+    }
+    .site-header__nav { justify-content: center; }
     .navlink { padding: 6px 10px; font-size: 0.9rem; }
 }

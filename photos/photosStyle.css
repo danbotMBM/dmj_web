@@ -16,7 +16,7 @@
         --bgColor-muted: #1d1a14;
         --fgColor-default: #ece6d9;
         --fgColor-muted: #918a7c;
-        --accent: #A2BFE6;
+        --accent: #d98e5a;
         --borderColor-muted: #221e18;
     }
 }
@@ -104,7 +104,7 @@ body {
 #full-image {
     max-width: 92%;
     max-height: 92%;
-    transition: transform 0.3s ease, transform-origin 0.3s ease;
+    transition: transform 0.3s ease;
     transform-origin: center center;
     cursor: zoom-in;
     border-radius: 4px;
