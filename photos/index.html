@@ -15,6 +15,9 @@
     <main class="gallery-page">
         <h2 id="title">photos</h2>
         <div id="jumbodiv"></div>
+        <footer class="gallery-footer">
+            <a id="admin-link" href="/photos/admin/" hidden>admin</a>
+        </footer>
     </main>
     <div id="image-viewer">
         <span id="close-btn">&times;</span>
@@ -28,17 +31,26 @@
     <script src="/photos.js"></script>
     <script>
         const grid = document.getElementById("jumbodiv");
-        get_photos().forEach(element => {
-            const cell = document.createElement("div");
-            cell.className = "pic-row";
-            const img = document.createElement("img");
-            img.src = "pics/low/" + element.filename;
-            img.title = get_title(element);
-            img.className = "lazyload";
-            img.alt = element.description || element.location || "";
-            cell.appendChild(img);
-            grid.appendChild(cell);
+        get_photos().then(photos => {
+            photos.forEach(element => {
+                const cell = document.createElement("div");
+                cell.className = "pic-row";
+                const img = document.createElement("img");
+                img.src = "pics/low/" + element.filename;
+                img.title = get_title(element);
+                img.className = "lazyload";
+                img.alt = element.description || element.location || "";
+                img.style.objectPosition = focal_position(element);
+                cell.appendChild(img);
+                grid.appendChild(cell);
+            });
+            // Re-scan for lazyload now that images exist.
+            if (typeof observe_lazy_images === "function") observe_lazy_images();
         });
+        // Reveal the admin link only when a login token is present in the browser.
+        if (localStorage.getItem('dmj-auth-token')) {
+            document.getElementById('admin-link').hidden = false;
+        }
     </script>
     <script src="../lazyload.js"></script>
 </body>

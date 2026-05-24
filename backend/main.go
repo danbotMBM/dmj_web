@@ -52,6 +52,7 @@ func main() {
 	registerRoute("POST", "/login", "Get auth token")
 
 	registerRunningRoutes()
+	registerPhotosRoutes()
 	registerTriviaRoutes()
 	initAnalyticsDB()
 	registerAnalyticsRoutes()

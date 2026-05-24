@@ -87,18 +87,54 @@ const photolist = [
     { 'filename': 'biblereading.jpg', 'description': '', 'location': 'Gold Coast, Australia' },
 ];
 
+// API base URL (kept in sync with utils.js; photos.js loads as a classic
+// script so it can't import the module export).
+const PHOTOS_API_BASE = 'https://api.danbotlab';
+
+// Photos are stored server-side (focal points are edited via the admin tool).
+// The hardcoded `photolist` above is a fallback used only if the API is
+// unreachable, so the site still renders. Loaded photos are cached so each
+// page fetches once.
+let _photoCache = null;
+
 // Generate a random integer between 1 and 30
 function getRandomInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function get_photos(){
-    return photolist;
+// Fetch the photo list (with focal points) once, falling back to the inline
+// list if the API is down. Returns a Promise resolving to the array.
+async function load_photos() {
+    if (_photoCache) return _photoCache;
+    try {
+        const res = await fetch(`${PHOTOS_API_BASE}/photos`);
+        if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data) && data.length > 0) {
+                _photoCache = data;
+                return _photoCache;
+            }
+        }
+    } catch (e) {
+        console.warn('photos: falling back to inline list', e);
+    }
+    _photoCache = photolist;
+    return _photoCache;
 }
 
-function get_one_random_photo(){
-    var randomNumber = getRandomInteger(0, photolist.length - 1);
-    return photolist[randomNumber];
+async function get_photos(){
+    return await load_photos();
+}
+
+async function get_one_random_photo(){
+    const list = await load_photos();
+    return list[getRandomInteger(0, list.length - 1)];
+}
+
+// CSS object-position value for a photo's focal point. With object-fit: cover
+// this keeps the same point centered across every crop aspect ratio.
+function focal_position(p){
+    return `${p.posX ?? 50}% ${p.posY ?? 50}%`;
 }
 
 function get_title(p){

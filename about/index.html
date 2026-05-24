@@ -62,21 +62,22 @@
     <script src="/photos.js"></script>
     <script>
         var jumbo = document.getElementById("jumbo");
-        var photo = get_one_random_photo();
-        jumbo.title = get_title(photo);
-        // Progressive load: show low-res immediately, then swap in the
-        // full-resolution image once it's ready. Always upgrades to /high/
-        // regardless of connection speed.
-        jumbo.src = "/photos/pics/low/" + photo.filename;
-        var heroFull = new Image();
-        heroFull.onload = function () { jumbo.src = heroFull.src; };
-        heroFull.src = "/photos/pics/high/" + photo.filename;
-        var heroCaption = document.getElementById("hero-caption");
-        if (heroCaption && photo.location) {
-            heroCaption.textContent = photo.location;
-        }
-        // Wire up click-to-zoom once lazyload.js has defined set_up_zoomable.
-        document.addEventListener("DOMContentLoaded", function () {
+        get_one_random_photo().then(function (photo) {
+            jumbo.title = get_title(photo);
+            // Align the crop to the photo's stored focal point.
+            jumbo.style.objectPosition = focal_position(photo);
+            // Progressive load: show low-res immediately, then swap in the
+            // full-resolution image once it's ready. Always upgrades to /high/
+            // regardless of connection speed.
+            jumbo.src = "/photos/pics/low/" + photo.filename;
+            var heroFull = new Image();
+            heroFull.onload = function () { jumbo.src = heroFull.src; };
+            heroFull.src = "/photos/pics/high/" + photo.filename;
+            var heroCaption = document.getElementById("hero-caption");
+            if (heroCaption && photo.location) {
+                heroCaption.textContent = photo.location;
+            }
+            // Wire up click-to-zoom once lazyload.js has defined set_up_zoomable.
             if (typeof set_up_zoomable === "function") set_up_zoomable(jumbo);
         });
     </script>

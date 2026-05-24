@@ -137,6 +137,26 @@ body {
     margin: 0;
 }
 
+.gallery-footer {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.gallery-footer a {
+    color: var(--fgColor-muted);
+    font-size: 0.85rem;
+    text-decoration: none;
+    border: 1px solid var(--borderColor-muted);
+    padding: 6px 16px;
+    border-radius: 100px;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.gallery-footer a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
 @media (max-width: 540px) {
     .gallery-page { padding: 16px 16px 48px; }
     #jumbodiv {
