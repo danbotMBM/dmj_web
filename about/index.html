@@ -59,8 +59,8 @@
         <h3 id="full-image-caption"></h3>
     </div>
 
-    <script src="/photos.js"></script>
-    <script>
+    <script type="module">
+        import { get_one_random_photo, get_title, focal_position } from "/photos.js";
         var jumbo = document.getElementById("jumbo");
         get_one_random_photo().then(function (photo) {
             jumbo.title = get_title(photo);

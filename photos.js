@@ -1,3 +1,5 @@
+import { API_BASE } from "/utils.js";
+
 const photolist = [
     { 'filename': 'souk.jpg', 'description': '', 'location': 'Marrakech, Morocco' },
     { 'filename': 'milfordsound.jpg', 'description': 'view from Gertrude\'s Saddle', 'location': 'Milford Sound, New Zealand' },
@@ -87,9 +89,6 @@ const photolist = [
     { 'filename': 'biblereading.jpg', 'description': '', 'location': 'Gold Coast, Australia' },
 ];
 
-// API base URL (kept in sync with utils.js; photos.js loads as a classic
-// script so it can't import the module export).
-const PHOTOS_API_BASE = 'https://api.danbotlab';
 
 // Photos are stored server-side (focal points are edited via the admin tool).
 // The hardcoded `photolist` above is a fallback used only if the API is
@@ -107,7 +106,7 @@ function getRandomInteger(min, max) {
 async function load_photos() {
     if (_photoCache) return _photoCache;
     try {
-        const res = await fetch(`${PHOTOS_API_BASE}/photos`);
+        const res = await fetch(`${API_BASE}/photos`);
         if (res.ok) {
             const data = await res.json();
             if (Array.isArray(data) && data.length > 0) {
@@ -144,3 +143,5 @@ function get_title(p){
         return p.description + p.location;
     }
 }
+
+export { get_photos, get_one_random_photo, focal_position, get_title };
