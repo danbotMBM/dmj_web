@@ -206,7 +206,14 @@ function handleSoundEvents(st) {
 
 let lastResultMsg = null;
 
+// Whether the add-CPU difficulty popup is currently expanded at the open seat.
+let addMenuOpen = false;
+// Most recent state, so UI-only toggles (opening the add menu) can re-render
+// without waiting for the next poll.
+let lastState = null;
+
 function render(st) {
+    lastState = st;
     handleSoundEvents(st);
 
     // Banner / queue status.
@@ -220,10 +227,19 @@ function render(st) {
     }
     bannerEl.textContent = banner;
 
-    // Seats.
+    // Seats. CPU management ("+" to add, "x" to remove) is only available to a
+    // seated player while the table is between rounds — mirrors the server's
+    // betweenRounds() guard so we don't show controls the server would reject.
     seatsEl.innerHTML = "";
     const seated = st.seats || [];
-    const total = Math.max(seated.length, 2);
+    const betweenRounds = ["WAITING", "READY", "SHOWDOWN"].includes(st.phase);
+    const canManage = st.seated && betweenRounds;
+    const showAdd = canManage && seated.length < (st.maxSeats || 10);
+    if (!showAdd) addMenuOpen = false; // close a stale menu if conditions change
+
+    // The add-CPU placeholder occupies one extra position so seats stay evenly
+    // spread around the oval while it's shown.
+    const total = Math.max(seated.length + (showAdd ? 1 : 0), 2);
     seated.forEach((s, i) => {
         const pos = seatPosition(i, total);
         const el = document.createElement("div");
@@ -241,7 +257,13 @@ function render(st) {
                 ? `<div class="seat-hole">${tileHTML({ blank: false, letter: "", points: "" }, "mini back")}${tileHTML({}, "mini back")}${tileHTML({}, "mini back")}</div>`
                 : "");
 
+        // Any seated human may remove a CPU between rounds.
+        const removeBtn = (canManage && s.isCpu)
+            ? `<button class="cpu-remove" data-action="remove-cpu" data-seat="${s.seat}" title="Remove this CPU">×</button>`
+            : "";
+
         el.innerHTML = `
+            ${removeBtn}
             ${s.isButton ? '<span class="dealer-btn">D</span>' : ""}
             <div class="seat-name">${escapeHTML(s.name)}</div>
             <div class="seat-chips">${s.chips} chips</div>
@@ -252,6 +274,23 @@ function render(st) {
         `;
         seatsEl.appendChild(el);
     });
+
+    if (showAdd) {
+        const pos = seatPosition(seated.length, total);
+        const el = document.createElement("div");
+        el.className = "seat seat-add" + (addMenuOpen ? " open" : "");
+        el.style.left = pos.x + "%";
+        el.style.top = pos.y + "%";
+        el.innerHTML = addMenuOpen
+            ? `<div class="cpu-add-menu">
+                   <div class="cpu-add-title">Add CPU</div>
+                   <button class="cpu-diff" data-action="add-cpu" data-diff="low">Easy</button>
+                   <button class="cpu-diff" data-action="add-cpu" data-diff="medium">Medium</button>
+                   <button class="cpu-diff" data-action="add-cpu" data-diff="high">Hard</button>
+               </div>`
+            : `<button class="cpu-add-plus" data-action="open-add" title="Add a CPU player">+</button>`;
+        seatsEl.appendChild(el);
+    }
 
     // Pot + community. River tiles consumed by your best play are shaded.
     potEl.textContent = st.pot > 0 ? `Pot: ${st.pot}` : "";
@@ -400,6 +439,35 @@ async function sendAction(action, amount = 0) {
     }
     poll(); // refresh immediately
 }
+
+// --- CPU management ---------------------------------------------------------
+async function addCPU(difficulty) {
+    addMenuOpen = false;
+    try {
+        const r = await api("/holdem/addcpu", "POST", { difficulty });
+        if (!r.ok) console.warn("addcpu rejected:", await r.text());
+    } catch (e) { console.error(e); }
+    poll();
+}
+
+async function removeCPU(seat) {
+    try {
+        const r = await api("/holdem/removecpu", "POST", { seat });
+        if (!r.ok) console.warn("removecpu rejected:", await r.text());
+    } catch (e) { console.error(e); }
+    poll();
+}
+
+// Seats are rebuilt every render, so delegate clicks from the stable container.
+seatsEl.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-action]");
+    if (!btn) return;
+    switch (btn.dataset.action) {
+        case "open-add": addMenuOpen = true; render(lastState); break;
+        case "add-cpu": addCPU(btn.dataset.diff); break;
+        case "remove-cpu": removeCPU(+btn.dataset.seat); break;
+    }
+});
 
 btnFold.onclick = () => sendAction("fold");
 btnCheck.onclick = () => sendAction("check");
