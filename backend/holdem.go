@@ -99,6 +99,11 @@ type Player struct {
 	HasActed bool // acted at least once in the current betting round
 	InHand   bool // dealt into the current hand
 	LastSeen time.Time
+
+	// CPU players are driven server-side by the game loop. Difficulty is one of
+	// cpuLow / cpuMedium / cpuHigh (see holdem_cpu.go).
+	IsCPU      bool
+	Difficulty string
 }
 
 // showdownEntry is one player's result at showdown.
@@ -608,6 +613,9 @@ func (t *Table) applyAction(p *Player, action string, amount int) error {
 		return fmt.Errorf("unknown action %q", action)
 	}
 	p.HasActed = true
+	// Feed the opponent model (used by high-difficulty CPUs). toCall>0 means the
+	// player was facing a bet when they chose this action.
+	cpuObserve(p, action, toCall > 0)
 	// Record the event for client sound effects ("bet" plays as "raise").
 	t.ActionSeq++
 	if action == "bet" {
@@ -819,16 +827,17 @@ func (t *Table) tick() {
 	t.mu.Lock()
 	defer t.mu.Unlock()
 
-	// Drop disconnected players (haven't polled within the grace period).
+	// Drop disconnected players (haven't polled within the grace period). CPUs
+	// never poll, so they're exempt — they only leave via /holdem/removecpu.
 	now := time.Now()
 	for _, p := range t.Players {
-		if p != nil && now.Sub(p.LastSeen) > disconnectGrace {
+		if p != nil && !p.IsCPU && now.Sub(p.LastSeen) > disconnectGrace {
 			t.handlePlayerLeaving(p)
 		}
 	}
 	var keep []*Player
 	for _, p := range t.Queue {
-		if now.Sub(p.LastSeen) <= disconnectGrace {
+		if p.IsCPU || now.Sub(p.LastSeen) <= disconnectGrace {
 			keep = append(keep, p)
 		}
 	}
@@ -855,6 +864,13 @@ func (t *Table) tick() {
 			}
 		}
 	default: // a betting phase
+		// A CPU whose turn it is acts after a short think delay (see driveCPU).
+		if t.Acting >= 0 {
+			if ap := t.Players[t.Acting]; ap != nil && ap.IsCPU {
+				t.driveCPU(ap, now)
+				break
+			}
+		}
 		if t.Acting >= 0 && !t.Deadline.IsZero() && now.After(t.Deadline) {
 			t.autoAct()
 		}
@@ -922,6 +938,8 @@ func registerHoldemRoutes() {
 
 	http.HandleFunc("/holdem/start", cors(holdemStart))
 	registerRoute("POST", "/holdem/start", "Deal the next hand (any seated player)")
+
+	registerCPURoutes()
 }
 
 // holdemStart deals the next hand. Any seated player may trigger it once the
@@ -1040,6 +1058,8 @@ type seatDTO struct {
 	IsYou    bool   `json:"isYou"`
 	IsTurn   bool   `json:"isTurn"`
 	IsButton bool   `json:"isButton"`
+	IsCPU    bool   `json:"isCpu"`
+	Diff     string `json:"diff"` // CPU difficulty label, empty for humans
 	Hole     []Tile `json:"hole"` // populated only for you (or at showdown)
 }
 
@@ -1114,6 +1134,8 @@ func holdemState(w http.ResponseWriter, r *http.Request) {
 			IsYou:    me != nil && p.ID == me.ID,
 			IsTurn:   table.Acting == i,
 			IsButton: table.Button == i && table.Phase != phaseWaiting,
+			IsCPU:    p.IsCPU,
+			Diff:     p.Difficulty,
 		}
 		// Reveal hole tiles only to the owner, or to everyone at showdown
 		// for players who reached the showdown (in hand, not folded).
