@@ -78,6 +78,7 @@ const potEl = document.getElementById("pot-display");
 const boardMsgEl = document.getElementById("board-msg");
 const bannerEl = document.getElementById("status-banner");
 const holeEl = document.getElementById("your-hole");
+const showdownEl = document.getElementById("showdown");
 
 function tileHTML(t, extraClass = "") {
     if (!t) return "";
@@ -85,6 +86,15 @@ function tileHTML(t, extraClass = "") {
         return `<span class="tile blank ${extraClass}"><span class="tile-letter">★</span></span>`;
     }
     return `<span class="tile ${extraClass}"><span class="tile-letter">${t.letter}</span><span class="tile-pts">${t.points}</span></span>`;
+}
+
+// Render a best play's word(s) as tiles. River-origin tiles get an accent ring.
+function playWordsHTML(play, sizeClass = "") {
+    if (!play || !play.words || !play.words.length) return "";
+    return play.words.map(word =>
+        `<span class="play-word">${word.map(t =>
+            tileHTML(t, sizeClass + (t.river ? " from-river" : ""))).join("")}</span>`
+    ).join(`<span class="play-plus">+</span>`);
 }
 
 // Position seats evenly around the oval table.
@@ -241,36 +251,72 @@ function render(st) {
         seatsEl.appendChild(el);
     });
 
-    // Pot + community.
+    // Pot + community. River tiles consumed by your best play are shaded.
     potEl.textContent = st.pot > 0 ? `Pot: ${st.pot}` : "";
-    communityEl.innerHTML = (st.community || []).map(t => tileHTML(t)).join("");
+    const usedComm = (st.bestPlay && st.bestPlay.usedCommunity) || [];
+    communityEl.innerHTML = (st.community || [])
+        .map((t, i) => tileHTML(t, usedComm[i] ? "used" : "")).join("");
 
-    // Board message (showdown result).
+    // Board message + showdown panel revealing every player's best word.
     if (st.phase === "SHOWDOWN" && st.result) {
         boardMsgEl.textContent = st.result.winnerMsg || "";
-        if (st.result.winnerMsg !== lastResultMsg) {
-            lastResultMsg = st.result.winnerMsg;
-        }
+        lastResultMsg = st.result.winnerMsg;
+        renderShowdown(st.result);
     } else {
         boardMsgEl.textContent = "";
         lastResultMsg = null;
+        showdownEl.classList.add("hidden");
+        showdownEl.innerHTML = "";
     }
 
-    // Your hole tiles + current best word.
+    // Your best play, spelled out in tiles, with unused hole tiles to the right.
     const you = seated.find(s => s.isYou);
+    const bp = st.bestPlay;
     if (you && you.hole && you.hole.length) {
-        const best = st.yourBestWord
-            ? `<div class="best-word">Best play: <strong>${escapeHTML(st.yourBestWord)}</strong> <span class="best-score">${st.yourBestScore} pts</span></div>`
-            : `<div class="best-word best-none">No word yet</div>`;
-        holeEl.innerHTML =
-            `<div class="hole-label">Your tiles</div>` +
-            `<div class="hole-tiles">${you.hole.map(t => tileHTML(t, "big")).join("")}</div>` +
-            best;
+        if (bp && bp.words && bp.words.length) {
+            const wordsHTML = playWordsHTML(bp, "big");
+            const leftoverHTML = (bp.leftover && bp.leftover.length)
+                ? `<span class="play-divider"></span>` +
+                  `<span class="leftover-tiles" title="Unused tiles">${
+                      bp.leftover.map(t => tileHTML(t, "big leftover")).join("")}</span>`
+                : "";
+            holeEl.innerHTML =
+                `<div class="hole-label">Best play <span class="best-score">${bp.score} pts</span></div>` +
+                `<div class="best-play">${wordsHTML}${leftoverHTML}</div>`;
+        } else {
+            holeEl.innerHTML =
+                `<div class="hole-label">Your tiles</div>` +
+                `<div class="hole-tiles">${you.hole.map(t => tileHTML(t, "big")).join("")}</div>` +
+                `<div class="best-word best-none">No word yet</div>`;
+        }
     } else {
         holeEl.innerHTML = "";
     }
 
     renderActions(st);
+}
+
+// Reveal every contender's best word at the end of the round.
+function renderShowdown(result) {
+    const entries = result.entries || [];
+    if (!entries.length) {
+        showdownEl.classList.add("hidden");
+        showdownEl.innerHTML = "";
+        return;
+    }
+    const rows = entries.map(e => {
+        const play = (e.play && e.play.words && e.play.words.length)
+            ? `<span class="sd-play">${playWordsHTML(e.play)}</span>`
+            : `<span class="sd-play sd-noword">— no word —</span>`;
+        return `<div class="sd-row${e.won ? " sd-winner" : ""}">
+            <span class="sd-name">${escapeHTML(e.name)}${e.won ? ' <span class="sd-badge">WIN</span>' : ""}</span>
+            ${play}
+            <span class="sd-score">${e.score} pts</span>
+        </div>`;
+    }).join("");
+    showdownEl.innerHTML =
+        `<div class="sd-title">${escapeHTML(result.winnerMsg || "Showdown")}</div>${rows}`;
+    showdownEl.classList.remove("hidden");
 }
 
 // --- action controls --------------------------------------------------------

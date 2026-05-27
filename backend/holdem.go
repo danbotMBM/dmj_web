@@ -102,11 +102,12 @@ type Player struct {
 
 // showdownEntry is one player's result at showdown.
 type showdownEntry struct {
-	Name  string `json:"name"`
-	Word  string `json:"word"`
-	Score int    `json:"score"`
-	Hole  []Tile `json:"hole"`
-	Won   bool   `json:"won"`
+	Name  string       `json:"name"`
+	Word  string       `json:"word"`
+	Score int          `json:"score"`
+	Hole  []Tile       `json:"hole"`
+	Won   bool         `json:"won"`
+	Play  *bestPlayDTO `json:"play"` // best play spelled out in tiles
 }
 
 type handResult struct {
@@ -202,14 +203,15 @@ func loadHoldemWords() {
 	fmt.Printf("Loaded %d holdem words (%d distinct anagrams)\n", count, len(wordSigs))
 }
 
-// bestWords finds the highest-scoring way to use the given tiles, allowing the
-// tiles to be split into several disjoint valid words. Leftover tiles that can't
-// form (part of) a word simply go unused. Returns the chosen words and the total
-// score (the sum of the point values of every tile consumed).
-func bestWords(tiles []Tile) ([]string, int) {
+// solveTiles runs the partition DP over `tiles`, allowing the tiles to be split
+// into several disjoint valid words to maximize the total score (the sum of the
+// point values of every tile consumed). It returns the chosen word-subsets (each
+// a bitmask over `tiles`), an example word for every subset (`wword[sub]`), and
+// the total score. Subsets are ordered longest-word first for display.
+func solveTiles(tiles []Tile) (subsets []int, wword []string, score int) {
 	n := len(tiles)
 	if n == 0 {
-		return nil, 0
+		return nil, nil, 0
 	}
 	full := (1 << n) - 1
 
@@ -217,22 +219,22 @@ func bestWords(tiles []Tile) ([]string, int) {
 	// (an anagram of a dictionary word) and, if so, its score and example word.
 	isWord := make([]bool, 1<<n)
 	wscore := make([]int, 1<<n)
-	wword := make([]string, 1<<n)
+	wword = make([]string, 1<<n)
 	for mask := 1; mask <= full; mask++ {
 		if bits.OnesCount(uint(mask)) < 2 {
 			continue // single tiles and the empty set aren't words
 		}
 		var counts [26]int
-		score := 0
+		sc := 0
 		for i := 0; i < n; i++ {
 			if mask&(1<<i) != 0 {
 				counts[tiles[i].Letter[0]-'A']++
-				score += tiles[i].Points
+				sc += tiles[i].Points
 			}
 		}
 		if ex, ok := wordSigs[sigFromCounts(counts)]; ok {
 			isWord[mask] = true
-			wscore[mask] = score
+			wscore[mask] = sc
 			wword[mask] = ex
 		}
 	}
@@ -267,24 +269,102 @@ func bestWords(tiles []Tile) ([]string, int) {
 		}
 	}
 
-	// Reconstruct the chosen words, longest first for readable display.
-	var words []string
 	for m := best; m != 0; m ^= par[m] {
-		words = append(words, wword[par[m]])
+		subsets = append(subsets, par[m])
 	}
-	sort.Slice(words, func(i, j int) bool {
-		if len(words[i]) != len(words[j]) {
-			return len(words[i]) > len(words[j])
+	sort.Slice(subsets, func(i, j int) bool {
+		a, b := wword[subsets[i]], wword[subsets[j]]
+		if len(a) != len(b) {
+			return len(a) > len(b)
 		}
-		return words[i] < words[j]
+		return a < b
 	})
-	return words, dp[best]
+	return subsets, wword, dp[best]
 }
 
 // bestWord returns the chosen words joined for display plus the total score.
 func bestWord(tiles []Tile) (string, int) {
-	words, score := bestWords(tiles)
+	subsets, wword, score := solveTiles(tiles)
+	words := make([]string, len(subsets))
+	for i, s := range subsets {
+		words[i] = wword[s]
+	}
 	return strings.Join(words, " + "), score
+}
+
+// bestTileDTO is one tile in a rendered best play.
+type bestTileDTO struct {
+	Letter string `json:"letter"`
+	Points int    `json:"points"`
+	River  bool   `json:"river"` // true if the tile came from the community
+}
+
+// bestPlayDTO is the structured best play for client rendering: each chosen word
+// spelled out in its specific tiles, which community tiles get consumed, and the
+// player's leftover (unused) hole tiles.
+type bestPlayDTO struct {
+	Words         [][]bestTileDTO `json:"words"`
+	Leftover      []bestTileDTO   `json:"leftover"`
+	Score         int             `json:"score"`
+	UsedCommunity []bool          `json:"usedCommunity"`
+}
+
+// playWordString joins a best play's words for text display, e.g. "QUART + ZA".
+func playWordString(p *bestPlayDTO) string {
+	if p == nil {
+		return ""
+	}
+	parts := make([]string, len(p.Words))
+	for i, word := range p.Words {
+		var b strings.Builder
+		for _, tile := range word {
+			b.WriteString(tile.Letter)
+		}
+		parts[i] = b.String()
+	}
+	return strings.Join(parts, " + ")
+}
+
+// computeBestPlay builds the best play from a player's hole tiles + the revealed
+// community tiles, mapping each word's letters back to specific tiles so the
+// client can render them and shade the consumed community tiles.
+func computeBestPlay(hole, community []Tile) *bestPlayDTO {
+	tiles := append(append([]Tile{}, hole...), community...)
+	nHole := len(hole)
+	n := len(tiles)
+	subsets, wword, score := solveTiles(tiles)
+
+	res := &bestPlayDTO{Score: score, UsedCommunity: make([]bool, len(community))}
+	usedMask := 0
+	for _, sub := range subsets {
+		ex := wword[sub]
+		assigned := 0
+		var wt []bestTileDTO
+		// Walk the example word and bind each letter to a concrete tile in `sub`.
+		for k := 0; k < len(ex); k++ {
+			for i := 0; i < n; i++ {
+				if sub&(1<<i) != 0 && assigned&(1<<i) == 0 && tiles[i].Letter[0] == ex[k] {
+					assigned |= 1 << i
+					river := i >= nHole
+					if river {
+						res.UsedCommunity[i-nHole] = true
+					}
+					wt = append(wt, bestTileDTO{tiles[i].Letter, tiles[i].Points, river})
+					break
+				}
+			}
+		}
+		usedMask |= sub
+		res.Words = append(res.Words, wt)
+	}
+
+	// Unused hole tiles render to the right of the word(s).
+	for i := 0; i < nHole; i++ {
+		if usedMask&(1<<i) == 0 {
+			res.Leftover = append(res.Leftover, bestTileDTO{tiles[i].Letter, tiles[i].Points, false})
+		}
+	}
+	return res
 }
 
 // ---------------------------------------------------------------------------
@@ -676,19 +756,20 @@ func (t *Table) showdown() {
 		p     *Player
 		word  string
 		score int
+		play  *bestPlayDTO
 	}
 	var results []scored
 	best := -1
 	for _, p := range contenders {
 		w, s := "", 0
-		if len(contenders) == 1 {
-			// Uncontested win — no need to reveal a word.
-			w, s = "", 0
-		} else {
-			tiles := append(append([]Tile{}, p.Hole...), t.Community...)
-			w, s = bestWord(tiles)
+		var play *bestPlayDTO
+		if len(contenders) > 1 {
+			// Reveal every contender's best play at showdown.
+			play = computeBestPlay(p.Hole, t.Community)
+			s = play.Score
+			w = playWordString(play)
 		}
-		results = append(results, scored{p, w, s})
+		results = append(results, scored{p, w, s, play})
 		if len(contenders) > 1 && s > best {
 			best = s
 		}
@@ -731,6 +812,7 @@ func (t *Table) showdown() {
 			Score: r.score,
 			Hole:  append([]Tile{}, r.p.Hole...),
 			Won:   winnerSet[r.p],
+			Play:  r.play,
 		})
 	}
 
@@ -972,9 +1054,9 @@ type stateDTO struct {
 	TimeLeftMs int64       `json:"timeLeftMs"`
 	Result     *handResult `json:"result"`
 	MaxSeats   int         `json:"maxSeats"`
-	// Your current best word from your hole tiles + the revealed community tiles.
-	YourBestWord  string `json:"yourBestWord"`
-	YourBestScore int    `json:"yourBestScore"`
+	// Your current best play (words spelled in tiles) from your hole tiles + the
+	// revealed community tiles.
+	BestPlay *bestPlayDTO `json:"bestPlay"`
 	// Event counters for client sound effects.
 	ActionSeq      int    `json:"actionSeq"`
 	LastActionType string `json:"lastActionType"`
@@ -1037,10 +1119,9 @@ func holdemState(w http.ResponseWriter, r *http.Request) {
 		st.Joined = true
 		st.Seated = me.Seat >= 0
 		st.YourChips = me.Chips
-		// Best word formable right now from your hole + the revealed community.
+		// Best play right now from your hole tiles + the revealed community.
 		if me.InHand && !me.Folded && len(me.Hole) > 0 {
-			tiles := append(append([]Tile{}, me.Hole...), table.Community...)
-			st.YourBestWord, st.YourBestScore = bestWord(tiles)
+			st.BestPlay = computeBestPlay(me.Hole, table.Community)
 		}
 		if !st.Seated {
 			for qi, qp := range table.Queue {
