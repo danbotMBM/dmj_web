@@ -588,7 +588,7 @@ function renderActions(st) {
     // Timer bar.
     if (st.timeLeftMs > 0) {
         timerWrap.classList.remove("hidden");
-        const total = (st.turnSeconds || 38) * 1000;
+        const total = (st.turnSeconds || 60) * 1000;
         const pct = Math.max(0, Math.min(100, (st.timeLeftMs / total) * 100));
         timerBar.style.width = pct + "%";
     } else {

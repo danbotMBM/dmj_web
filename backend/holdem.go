@@ -30,7 +30,7 @@ const (
 	startingChips   = 1000
 	smallBlind      = 10
 	bigBlind        = 20
-	turnSeconds     = 38 // per-turn betting timer (+50% to allow time to compose a word)
+	turnSeconds     = 60 // per-turn betting timer (+50% to allow time to compose a word)
 	submitSeconds   = 20 // showdown window for players to finalize their word
 	handOverSeconds = 8  // pause to show showdown results
 	disconnectGrace = 15 * time.Second

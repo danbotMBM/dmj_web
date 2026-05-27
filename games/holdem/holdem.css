@@ -447,27 +447,48 @@
 
 #action-bar {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    margin-bottom: 12px;
+    /* Pin to the bottom of the viewport so the actions are always in reach
+       without ever covering the community tiles in the middle of the board. */
+    position: sticky;
+    bottom: 0;
+    z-index: 30;
+    margin: 16px -16px 0;
+    padding: 14px 16px;
+    background: var(--bgColor-default);
+    border-top: 2px solid var(--borderColor-default);
+    box-shadow: 0 -6px 18px var(--shadowColor);
 }
 
 .act-btn {
-    padding: 10px 18px;
-    border-radius: 8px;
-    border: 1px solid var(--borderColor-default);
+    padding: 14px 30px;
+    border-radius: 10px;
+    border: 2px solid var(--borderColor-default);
     background: var(--bgColor-elevated);
     color: var(--fgColor-default);
-    font-weight: 600;
-    font-size: 0.95rem;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
     cursor: pointer;
-    transition: background 0.15s, transform 0.05s;
+    box-shadow: 0 2px 6px var(--shadowColor);
+    transition: background 0.15s, transform 0.05s, filter 0.15s;
 }
-.act-btn:hover { background: var(--bgColor-muted); }
+.act-btn:hover { filter: brightness(1.08); }
 .act-btn:active { transform: translateY(1px); }
-.act-btn.fold { border-color: #c0564f; color: #c0564f; }
+/* Bold, color-coded actions so the choice is unmistakable at a glance. */
+.act-btn.fold {
+    background: #c0564f;
+    border-color: #c0564f;
+    color: #fff;
+}
+.act-btn.call {
+    background: #2f6fde;
+    border-color: #2f6fde;
+    color: #fff;
+}
 .act-btn.raise {
     background: var(--accent-strong);
     border-color: var(--accent-strong);
