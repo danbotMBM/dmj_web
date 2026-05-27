@@ -326,7 +326,13 @@
     color: var(--fgColor-muted);
     margin-bottom: 6px;
 }
-.hole-tiles { display: flex; gap: 8px; justify-content: center; margin-bottom: 10px; }
+.hole-tiles {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
 
 .best-score {
     color: var(--fgColor-accent);

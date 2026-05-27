@@ -430,14 +430,23 @@ function updateWordArea(st) {
     const focusRaw = typed.trim().length ? typed : (st.yourWord || "");
     const focus = analyzeWord(focusRaw, hole, community);
 
-    // Hole tiles (shaded when used by the focus word).
-    holeEl.innerHTML = hole.length
-        ? `<div class="hole-label">Your tiles</div>` +
-          `<div class="hole-tiles">${hole.map((t, i) =>
-              tileHTML(t, "big" + (focus.usedHole.has(i) ? " used-by-word" : ""))).join("")}</div>`
-        : "";
+    // "Your tiles" = the full pool you can spell from: your private hole tiles
+    // plus the shared community tiles. Hole tiles come first, then community
+    // tiles (marked with the river accent ring). Tiles consumed by the word in
+    // focus are highlighted in both groups.
+    if (hole.length || community.length) {
+        const holeHTML = hole.map((t, i) =>
+            tileHTML(t, "big" + (focus.usedHole.has(i) ? " used-by-word" : ""))).join("");
+        const commHTML = community.map((t, i) =>
+            tileHTML(t, "big from-river" + (focus.usedComm.has(i) ? " used-by-word" : ""))).join("");
+        holeEl.innerHTML =
+            `<div class="hole-label">Your tiles — everything you can spell with</div>` +
+            `<div class="hole-tiles">${holeHTML}${commHTML}</div>`;
+    } else {
+        holeEl.innerHTML = "";
+    }
 
-    // Shade community tiles used by the focus word.
+    // Shade community tiles used by the focus word (on the table board too).
     Array.from(communityEl.children).forEach((el, i) => {
         el.classList.toggle("used", focus.usedComm.has(i));
     });
