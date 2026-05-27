@@ -37,7 +37,8 @@ const (
 
 // Phases of a hand.
 const (
-	phaseWaiting    = "WAITING"     // not enough players to start
+	phaseWaiting    = "WAITING"     // fewer than 2 players — can't start
+	phaseReady      = "READY"       // enough players; waiting for someone to start
 	phaseBetPreflop = "BET_PREFLOP" // after hole tiles dealt
 	phaseBetFlop    = "BET_FLOP"    // after first 2 community tiles
 	phaseBetTurn    = "BET_TURN"    // after next 2 community tiles
@@ -203,11 +204,10 @@ func loadHoldemWords() {
 	fmt.Printf("Loaded %d holdem words (%d distinct anagrams)\n", count, len(wordSigs))
 }
 
-// solveTiles runs the partition DP over `tiles`, allowing the tiles to be split
-// into several disjoint valid words to maximize the total score (the sum of the
-// point values of every tile consumed). It returns the chosen word-subsets (each
-// a bitmask over `tiles`), an example word for every subset (`wword[sub]`), and
-// the total score. Subsets are ordered longest-word first for display.
+// solveTiles finds the single highest-scoring valid word formable from `tiles`.
+// It returns the chosen word-subset (a bitmask over `tiles`, at most one), an
+// example word for every subset (`wword[sub]`), and the word's score (the sum of
+// the point values of the tiles it uses). Ties on score prefer the longer word.
 func solveTiles(tiles []Tile) (subsets []int, wword []string, score int) {
 	n := len(tiles)
 	if n == 0 {
@@ -215,11 +215,9 @@ func solveTiles(tiles []Tile) (subsets []int, wword []string, score int) {
 	}
 	full := (1 << n) - 1
 
-	// For every subset of tiles, note whether it is itself a single valid word
-	// (an anagram of a dictionary word) and, if so, its score and example word.
-	isWord := make([]bool, 1<<n)
-	wscore := make([]int, 1<<n)
 	wword = make([]string, 1<<n)
+	bestMask := -1
+	bestScore := -1
 	for mask := 1; mask <= full; mask++ {
 		if bits.OnesCount(uint(mask)) < 2 {
 			continue // single tiles and the empty set aren't words
@@ -232,64 +230,30 @@ func solveTiles(tiles []Tile) (subsets []int, wword []string, score int) {
 				sc += tiles[i].Points
 			}
 		}
-		if ex, ok := wordSigs[sigFromCounts(counts)]; ok {
-			isWord[mask] = true
-			wscore[mask] = sc
-			wword[mask] = ex
-		}
-	}
-
-	// dp[mask] = best score using exactly the tiles in mask, each tile assigned
-	// to some complete word. par[mask] records the last word-subset added.
-	dp := make([]int, 1<<n)
-	par := make([]int, 1<<n)
-	for i := range dp {
-		dp[i] = -1
-	}
-	dp[0] = 0
-	best := 0
-	for mask := 0; mask <= full; mask++ {
-		if dp[mask] < 0 {
+		ex, ok := wordSigs[sigFromCounts(counts)]
+		if !ok {
 			continue
 		}
-		if dp[mask] > dp[best] {
-			best = mask
-		}
-		rem := full ^ mask
-		// Enumerate every word-subset of the still-unused tiles.
-		for sub := rem; sub > 0; sub = (sub - 1) & rem {
-			if !isWord[sub] {
-				continue
-			}
-			nm := mask | sub
-			if dp[mask]+wscore[sub] > dp[nm] {
-				dp[nm] = dp[mask] + wscore[sub]
-				par[nm] = sub
-			}
+		wword[mask] = ex
+		if sc > bestScore || (sc == bestScore && bestMask >= 0 && len(ex) > len(wword[bestMask])) {
+			bestScore = sc
+			bestMask = mask
 		}
 	}
 
-	for m := best; m != 0; m ^= par[m] {
-		subsets = append(subsets, par[m])
+	if bestMask < 0 {
+		return nil, wword, 0
 	}
-	sort.Slice(subsets, func(i, j int) bool {
-		a, b := wword[subsets[i]], wword[subsets[j]]
-		if len(a) != len(b) {
-			return len(a) > len(b)
-		}
-		return a < b
-	})
-	return subsets, wword, dp[best]
+	return []int{bestMask}, wword, bestScore
 }
 
-// bestWord returns the chosen words joined for display plus the total score.
+// bestWord returns the chosen word for display plus its score.
 func bestWord(tiles []Tile) (string, int) {
 	subsets, wword, score := solveTiles(tiles)
-	words := make([]string, len(subsets))
-	for i, s := range subsets {
-		words[i] = wword[s]
+	if len(subsets) == 0 {
+		return "", 0
 	}
-	return strings.Join(words, " + "), score
+	return wword[subsets[0]], score
 }
 
 // bestTileDTO is one tile in a rendered best play.
@@ -871,16 +835,24 @@ func (t *Table) tick() {
 	t.Queue = keep
 
 	switch t.Phase {
-	case phaseWaiting:
+	case phaseWaiting, phaseReady:
+		// Seat any queued players; a hand only begins when someone hits Start.
+		t.promoteQueue()
 		if len(t.eligibleToPlay()) >= 2 {
-			t.startHand()
+			t.Phase = phaseReady
 		} else {
-			t.promoteQueue()
+			t.Phase = phaseWaiting
 		}
 	case phaseShowdown:
 		if now.After(t.Deadline) {
-			// Reset busted players to a fresh stack? No — bust means spectate.
-			t.startHand()
+			// Hand over — park until someone starts the next one (bust = spectate).
+			t.promoteQueue()
+			t.Acting = -1
+			if len(t.eligibleToPlay()) >= 2 {
+				t.Phase = phaseReady
+			} else {
+				t.Phase = phaseWaiting
+			}
 		}
 	default: // a betting phase
 		if t.Acting >= 0 && !t.Deadline.IsZero() && now.After(t.Deadline) {
@@ -947,6 +919,41 @@ func registerHoldemRoutes() {
 
 	http.HandleFunc("/holdem/leave", cors(holdemLeave))
 	registerRoute("POST", "/holdem/leave", "Leave the table")
+
+	http.HandleFunc("/holdem/start", cors(holdemStart))
+	registerRoute("POST", "/holdem/start", "Deal the next hand (any seated player)")
+}
+
+// holdemStart deals the next hand. Any seated player may trigger it once the
+// table is READY (at least two players with chips, no hand in progress).
+func holdemStart(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+	id := r.Header.Get("X-Player-ID")
+
+	table.mu.Lock()
+	defer table.mu.Unlock()
+
+	p := table.findPlayer(id)
+	if p == nil || p.Seat < 0 {
+		http.Error(w, "Must be seated to start", http.StatusForbidden)
+		return
+	}
+	if table.Phase != phaseReady {
+		http.Error(w, "Cannot start now", http.StatusConflict)
+		return
+	}
+	if len(table.eligibleToPlay()) < 2 {
+		http.Error(w, "Need at least 2 players", http.StatusConflict)
+		return
+	}
+	p.LastSeen = time.Now()
+	table.startHand()
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write([]byte(`{"ok":true}`))
 }
 
 func newPlayerID() string {
@@ -1054,6 +1061,7 @@ type stateDTO struct {
 	TimeLeftMs int64       `json:"timeLeftMs"`
 	Result     *handResult `json:"result"`
 	MaxSeats   int         `json:"maxSeats"`
+	CanStart   bool        `json:"canStart"` // you may deal the next hand
 	// Your current best play (words spelled in tiles) from your hole tiles + the
 	// revealed community tiles.
 	BestPlay *bestPlayDTO `json:"bestPlay"`
@@ -1119,6 +1127,7 @@ func holdemState(w http.ResponseWriter, r *http.Request) {
 		st.Joined = true
 		st.Seated = me.Seat >= 0
 		st.YourChips = me.Chips
+		st.CanStart = st.Seated && table.Phase == phaseReady && len(table.eligibleToPlay()) >= 2
 		// Best play right now from your hole tiles + the revealed community.
 		if me.InHand && !me.Folded && len(me.Hole) > 0 {
 			st.BestPlay = computeBestPlay(me.Hole, table.Community)

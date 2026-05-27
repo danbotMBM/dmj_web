@@ -179,7 +179,7 @@
 
 /* --- showdown panel (everyone's best word) ------------------------------ */
 #showdown {
-    max-width: 560px;
+    max-width: min(860px, 96vw);
     margin: 0 auto 20px;
     padding: 14px 16px;
     border: 1px solid var(--borderColor-default);
@@ -224,12 +224,23 @@
     border-radius: 4px;
 }
 .sd-play { flex: 1 1 auto; display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+/* Keep the letters of a single word together; only wrap between words. */
+.sd-play .play-word { flex-wrap: nowrap; }
+
+/* Compact tiles for the showdown table so long words fit on one line. */
+.tile.sd { width: 28px; height: 32px; border-radius: 4px; }
+.tile.sd .tile-letter { font-size: 0.9rem; }
+.tile.sd .tile-pts { font-size: 0.5rem; right: 2px; bottom: 1px; }
 .sd-noword { color: var(--fgColor-subtle); font-style: italic; }
 .sd-score {
     flex: 0 0 auto;
     font-weight: 700;
     color: var(--fgColor-accent);
 }
+
+/* --- start button ------------------------------------------------------- */
+#start-area { text-align: center; margin: 0 0 20px; }
+#btn-start { padding: 12px 28px; font-size: 1.05rem; }
 
 /* --- your area ---------------------------------------------------------- */
 #your-area { text-align: center; }

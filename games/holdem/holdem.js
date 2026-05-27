@@ -14,6 +14,7 @@ let playerName = localStorage.getItem(NAME_KEY) || "";
 
 const PHASE_LABELS = {
     WAITING: "Waiting for players…",
+    READY: "Ready to play — press Start game",
     BET_PREFLOP: "Pre-flop betting",
     BET_FLOP: "Flop betting",
     BET_TURN: "Turn betting",
@@ -79,6 +80,7 @@ const boardMsgEl = document.getElementById("board-msg");
 const bannerEl = document.getElementById("status-banner");
 const holeEl = document.getElementById("your-hole");
 const showdownEl = document.getElementById("showdown");
+const startArea = document.getElementById("start-area");
 
 function tileHTML(t, extraClass = "") {
     if (!t) return "";
@@ -257,9 +259,11 @@ function render(st) {
     communityEl.innerHTML = (st.community || [])
         .map((t, i) => tileHTML(t, usedComm[i] ? "used" : "")).join("");
 
-    // Board message + showdown panel revealing every player's best word.
-    if (st.phase === "SHOWDOWN" && st.result) {
-        boardMsgEl.textContent = st.result.winnerMsg || "";
+    // Board message + showdown panel revealing every player's best word. The
+    // panel lingers through the READY phase so players can see the last result
+    // while deciding to start the next hand.
+    if (st.result && (st.phase === "SHOWDOWN" || st.phase === "READY")) {
+        boardMsgEl.textContent = st.phase === "SHOWDOWN" ? (st.result.winnerMsg || "") : "";
         lastResultMsg = st.result.winnerMsg;
         renderShowdown(st.result);
     } else {
@@ -268,6 +272,9 @@ function render(st) {
         showdownEl.classList.add("hidden");
         showdownEl.innerHTML = "";
     }
+
+    // Start button: any seated player may deal the next hand when ready.
+    startArea.classList.toggle("hidden", !st.canStart);
 
     // Your best play, spelled out in tiles, with unused hole tiles to the right.
     const you = seated.find(s => s.isYou);
@@ -281,7 +288,7 @@ function render(st) {
                       bp.leftover.map(t => tileHTML(t, "big leftover")).join("")}</span>`
                 : "";
             holeEl.innerHTML =
-                `<div class="hole-label">Best play <span class="best-score">${bp.score} pts</span></div>` +
+                `<div class="hole-label">Best word <span class="best-score">${bp.score} pts</span></div>` +
                 `<div class="best-play">${wordsHTML}${leftoverHTML}</div>`;
         } else {
             holeEl.innerHTML =
@@ -306,7 +313,7 @@ function renderShowdown(result) {
     }
     const rows = entries.map(e => {
         const play = (e.play && e.play.words && e.play.words.length)
-            ? `<span class="sd-play">${playWordsHTML(e.play)}</span>`
+            ? `<span class="sd-play">${playWordsHTML(e.play, "sd")}</span>`
             : `<span class="sd-play sd-noword">— no word —</span>`;
         return `<div class="sd-row${e.won ? " sd-winner" : ""}">
             <span class="sd-name">${escapeHTML(e.name)}${e.won ? ' <span class="sd-badge">WIN</span>' : ""}</span>
@@ -398,6 +405,18 @@ btnFold.onclick = () => sendAction("fold");
 btnCheck.onclick = () => sendAction("check");
 btnCall.onclick = () => sendAction("call");
 btnRaise.onclick = () => sendAction("raise", +raiseSlider.value);
+
+document.getElementById("btn-start").onclick = async () => {
+    initAudio(); // unlock audio on this user gesture
+    startArea.classList.add("hidden"); // optimistic hide to prevent double-click
+    try {
+        const r = await api("/holdem/start", "POST");
+        if (!r.ok) console.warn("start rejected:", await r.text());
+    } catch (e) {
+        console.error(e);
+    }
+    poll();
+};
 
 // --- util -------------------------------------------------------------------
 function escapeHTML(s) {
