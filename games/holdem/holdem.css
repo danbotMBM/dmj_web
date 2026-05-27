@@ -328,27 +328,13 @@
 }
 .hole-tiles { display: flex; gap: 8px; justify-content: center; margin-bottom: 10px; }
 
-.best-word {
-    font-size: 0.95rem;
-    color: var(--fgColor-default);
-    margin-bottom: 16px;
-}
-.best-word.best-none { color: var(--fgColor-subtle); }
 .best-score {
     color: var(--fgColor-accent);
     font-weight: 700;
     margin-left: 6px;
 }
 
-/* Best play: words spelled out in tiles, with leftover hole tiles to the right. */
-.best-play {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 16px;
-}
+/* Words spelled out in tiles (showdown reveal + live preview). */
 .play-word { display: inline-flex; gap: 4px; }
 .play-plus {
     font-size: 1.4rem;
@@ -356,23 +342,107 @@
     color: var(--fgColor-muted);
     margin: 0 2px;
 }
-.play-divider {
-    width: 2px;
-    align-self: stretch;
-    min-height: 44px;
-    background: var(--borderColor-default);
-    margin: 0 6px;
-    border-radius: 1px;
-}
-.leftover-tiles { display: inline-flex; gap: 6px; }
 /* Tiles in the word that came from the river get an accent ring. */
 .tile.from-river { box-shadow: 0 0 0 2px var(--accent-strong), 0 2px 4px rgba(0, 0, 0, 0.25); }
-/* Unused hole tiles sit dimmed to the side. */
-.tile.leftover { opacity: 0.45; }
-/* River tiles consumed by your best play, shaded darker in the community row. */
+/* River tiles consumed by your word, shaded darker in the community row. */
 .tile.used {
     filter: brightness(0.62) saturate(0.6);
     opacity: 0.9;
+}
+
+/* --- word composition --------------------------------------------------- */
+#word-zone {
+    max-width: min(560px, 94vw);
+    margin: 0 auto 14px;
+    padding: 12px 14px;
+    border: 1px solid var(--borderColor-default);
+    border-radius: 12px;
+    background: var(--bgColor-elevated);
+    box-shadow: 0 2px 10px var(--shadowColor);
+}
+#word-kept {
+    font-size: 0.9rem;
+    color: var(--fgColor-muted);
+    margin-bottom: 10px;
+}
+#word-kept .best-none { color: var(--fgColor-subtle); font-style: italic; }
+
+#word-preview {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+    min-height: 60px;
+    align-items: center;
+    margin-bottom: 6px;
+}
+#word-feedback {
+    min-height: 1.3em;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--fgColor-muted);
+    margin-bottom: 10px;
+}
+#word-feedback.ok { color: var(--accent-strong, #2da44e); }
+#word-feedback.bad { color: #c0564f; }
+
+#word-entry {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+#word-input {
+    flex: 1 1 220px;
+    max-width: 280px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--borderColor-default);
+    background: var(--bgColor-muted);
+    color: var(--fgColor-default);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+}
+#btn-submit-word:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* A typed letter the player doesn't actually hold. */
+.tile.missing {
+    background: repeating-linear-gradient(45deg, #e9d7d7, #e9d7d7 4px, #f2e2e2 4px, #f2e2e2 8px);
+    border-color: #c89a9a;
+    color: #9a5a5a;
+    opacity: 0.85;
+}
+/* Hole/community tiles consumed by the word in focus. */
+.tile.used-by-word {
+    box-shadow: 0 0 0 3px var(--accent-strong), 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* Showdown countdown to lock in a word. */
+#submit-timer {
+    max-width: min(360px, 80vw);
+    margin: 0 auto 14px;
+}
+#submit-timer-text {
+    text-align: center;
+    font-weight: 700;
+    color: var(--fgColor-accent);
+    margin-bottom: 6px;
+}
+#submit-timer-track {
+    height: 8px;
+    background: var(--bgColor-neutral-muted);
+    border-radius: 4px;
+    overflow: hidden;
+}
+#submit-timer-bar {
+    height: 100%;
+    width: 100%;
+    background: var(--accent-strong);
+    transition: width 0.5s linear;
 }
 
 #action-bar {

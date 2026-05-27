@@ -30,20 +30,22 @@ const (
 	startingChips   = 1000
 	smallBlind      = 10
 	bigBlind        = 20
-	turnSeconds     = 25 // per-turn betting timer
+	turnSeconds     = 38 // per-turn betting timer (+50% to allow time to compose a word)
+	submitSeconds   = 20 // showdown window for players to finalize their word
 	handOverSeconds = 8  // pause to show showdown results
 	disconnectGrace = 15 * time.Second
 )
 
 // Phases of a hand.
 const (
-	phaseWaiting    = "WAITING"     // fewer than 2 players — can't start
-	phaseReady      = "READY"       // enough players; waiting for someone to start
-	phaseBetPreflop = "BET_PREFLOP" // after hole tiles dealt
-	phaseBetFlop    = "BET_FLOP"    // after first 2 community tiles
-	phaseBetTurn    = "BET_TURN"    // after next 2 community tiles
-	phaseBetRiver   = "BET_RIVER"   // after final 3 community tiles
-	phaseShowdown   = "SHOWDOWN"    // results shown, brief pause
+	phaseWaiting        = "WAITING"         // fewer than 2 players — can't start
+	phaseReady          = "READY"           // enough players; waiting for someone to start
+	phaseBetPreflop     = "BET_PREFLOP"     // after hole tiles dealt
+	phaseBetFlop        = "BET_FLOP"        // after first 2 community tiles
+	phaseBetTurn        = "BET_TURN"        // after next 2 community tiles
+	phaseBetRiver       = "BET_RIVER"       // after final 3 community tiles
+	phaseShowdownSubmit = "SHOWDOWN_SUBMIT" // contenders finalize their word (timed)
+	phaseShowdown       = "SHOWDOWN"        // results shown, brief pause
 )
 
 // ---------------------------------------------------------------------------
@@ -99,6 +101,11 @@ type Player struct {
 	HasActed bool // acted at least once in the current betting round
 	InHand   bool // dealt into the current hand
 	LastSeen time.Time
+
+	// The player's chosen word for the current hand. We keep the highest-scoring
+	// valid word they submit (ties replace). Empty means none submitted yet.
+	SubmittedWord  string
+	SubmittedScore int
 
 	// CPU players are driven server-side by the game loop. Difficulty is one of
 	// cpuLow / cpuMedium / cpuHigh (see holdem_cpu.go).
@@ -159,6 +166,38 @@ var table = &Table{Phase: phaseWaiting, Acting: -1}
 // those letters, so any anagram subset of tiles can be validated in O(1).
 var wordSigs = map[string]string{}
 
+// holdemWordSet holds every accepted word (exact spelling). Player submissions
+// are checked against this — unlike wordSigs, which only matches anagrams.
+var holdemWordSet = map[string]bool{}
+
+// holdemWordsBlob is the newline-joined word list served to clients so they can
+// validate and score words instantly as the player types (the server still has
+// final authority on submit).
+var holdemWordsBlob []byte
+
+// letterPoints maps A..Z (index 0..25) to its Scrabble point value, derived from
+// letterSpecs. A word's score is the sum of its letters' points.
+var letterPoints [26]int
+
+func initLetterPoints() {
+	for _, s := range letterSpecs {
+		letterPoints[s.letter[0]-'A'] = s.points
+	}
+}
+
+// scoreWord returns the total point value of an (uppercase A–Z) word.
+func scoreWord(word string) int {
+	s := 0
+	for i := 0; i < len(word); i++ {
+		c := word[i]
+		if c < 'A' || c > 'Z' {
+			return 0
+		}
+		s += letterPoints[c-'A']
+	}
+	return s
+}
+
 // sigFromCounts builds the canonical signature for a letter-count histogram:
 // each letter repeated count times, in A–Z order.
 func sigFromCounts(counts [26]int) string {
@@ -172,6 +211,8 @@ func sigFromCounts(counts [26]int) string {
 }
 
 func loadHoldemWords() {
+	initLetterPoints()
+
 	f, err := os.Open(holdemWordsFile)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to open holdem words file: %v\n", err)
@@ -180,6 +221,7 @@ func loadHoldemWords() {
 	defer f.Close()
 
 	count := 0
+	var blob strings.Builder
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		w := strings.ToUpper(strings.TrimSpace(scanner.Text()))
@@ -204,9 +246,70 @@ func loadHoldemWords() {
 		if ex, seen := wordSigs[sig]; !seen || len(w) < len(ex) {
 			wordSigs[sig] = w
 		}
+		if !holdemWordSet[w] {
+			holdemWordSet[w] = true
+			blob.WriteString(w)
+			blob.WriteByte('\n')
+		}
 		count++
 	}
-	fmt.Printf("Loaded %d holdem words (%d distinct anagrams)\n", count, len(wordSigs))
+	holdemWordsBlob = []byte(blob.String())
+	fmt.Printf("Loaded %d holdem words (%d distinct words, %d distinct anagrams)\n",
+		count, len(holdemWordSet), len(wordSigs))
+}
+
+// canForm reports whether `word` (uppercase A–Z) can be spelled using the letters
+// available in hole + community tiles (a multiset subset check).
+func canForm(word string, hole, community []Tile) bool {
+	var avail, need [26]int
+	for _, t := range hole {
+		if t.Letter != "" {
+			avail[t.Letter[0]-'A']++
+		}
+	}
+	for _, t := range community {
+		if t.Letter != "" {
+			avail[t.Letter[0]-'A']++
+		}
+	}
+	for i := 0; i < len(word); i++ {
+		c := word[i]
+		if c < 'A' || c > 'Z' {
+			return false
+		}
+		need[c-'A']++
+	}
+	for i := 0; i < 26; i++ {
+		if need[i] > avail[i] {
+			return false
+		}
+	}
+	return true
+}
+
+// validateWord normalizes a raw submission and checks it: 2–10 letters, all A–Z,
+// in the dictionary, and formable from the player's tiles. It returns the
+// normalized word, its score, and an error describing the first failed rule.
+func validateWord(raw string, hole, community []Tile) (string, int, error) {
+	word := strings.ToUpper(strings.TrimSpace(raw))
+	if len(word) < 2 {
+		return "", 0, fmt.Errorf("word must be at least 2 letters")
+	}
+	if len(word) > 10 {
+		return "", 0, fmt.Errorf("word too long")
+	}
+	for i := 0; i < len(word); i++ {
+		if word[i] < 'A' || word[i] > 'Z' {
+			return "", 0, fmt.Errorf("letters only")
+		}
+	}
+	if !holdemWordSet[word] {
+		return "", 0, fmt.Errorf("not in the word list")
+	}
+	if !canForm(word, hole, community) {
+		return "", 0, fmt.Errorf("you don't have the tiles for that")
+	}
+	return word, scoreWord(word), nil
 }
 
 // solveTiles finds the single highest-scoring valid word formable from `tiles`.
@@ -252,13 +355,48 @@ func solveTiles(tiles []Tile) (subsets []int, wword []string, score int) {
 	return []int{bestMask}, wword, bestScore
 }
 
-// bestWord returns the chosen word for display plus its score.
-func bestWord(tiles []Tile) (string, int) {
-	subsets, wword, score := solveTiles(tiles)
-	if len(subsets) == 0 {
-		return "", 0
+// wordCandidate is one playable word (an example per anagram) and its score.
+type wordCandidate struct {
+	word  string
+	score int
+}
+
+// rankedWords returns every distinct playable word formable from `tiles` (one
+// example per anagram signature) sorted by score descending. Used by CPUs to pick
+// a word of a chosen quality rather than always the maximum.
+func rankedWords(tiles []Tile) []wordCandidate {
+	n := len(tiles)
+	if n < 2 {
+		return nil
 	}
-	return wword[subsets[0]], score
+	full := (1 << n) - 1
+	seen := map[string]bool{}
+	var out []wordCandidate
+	for mask := 1; mask <= full; mask++ {
+		if bits.OnesCount(uint(mask)) < 2 {
+			continue
+		}
+		var counts [26]int
+		sc := 0
+		for i := 0; i < n; i++ {
+			if mask&(1<<i) != 0 {
+				counts[tiles[i].Letter[0]-'A']++
+				sc += tiles[i].Points
+			}
+		}
+		sig := sigFromCounts(counts)
+		if seen[sig] {
+			continue
+		}
+		ex, ok := wordSigs[sig]
+		if !ok {
+			continue
+		}
+		seen[sig] = true
+		out = append(out, wordCandidate{ex, sc})
+	}
+	sort.Slice(out, func(i, j int) bool { return out[i].score > out[j].score })
+	return out
 }
 
 // bestTileDTO is one tile in a rendered best play.
@@ -278,58 +416,44 @@ type bestPlayDTO struct {
 	UsedCommunity []bool          `json:"usedCommunity"`
 }
 
-// playWordString joins a best play's words for text display, e.g. "QUART + ZA".
-func playWordString(p *bestPlayDTO) string {
-	if p == nil {
-		return ""
+// computePlayForWord renders a specific (already validated) word as the player's
+// play: it binds each letter to a concrete tile (hole tiles first), shades the
+// consumed community tiles, and lists the leftover hole tiles. Returns nil for an
+// empty word or one that can't be fully bound.
+func computePlayForWord(word string, hole, community []Tile) *bestPlayDTO {
+	if word == "" {
+		return nil
 	}
-	parts := make([]string, len(p.Words))
-	for i, word := range p.Words {
-		var b strings.Builder
-		for _, tile := range word {
-			b.WriteString(tile.Letter)
-		}
-		parts[i] = b.String()
-	}
-	return strings.Join(parts, " + ")
-}
-
-// computeBestPlay builds the best play from a player's hole tiles + the revealed
-// community tiles, mapping each word's letters back to specific tiles so the
-// client can render them and shade the consumed community tiles.
-func computeBestPlay(hole, community []Tile) *bestPlayDTO {
 	tiles := append(append([]Tile{}, hole...), community...)
 	nHole := len(hole)
 	n := len(tiles)
-	subsets, wword, score := solveTiles(tiles)
 
-	res := &bestPlayDTO{Score: score, UsedCommunity: make([]bool, len(community))}
-	usedMask := 0
-	for _, sub := range subsets {
-		ex := wword[sub]
-		assigned := 0
-		var wt []bestTileDTO
-		// Walk the example word and bind each letter to a concrete tile in `sub`.
-		for k := 0; k < len(ex); k++ {
-			for i := 0; i < n; i++ {
-				if sub&(1<<i) != 0 && assigned&(1<<i) == 0 && tiles[i].Letter[0] == ex[k] {
-					assigned |= 1 << i
-					river := i >= nHole
-					if river {
-						res.UsedCommunity[i-nHole] = true
-					}
-					wt = append(wt, bestTileDTO{tiles[i].Letter, tiles[i].Points, river})
-					break
+	res := &bestPlayDTO{UsedCommunity: make([]bool, len(community))}
+	assigned := 0
+	var wt []bestTileDTO
+	for k := 0; k < len(word); k++ {
+		bound := false
+		for i := 0; i < n; i++ {
+			if assigned&(1<<i) == 0 && tiles[i].Letter != "" && tiles[i].Letter[0] == word[k] {
+				assigned |= 1 << i
+				river := i >= nHole
+				if river {
+					res.UsedCommunity[i-nHole] = true
 				}
+				wt = append(wt, bestTileDTO{tiles[i].Letter, tiles[i].Points, river})
+				res.Score += tiles[i].Points
+				bound = true
+				break
 			}
 		}
-		usedMask |= sub
-		res.Words = append(res.Words, wt)
+		if !bound {
+			return nil // not formable from these tiles (shouldn't happen post-validation)
+		}
 	}
+	res.Words = append(res.Words, wt)
 
-	// Unused hole tiles render to the right of the word(s).
 	for i := 0; i < nHole; i++ {
-		if usedMask&(1<<i) == 0 {
+		if assigned&(1<<i) == 0 {
 			res.Leftover = append(res.Leftover, bestTileDTO{tiles[i].Letter, tiles[i].Points, false})
 		}
 	}
@@ -480,6 +604,8 @@ func (t *Table) startHand() {
 		p.AllIn = false
 		p.HasActed = false
 		p.Hole = nil
+		p.SubmittedWord = ""
+		p.SubmittedScore = 0
 		p.InHand = p.Chips > 0
 	}
 
@@ -631,7 +757,7 @@ func (t *Table) applyAction(p *Player, action string, amount int) error {
 func (t *Table) afterAction() {
 	// Win by fold-out.
 	if len(t.inHandNotFolded()) == 1 {
-		t.showdown()
+		t.enterShowdown()
 		return
 	}
 	if t.bettingComplete() {
@@ -694,7 +820,7 @@ func (t *Table) advancePhase() {
 		t.Phase = phaseBetRiver
 		resetRound()
 	case phaseBetRiver:
-		t.showdown()
+		t.enterShowdown()
 		return
 	default:
 		return
@@ -713,14 +839,49 @@ func (t *Table) dealCommunity(n int) {
 	t.DealSeq++
 }
 
-// showdown determines the winner(s), awards the pot, and pauses.
-func (t *Table) showdown() {
+// enterShowdown reveals the rest of the board and decides how to reach results.
+// A fold-out (one or zero contenders) is settled immediately. Otherwise CPUs lock
+// in their word now and, if any human is still in the hand, a timed submit window
+// opens so players can finalize their word before the pot is awarded.
+func (t *Table) enterShowdown() {
 	contenders := t.inHandNotFolded()
 
 	// Make sure all community tiles are out (e.g. fold-out before the river).
 	for len(t.Community) < 7 && len(t.bag) > 0 {
 		t.Community = append(t.Community, t.draw())
 	}
+
+	if len(contenders) <= 1 {
+		t.finalizeShowdown()
+		return
+	}
+
+	// CPUs pick their word now; how good it is scales with difficulty.
+	anyHuman := false
+	for _, p := range contenders {
+		if p.IsCPU {
+			w, s := t.cpuChooseWord(p)
+			p.SubmittedWord, p.SubmittedScore = w, s
+		} else {
+			anyHuman = true
+		}
+	}
+	if !anyHuman {
+		// Only CPUs left — nothing to wait for.
+		t.finalizeShowdown()
+		return
+	}
+
+	t.LastResult = nil
+	t.Phase = phaseShowdownSubmit
+	t.Acting = -1
+	t.Deadline = time.Now().Add(submitSeconds * time.Second)
+}
+
+// finalizeShowdown scores each contender's kept word, awards the pot, and starts
+// the brief results pause.
+func (t *Table) finalizeShowdown() {
+	contenders := t.inHandNotFolded()
 
 	res := &handResult{Community: append([]Tile{}, t.Community...), Pot: t.Pot}
 
@@ -736,10 +897,10 @@ func (t *Table) showdown() {
 		w, s := "", 0
 		var play *bestPlayDTO
 		if len(contenders) > 1 {
-			// Reveal every contender's best play at showdown.
-			play = computeBestPlay(p.Hole, t.Community)
-			s = play.Score
-			w = playWordString(play)
+			// Reveal each contender's submitted word (0 pts if none/invalid).
+			w = p.SubmittedWord
+			s = p.SubmittedScore
+			play = computePlayForWord(w, p.Hole, t.Community)
 		}
 		results = append(results, scored{p, w, s, play})
 		if len(contenders) > 1 && s > best {
@@ -792,15 +953,18 @@ func (t *Table) showdown() {
 	for i, w := range winners {
 		names[i] = w.Name
 	}
-	if len(contenders) == 1 {
+	switch {
+	case len(contenders) == 1:
 		res.WinnerMsg = fmt.Sprintf("%s wins %d (everyone folded)", names[0], t.Pot)
-	} else if len(winners) == 1 {
+	case best <= 0:
+		res.WinnerMsg = fmt.Sprintf("No words played — split pot (%d each)", share)
+	case len(winners) == 1:
 		for _, r := range results {
 			if r.p == winners[0] {
 				res.WinnerMsg = fmt.Sprintf("%s wins %d with %q (%d pts)", r.p.Name, t.Pot, r.word, r.score)
 			}
 		}
-	} else {
+	default:
 		res.WinnerMsg = fmt.Sprintf("Split pot (%d each) between %s — %d pts", share, strings.Join(names, ", "), best)
 	}
 
@@ -851,6 +1015,11 @@ func (t *Table) tick() {
 			t.Phase = phaseReady
 		} else {
 			t.Phase = phaseWaiting
+		}
+	case phaseShowdownSubmit:
+		// Players have a fixed window to finalize their word; then we score.
+		if now.After(t.Deadline) {
+			t.finalizeShowdown()
 		}
 	case phaseShowdown:
 		if now.After(t.Deadline) {
@@ -904,7 +1073,7 @@ func (t *Table) handlePlayerLeaving(p *Player) {
 	t.removePlayer(p.ID)
 	if inLiveHand {
 		if len(t.inHandNotFolded()) == 1 {
-			t.showdown()
+			t.enterShowdown()
 		} else if wasActing {
 			t.Acting = t.nextActable(t.Acting)
 			if t.Acting < 0 || t.bettingComplete() {
@@ -939,7 +1108,80 @@ func registerHoldemRoutes() {
 	http.HandleFunc("/holdem/start", cors(holdemStart))
 	registerRoute("POST", "/holdem/start", "Deal the next hand (any seated player)")
 
+	http.HandleFunc("/holdem/word", cors(holdemWord))
+	registerRoute("POST", "/holdem/word", "Submit/refine your word for the hand")
+
+	http.HandleFunc("/holdem/words", cors(holdemWords))
+	registerRoute("GET", "/holdem/words", "Download the word list (client validation)")
+
 	registerCPURoutes()
+}
+
+// holdemWords serves the accepted word list so clients can validate and score as
+// the player types. It's static for the server's lifetime.
+func holdemWords(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	w.Header().Set("Cache-Control", "public, max-age=86400")
+	w.Write(holdemWordsBlob)
+}
+
+// holdemWord records a word submission for the current hand. It's accepted during
+// any betting phase or the showdown submit window, from an in-hand player who
+// hasn't folded. The server keeps the player's highest-scoring valid word for the
+// hand (a tie replaces the stored word).
+func holdemWord(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+	id := r.Header.Get("X-Player-ID")
+	var body struct {
+		Word string `json:"word"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+		return
+	}
+
+	table.mu.Lock()
+	defer table.mu.Unlock()
+
+	p := table.findPlayer(id)
+	if p == nil {
+		http.Error(w, "Not at the table", http.StatusForbidden)
+		return
+	}
+	p.LastSeen = time.Now()
+	if !p.InHand || p.Folded {
+		http.Error(w, "Not in the hand", http.StatusConflict)
+		return
+	}
+	if !(strings.HasPrefix(table.Phase, "BET_") || table.Phase == phaseShowdownSubmit) {
+		http.Error(w, "Can't submit a word now", http.StatusConflict)
+		return
+	}
+
+	word, score, err := validateWord(body.Word, p.Hole, table.Community)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Keep the highest-scoring word; ties replace so a fresh word can be chosen.
+	replaced := false
+	if score >= p.SubmittedScore {
+		p.SubmittedWord = word
+		p.SubmittedScore = score
+		replaced = true
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]any{
+		"ok":       true,
+		"replaced": replaced,
+		"word":     p.SubmittedWord,
+		"score":    p.SubmittedScore,
+	})
 }
 
 // holdemStart deals the next hand. Any seated player may trigger it once the
@@ -1082,9 +1324,15 @@ type stateDTO struct {
 	Result     *handResult `json:"result"`
 	MaxSeats   int         `json:"maxSeats"`
 	CanStart   bool        `json:"canStart"` // you may deal the next hand
-	// Your current best play (words spelled in tiles) from your hole tiles + the
-	// revealed community tiles.
-	BestPlay *bestPlayDTO `json:"bestPlay"`
+	// Word submission: whether you can submit right now, the word you've locked in
+	// for this hand and its score, and (during the showdown window) the countdown.
+	CanSubmitWord  bool   `json:"canSubmitWord"`
+	YourWord       string `json:"yourWord"`
+	YourWordScore  int    `json:"yourWordScore"`
+	SubmitOpen     bool   `json:"submitOpen"`
+	SubmitMsLeft   int64  `json:"submitMsLeft"`
+	TurnSeconds    int    `json:"turnSeconds"`
+	SubmitSecondsT int    `json:"submitSeconds"`
 	// Event counters for client sound effects.
 	ActionSeq      int    `json:"actionSeq"`
 	LastActionType string `json:"lastActionType"`
@@ -1110,6 +1358,8 @@ func holdemState(w http.ResponseWriter, r *http.Request) {
 		MinRaise:       table.MinRaise,
 		MaxSeats:       maxSeats,
 		Result:         table.LastResult,
+		TurnSeconds:    turnSeconds,
+		SubmitSecondsT: submitSeconds,
 		ActionSeq:      table.ActionSeq,
 		LastActionType: table.LastActionType,
 		DealSeq:        table.DealSeq,
@@ -1150,9 +1400,20 @@ func holdemState(w http.ResponseWriter, r *http.Request) {
 		st.Seated = me.Seat >= 0
 		st.YourChips = me.Chips
 		st.CanStart = st.Seated && table.Phase == phaseReady && len(table.eligibleToPlay()) >= 2
-		// Best play right now from your hole tiles + the revealed community.
-		if me.InHand && !me.Folded && len(me.Hole) > 0 {
-			st.BestPlay = computeBestPlay(me.Hole, table.Community)
+		// Word you've locked in for this hand, and whether you can still change it.
+		st.YourWord = me.SubmittedWord
+		st.YourWordScore = me.SubmittedScore
+		inHand := me.InHand && !me.Folded
+		st.CanSubmitWord = inHand &&
+			(strings.HasPrefix(table.Phase, "BET_") || table.Phase == phaseShowdownSubmit)
+		if table.Phase == phaseShowdownSubmit && inHand {
+			st.SubmitOpen = true
+			if !table.Deadline.IsZero() {
+				st.SubmitMsLeft = time.Until(table.Deadline).Milliseconds()
+				if st.SubmitMsLeft < 0 {
+					st.SubmitMsLeft = 0
+				}
+			}
 		}
 		if !st.Seated {
 			for qi, qp := range table.Queue {

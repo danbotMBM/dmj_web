@@ -19,8 +19,29 @@ const PHASE_LABELS = {
     BET_FLOP: "Flop betting",
     BET_TURN: "Turn betting",
     BET_RIVER: "River betting",
+    SHOWDOWN_SUBMIT: "Showdown — lock in your word!",
     SHOWDOWN: "Showdown",
 };
+
+// Scrabble point values, mirroring the server's letterSpecs, so the client can
+// score a word instantly as it's typed.
+const LETTER_POINTS = {
+    A: 1, B: 3, C: 3, D: 2, E: 1, F: 4, G: 2, H: 4, I: 1, J: 8, K: 5, L: 1, M: 3,
+    N: 1, O: 1, P: 3, Q: 10, R: 1, S: 1, T: 1, U: 1, V: 4, W: 4, X: 8, Y: 4, Z: 10,
+};
+
+// The accepted word list, fetched once so typing feedback is instant. The server
+// still re-validates every submission, so this is purely for UX.
+let wordSet = new Set();
+async function loadWords() {
+    try {
+        const r = await fetch(API_BASE + "/holdem/words");
+        if (r.ok) {
+            const txt = await r.text();
+            wordSet = new Set(txt.split(/\s+/).filter(Boolean));
+        }
+    } catch (e) { /* fall back to server-only validation */ }
+}
 
 // --- API helpers ------------------------------------------------------------
 function api(path, method = "GET", body = null) {
@@ -292,11 +313,10 @@ function render(st) {
         seatsEl.appendChild(el);
     }
 
-    // Pot + community. River tiles consumed by your best play are shaded.
+    // Pot + community. Tiles consumed by your typed/locked word are shaded by
+    // updateWordArea() once the board is rendered.
     potEl.textContent = st.pot > 0 ? `Pot: ${st.pot}` : "";
-    const usedComm = (st.bestPlay && st.bestPlay.usedCommunity) || [];
-    communityEl.innerHTML = (st.community || [])
-        .map((t, i) => tileHTML(t, usedComm[i] ? "used" : "")).join("");
+    communityEl.innerHTML = (st.community || []).map((t) => tileHTML(t)).join("");
 
     // Board message + showdown panel revealing every player's best word. The
     // panel lingers through the READY phase so players can see the last result
@@ -315,31 +335,183 @@ function render(st) {
     // Start button: any seated player may deal the next hand when ready.
     startArea.classList.toggle("hidden", !st.canStart);
 
-    // Your best play, spelled out in tiles, with unused hole tiles to the right.
-    const you = seated.find(s => s.isYou);
-    const bp = st.bestPlay;
-    if (you && you.hole && you.hole.length) {
-        if (bp && bp.words && bp.words.length) {
-            const wordsHTML = playWordsHTML(bp, "big");
-            const leftoverHTML = (bp.leftover && bp.leftover.length)
-                ? `<span class="play-divider"></span>` +
-                  `<span class="leftover-tiles" title="Unused tiles">${
-                      bp.leftover.map(t => tileHTML(t, "big leftover")).join("")}</span>`
-                : "";
-            holeEl.innerHTML =
-                `<div class="hole-label">Best word <span class="best-score">${bp.score} pts</span></div>` +
-                `<div class="best-play">${wordsHTML}${leftoverHTML}</div>`;
-        } else {
-            holeEl.innerHTML =
-                `<div class="hole-label">Your tiles</div>` +
-                `<div class="hole-tiles">${you.hole.map(t => tileHTML(t, "big")).join("")}</div>` +
-                `<div class="best-word best-none">No word yet</div>`;
+    renderYourArea(st);
+    renderActions(st);
+}
+
+// --- word composition -------------------------------------------------------
+const wordZone = document.getElementById("word-zone");
+const wordKept = document.getElementById("word-kept");
+const wordPreview = document.getElementById("word-preview");
+const wordFeedback = document.getElementById("word-feedback");
+const wordInput = document.getElementById("word-input");
+const btnSubmitWord = document.getElementById("btn-submit-word");
+const submitTimer = document.getElementById("submit-timer");
+const submitTimerText = document.getElementById("submit-timer-text");
+const submitTimerBar = document.getElementById("submit-timer-bar");
+
+// Signature of your current hole tiles, used to detect a fresh hand and clear
+// any half-typed word from the previous one.
+let lastHoleSig = null;
+
+// analyzeWord greedily binds each typed letter to one of your available tiles
+// (hole tiles first, then community — matching the server), and reports which
+// tiles get used, the score, and whether the word is playable + a real word.
+function analyzeWord(raw, hole, community) {
+    const letters = (raw || "").toUpperCase().replace(/[^A-Z]/g, "").split("");
+    const usedHole = new Set();
+    const usedComm = new Set();
+    const preview = [];
+    let score = 0;
+    let formable = true;
+
+    letters.forEach(ch => {
+        let bound = false;
+        for (let i = 0; i < hole.length; i++) {
+            if (!usedHole.has(i) && hole[i].letter === ch) {
+                usedHole.add(i);
+                preview.push({ letter: ch, points: hole[i].points, river: false });
+                score += hole[i].points;
+                bound = true;
+                break;
+            }
         }
-    } else {
-        holeEl.innerHTML = "";
+        if (!bound) {
+            for (let i = 0; i < community.length; i++) {
+                if (!usedComm.has(i) && community[i].letter === ch) {
+                    usedComm.add(i);
+                    preview.push({ letter: ch, points: community[i].points, river: true });
+                    score += community[i].points;
+                    bound = true;
+                    break;
+                }
+            }
+        }
+        if (!bound) {
+            formable = false;
+            preview.push({ letter: ch, points: LETTER_POINTS[ch] ?? 0, missing: true });
+        }
+    });
+
+    const clean = letters.join("");
+    // If the list failed to load, don't block on the dictionary — let the server decide.
+    const inDict = wordSet.size === 0 ? true : wordSet.has(clean);
+    const valid = clean.length >= 2 && clean.length <= 10 && formable && inDict;
+    return { clean, preview, usedHole, usedComm, score, formable, inDict, valid };
+}
+
+function renderYourArea(st) {
+    const you = (st.seats || []).find(s => s.isYou);
+    const hole = (you && you.hole) || [];
+
+    // Detect a new hand (your hole tiles changed) and reset the input.
+    const sig = hole.map(t => t.letter).join("");
+    if (sig !== lastHoleSig) {
+        lastHoleSig = sig;
+        wordInput.value = "";
     }
 
-    renderActions(st);
+    updateWordArea(st);
+}
+
+// updateWordArea renders the hole tiles, the live word preview, validity
+// feedback, your locked-in word, and the showdown countdown — and shades the
+// tiles (hole + community) used by the word in focus. Safe to call on every poll
+// and on every keystroke without disturbing the input field.
+function updateWordArea(st) {
+    st = st || lastState;
+    if (!st) return;
+    const you = (st.seats || []).find(s => s.isYou);
+    const hole = (you && you.hole) || [];
+    const community = st.community || [];
+
+    // The word in focus: what you're typing, or your locked word when idle.
+    const typed = wordInput.value;
+    const focusRaw = typed.trim().length ? typed : (st.yourWord || "");
+    const focus = analyzeWord(focusRaw, hole, community);
+
+    // Hole tiles (shaded when used by the focus word).
+    holeEl.innerHTML = hole.length
+        ? `<div class="hole-label">Your tiles</div>` +
+          `<div class="hole-tiles">${hole.map((t, i) =>
+              tileHTML(t, "big" + (focus.usedHole.has(i) ? " used-by-word" : ""))).join("")}</div>`
+        : "";
+
+    // Shade community tiles used by the focus word.
+    Array.from(communityEl.children).forEach((el, i) => {
+        el.classList.toggle("used", focus.usedComm.has(i));
+    });
+
+    // Show the composition zone only while you can submit.
+    wordZone.classList.toggle("hidden", !st.canSubmitWord);
+    if (st.canSubmitWord) {
+        wordKept.innerHTML = st.yourWord
+            ? `Locked in: <strong>${escapeHTML(st.yourWord)}</strong> <span class="best-score">${st.yourWordScore} pts</span>`
+            : `<span class="best-none">No word locked in yet</span>`;
+
+        // Live preview of the word currently being typed (or the locked word).
+        wordPreview.innerHTML = focus.preview.length
+            ? focus.preview.map(t => tileHTML(
+                { letter: t.letter, points: t.points },
+                "big" + (t.river ? " from-river" : "") + (t.missing ? " missing" : ""))).join("")
+            : "";
+
+        // Feedback reflects what you've typed (not the idle/locked word).
+        const live = typed.trim().length ? analyzeWord(typed, hole, community) : null;
+        if (!live) {
+            wordFeedback.className = "word-feedback";
+            wordFeedback.textContent = "Type a word from your tiles.";
+        } else if (live.valid) {
+            wordFeedback.className = "word-feedback ok";
+            wordFeedback.textContent = `Valid · ${live.score} pts` +
+                (st.yourWord && live.score < st.yourWordScore ? " (lower than your locked word)" : "");
+        } else if (!live.formable) {
+            wordFeedback.className = "word-feedback bad";
+            wordFeedback.textContent = "You don't have the tiles for that.";
+        } else if (!live.inDict) {
+            wordFeedback.className = "word-feedback bad";
+            wordFeedback.textContent = "Not in the word list.";
+        } else {
+            wordFeedback.className = "word-feedback bad";
+            wordFeedback.textContent = "Words must be 2–10 letters.";
+        }
+        btnSubmitWord.disabled = !(live && live.valid);
+    }
+
+    // Showdown countdown to lock in a word.
+    if (st.submitOpen) {
+        submitTimer.classList.remove("hidden");
+        const secs = Math.max(0, Math.ceil((st.submitMsLeft || 0) / 1000));
+        submitTimerText.textContent = `Lock in your word — ${secs}s`;
+        const total = (st.submitSeconds || 20) * 1000;
+        const pct = Math.max(0, Math.min(100, ((st.submitMsLeft || 0) / total) * 100));
+        submitTimerBar.style.width = pct + "%";
+    } else {
+        submitTimer.classList.add("hidden");
+    }
+}
+
+async function submitWord() {
+    const word = wordInput.value.trim();
+    if (!word) return;
+    initAudio();
+    try {
+        const r = await api("/holdem/word", "POST", { word });
+        if (r.ok) {
+            const data = await r.json();
+            if (lastState) {
+                lastState.yourWord = data.word;
+                lastState.yourWordScore = data.score;
+            }
+            wordInput.value = "";
+            playSfx("call");
+            updateWordArea();
+        } else {
+            wordFeedback.className = "word-feedback bad";
+            wordFeedback.textContent = await r.text();
+        }
+    } catch (e) { console.error(e); }
+    poll();
 }
 
 // Reveal every contender's best word at the end of the round.
@@ -416,7 +588,8 @@ function renderActions(st) {
     // Timer bar.
     if (st.timeLeftMs > 0) {
         timerWrap.classList.remove("hidden");
-        const pct = Math.max(0, Math.min(100, (st.timeLeftMs / 25000) * 100));
+        const total = (st.turnSeconds || 38) * 1000;
+        const pct = Math.max(0, Math.min(100, (st.timeLeftMs / total) * 100));
         timerBar.style.width = pct + "%";
     } else {
         timerWrap.classList.add("hidden");
@@ -474,6 +647,13 @@ btnCheck.onclick = () => sendAction("check");
 btnCall.onclick = () => sendAction("call");
 btnRaise.onclick = () => sendAction("raise", +raiseSlider.value);
 
+// Live word feedback as you type; Enter submits.
+wordInput.addEventListener("input", () => updateWordArea());
+wordInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !btnSubmitWord.disabled) submitWord();
+});
+btnSubmitWord.onclick = submitWord;
+
 document.getElementById("btn-start").onclick = async () => {
     initAudio(); // unlock audio on this user gesture
     startArea.classList.add("hidden"); // optimistic hide to prevent double-click
@@ -518,7 +698,7 @@ window.addEventListener("beforeunload", leave);
 // --- boot -------------------------------------------------------------------
 (async function boot() {
     if (!playerName) await promptForName();
-    await join();
+    await Promise.all([join(), loadWords()]);
     poll();
     setInterval(poll, 1000);
 })();

@@ -36,6 +36,24 @@
 
             <div id="your-area">
                 <div id="your-hole"></div>
+
+                <div id="word-zone" class="hidden">
+                    <div id="word-kept"></div>
+                    <div id="word-preview"></div>
+                    <div id="word-feedback"></div>
+                    <div id="word-entry">
+                        <input type="text" id="word-input" maxlength="10" autocomplete="off"
+                               autocapitalize="characters" autocorrect="off" spellcheck="false"
+                               placeholder="type your word…">
+                        <button id="btn-submit-word" class="act-btn raise" disabled>Submit word</button>
+                    </div>
+                </div>
+
+                <div id="submit-timer" class="hidden">
+                    <div id="submit-timer-text"></div>
+                    <div id="submit-timer-track"><div id="submit-timer-bar"></div></div>
+                </div>
+
                 <div id="action-bar" class="hidden">
                     <button id="btn-fold" class="act-btn fold">Fold</button>
                     <button id="btn-check" class="act-btn">Check</button>
@@ -55,10 +73,13 @@
                 Seven shared "community" tiles are revealed in three stages
                 (2, then 2, then 3), with a betting round before and after each reveal —
                 just like Texas Hold'em.</p>
-                <p>At showdown, the best dictionary word you can spell from your 3 tiles
-                plus the 7 community tiles is found automatically. Word value is the sum
-                of its letter point values (Scrabble-style). <strong>Highest word wins
-                the pot</strong>; ties split it.</p>
+                <p><strong>You</strong> spell the word. Type a word from your 3 tiles plus
+                the 7 community tiles — the tiles light up as you type, and you can submit
+                and re-submit as the board develops. Your <strong>highest-scoring</strong>
+                valid word is kept for the hand. Word value is the sum of its letter point
+                values (Scrabble-style). At showdown there's a <strong>20-second</strong>
+                window to lock in your best word; <strong>highest word wins the pot</strong>,
+                ties split it. Submit nothing (or only invalid words) and you score zero.</p>
                 <p>You start with 1000 chips. Run out and you'll watch from the rail until
                 a seat frees up. Up to 10 players sit at the table; extras wait in a queue.</p>
             </details>

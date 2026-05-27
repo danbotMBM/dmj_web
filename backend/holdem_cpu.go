@@ -217,6 +217,52 @@ func betFracByStrength(eq float64) float64 {
 }
 
 // ---------------------------------------------------------------------------
+// Word selection — the word a CPU actually submits at showdown
+// ---------------------------------------------------------------------------
+
+// Per-difficulty word skill: `base` is the target word score as a fraction of the
+// CPU's best possible word, and `noise` is the +/- random spread around it. A
+// weaker CPU aims lower (and more erratically), so it frequently "misses" the
+// big word; a hard CPU lands at or near optimal almost every time.
+type wordSkill struct{ base, noise float64 }
+
+var wordSkillByDiff = map[string]wordSkill{
+	cpuLow:    {base: 0.55, noise: 0.22},
+	cpuMedium: {base: 0.78, noise: 0.14},
+	cpuHigh:   {base: 0.97, noise: 0.06},
+}
+
+// cpuChooseWord picks the word a CPU submits at showdown. It enumerates the words
+// the CPU could play, then selects one whose score matches its difficulty-scaled
+// target — so easy bots routinely play sub-optimal words while hard bots find the
+// best. Returns ("", 0) if no word is possible.
+func (t *Table) cpuChooseWord(p *Player) (string, int) {
+	words := rankedWords(appendTiles(p.Hole, t.Community))
+	if len(words) == 0 {
+		return "", 0
+	}
+	best := words[0].score
+
+	skill, ok := wordSkillByDiff[p.Difficulty]
+	if !ok {
+		skill = wordSkillByDiff[cpuMedium]
+	}
+	frac := clamp01(skill.base + (rand.Float64()*2-1)*skill.noise)
+	target := int(math.Round(frac * float64(best)))
+
+	// words is sorted high→low, so the first word at or below the target is the
+	// strongest word the CPU "found" at its skill level.
+	chosen := words[len(words)-1] // weakest, if nothing is at/under target
+	for _, wc := range words {
+		if wc.score <= target {
+			chosen = wc
+			break
+		}
+	}
+	return chosen.word, chosen.score
+}
+
+// ---------------------------------------------------------------------------
 // Phase 1 — Monte Carlo win-equity using the exact word solver
 // ---------------------------------------------------------------------------
 
