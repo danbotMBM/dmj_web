@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>word hold'em · daniel mark jones</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/gitlab_md.css">
+    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="/mainStyle.css">
+    <link rel="stylesheet" href="holdem.css">
+</head>
+
+<body>
+    <div id="header_loc"></div>
+    <main class="page">
+        <article class="markdown-body">
+            <h1 style="text-align:center;">Word Hold'em</h1>
+            <p id="status-banner" class="status-banner"></p>
+
+            <div id="table-wrap">
+                <div id="poker-table">
+                    <div id="seats"></div>
+                    <div id="table-center">
+                        <div id="pot-display"></div>
+                        <div id="community"></div>
+                        <div id="board-msg"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="your-area">
+                <div id="your-hole"></div>
+                <div id="action-bar" class="hidden">
+                    <button id="btn-fold" class="act-btn fold">Fold</button>
+                    <button id="btn-check" class="act-btn">Check</button>
+                    <button id="btn-call" class="act-btn">Call</button>
+                    <div id="raise-group">
+                        <input type="range" id="raise-slider" min="0" max="0" step="10">
+                        <span id="raise-amount">0</span>
+                        <button id="btn-raise" class="act-btn raise">Raise</button>
+                    </div>
+                </div>
+                <div id="turn-timer" class="hidden"><div id="turn-timer-bar"></div></div>
+            </div>
+
+            <details id="how-to-play">
+                <summary>How to play</summary>
+                <p>Each hand you're dealt <strong>3 letter tiles</strong> only you can see.
+                Seven shared "community" tiles are revealed in three stages
+                (2, then 2, then 3), with a betting round before and after each reveal —
+                just like Texas Hold'em.</p>
+                <p>At showdown, the best dictionary word you can spell from your 3 tiles
+                plus the 7 community tiles is found automatically. Word value is the sum
+                of its letter point values (Scrabble-style). <strong>Highest word wins
+                the pot</strong>; ties split it.</p>
+                <p>You start with 1000 chips. Run out and you'll watch from the rail until
+                a seat frees up. Up to 10 players sit at the table; extras wait in a queue.</p>
+            </details>
+        </article>
+    </main>
+
+    <!-- Name prompt -->
+    <div id="name-overlay" class="overlay hidden">
+        <div class="overlay-card">
+            <h2>Take a seat</h2>
+            <p>Pick a name to join the table.</p>
+            <input type="text" id="name-input" placeholder="Your name…" maxlength="16" autocomplete="off">
+            <button id="name-submit" class="act-btn raise">Join table</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { import_html } from "/utils.js";
+        import_html("/header.html", "header_loc");
+    </script>
+    <script type="module" src="holdem.js"></script>
+</body>
+</html>

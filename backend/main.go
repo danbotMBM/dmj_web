@@ -54,6 +54,7 @@ func main() {
 	registerRunningRoutes()
 	registerPhotosRoutes()
 	registerTriviaRoutes()
+	registerHoldemRoutes()
 	initAnalyticsDB()
 	registerAnalyticsRoutes()
 
