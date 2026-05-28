@@ -83,15 +83,6 @@ async function join() {
     }
 }
 
-function leave() {
-    // Use sendBeacon-friendly fetch with keepalive so it fires on unload.
-    fetch(API_BASE + "/holdem/leave", {
-        method: "POST",
-        headers: { "X-Player-ID": playerId },
-        keepalive: true,
-    });
-}
-
 // --- name prompt ------------------------------------------------------------
 const nameOverlay = document.getElementById("name-overlay");
 const nameInput = document.getElementById("name-input");
@@ -863,7 +854,32 @@ async function poll() {
     }
 }
 
-window.addEventListener("beforeunload", leave);
+const btnRedeal = document.getElementById("btn-redeal");
+const redealMsg = document.getElementById("redeal-msg");
+if (btnRedeal) {
+    btnRedeal.addEventListener("click", async () => {
+        btnRedeal.disabled = true;
+        try {
+            const r = await api("/holdem/redeal", "POST");
+            if (r.ok) {
+                redealMsg.textContent = "Chips reset to 1000.";
+            } else if (r.status === 409) {
+                redealMsg.textContent = "Can't redeal mid-hand.";
+            } else {
+                redealMsg.textContent = "Redeal failed.";
+            }
+        } catch (e) {
+            redealMsg.textContent = "Redeal failed.";
+        } finally {
+            btnRedeal.disabled = false;
+            poll();
+        }
+    });
+}
+
+// Note: we intentionally don't /holdem/leave on beforeunload so a refresh
+// keeps the player in the current hand. The server's 15s disconnect grace
+// handles closed-tab cleanup; chips persist via the Past store on rejoin.
 
 // Unlock audio on the first interaction (covers returning players who skip the
 // name prompt). Browsers block audio until a user gesture occurs.

@@ -101,6 +101,9 @@ type Player struct {
 	HasActed bool // acted at least once in the current betting round
 	InHand   bool // dealt into the current hand
 	LastSeen time.Time
+	// Disconnected is set when the player misses the heartbeat grace. They stay
+	// seated through the current hand (folded) and are evicted once it ends.
+	Disconnected bool
 
 	// The player's chosen word for the current hand. We keep the highest-scoring
 	// valid word they submit (ties replace). Empty means none submitted yet.
@@ -157,9 +160,23 @@ type Table struct {
 	ActionSeq      int
 	LastActionType string
 	DealSeq        int
+
+	// Past holds chip totals for players who've been kicked from the table so
+	// they can rejoin (within pastPlayerTTL) and pick up where they left off.
+	Past map[string]*PastPlayer
 }
 
-var table = &Table{Phase: phaseWaiting, Acting: -1}
+// PastPlayer is the slice of state we hold onto after a player leaves so they
+// can resume with their previous chip count on rejoin.
+type PastPlayer struct {
+	Name     string
+	Chips    int
+	LastSeen time.Time
+}
+
+const pastPlayerTTL = time.Hour
+
+var table = &Table{Phase: phaseWaiting, Acting: -1, Past: map[string]*PastPlayer{}}
 
 // ---------------------------------------------------------------------------
 // Word list & best-word scoring
@@ -527,6 +544,19 @@ func (t *Table) seatPlayer(p *Player) {
 		p.Seat = -1
 		t.Queue = append(t.Queue, p)
 	}
+}
+
+// archivePlayer stashes a (human) player's chip total into Past so they can
+// rejoin within pastPlayerTTL and pick up where they left off. CPUs and zero
+// already-archived entries are skipped.
+func (t *Table) archivePlayer(p *Player) {
+	if p == nil || p.IsCPU {
+		return
+	}
+	if t.Past == nil {
+		t.Past = map[string]*PastPlayer{}
+	}
+	t.Past[p.ID] = &PastPlayer{Name: p.Name, Chips: p.Chips, LastSeen: p.LastSeen}
 }
 
 // removePlayer frees a seat or removes from the queue.
@@ -1027,11 +1057,36 @@ func (t *Table) tick() {
 	t.mu.Lock()
 	defer t.mu.Unlock()
 
-	// Drop disconnected players (haven't polled within the grace period). CPUs
+	// Handle disconnected players (haven't polled within the grace period). CPUs
 	// never poll, so they're exempt — they only leave via /holdem/removecpu.
+	// Seated players in a live hand are kept (marked Disconnected + folded) so
+	// the hand can finish; they're evicted at hand end. Players sitting at a
+	// non-hand phase are removed immediately.
 	now := time.Now()
 	for _, p := range t.Players {
-		if p != nil && !p.IsCPU && now.Sub(p.LastSeen) > disconnectGrace {
+		if p == nil || p.IsCPU || now.Sub(p.LastSeen) <= disconnectGrace {
+			continue
+		}
+		inLiveHand := p.InHand && !p.Folded &&
+			t.Phase != phaseWaiting && t.Phase != phaseReady && t.Phase != phaseShowdown
+		if inLiveHand {
+			if !p.Disconnected {
+				p.Disconnected = true
+				p.Folded = true
+				p.HasActed = true
+				// If folding them ends the hand or it was their turn, advance.
+				if len(t.inHandNotFolded()) == 1 {
+					t.enterShowdown()
+				} else if t.Acting == p.Seat {
+					t.Acting = t.nextActable(t.Acting)
+					if t.Acting < 0 || t.bettingComplete() {
+						t.advancePhase()
+					} else {
+						t.Deadline = time.Now().Add(turnSeconds * time.Second)
+					}
+				}
+			}
+		} else {
 			t.handlePlayerLeaving(p)
 		}
 	}
@@ -1039,9 +1094,18 @@ func (t *Table) tick() {
 	for _, p := range t.Queue {
 		if p.IsCPU || now.Sub(p.LastSeen) <= disconnectGrace {
 			keep = append(keep, p)
+		} else {
+			t.archivePlayer(p)
 		}
 	}
 	t.Queue = keep
+
+	// Cull Past entries past their TTL.
+	for id, pp := range t.Past {
+		if now.Sub(pp.LastSeen) > pastPlayerTTL {
+			delete(t.Past, id)
+		}
+	}
 
 	switch t.Phase {
 	case phaseWaiting, phaseReady:
@@ -1059,7 +1123,14 @@ func (t *Table) tick() {
 		}
 	case phaseShowdown:
 		if now.After(t.Deadline) {
-			// Hand over — park until someone starts the next one (bust = spectate).
+			// Hand over — evict anyone who disconnected mid-hand before promoting
+			// the queue, then park until someone starts the next hand.
+			for _, p := range t.Players {
+				if p != nil && p.Disconnected {
+					t.archivePlayer(p)
+					t.removePlayer(p.ID)
+				}
+			}
 			t.promoteQueue()
 			t.Acting = -1
 			if len(t.eligibleToPlay()) >= 2 {
@@ -1106,6 +1177,7 @@ func (t *Table) handlePlayerLeaving(p *Player) {
 		p.Folded = true
 		p.HasActed = true
 	}
+	t.archivePlayer(p)
 	t.removePlayer(p.ID)
 	if inLiveHand {
 		if len(t.inHandNotFolded()) == 1 {
@@ -1146,6 +1218,9 @@ func registerHoldemRoutes() {
 
 	http.HandleFunc("/holdem/start", cors(holdemStart))
 	registerRoute("POST", "/holdem/start", "Deal the next hand (any seated player)")
+
+	http.HandleFunc("/holdem/redeal", cors(holdemRedeal))
+	registerRoute("POST", "/holdem/redeal", "Reset your chips to the starting amount")
 
 	http.HandleFunc("/holdem/word", cors(holdemWord))
 	registerRoute("POST", "/holdem/word", "Submit/refine your word for the hand")
@@ -1267,6 +1342,41 @@ func holdemStart(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`{"ok":true}`))
 }
 
+// holdemRedeal resets the caller's chip count back to startingChips. Refused
+// while the caller is in a live hand so they can't dodge a losing bet.
+func holdemRedeal(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+	id := r.Header.Get("X-Player-ID")
+	if id == "" {
+		http.Error(w, "Missing X-Player-ID", http.StatusBadRequest)
+		return
+	}
+
+	table.mu.Lock()
+	defer table.mu.Unlock()
+
+	p := table.findPlayer(id)
+	if p != nil {
+		inLiveHand := p.InHand && !p.Folded &&
+			(strings.HasPrefix(table.Phase, "BET_") || table.Phase == phaseShowdownSubmit)
+		if inLiveHand {
+			http.Error(w, "Can't redeal mid-hand", http.StatusConflict)
+			return
+		}
+		p.Chips = startingChips
+		p.AllIn = false
+		p.LastSeen = time.Now()
+		p.Disconnected = false
+	}
+	delete(table.Past, id)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]any{"chips": startingChips})
+}
+
 func newPlayerID() string {
 	b := make([]byte, 8)
 	rand.Read(b)
@@ -1306,7 +1416,16 @@ func holdemJoin(w http.ResponseWriter, r *http.Request) {
 
 	p := table.findPlayer(id)
 	if p == nil {
-		p = &Player{ID: id, Name: sanitizeName(body.Name), Chips: startingChips, Seat: -1}
+		chips := startingChips
+		name := sanitizeName(body.Name)
+		if pp, ok := table.Past[id]; ok {
+			chips = pp.Chips
+			if body.Name == "" {
+				name = pp.Name
+			}
+			delete(table.Past, id)
+		}
+		p = &Player{ID: id, Name: name, Chips: chips, Seat: -1}
 		p.LastSeen = time.Now()
 		table.seatPlayer(p)
 	} else {
@@ -1315,6 +1434,7 @@ func holdemJoin(w http.ResponseWriter, r *http.Request) {
 			p.Name = sanitizeName(body.Name)
 		}
 		p.LastSeen = time.Now()
+		p.Disconnected = false
 	}
 
 	seated := p.Seat >= 0
@@ -1433,6 +1553,7 @@ func holdemState(w http.ResponseWriter, r *http.Request) {
 	me := table.findPlayer(id)
 	if me != nil {
 		me.LastSeen = time.Now()
+		me.Disconnected = false
 	}
 
 	st := stateDTO{
