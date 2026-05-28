@@ -113,14 +113,17 @@ type Player struct {
 	Difficulty string
 }
 
-// showdownEntry is one player's result at showdown.
+// showdownEntry is one player's result at showdown. Folded players are included
+// (with Folded=true) so their submitted word is still revealed, but they're
+// ineligible to win.
 type showdownEntry struct {
-	Name  string       `json:"name"`
-	Word  string       `json:"word"`
-	Score int          `json:"score"`
-	Hole  []Tile       `json:"hole"`
-	Won   bool         `json:"won"`
-	Play  *bestPlayDTO `json:"play"` // best play spelled out in tiles
+	Name   string       `json:"name"`
+	Word   string       `json:"word"`
+	Score  int          `json:"score"`
+	Hole   []Tile       `json:"hole"`
+	Won    bool         `json:"won"`
+	Folded bool         `json:"folded"`
+	Play   *bestPlayDTO `json:"play"` // best play spelled out in tiles
 }
 
 type handResult struct {
@@ -902,25 +905,33 @@ func (t *Table) finalizeShowdown() {
 	res := &handResult{Community: append([]Tile{}, t.Community...), Pot: t.Pot}
 
 	type scored struct {
-		p     *Player
-		word  string
-		score int
-		play  *bestPlayDTO
+		p      *Player
+		word   string
+		score  int
+		play   *bestPlayDTO
+		folded bool
 	}
+	// Build entries for every player dealt into this hand — including folded
+	// ones, so their submitted word is still revealed. Folded players can't win.
 	var results []scored
 	best := -1
-	for _, p := range contenders {
-		w, s := "", 0
+	for s := 0; s < maxSeats; s++ {
+		p := t.Players[s]
+		if p == nil || !p.InHand {
+			continue
+		}
+		w, sc := "", 0
 		var play *bestPlayDTO
-		if len(contenders) > 1 {
-			// Reveal each contender's submitted word (0 pts if none/invalid).
+		// On a fold-out (only one contender) the lone winner's word is still
+		// hidden — they didn't have to commit. Folded players' words always show.
+		if len(contenders) > 1 || p.Folded {
 			w = p.SubmittedWord
-			s = p.SubmittedScore
+			sc = p.SubmittedScore
 			play = computePlayForWord(w, p.Hole, t.Community)
 		}
-		results = append(results, scored{p, w, s, play})
-		if len(contenders) > 1 && s > best {
-			best = s
+		results = append(results, scored{p, w, sc, play, p.Folded})
+		if !p.Folded && len(contenders) > 1 && sc > best {
+			best = sc
 		}
 	}
 
@@ -954,14 +965,23 @@ func (t *Table) finalizeShowdown() {
 	for _, w := range winners {
 		winnerSet[w] = true
 	}
+	// Sort by score descending so the showdown reads as a leaderboard; folded
+	// players appear in the same order, just marked "(fold)" in the UI.
+	sort.SliceStable(results, func(i, j int) bool {
+		if results[i].score != results[j].score {
+			return results[i].score > results[j].score
+		}
+		return results[i].p.Seat < results[j].p.Seat
+	})
 	for _, r := range results {
 		res.Entries = append(res.Entries, showdownEntry{
-			Name:  r.p.Name,
-			Word:  r.word,
-			Score: r.score,
-			Hole:  append([]Tile{}, r.p.Hole...),
-			Won:   winnerSet[r.p],
-			Play:  r.play,
+			Name:   r.p.Name,
+			Word:   r.word,
+			Score:  r.score,
+			Hole:   append([]Tile{}, r.p.Hole...),
+			Won:    winnerSet[r.p],
+			Folded: r.folded,
+			Play:   r.play,
 		})
 	}
 

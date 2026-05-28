@@ -19,7 +19,7 @@ const PHASE_LABELS = {
     BET_FLOP: "Flop betting",
     BET_TURN: "Turn betting",
     BET_RIVER: "River betting",
-    SHOWDOWN_SUBMIT: "Showdown — lock in your word!",
+    SHOWDOWN_SUBMIT: "Showdown — submit your best word!",
     SHOWDOWN: "Showdown",
 };
 
@@ -260,6 +260,11 @@ function render(st) {
 
     // Banner / queue status.
     let banner = PHASE_LABELS[st.phase] || st.phase;
+    // During the showdown submit window, nudge a different message if you've
+    // already submitted — you can still resubmit a higher-scoring word.
+    if (st.phase === "SHOWDOWN_SUBMIT" && st.yourWord) {
+        banner = "Showdown — resubmit a better word!";
+    }
     if (!st.seated && st.joined) {
         banner = st.queuePos > 0
             ? `You're #${st.queuePos} in the queue — you'll be seated when a spot opens.`
@@ -498,8 +503,8 @@ function updateWordArea(st) {
     wordZone.classList.toggle("hidden", !st.canSubmitWord);
     if (st.canSubmitWord) {
         wordKept.innerHTML = st.yourWord
-            ? `Locked in: <strong>${escapeHTML(st.yourWord)}</strong> <span class="best-score">${st.yourWordScore} pts</span>`
-            : `<span class="best-none">No word locked in yet</span>`;
+            ? `Submitted: <strong>${escapeHTML(st.yourWord)}</strong> <span class="best-score">${st.yourWordScore} pts</span> — submit a better one to replace it`
+            : `<span class="best-none">No word submitted yet</span>`;
 
         // Live preview of the word currently being typed (or the locked word).
         // The tile block doubles as the input surface, so when nothing is typed
@@ -520,7 +525,7 @@ function updateWordArea(st) {
         } else if (live.valid) {
             wordFeedback.className = "word-feedback ok";
             wordFeedback.textContent = `Valid · ${live.score} pts` +
-                (st.yourWord && live.score < st.yourWordScore ? " (lower than your locked word)" : "");
+                (st.yourWord && live.score < st.yourWordScore ? " (lower than your submitted word)" : "");
         } else if (!live.formable) {
             wordFeedback.className = "word-feedback bad";
             wordFeedback.textContent = "You don't have the tiles for that.";
@@ -534,11 +539,14 @@ function updateWordArea(st) {
         btnSubmitWord.disabled = !(live && live.valid);
     }
 
-    // Showdown countdown to lock in a word.
+    // Showdown countdown to submit a word. If you've already submitted one,
+    // the countdown nudges you to resubmit a higher-scoring word instead.
     if (st.submitOpen) {
         submitTimer.classList.remove("hidden");
         const secs = Math.max(0, Math.ceil((st.submitMsLeft || 0) / 1000));
-        submitTimerText.textContent = `Lock in your word — ${secs}s`;
+        submitTimerText.textContent = st.yourWord
+            ? `Resubmit a better word — ${secs}s`
+            : `Submit a word — ${secs}s`;
         const total = (st.submitSeconds || 20) * 1000;
         const pct = Math.max(0, Math.min(100, ((st.submitMsLeft || 0) / total) * 100));
         submitTimerBar.style.width = pct + "%";
@@ -582,10 +590,13 @@ function renderShowdown(result) {
         const play = (e.play && e.play.words && e.play.words.length)
             ? `<span class="sd-play">${playWordsHTML(e.play, "sd")}</span>`
             : `<span class="sd-play sd-noword">— no word —</span>`;
-        return `<div class="sd-row${e.won ? " sd-winner" : ""}">
-            <span class="sd-name">${escapeHTML(e.name)}${e.won ? ' <span class="sd-badge">WIN</span>' : ""}</span>
+        const win = e.won ? ' <span class="sd-badge">WIN</span>' : "";
+        const fold = e.folded ? ' <span class="sd-fold-mark">(fold)</span>' : "";
+        const cls = (e.won ? " sd-winner" : "") + (e.folded ? " sd-folded" : "");
+        return `<div class="sd-row${cls}">
+            <span class="sd-name">${escapeHTML(e.name)}${win}</span>
             ${play}
-            <span class="sd-score">${e.score} pts</span>
+            <span class="sd-score">${e.score} pts${fold}</span>
         </div>`;
     }).join("");
     showdownEl.innerHTML =
@@ -714,7 +725,14 @@ btnSubmitWord.onclick = submitWord;
 // blinking caret, and tapping anywhere on the block opens the keyboard.
 wordInput.addEventListener("focus", () => { wordZone.classList.add("focused"); updateWordArea(); });
 wordInput.addEventListener("blur", () => { wordZone.classList.remove("focused"); updateWordArea(); });
-wordZone.addEventListener("click", () => wordInput.focus());
+wordZone.addEventListener("click", () => {
+    // Any click into the block clears the previous word so you start fresh.
+    wordInput.value = "";
+    wordInput.focus();
+    updateWordArea();
+});
+// Don't let the zone-level click wipe the word the player is submitting.
+btnSubmitWord.addEventListener("click", (e) => e.stopPropagation());
 
 document.getElementById("btn-start").onclick = async () => {
     initAudio(); // unlock audio on this user gesture

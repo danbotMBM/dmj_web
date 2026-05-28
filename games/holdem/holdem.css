@@ -308,6 +308,16 @@
 .tile.sd .tile-letter { font-size: 0.9rem; }
 .tile.sd .tile-pts { font-size: 0.5rem; right: 2px; bottom: 1px; }
 .sd-noword { color: var(--fgColor-subtle); font-style: italic; }
+
+/* Folded players still appear in showdown so their word is visible, but they
+   didn't contend for the pot — dim the row and tag the name with "(fold)". */
+.sd-folded { opacity: 0.55; }
+.sd-fold-mark {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--fgColor-muted);
+    font-style: italic;
+}
 .sd-score {
     flex: 0 0 auto;
     font-weight: 700;
