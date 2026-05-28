@@ -66,11 +66,11 @@ type letterSpec struct {
 }
 
 var letterSpecs = []letterSpec{
-	{"A", 1, 9}, {"B", 3, 2}, {"C", 3, 2}, {"D", 2, 4}, {"E", 1, 12},
-	{"F", 4, 2}, {"G", 2, 3}, {"H", 4, 2}, {"I", 1, 9}, {"J", 8, 1},
-	{"K", 5, 1}, {"L", 1, 4}, {"M", 3, 2}, {"N", 1, 6}, {"O", 1, 8},
-	{"P", 3, 2}, {"Q", 10, 1}, {"R", 1, 6}, {"S", 1, 4}, {"T", 1, 6},
-	{"U", 1, 4}, {"V", 4, 2}, {"W", 4, 2}, {"X", 8, 1}, {"Y", 4, 2},
+	{"A", 2, 9}, {"B", 4, 2}, {"C", 4, 2}, {"D", 3, 4}, {"E", 2, 12},
+	{"F", 5, 2}, {"G", 3, 3}, {"H", 5, 2}, {"I", 2, 9}, {"J", 8, 1},
+	{"K", 6, 2}, {"L", 2, 4}, {"M", 4, 2}, {"N", 2, 6}, {"O", 2, 8},
+	{"P", 3, 2}, {"Q", 10, 1}, {"R", 2, 6}, {"S", 2, 4}, {"T", 2, 6},
+	{"U", 2, 4}, {"V", 5, 2}, {"W", 5, 2}, {"X", 8, 1}, {"Y", 5, 2},
 	{"Z", 10, 1},
 }
 
@@ -179,10 +179,26 @@ var holdemWordsBlob []byte
 // letterSpecs. A word's score is the sum of its letters' points.
 var letterPoints [26]int
 
+// holdemLettersBlob is the letter distribution (letter, points, count) served to
+// clients so the UI's "letter values" reference and the client-side scoring
+// share a single source of truth with letterSpecs — no duplicated tables.
+var holdemLettersBlob []byte
+
 func initLetterPoints() {
 	for _, s := range letterSpecs {
 		letterPoints[s.letter[0]-'A'] = s.points
 	}
+
+	type letterInfo struct {
+		Letter string `json:"letter"`
+		Points int    `json:"points"`
+		Count  int    `json:"count"`
+	}
+	infos := make([]letterInfo, len(letterSpecs))
+	for i, s := range letterSpecs {
+		infos[i] = letterInfo{s.letter, s.points, s.count}
+	}
+	holdemLettersBlob, _ = json.Marshal(infos)
 }
 
 // scoreWord returns the total point value of an (uppercase A–Z) word.
@@ -1114,6 +1130,9 @@ func registerHoldemRoutes() {
 	http.HandleFunc("/holdem/words", cors(holdemWords))
 	registerRoute("GET", "/holdem/words", "Download the word list (client validation)")
 
+	http.HandleFunc("/holdem/letters", cors(holdemLetters))
+	registerRoute("GET", "/holdem/letters", "Get the letter distribution (points + counts)")
+
 	registerCPURoutes()
 }
 
@@ -1123,6 +1142,15 @@ func holdemWords(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 	w.Header().Set("Cache-Control", "public, max-age=86400")
 	w.Write(holdemWordsBlob)
+}
+
+// holdemLetters serves the letter distribution (letter, points, count) so the
+// client can render the reference table and score words without a duplicated
+// copy of letterSpecs. Static for the server's lifetime.
+func holdemLetters(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.Header().Set("Cache-Control", "public, max-age=86400")
+	w.Write(holdemLettersBlob)
 }
 
 // holdemWord records a word submission for the current hand. It's accepted during

@@ -23,12 +23,33 @@ const PHASE_LABELS = {
     SHOWDOWN: "Showdown",
 };
 
-// Scrabble point values, mirroring the server's letterSpecs, so the client can
-// score a word instantly as it's typed.
-const LETTER_POINTS = {
-    A: 1, B: 3, C: 3, D: 2, E: 1, F: 4, G: 2, H: 4, I: 1, J: 8, K: 5, L: 1, M: 3,
-    N: 1, O: 1, P: 3, Q: 10, R: 1, S: 1, T: 1, U: 1, V: 4, W: 4, X: 8, Y: 4, Z: 10,
-};
+// Letter distribution (points + how many of each tile are in the bag), fetched
+// once from the server so it isn't duplicated here. LETTER_POINTS is derived
+// from it for instant client-side scoring as a word is typed.
+let letterSpecs = [];
+const LETTER_POINTS = {};
+async function loadLetters() {
+    try {
+        const r = await fetch(API_BASE + "/holdem/letters");
+        if (r.ok) {
+            letterSpecs = await r.json();
+            letterSpecs.forEach(s => { LETTER_POINTS[s.letter] = s.points; });
+            renderLetterTable();
+        }
+    } catch (e) { /* scoring still works via the server on submit */ }
+}
+
+// Render the reference table: each letter, its point value, and how many tiles
+// of it exist in the bag.
+function renderLetterTable() {
+    const el = document.getElementById("letter-table");
+    if (!el) return;
+    el.innerHTML = letterSpecs.map(s => `
+        <div class="letter-cell">
+            ${tileHTML({ letter: s.letter, points: s.points })}
+            <span class="letter-count">×${s.count}</span>
+        </div>`).join("");
+}
 
 // The accepted word list, fetched once so typing feedback is instant. The server
 // still re-validates every submission, so this is purely for UX.
@@ -481,11 +502,15 @@ function updateWordArea(st) {
             : `<span class="best-none">No word locked in yet</span>`;
 
         // Live preview of the word currently being typed (or the locked word).
+        // The tile block doubles as the input surface, so when nothing is typed
+        // show a faint prompt, and a blinking caret while the block is focused.
+        const caret = wordZone.classList.contains("focused")
+            ? `<span class="word-caret" aria-hidden="true"></span>` : "";
         wordPreview.innerHTML = focus.preview.length
             ? focus.preview.map(t => tileHTML(
                 { letter: t.letter, points: t.points },
-                "big" + (t.river ? " from-river" : "") + (t.missing ? " missing" : ""))).join("")
-            : "";
+                "big" + (t.river ? " from-river" : "") + (t.missing ? " missing" : ""))).join("") + caret
+            : `<span class="word-placeholder">Tap and type your word…</span>` + caret;
 
         // Feedback reflects what you've typed (not the idle/locked word).
         const live = typed.trim().length ? analyzeWord(typed, hole, community) : null;
@@ -685,6 +710,12 @@ wordInput.addEventListener("keydown", (e) => {
 });
 btnSubmitWord.onclick = submitWord;
 
+// The tile block is the input surface: focus styling drives the accent ring and
+// blinking caret, and tapping anywhere on the block opens the keyboard.
+wordInput.addEventListener("focus", () => { wordZone.classList.add("focused"); updateWordArea(); });
+wordInput.addEventListener("blur", () => { wordZone.classList.remove("focused"); updateWordArea(); });
+wordZone.addEventListener("click", () => wordInput.focus());
+
 document.getElementById("btn-start").onclick = async () => {
     initAudio(); // unlock audio on this user gesture
     startArea.classList.add("hidden"); // optimistic hide to prevent double-click
@@ -729,7 +760,7 @@ window.addEventListener("beforeunload", leave);
 // --- boot -------------------------------------------------------------------
 (async function boot() {
     if (!playerName) await promptForName();
-    await Promise.all([join(), loadWords()]);
+    await Promise.all([join(), loadWords(), loadLetters()]);
     poll();
     setInterval(poll, 1000);
 })();

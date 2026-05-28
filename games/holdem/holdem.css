@@ -368,6 +368,7 @@
 
 /* --- word composition --------------------------------------------------- */
 #word-zone {
+    position: relative;
     max-width: min(560px, 94vw);
     margin: 0 auto 14px;
     padding: 12px 14px;
@@ -383,15 +384,65 @@
 }
 #word-kept .best-none { color: var(--fgColor-subtle); font-style: italic; }
 
+/* The whole tile area is the input surface: tap it to type, letters appear as
+   tiles. The real <input> is an invisible overlay that captures keystrokes. */
+#word-block {
+    position: relative;
+    margin-bottom: 6px;
+    cursor: text;
+}
 #word-preview {
     display: flex;
     gap: 6px;
     justify-content: center;
     flex-wrap: wrap;
-    min-height: 60px;
+    min-height: 64px;
     align-items: center;
-    margin-bottom: 6px;
+    padding: 8px 10px;
+    border: 2px dashed var(--borderColor-default);
+    border-radius: 10px;
+    background: var(--bgColor-muted);
+    transition: border-color 0.15s, box-shadow 0.15s;
 }
+#word-zone.focused #word-preview {
+    border-style: solid;
+    border-color: var(--accent-strong);
+    box-shadow: 0 0 0 3px var(--accent);
+}
+/* Faint prompt shown when nothing is typed yet. */
+.word-placeholder {
+    color: var(--fgColor-subtle);
+    font-style: italic;
+    font-size: 0.95rem;
+}
+/* Blinking caret after the last tile while the block is focused. */
+.word-caret {
+    display: inline-block;
+    width: 2px;
+    height: 40px;
+    background: var(--accent-strong);
+    border-radius: 1px;
+    animation: word-caret-blink 1s step-end infinite;
+}
+@keyframes word-caret-blink { 50% { opacity: 0; } }
+/* Transparent overlay across the tile block — keeps focus/keyboard but shows
+   nothing itself, so the tiles are the only visible text. */
+#word-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: transparent;
+    caret-color: transparent;
+    font-size: 16px; /* avoid iOS zoom-on-focus */
+    text-align: center;
+    cursor: text;
+}
+#word-input:focus { outline: none; }
 #word-feedback {
     min-height: 1.3em;
     font-size: 0.85rem;
@@ -408,20 +459,6 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-}
-#word-input {
-    flex: 1 1 220px;
-    max-width: 280px;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid var(--borderColor-default);
-    background: var(--bgColor-muted);
-    color: var(--fgColor-default);
-    font-size: 1.1rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    text-align: center;
 }
 #btn-submit-word:disabled { opacity: 0.5; cursor: not-allowed; }
 
@@ -538,6 +575,35 @@
     font-weight: 600;
     color: var(--fgColor-default);
 }
+
+/* --- letter values reference ------------------------------------------- */
+#letter-values {
+    margin-top: 16px;
+    color: var(--fgColor-muted);
+    font-size: 0.9rem;
+}
+#letter-values summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--fgColor-default);
+}
+#letter-table {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+}
+.letter-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 6px 4px;
+    border: 1px solid var(--borderColor-muted);
+    border-radius: 8px;
+    background: var(--bgColor-muted);
+}
+.letter-count { font-weight: 700; color: var(--fgColor-default); }
 
 /* --- overlay (name prompt) --------------------------------------------- */
 .overlay {

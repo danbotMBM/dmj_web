@@ -39,12 +39,14 @@
 
                 <div id="word-zone" class="hidden">
                     <div id="word-kept"></div>
-                    <div id="word-preview"></div>
-                    <div id="word-feedback"></div>
-                    <div id="word-entry">
+                    <div id="word-block">
+                        <div id="word-preview"></div>
                         <input type="text" id="word-input" maxlength="10" autocomplete="off"
                                autocapitalize="characters" autocorrect="off" spellcheck="false"
-                               placeholder="type your word…">
+                               aria-label="Type your word">
+                    </div>
+                    <div id="word-feedback"></div>
+                    <div id="word-entry">
                         <button id="btn-submit-word" class="act-btn raise" disabled>Submit word</button>
                     </div>
                 </div>
@@ -82,6 +84,13 @@
                 ties split it. Submit nothing (or only invalid words) and you score zero.</p>
                 <p>You start with 1000 chips. Run out and you'll watch from the rail until
                 a seat frees up. Up to 10 players sit at the table; extras wait in a queue.</p>
+            </details>
+
+            <details id="letter-values">
+                <summary>Letter values &amp; counts</summary>
+                <p>Each letter's point value (shown on the tile) and how many of that
+                tile are in the bag.</p>
+                <div id="letter-table"></div>
             </details>
         </article>
     </main>
