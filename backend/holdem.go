@@ -1130,7 +1130,7 @@ func registerHoldemRoutes() {
 	go runGameLoop()
 
 	http.HandleFunc("/holdem/join", cors(holdemJoin))
-	registerRoute("POST", "/holdem/join", "Join the word hold'em table")
+	registerRoute("POST", "/holdem/join", "Join the table")
 
 	http.HandleFunc("/holdem/rename", cors(holdemRename))
 	registerRoute("POST", "/holdem/rename", "Change your display name")
