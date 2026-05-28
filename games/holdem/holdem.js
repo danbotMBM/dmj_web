@@ -527,8 +527,16 @@ function updateWordArea(st) {
             wordFeedback.textContent = `Valid · ${live.score} pts` +
                 (st.yourWord && live.score < st.yourWordScore ? " (lower than your submitted word)" : "");
         } else if (!live.formable) {
+            // Still surface the dictionary verdict so the player learns whether
+            // the typed word at least exists, even though they can't play it.
             wordFeedback.className = "word-feedback bad";
-            wordFeedback.textContent = "You don't have the tiles for that.";
+            if (wordSet.size === 0) {
+                wordFeedback.textContent = "You don't have the tiles for that.";
+            } else if (live.inDict) {
+                wordFeedback.textContent = `${live.clean} is a word, but you don't have the tiles.`;
+            } else {
+                wordFeedback.textContent = "Not in the word list — and you don't have the tiles.";
+            }
         } else if (!live.inDict) {
             wordFeedback.className = "word-feedback bad";
             wordFeedback.textContent = "Not in the word list.";
@@ -615,6 +623,7 @@ const raiseAmount = document.getElementById("raise-amount");
 const raiseGroup = document.getElementById("raise-group");
 const timerWrap = document.getElementById("turn-timer");
 const timerBar = document.getElementById("turn-timer-bar");
+const timerText = document.getElementById("turn-timer-text");
 
 function renderActions(st) {
     if (!st.yourTurn) {
@@ -652,12 +661,17 @@ function renderActions(st) {
         raiseGroup.classList.add("hidden");
     }
 
-    // Timer bar.
+    // Timer bar + countdown text inside the action bar, so the time pressure
+    // is part of the same visual block as the choices.
     if (st.timeLeftMs > 0) {
         timerWrap.classList.remove("hidden");
         const total = (st.turnSeconds || 60) * 1000;
         const pct = Math.max(0, Math.min(100, (st.timeLeftMs / total) * 100));
+        const secs = Math.max(0, Math.ceil(st.timeLeftMs / 1000));
         timerBar.style.width = pct + "%";
+        timerText.textContent = `Your turn — ${secs}s`;
+        timerWrap.classList.toggle("warn", pct <= 50 && pct > 25);
+        timerWrap.classList.toggle("danger", pct <= 25);
     } else {
         timerWrap.classList.add("hidden");
     }

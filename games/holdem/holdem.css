@@ -560,20 +560,35 @@
     color: var(--fgColor-default);
 }
 
+/* Lives inside #action-bar — full-width row beneath the buttons so it's clear
+   the countdown belongs to "your turn to act". */
 #turn-timer {
-    height: 6px;
-    width: min(280px, 70vw);
-    margin: 0 auto;
-    background: var(--bgColor-neutral-muted);
-    border-radius: 3px;
-    overflow: hidden;
+    flex: 1 0 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    margin-top: 4px;
+}
+#turn-timer-text {
+    text-align: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--fgColor-muted);
+    letter-spacing: 0.04em;
 }
 #turn-timer-bar {
-    height: 100%;
+    height: 6px;
     width: 100%;
     background: var(--accent-strong);
-    transition: width 0.5s linear;
+    border-radius: 3px;
+    transition: width 0.5s linear, background 0.2s;
 }
+/* Heat up the bar as time runs out. */
+#turn-timer.warn #turn-timer-bar { background: #d4a72c; }
+#turn-timer.warn #turn-timer-text { color: #d4a72c; }
+#turn-timer.danger #turn-timer-bar { background: #c0564f; }
+#turn-timer.danger #turn-timer-text { color: #c0564f; }
 
 #how-to-play {
     margin-top: 28px;
