@@ -302,6 +302,17 @@ function render(st) {
         seatsEl.appendChild(el);
     });
 
+    // On the mobile carousel layout, keep the acting player centered in the
+    // strip. We scroll the #seats container directly (rather than
+    // scrollIntoView, which also scrolls ancestors and yanks the viewport).
+    if (window.matchMedia("(max-width: 768px)").matches) {
+        const actingEl = seatsEl.querySelector(".seat.acting");
+        if (actingEl) {
+            const target = actingEl.offsetLeft - (seatsEl.clientWidth - actingEl.offsetWidth) / 2;
+            seatsEl.scrollTo({ left: target, behavior: "smooth" });
+        }
+    }
+
     if (showAdd) {
         const pos = seatPosition(seated.length, total);
         const el = document.createElement("div");
