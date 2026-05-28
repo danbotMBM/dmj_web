@@ -252,7 +252,13 @@ function render(st) {
     // seated player while the table is between rounds — mirrors the server's
     // betweenRounds() guard so we don't show controls the server would reject.
     seatsEl.innerHTML = "";
-    const seated = st.seats || [];
+    // Rotate the seating so you're always at the bottom (index 0), while
+    // preserving everyone's relative (cyclic) order around the table.
+    const rawSeated = st.seats || [];
+    const youIdx = rawSeated.findIndex(s => s.isYou);
+    const seated = youIdx > 0
+        ? rawSeated.slice(youIdx).concat(rawSeated.slice(0, youIdx))
+        : rawSeated;
     const betweenRounds = ["WAITING", "READY", "SHOWDOWN"].includes(st.phase);
     const canManage = st.seated && betweenRounds;
     const showAdd = canManage && seated.length < (st.maxSeats || 10);
@@ -436,9 +442,9 @@ function updateWordArea(st) {
     // focus are highlighted in both groups.
     if (hole.length || community.length) {
         const holeHTML = hole.map((t, i) =>
-            tileHTML(t, "big" + (focus.usedHole.has(i) ? " used-by-word" : ""))).join("");
+            tileHTML(t, "big" + (focus.usedHole.has(i) ? " used" : ""))).join("");
         const commHTML = community.map((t, i) =>
-            tileHTML(t, "big from-river" + (focus.usedComm.has(i) ? " used-by-word" : ""))).join("");
+            tileHTML(t, "big from-river" + (focus.usedComm.has(i) ? " used" : ""))).join("");
         // Subtle divider between your private hole tiles and the shared
         // community tiles, only when both groups are present.
         const sep = hole.length && community.length

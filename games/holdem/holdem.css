@@ -431,11 +431,6 @@
     color: #9a5a5a;
     opacity: 0.85;
 }
-/* Hole/community tiles consumed by the word in focus; no colored border. */
-.tile.used-by-word {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-}
-
 /* Showdown countdown to lock in a word. */
 #submit-timer {
     max-width: min(360px, 80vw);
