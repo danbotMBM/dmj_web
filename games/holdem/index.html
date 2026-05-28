@@ -102,10 +102,14 @@
     <!-- Name prompt -->
     <div id="name-overlay" class="overlay hidden">
         <div class="overlay-card">
-            <h2>Take a seat</h2>
-            <p>Pick a name to join the table.</p>
+            <h2 id="name-title">Take a seat</h2>
+            <p id="name-subtitle">Pick a name to join the table.</p>
             <input type="text" id="name-input" placeholder="Your name…" maxlength="16" autocomplete="off">
-            <button id="name-submit" class="act-btn raise">Join table</button>
+            <div id="name-error" class="name-error hidden"></div>
+            <div class="name-actions">
+                <button id="name-cancel" class="act-btn hidden">Cancel</button>
+                <button id="name-submit" class="act-btn raise">Join table</button>
+            </div>
         </div>
     </div>
 

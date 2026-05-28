@@ -99,6 +99,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.seat-name--editable { cursor: pointer; }
+.seat-name--editable:hover { text-decoration: underline; }
+.name-actions { display: flex; gap: 8px; justify-content: center; margin-top: 8px; }
+.name-error { color: #d33; font-size: 0.85rem; margin-top: 6px; }
+.name-error.hidden { display: none; }
 .seat-chips { color: var(--fgColor-muted); font-size: 0.72rem; }
 .seat-bet {
     color: var(--fgColor-accent);

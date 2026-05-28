@@ -1132,6 +1132,9 @@ func registerHoldemRoutes() {
 	http.HandleFunc("/holdem/join", cors(holdemJoin))
 	registerRoute("POST", "/holdem/join", "Join the word hold'em table")
 
+	http.HandleFunc("/holdem/rename", cors(holdemRename))
+	registerRoute("POST", "/holdem/rename", "Change your display name")
+
 	http.HandleFunc("/holdem/state", cors(holdemState))
 	registerRoute("GET", "/holdem/state", "Get personalized table state (poll)")
 
@@ -1333,6 +1336,40 @@ func holdemJoin(w http.ResponseWriter, r *http.Request) {
 		"seat":     p.Seat,
 		"queuePos": queuePos,
 	})
+}
+
+func holdemRename(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+	id := r.Header.Get("X-Player-ID")
+	if id == "" {
+		http.Error(w, "Missing X-Player-ID", http.StatusBadRequest)
+		return
+	}
+	var body struct {
+		Name string `json:"name"`
+	}
+	json.NewDecoder(r.Body).Decode(&body)
+	if strings.TrimSpace(body.Name) == "" {
+		http.Error(w, "Name required", http.StatusBadRequest)
+		return
+	}
+
+	table.mu.Lock()
+	defer table.mu.Unlock()
+
+	p := table.findPlayer(id)
+	if p == nil {
+		http.Error(w, "Player not found", http.StatusNotFound)
+		return
+	}
+	p.Name = sanitizeName(body.Name)
+	p.LastSeen = time.Now()
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]any{"name": p.Name})
 }
 
 // --- state snapshot DTOs ---

@@ -95,22 +95,85 @@ function leave() {
 // --- name prompt ------------------------------------------------------------
 const nameOverlay = document.getElementById("name-overlay");
 const nameInput = document.getElementById("name-input");
+const nameTitle = document.getElementById("name-title");
+const nameSubtitle = document.getElementById("name-subtitle");
+const nameSubmitBtn = document.getElementById("name-submit");
+const nameCancelBtn = document.getElementById("name-cancel");
+const nameErrorEl = document.getElementById("name-error");
 
-function promptForName() {
+function showNameError(msg) {
+    nameErrorEl.textContent = msg;
+    nameErrorEl.classList.remove("hidden");
+}
+function clearNameError() {
+    nameErrorEl.textContent = "";
+    nameErrorEl.classList.add("hidden");
+}
+
+// mode: "join" (initial entry, no cancel) or "rename" (cancellable, calls /holdem/rename)
+function promptForName(mode = "join") {
     return new Promise((resolve) => {
+        clearNameError();
+        nameInput.value = playerName || "";
+        if (mode === "rename") {
+            nameTitle.textContent = "Change your name";
+            nameSubtitle.textContent = "Pick a new display name.";
+            nameSubmitBtn.textContent = "Save";
+            nameCancelBtn.classList.remove("hidden");
+        } else {
+            nameTitle.textContent = "Take a seat";
+            nameSubtitle.textContent = "Pick a name to join the table.";
+            nameSubmitBtn.textContent = "Join table";
+            nameCancelBtn.classList.add("hidden");
+        }
         nameOverlay.classList.remove("hidden");
         nameInput.focus();
-        const submit = () => {
-            const v = nameInput.value.trim();
-            if (!v) return;
-            initAudio(); // unlock audio on this user gesture
-            playerName = v.slice(0, 16);
-            localStorage.setItem(NAME_KEY, playerName);
+        nameInput.select();
+
+        const cleanup = () => {
             nameOverlay.classList.add("hidden");
+            nameSubmitBtn.onclick = null;
+            nameCancelBtn.onclick = null;
+            nameInput.onkeydown = null;
+        };
+        const submit = async () => {
+            const v = nameInput.value.trim();
+            if (!v) { showNameError("Please enter a name."); return; }
+            initAudio(); // unlock audio on this user gesture
+            const newName = v.slice(0, 16);
+            if (mode === "rename") {
+                if (newName === playerName) { cleanup(); resolve(); return; }
+                nameSubmitBtn.disabled = true;
+                try {
+                    const r = await api("/holdem/rename", "POST", { name: newName });
+                    if (!r.ok) {
+                        showNameError("Couldn't change name — try again.");
+                        nameSubmitBtn.disabled = false;
+                        return;
+                    }
+                    const data = await r.json();
+                    playerName = data.name || newName;
+                } catch (e) {
+                    showNameError("Network error — try again.");
+                    nameSubmitBtn.disabled = false;
+                    return;
+                } finally {
+                    nameSubmitBtn.disabled = false;
+                }
+            } else {
+                playerName = newName;
+            }
+            localStorage.setItem(NAME_KEY, playerName);
+            cleanup();
+            if (mode === "rename") poll(); // refresh immediately so the new name shows
             resolve();
         };
-        document.getElementById("name-submit").onclick = submit;
-        nameInput.onkeydown = (e) => { if (e.key === "Enter") submit(); };
+        nameSubmitBtn.onclick = submit;
+        nameCancelBtn.onclick = () => { cleanup(); resolve(); };
+        nameInput.onkeydown = (e) => {
+            if (e.key === "Enter") submit();
+            else if (e.key === "Escape" && mode === "rename") { cleanup(); resolve(); }
+        };
     });
 }
 
@@ -318,7 +381,7 @@ function render(st) {
         el.innerHTML = `
             ${removeBtn}
             ${s.isButton ? '<span class="dealer-btn">D</span>' : ""}
-            <div class="seat-name">${escapeHTML(s.name)}</div>
+            <div class="seat-name${s.isYou ? " seat-name--editable" : ""}"${s.isYou ? ' data-action="rename" title="Click to change your name"' : ""}>${escapeHTML(s.name)}</div>
             <div class="seat-chips">${s.chips} chips</div>
             ${s.bet > 0 ? `<div class="seat-bet">bet ${s.bet}</div>` : ""}
             ${s.allIn ? '<div class="seat-tag">ALL IN</div>' : ""}
@@ -726,6 +789,7 @@ seatsEl.addEventListener("click", (e) => {
         case "open-add": addMenuOpen = true; render(lastState); break;
         case "add-cpu": addCPU(btn.dataset.diff); break;
         case "remove-cpu": removeCPU(+btn.dataset.seat); break;
+        case "rename": promptForName("rename"); break;
     }
 });
 
