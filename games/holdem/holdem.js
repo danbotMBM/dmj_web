@@ -439,9 +439,14 @@ function updateWordArea(st) {
             tileHTML(t, "big" + (focus.usedHole.has(i) ? " used-by-word" : ""))).join("");
         const commHTML = community.map((t, i) =>
             tileHTML(t, "big from-river" + (focus.usedComm.has(i) ? " used-by-word" : ""))).join("");
+        // Subtle divider between your private hole tiles and the shared
+        // community tiles, only when both groups are present.
+        const sep = hole.length && community.length
+            ? `<div class="hole-sep" aria-hidden="true"></div>`
+            : "";
         holeEl.innerHTML =
             `<div class="hole-label">Your tiles — everything you can spell with</div>` +
-            `<div class="hole-tiles">${holeHTML}${commHTML}</div>`;
+            `<div class="hole-tiles">${holeHTML}${sep}${commHTML}</div>`;
     } else {
         holeEl.innerHTML = "";
     }

@@ -330,8 +330,18 @@
     display: flex;
     gap: 8px;
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     margin-bottom: 10px;
+}
+
+/* Slim divider between your hole tiles and the shared community tiles. */
+.hole-sep {
+    align-self: stretch;
+    width: 1px;
+    margin: 2px 6px;
+    background: var(--borderColor-default);
+    opacity: 0.7;
 }
 
 .best-score {
@@ -348,8 +358,8 @@
     color: var(--fgColor-muted);
     margin: 0 2px;
 }
-/* Tiles in the word that came from the river get an accent ring. */
-.tile.from-river { box-shadow: 0 0 0 2px var(--accent-strong), 0 2px 4px rgba(0, 0, 0, 0.25); }
+/* River tiles in the word are distinguished elsewhere; no colored border. */
+.tile.from-river { box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25); }
 /* River tiles consumed by your word, shaded darker in the community row. */
 .tile.used {
     filter: brightness(0.62) saturate(0.6);
@@ -418,13 +428,12 @@
 /* A typed letter the player doesn't actually hold. */
 .tile.missing {
     background: repeating-linear-gradient(45deg, #e9d7d7, #e9d7d7 4px, #f2e2e2 4px, #f2e2e2 8px);
-    border-color: #c89a9a;
     color: #9a5a5a;
     opacity: 0.85;
 }
-/* Hole/community tiles consumed by the word in focus. */
+/* Hole/community tiles consumed by the word in focus; no colored border. */
 .tile.used-by-word {
-    box-shadow: 0 0 0 3px var(--accent-strong), 0 2px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
 }
 
 /* Showdown countdown to lock in a word. */
