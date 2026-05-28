@@ -406,7 +406,7 @@
     gap: 6px;
     justify-content: center;
     flex-wrap: wrap;
-    min-height: 64px;
+    min-height: 80px;
     align-items: center;
     padding: 8px 10px;
     border: 2px dashed var(--borderColor-default);
@@ -454,7 +454,7 @@
 }
 #word-input:focus { outline: none; }
 #word-feedback {
-    min-height: 1.3em;
+    min-height: 1.8em;
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--fgColor-muted);

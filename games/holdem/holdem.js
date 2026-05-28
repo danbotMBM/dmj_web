@@ -396,6 +396,7 @@ const submitTimerBar = document.getElementById("submit-timer-bar");
 // Signature of your current hole tiles, used to detect a fresh hand and clear
 // any half-typed word from the previous one.
 let lastHoleSig = null;
+let suppressLockedWordPreview = false;
 
 // analyzeWord greedily binds each typed letter to one of your available tiles
 // (hole tiles first, then community — matching the server), and reports which
@@ -470,7 +471,8 @@ function updateWordArea(st) {
 
     // The word in focus: what you're typing, or your locked word when idle.
     const typed = wordInput.value;
-    const focusRaw = typed.trim().length ? typed : (st.yourWord || "");
+    const lockedWord = suppressLockedWordPreview ? "" : (st.yourWord || "");
+    const focusRaw = typed.trim().length ? typed : lockedWord;
     const focus = analyzeWord(focusRaw, hole, community);
 
     // "Your tiles" = the full pool you can spell from: your private hole tiles
@@ -488,7 +490,7 @@ function updateWordArea(st) {
             ? `<div class="hole-sep" aria-hidden="true"></div>`
             : "";
         holeEl.innerHTML =
-            `<div class="hole-label">Your tiles — everything you can spell with</div>` +
+            `<div class="hole-label">Available Tiles</div>` +
             `<div class="hole-tiles">${holeHTML}${sep}${commHTML}</div>`;
     } else {
         holeEl.innerHTML = "";
@@ -508,20 +510,23 @@ function updateWordArea(st) {
 
         // Live preview of the word currently being typed (or the locked word).
         // The tile block doubles as the input surface, so when nothing is typed
-        // show a faint prompt, and a blinking caret while the block is focused.
-        const caret = wordZone.classList.contains("focused")
+        // blinking caret while the block is focused.
+        const caret = wordZone.classList.contains("focused") 
             ? `<span class="word-caret" aria-hidden="true"></span>` : "";
+        const show_placeholder = !wordZone.classList.contains("focused");
+        const placeholder = show_placeholder ? `<span class="word-placeholder">Tap and type your word…</span>` : "";
+
         wordPreview.innerHTML = focus.preview.length
             ? focus.preview.map(t => tileHTML(
                 { letter: t.letter, points: t.points },
                 "big" + (t.river ? " from-river" : "") + (t.missing ? " missing" : ""))).join("") + caret
-            : `<span class="word-placeholder">Tap and type your word…</span>` + caret;
+            : placeholder + caret;
 
         // Feedback reflects what you've typed (not the idle/locked word).
         const live = typed.trim().length ? analyzeWord(typed, hole, community) : null;
         if (!live) {
             wordFeedback.className = "word-feedback";
-            wordFeedback.textContent = "Type a word from your tiles.";
+            wordFeedback.textContent = " ";
         } else if (live.valid) {
             wordFeedback.className = "word-feedback ok";
             wordFeedback.textContent = `Valid · ${live.score} pts` +
@@ -576,6 +581,7 @@ async function submitWord() {
                 lastState.yourWordScore = data.score;
             }
             wordInput.value = "";
+            suppressLockedWordPreview = false;
             playSfx("call");
             updateWordArea();
         } else {
@@ -729,16 +735,27 @@ btnCall.onclick = () => sendAction("call");
 btnRaise.onclick = () => sendAction("raise", +raiseSlider.value);
 
 // Live word feedback as you type; Enter submits.
-wordInput.addEventListener("input", () => updateWordArea());
+wordInput.addEventListener("input", () => {
+    if (wordInput.value.length > 0) suppressLockedWordPreview = false;
+    updateWordArea();
+});
 wordInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !btnSubmitWord.disabled) submitWord();
+    else if (e.key === "Backspace" && wordInput.value === "") {
+        suppressLockedWordPreview = true;
+        updateWordArea();
+    }
 });
 btnSubmitWord.onclick = submitWord;
 
 // The tile block is the input surface: focus styling drives the accent ring and
 // blinking caret, and tapping anywhere on the block opens the keyboard.
 wordInput.addEventListener("focus", () => { wordZone.classList.add("focused"); updateWordArea(); });
-wordInput.addEventListener("blur", () => { wordZone.classList.remove("focused"); updateWordArea(); });
+wordInput.addEventListener("blur", () => {
+    suppressLockedWordPreview = false;
+    wordZone.classList.remove("focused");
+    updateWordArea();
+});
 wordZone.addEventListener("click", () => {
     // Any click into the block clears the previous word so you start fresh.
     wordInput.value = "";
