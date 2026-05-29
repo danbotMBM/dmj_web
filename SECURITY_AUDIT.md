@@ -4,7 +4,24 @@ _Date: 2026-05-29 · Scope: entire repository (Go backend, static frontend, ngin
 
 This is a point-in-time review of possible security risks across the site. Findings
 are ordered by severity. Each item lists where it lives, why it matters, and a
-recommended fix. Nothing here was changed in code — this document is the deliverable.
+recommended fix.
+
+## Remediation status
+
+| ID | Finding | Status |
+|----|---------|--------|
+| C1 | Secrets/answers reachable under web root | **Fixed** — nginx `deny` for `/backend` + dotfiles on both static servers; deploy keeps Go source out of the web root; `SECRET_FILE`/`USERS_FILE` env overrides added so secrets can live outside it |
+| C2 | Default hard-coded signing secret | **Fixed** — a strong random 32-byte secret is generated with `crypto/rand` when none exists; the known constant fallback is gone |
+| H1 | Plaintext password storage/compare | **Fixed** — passwords are bcrypt-verified (constant-time); plaintext entries are rejected; `hashpw` tool added to generate hashes |
+| H2 | No login rate limiting | **Fixed** — per-IP throttle (5 failures / 15 min → 15 min lockout) on `/login`, plus a body-size cap |
+| H3 | Self-signed cert on public domain | Open |
+| H4 | Stored XSS in Hold'em admin timeline | Open |
+| M1–M5, L1–L7 | (see below) | Open |
+
+> **Operator action required for H1/C2:** existing `users.txt` plaintext entries no
+> longer work — regenerate each with `go run ./hashpw 'password'` (see
+> `backend/README.md`). The signing-secret change invalidates existing tokens on
+> first restart (users re-login). Re-run `deploy.sh` to apply the nginx rules.
 
 ---
 

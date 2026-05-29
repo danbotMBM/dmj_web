@@ -2,7 +2,10 @@ module backend
 
 go 1.25.8
 
-require modernc.org/sqlite v1.46.0
+require (
+	golang.org/x/crypto v0.52.0
+	modernc.org/sqlite v1.46.0
+)
 
 require (
 	github.com/dustin/go-humanize v1.0.1 // indirect

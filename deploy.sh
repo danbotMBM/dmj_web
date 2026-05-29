@@ -73,6 +73,12 @@ else
         --exclude='.claude' \
         --exclude='deploy.sh' \
         --exclude='README.md' \
+        --exclude='SECURITY_AUDIT.md' \
+        --exclude='*.go' \
+        --exclude='go.mod' \
+        --exclude='go.sum' \
+        --exclude='backend/hashpw/' \
+        --exclude='backend/validate_trivia/' \
         --exclude='backend/cronjobs/strava_runs.json' \
         --exclude='backend/running.json' \
         --exclude='backend/trivia_analytics.db' \

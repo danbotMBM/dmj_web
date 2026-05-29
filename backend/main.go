@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"crypto/hmac"
+	"crypto/rand"
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
@@ -13,6 +14,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 const (
@@ -20,13 +23,47 @@ const (
 	dataFile    = "data.txt"
 	secretFile  = "secret.txt"
 	tokenExpiry = 24 * time.Hour
+
+	// Login rate limiting (per client IP).
+	loginMaxFails = 5
+	loginWindow   = 15 * time.Minute
+	loginLockout  = 15 * time.Minute
 )
 
 var (
 	secret     []byte
 	fileMu     sync.RWMutex
 	corsOrigin string
+
+	// dummyBcryptHash is compared against when a username is unknown (or the
+	// store is unreadable) so that response timing doesn't reveal whether a
+	// username exists. Initialized in init().
+	dummyBcryptHash []byte
 )
+
+func init() {
+	// A valid bcrypt hash so CompareHashAndPassword does real work (constant-ish
+	// time) on the unknown-user path rather than failing to parse instantly.
+	dummyBcryptHash, _ = bcrypt.GenerateFromPassword([]byte("constant-time-dummy"), bcrypt.DefaultCost)
+}
+
+// secretFilePath returns the signing-secret path, overridable via SECRET_FILE so
+// the secret can live outside the web root in production.
+func secretFilePath() string {
+	if p := os.Getenv("SECRET_FILE"); p != "" {
+		return p
+	}
+	return secretFile
+}
+
+// usersFilePath returns the credentials file path, overridable via USERS_FILE so
+// it can live outside the web root in production.
+func usersFilePath() string {
+	if p := os.Getenv("USERS_FILE"); p != "" {
+		return p
+	}
+	return usersFile
+}
 
 func main() {
 	// Load or generate secret for token signing
@@ -74,15 +111,29 @@ func main() {
 }
 
 func loadSecret() {
-	data, err := os.ReadFile(secretFile)
-	if err != nil {
-		// Generate a simple secret if file doesn't exist
-		secret = []byte("change-me-to-something-random")
-		os.WriteFile(secretFile, secret, 0600)
-		fmt.Println("Warning: Generated default secret. Edit secret.txt for production.")
-		return
+	path := secretFilePath()
+
+	if data, err := os.ReadFile(path); err == nil {
+		if s := strings.TrimSpace(string(data)); s != "" {
+			secret = []byte(s)
+			return
+		}
 	}
-	secret = []byte(strings.TrimSpace(string(data)))
+
+	// No usable secret on disk: generate a strong random one (never a known
+	// constant — a predictable key would let anyone forge auth tokens).
+	buf := make([]byte, 32)
+	if _, err := rand.Read(buf); err != nil {
+		fmt.Fprintf(os.Stderr, "FATAL: cannot generate a signing secret: %v\n", err)
+		os.Exit(1)
+	}
+	secret = []byte(hex.EncodeToString(buf))
+
+	if err := os.WriteFile(path, secret, 0600); err != nil {
+		fmt.Fprintf(os.Stderr, "Warning: generated a random signing secret but could not persist it to %s: %v (tokens will be invalidated on restart)\n", path, err)
+	} else {
+		fmt.Printf("Generated a new random signing secret at %s\n", path)
+	}
 }
 
 // cors wraps a handler with CORS headers
@@ -173,21 +224,32 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Throttle brute-force attempts per client IP.
+	ip := getClientIP(r)
+	if ok, retryAfter := loginAllowed(ip); !ok {
+		w.Header().Set("Retry-After", fmt.Sprintf("%d", retryAfter))
+		http.Error(w, "Too many login attempts, try again later", http.StatusTooManyRequests)
+		return
+	}
+
 	var creds struct {
 		Username string `json:"username"`
 		Password string `json:"password"`
 	}
 
-	if err := json.NewDecoder(r.Body).Decode(&creds); err != nil {
+	// Cap the body so a huge payload can't be used to exhaust memory.
+	if err := json.NewDecoder(io.LimitReader(r.Body, 4096)).Decode(&creds); err != nil {
 		http.Error(w, "Invalid JSON", http.StatusBadRequest)
 		return
 	}
 
 	if !checkCredentials(creds.Username, creds.Password) {
+		loginFailed(ip)
 		http.Error(w, "Invalid credentials", http.StatusUnauthorized)
 		return
 	}
 
+	loginSucceeded(ip)
 	token := generateToken(creds.Username)
 
 	w.Header().Set("Content-Type", "application/json")
@@ -196,34 +258,111 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-// checkCredentials validates username:password against users.txt
-// Format: username:password (one per line)
+// checkCredentials validates a username/password against the users file.
+// Format: one `username:bcrypt_hash` per line. Plaintext passwords are rejected
+// (use the hashpw tool to generate hashes).
 func checkCredentials(username, password string) bool {
-	f, err := os.Open(usersFile)
+	f, err := os.Open(usersFilePath())
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Cannot open users file: %v\n", err)
+		// Burn comparable time so a missing store isn't distinguishable by timing.
+		bcrypt.CompareHashAndPassword(dummyBcryptHash, []byte(password))
 		return false
 	}
 	defer f.Close()
 
+	var storedHash string
+	found := false
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
 		if line == "" || strings.HasPrefix(line, "#") {
 			continue
 		}
-
 		parts := strings.SplitN(line, ":", 2)
 		if len(parts) != 2 {
 			continue
 		}
-
-		if parts[0] == username && parts[1] == password {
-			return true
+		if parts[0] == username {
+			storedHash = parts[1]
+			found = true
+			break
 		}
 	}
 
-	return false
+	if !found {
+		// Compare against a dummy hash so unknown users take similar time.
+		bcrypt.CompareHashAndPassword(dummyBcryptHash, []byte(password))
+		return false
+	}
+
+	if !strings.HasPrefix(storedHash, "$2") {
+		fmt.Fprintf(os.Stderr, "User %q has a non-bcrypt password in the users file; refusing. Regenerate it with the hashpw tool.\n", username)
+		bcrypt.CompareHashAndPassword(dummyBcryptHash, []byte(password))
+		return false
+	}
+
+	return bcrypt.CompareHashAndPassword([]byte(storedHash), []byte(password)) == nil
+}
+
+// --- Login rate limiting (per client IP) ---
+
+type loginAttempt struct {
+	fails       int
+	windowStart time.Time
+	lockedUntil time.Time
+}
+
+var (
+	loginMu       sync.Mutex
+	loginAttempts = map[string]*loginAttempt{}
+)
+
+// loginAllowed reports whether the IP may attempt a login now. If not, it also
+// returns the number of seconds to wait.
+func loginAllowed(ip string) (bool, int) {
+	loginMu.Lock()
+	defer loginMu.Unlock()
+	a := loginAttempts[ip]
+	if a == nil {
+		return true, 0
+	}
+	if now := time.Now(); now.Before(a.lockedUntil) {
+		return false, int(time.Until(a.lockedUntil).Seconds()) + 1
+	}
+	return true, 0
+}
+
+// loginFailed records a failed attempt for the IP and locks it out once the
+// failure threshold is reached within the window.
+func loginFailed(ip string) {
+	loginMu.Lock()
+	defer loginMu.Unlock()
+	now := time.Now()
+	a := loginAttempts[ip]
+	if a == nil || now.Sub(a.windowStart) > loginWindow {
+		a = &loginAttempt{windowStart: now}
+		loginAttempts[ip] = a
+	}
+	a.fails++
+	if a.fails >= loginMaxFails {
+		a.lockedUntil = now.Add(loginLockout)
+	}
+	// Opportunistic cleanup so the map can't grow without bound.
+	if len(loginAttempts) > 10000 {
+		for k, v := range loginAttempts {
+			if now.After(v.lockedUntil) && now.Sub(v.windowStart) > loginWindow {
+				delete(loginAttempts, k)
+			}
+		}
+	}
+}
+
+// loginSucceeded clears any failure state for the IP after a successful login.
+func loginSucceeded(ip string) {
+	loginMu.Lock()
+	defer loginMu.Unlock()
+	delete(loginAttempts, ip)
 }
 
 // generateToken creates a simple signed token
