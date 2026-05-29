@@ -58,7 +58,18 @@ func initAnalyticsDB() {
 		player_id TEXT PRIMARY KEY,
 		history TEXT NOT NULL,
 		last_updated TEXT NOT NULL
-	);`
+	);
+	CREATE TABLE IF NOT EXISTS holdem_events (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		ts INTEGER NOT NULL,
+		player_id TEXT NOT NULL,
+		player_name TEXT NOT NULL,
+		event_type TEXT NOT NULL,
+		word TEXT,
+		score INTEGER
+	);
+	CREATE INDEX IF NOT EXISTS idx_holdem_events_ts ON holdem_events(ts);
+	CREATE INDEX IF NOT EXISTS idx_holdem_events_player ON holdem_events(player_id);`
 
 	if _, err := analyticsDB.Exec(schema); err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to create analytics schema: %v\n", err)

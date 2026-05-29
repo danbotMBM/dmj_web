@@ -9,6 +9,7 @@ utils/util
 # Backend sensitive files
 backend/users.txt
 backend/secret.txt
+backend/discord_webhook.txt
 backend/server
 backend/cronjobs/stravacreds.txt
 backend/cronjobs/strava_runs.json

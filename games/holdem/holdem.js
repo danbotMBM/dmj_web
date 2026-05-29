@@ -886,6 +886,13 @@ if (btnRedeal) {
 ["click", "keydown", "touchstart"].forEach(ev =>
     window.addEventListener(ev, initAudio, { once: true }));
 
+// Show the admin link if the user is logged in (token in localStorage). The
+// server still gates the actual admin API; this is just UX.
+if (localStorage.getItem("dmj-auth-token")) {
+    const adminLink = document.getElementById("admin-link");
+    if (adminLink) adminLink.classList.remove("hidden");
+}
+
 // --- boot -------------------------------------------------------------------
 (async function boot() {
     if (!playerName) await promptForName();

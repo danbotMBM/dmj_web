@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Holdem Admin · daniel mark jones</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/gitlab_md.css">
+    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="/mainStyle.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div id="header_loc"></div>
+    <main class="page">
+        <article class="markdown-body">
+            <h1>Mean Your Word · Admin</h1>
+
+            <div id="auth-gate" class="hidden">
+                <p>You need to be logged in to view the admin panel.
+                   <a href="/login/">Log in</a>, then come back.</p>
+            </div>
+
+            <div id="admin-content" class="hidden">
+                <div class="controls">
+                    <label>Window:
+                        <select id="days-select">
+                            <option value="1">Last 24h</option>
+                            <option value="3">Last 3 days</option>
+                            <option value="7" selected>Last 7 days</option>
+                            <option value="14">Last 14 days</option>
+                            <option value="30">Last 30 days</option>
+                        </select>
+                    </label>
+                    <button id="refresh-btn">Refresh</button>
+                    <span id="loading-msg"></span>
+                </div>
+
+                <div id="summary" class="summary"></div>
+
+                <div id="timeline-wrap">
+                    <div id="timeline"></div>
+                </div>
+
+                <div id="tooltip" class="tooltip hidden"></div>
+            </div>
+        </article>
+    </main>
+
+    <script type="module">
+        import { import_html } from "/utils.js";
+        import_html("/header.html", "header_loc");
+    </script>
+    <script type="module" src="admin.js"></script>
+</body>
+</html>

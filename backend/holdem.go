@@ -1177,6 +1177,9 @@ func (t *Table) handlePlayerLeaving(p *Player) {
 		p.Folded = true
 		p.HasActed = true
 	}
+	if !p.IsCPU {
+		recordHoldemEvent(p.ID, p.Name, "leave", "", 0)
+	}
 	t.archivePlayer(p)
 	t.removePlayer(p.ID)
 	if inLiveHand {
@@ -1300,6 +1303,7 @@ func holdemWord(w http.ResponseWriter, r *http.Request) {
 		p.SubmittedScore = score
 		replaced = true
 	}
+	recordHoldemEvent(p.ID, p.Name, "word", word, score)
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]any{
@@ -1428,6 +1432,28 @@ func holdemJoin(w http.ResponseWriter, r *http.Request) {
 		p = &Player{ID: id, Name: name, Chips: chips, Seat: -1}
 		p.LastSeen = time.Now()
 		table.seatPlayer(p)
+		recordHoldemEvent(id, name, "join", "", 0)
+
+		// Snapshot the full roster (including the joiner) while still holding
+		// the lock; notifyPlayerJoined goroutines the actual send.
+		var roster []rosterEntry
+		for _, op := range table.Players {
+			if op == nil {
+				continue
+			}
+			roster = append(roster, rosterEntry{
+				Name: op.Name, IsCPU: op.IsCPU, Difficulty: op.Difficulty, Seated: true,
+			})
+		}
+		for _, op := range table.Queue {
+			if op == nil {
+				continue
+			}
+			roster = append(roster, rosterEntry{
+				Name: op.Name, IsCPU: op.IsCPU, Difficulty: op.Difficulty, Seated: false,
+			})
+		}
+		notifyPlayerJoined(id, name, roster)
 	} else {
 		// Already at the table: update name and refresh heartbeat.
 		if body.Name != "" {
