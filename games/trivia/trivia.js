@@ -423,7 +423,7 @@ function copyResults() {
     const emoji = buildEmojiGrid();
     const maxScore = gridData.questions.reduce((sum, q) => sum + q.points, 0);
     const text =
-        "Daily Trivia " + state.date + "\n" +
+        "The Daily Board " + state.date + "\n" +
         "Score: " + state.score + "/" + maxScore + "\n\n" +
         emoji;
 

@@ -92,7 +92,7 @@ func notifyPlayerJoined(joinerID, joinerName string, others []rosterEntry) {
 
 func buildJoinMessage(joinerName string, others []rosterEntry) string {
 	var sb strings.Builder
-	fmt.Fprintf(&sb, "**%s** joined Mean Your Word.\n\n", joinerName)
+	fmt.Fprintf(&sb, "**%s** joined Bee Poker.\n\n", joinerName)
 	if len(others) == 0 {
 		sb.WriteString("They're the only one at the table right now.\n")
 	} else {
@@ -133,7 +133,7 @@ func postDiscord(content string) error {
 	}
 	body, _ := json.Marshal(map[string]string{
 		"content":  content,
-		"username": "Mean Your Word",
+		"username": "Bee Poker",
 	})
 	req, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(body))
 	if err != nil {

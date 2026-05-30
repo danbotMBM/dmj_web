@@ -1,4 +1,4 @@
-# Daily trivia game inspired by jeopardy
+# The Daily Board — a daily trivia game inspired by jeopardy
 
 ## GOAL
 Make a simple 3x3 grid of trivia in the style of jeopardy. The grid will have the category of the trivia at the top with each column of trivia being of that category. Each category of trivia will have 3 questions beginning at the top with the easiest question at the top and increasing in difficulty as you go down. The point values will be 100, 200, and 300 as the difficulty increases.

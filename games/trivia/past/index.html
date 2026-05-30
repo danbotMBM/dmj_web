@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>past trivia</title>
+    <title>past boards</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../../../gitlab_md.css">
     <link rel="stylesheet" href="../../../header.css">
@@ -47,8 +47,8 @@
 <body>
     <div id="header_loc"></div>
     <article class="markdown-body">
-        <h1>Past Trivia</h1>
-        <p><a href="/games/trivia/">&larr; Back to today's trivia</a></p>
+        <h1>Past Boards</h1>
+        <p><a href="/games/trivia/">&larr; Back to today's board</a></p>
         <div id="loading">Loading...</div>
         <ul id="past-list" class="past-list"></ul>
     </article>
@@ -64,14 +64,14 @@
             try {
                 const resp = await fetch(API_BASE + "/trivia/days");
                 if (!resp.ok) {
-                    loading.textContent = "No past trivia available.";
+                    loading.textContent = "No past boards available.";
                     return;
                 }
                 const data = await resp.json();
                 const dates = data.dates || [];
 
                 if (dates.length === 0) {
-                    loading.textContent = "No past trivia available.";
+                    loading.textContent = "No past boards available.";
                     return;
                 }
 
@@ -89,7 +89,7 @@
                 }
             } catch (e) {
                 console.error("Failed to load past trivia days:", e);
-                loading.textContent = "Failed to load past trivia.";
+                loading.textContent = "Failed to load past boards.";
             }
         }
 
