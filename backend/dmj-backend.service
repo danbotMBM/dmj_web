@@ -7,7 +7,7 @@ Type=simple
 User=danbot
 WorkingDirectory=/opt/dmj_web/backend
 ExecStart=/opt/dmj_web/backend/server
-Environment=CORS_ORIGIN=https://danielmarkjones.com
+Environment=CORS_ORIGIN=https://danbotlab.com
 Restart=on-failure
 RestartSec=5
 

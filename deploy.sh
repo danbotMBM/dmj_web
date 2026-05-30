@@ -52,10 +52,6 @@ else
     cd "$SRC_DIR/backend"
     go build -o server
 
-    # Update utils.js API_BASE for production
-    echo "Setting production API URL..."
-    sed -i "s|const API_BASE = '.*';|const API_BASE = 'https://api.danielmarkjones.com';|" "$SRC_DIR/utils.js"
-
     # Create destination directory
     echo "Creating $DEST_DIR..."
     sudo mkdir -p "$DEST_DIR/backend"
@@ -85,10 +81,6 @@ else
         --exclude='backend/trivia_analytics.db-wal' \
         --exclude='backend/trivia_analytics.db-shm' \
         "$SRC_DIR/" "$DEST_DIR/"
-
-    # Restore dev API URL in source
-    echo "Restoring dev API URL in source..."
-    sed -i "s|const API_BASE = '.*';|const API_BASE = 'https://api.danbotlab';|" "$SRC_DIR/utils.js"
 
     # Copy backend binary
     echo "Copying backend binary..."

@@ -1,5 +1,10 @@
 // API base URL - change for dev/prod
-const API_BASE = 'https://api.danbotlab';
+const API_BASE = (() => {
+    const host = location.hostname;
+    if (host === 'danbotlab.com' || host.endsWith('.danbotlab.com')) return 'https://api.danbotlab.com';
+    if (host === 'danielmarkjones.com' || host.endsWith('.danielmarkjones.com')) return 'https://api.danielmarkjones.com';
+    return 'https://api.danbotlab';
+})();
 
 function import_html(path_to_html, id_to_insert) {
     fetch(path_to_html)
