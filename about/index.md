@@ -1,6 +1,7 @@
 ---
 layout: layouts/page-hero.njk
 title: about · danbot lab
+description: "About danbot lab and Daniel Mark Jones — a personal site cataloging projects, browser games, photography, and writing on computers, programming, and technology."
 templateEngineOverride: md
 ---
 # About

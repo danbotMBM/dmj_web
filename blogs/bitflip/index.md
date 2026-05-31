@@ -1,6 +1,7 @@
 ---
 layout: layouts/page.njk
 title: Cosmic Ray Memory Corruption · danbot lab
+description: "Cosmic rays and alpha particles can flip bits in computer memory — but does it happen to an average computer? I monitored RAM errors on a statically allocated chunk of memory over time to find out."
 templateEngineOverride: md
 ---
 # How reliable is RAM??? (and proof that AI learning from the internet is a bad idea)

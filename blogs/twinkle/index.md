@@ -1,6 +1,7 @@
 ---
 layout: layouts/page.njk
 title: The Perfect Christmas Lights, Overengineered · danbot lab
+description: "Why modern LED Christmas lights lost the cozy twinkle of old incandescent strings — and how I simulated their electromagnetic warm-up behavior to bring that magic back."
 templateEngineOverride: md
 ---
 <style>

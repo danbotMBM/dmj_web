@@ -1,6 +1,7 @@
 ---
 layout: layouts/page.njk
 title: Recall in the Age of AI · danbot lab
+description: "AI makes information effortless to find — but what's the cost of outsourcing your memory? Techniques I use to turn generative AI into a tool for retention rather than a crutch."
 templateEngineOverride: md
 ---
 # Recall in the Age of AI

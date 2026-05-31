@@ -1,0 +1,20 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- for page in collections.all %}
+{%- if not (page.data.noindex
+        or page.data.sitemap == false
+        or page.url.startsWith("/login/")
+        or page.url.startsWith("/games/holdem/admin/")
+        or page.url.startsWith("/photos/admin/")
+        or page.url.startsWith("/games/trivia/stats/")) %}
+  <url>
+    <loc>{{ site.url }}{{ page.url }}</loc>
+    <lastmod>{{ page.date.toISOString() }}</lastmod>
+  </url>
+{%- endif %}
+{%- endfor %}
+</urlset>

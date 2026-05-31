@@ -1,6 +1,7 @@
 ---
 layout: layouts/page.njk
-title: Google Webgpu Experiments · danbot lab
+title: Conway's Game of Life on the GPU · danbot lab
+description: "My first foray into WebGPU and shaders: an interactive Conway's Game of Life running entirely on your GPU, plus notes on learning the shader programming model."
 templateEngineOverride: md
 ---
 <div class="container">

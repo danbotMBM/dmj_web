@@ -1,6 +1,7 @@
 ---
 layout: layouts/page.njk
 title: Dynamic DNS for Home Hosting · danbot lab
+description: "How I self-host this website from an old gaming rig in my basement using dynamic DNS — avoiding cloud fees and the constraints of residential internet."
 templateEngineOverride: md
 ---
 # Elegant and Simple Self-Hosting with DDNS

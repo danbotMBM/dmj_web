@@ -3,8 +3,25 @@
 
 <head>
     <meta charset="utf-8">
-    <title>{{ title or "danbot lab" }}</title>
+    <title>{{ title or site.name }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {%- set metaDescription = description or site.defaultDescription %}
+    <meta name="description" content="{{ metaDescription }}">
+    <meta name="author" content="{{ site.author }}">
+    <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+    {%- if noindex %}
+    <meta name="robots" content="noindex">
+    {%- endif %}
+
+    <meta property="og:type" content="{{ ogType or 'website' }}">
+    <meta property="og:title" content="{{ title or site.name }}">
+    <meta property="og:description" content="{{ metaDescription }}">
+    <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+    <meta property="og:site_name" content="{{ site.name }}">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{ title or site.name }}">
+    <meta name="twitter:description" content="{{ metaDescription }}">
 
     <link rel="stylesheet" href="/gitlab_md.css">
     <link rel="stylesheet" href="/mainStyle.css">

@@ -1,6 +1,7 @@
 ---
 layout: layouts/page.njk
 title: Half Marathon Training · danbot lab
+description: "Tracking my training regimen for the 2026 Alexandria half marathon — goal setting, habit, and whether I actually stick to the plan, with interactive charts."
 templateEngineOverride: md
 extraCss:
   - /blogs/running/training.css

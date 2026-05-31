@@ -1,6 +1,7 @@
 ---
 layout: layouts/page.njk
 title: Half Marathon Race Results · danbot lab
+description: "Visualizing my finish at the 2026 PNC Alexandria Half Marathon with interactive charts, plus reflections on goal setting and building a running habit."
 templateEngineOverride: md
 extraCss:
   - /blogs/race_results/results.css
