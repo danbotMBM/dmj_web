@@ -38,13 +38,6 @@ if [ "$DEV_MODE" = true ]; then
     echo "Static site built to $SRC_DIR/_site (nginx dev root)."
     echo "Tip: for live-reloading static changes, run 'npm run serve' in another terminal."
 
-    # Build the Strava cronjob
-    echo "Building strava cronjob..."
-    cd "$SRC_DIR/backend/cronjobs"
-    go build -o strava strava_runs.go
-    
-    ./strava
-
     # Build the Go backend
     echo "Building backend..."
     cd "$SRC_DIR/backend"
@@ -64,11 +57,6 @@ else
     # Create destination directory
     echo "Creating $DEST_DIR..."
     sudo mkdir -p "$DEST_DIR/backend"
-
-    # Build the Strava cronjob
-    echo "Building strava cronjob..."
-    cd "$SRC_DIR/backend/cronjobs"
-    go build -o strava strava_runs.go
 
     # Copy web files (excluding dev/git stuff)
     echo "Copying web files..."
@@ -113,14 +101,6 @@ else
     echo "=== Deploy complete ==="
     sudo systemctl status dmj-backend --no-pager
 
-    # Install strava cron job (runs every hour, persists across restarts)
-    echo "Installing strava cron job..."
-    STRAVA_CRON="0 * * * * cd $DEST_DIR/backend/cronjobs && ./strava >> /opt/dmj_web/backend/cronjobs/strava_logs.log 2>&1"
-    ( crontab -l 2>/dev/null | grep -v "$DEST_DIR/backend/cronjobs.*strava"; echo "$STRAVA_CRON" ) | crontab -
-
     echo "=== Deploy complete ==="
     sudo systemctl status dmj-backend --no-pager
-    echo ""
-    echo "Strava cron job:"
-    crontab -l | grep strava
 fi
