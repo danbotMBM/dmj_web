@@ -1,3 +1,36 @@
+---
+layout: layouts/page.njk
+title: The Perfect Christmas Lights, Overengineered · danbot lab
+templateEngineOverride: md
+---
+<style>
+    #videos {
+        align-content: center;
+        justify-content: center;
+        gap: 30px;
+        padding: 15px;
+    }
+    #twinkle-video {
+        max-width: 45%;
+    }
+    .slider-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+    .value-label {
+        font-size: 18px;
+        font-weight: bold;
+        width: 50px;
+        text-align: center;
+    }
+</style>
+
+<div id="canvas-1"></div>
+
 # The Perfect Christmas Lights, Overengineered ✨
 > Written April 2025
 
@@ -202,4 +235,19 @@ Thanks for reading.
 * [Technology Connections](https://youtu.be/zeOw5MZWq24?si=YC5-kCgda2qMvuBc) the primary inspiration for this obsession
 * [Blackbody Ratiation Interactive Graph](https://space-charts.vercel.app/?temp=3130)
 * [Spectral Radiance Desmos](https://www.desmos.com/calculator/xhyts4ee35)
+
+<script type="module" src="twinkle.js"></script>
+<script type="module" src="src/color_scale.js"></script>
+<script type="module">
+    import { add_sim } from './twinkle.js';
+    function try_to_add_sim(canvas_id, sim_path){
+        if (document.getElementById(canvas_id)){
+            add_sim(canvas_id, sim_path);
+        }else{
+            setTimeout(try_to_add_sim, 1, canvas_id, sim_path)
+        }
+    }
+    try_to_add_sim("canvas-1", "./sims/large_final.txt")
+    try_to_add_sim("canvas-2", "./sims/large_final.txt")
+</script>
 

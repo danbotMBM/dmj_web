@@ -1,0 +1,350 @@
+---
+title: photo admin · danbot lab
+extraCss:
+  - /photos/photosStyle.css
+---
+{% extends "layouts/base.njk" %}
+
+{% block head %}
+{% raw %}
+<style>
+    .admin-hint {
+        color: var(--fgColor-muted);
+        font-size: 0.9rem;
+        margin: -8px 0 24px;
+    }
+
+    .pic-row { cursor: pointer; }
+
+    /* Crop editor overlay */
+    #crop-editor {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        background: rgba(0, 0, 0, 0.92);
+        backdrop-filter: blur(6px);
+        overflow: auto;
+        padding: 24px;
+    }
+
+    #crop-editor.open { display: flex; }
+
+    .crop-panel {
+        margin: auto;
+        background: var(--bgColor-default);
+        color: var(--fgColor-default);
+        border: 1px solid var(--borderColor-muted);
+        border-radius: 12px;
+        padding: 20px;
+        max-width: 960px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 280px;
+        gap: 24px;
+    }
+
+    .crop-stage-wrap { min-width: 0; }
+
+    .crop-filename {
+        font-family: "Iowan Old Style", "Charter", Georgia, serif;
+        font-size: 1.1rem;
+        margin: 0 0 12px;
+    }
+
+    /* The stage: image at natural aspect, marker overlaid. */
+    .crop-stage {
+        position: relative;
+        display: inline-block;
+        max-width: 100%;
+        line-height: 0;
+        touch-action: none;
+        user-select: none;
+    }
+
+    .crop-stage img {
+        max-width: 100%;
+        max-height: 60vh;
+        display: block;
+        border-radius: 6px;
+    }
+
+    .focal-marker {
+        position: absolute;
+        width: 28px;
+        height: 28px;
+        margin: -14px 0 0 -14px;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.6), 0 0 8px rgba(0, 0, 0, 0.5);
+        pointer-events: none;
+    }
+
+    .focal-marker::after {
+        content: "";
+        position: absolute;
+        inset: 11px;
+        background: #fff;
+        border-radius: 50%;
+    }
+
+    .crop-side {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .preview-label {
+        font-size: 0.8rem;
+        color: var(--fgColor-muted);
+        margin: 0 0 6px;
+        text-transform: lowercase;
+    }
+
+    .preview-frame {
+        width: 100%;
+        overflow: hidden;
+        border-radius: 8px;
+        border: 1px solid var(--borderColor-muted);
+        background: var(--bgColor-muted);
+    }
+
+    .preview-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .preview-hero { aspect-ratio: 16 / 5.75; }
+    .preview-grid { aspect-ratio: 4 / 3; }
+
+    .crop-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: auto;
+    }
+
+    .crop-actions button {
+        flex: 1;
+        padding: 0.55rem 1rem;
+        border: 1px solid var(--borderColor-muted);
+        border-radius: 6px;
+        background: var(--bgColor-muted);
+        color: var(--fgColor-default);
+        cursor: pointer;
+        font-size: 0.95rem;
+    }
+
+    .crop-actions button.primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #1f2328;
+    }
+
+    .crop-actions button:hover { filter: brightness(1.05); }
+
+    .crop-status {
+        font-size: 0.85rem;
+        min-height: 1.2em;
+        margin: 0;
+    }
+
+    .crop-status.error { color: #f85149; }
+    .crop-status.success { color: #3fb950; }
+
+    @media (max-width: 680px) {
+        .crop-panel { grid-template-columns: 1fr; }
+    }
+</style>
+{% endraw %}
+{% endblock %}
+
+{% block content %}
+<main class="gallery-page">
+    <h2 id="title">photo admin</h2>
+    <p class="admin-hint">Click a photo, drag the dot to the point that should stay
+        centered, then save. Previews show how it crops in the hero and grid views.</p>
+    <div id="jumbodiv"></div>
+</main>
+
+<div id="crop-editor">
+    <div class="crop-panel">
+        <div class="crop-stage-wrap">
+            <p class="crop-filename" id="crop-filename"></p>
+            <div class="crop-stage" id="crop-stage">
+                <img id="crop-image" src="" alt="">
+                <div class="focal-marker" id="focal-marker"></div>
+            </div>
+        </div>
+        <div class="crop-side">
+            <div>
+                <p class="preview-label">hero / about</p>
+                <div class="preview-frame preview-hero"><img id="preview-hero" src="" alt=""></div>
+            </div>
+            <div>
+                <p class="preview-label">photos grid</p>
+                <div class="preview-frame preview-grid"><img id="preview-grid" src="" alt=""></div>
+            </div>
+            <p class="crop-status" id="crop-status"></p>
+            <div class="crop-actions">
+                <button id="crop-cancel">Cancel</button>
+                <button id="crop-save" class="primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% raw %}
+<script type="module">
+    import { API_BASE } from "/utils.js";
+
+    const TOKEN_KEY = 'dmj-auth-token';
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) {
+        window.location.href = '/login/';
+    }
+
+    let photos = [];
+    let current = null; // photo object currently being edited
+
+    const grid = document.getElementById('jumbodiv');
+    const editor = document.getElementById('crop-editor');
+    const stage = document.getElementById('crop-stage');
+    const cropImage = document.getElementById('crop-image');
+    const marker = document.getElementById('focal-marker');
+    const previewHero = document.getElementById('preview-hero');
+    const previewGrid = document.getElementById('preview-grid');
+    const filenameEl = document.getElementById('crop-filename');
+    const statusEl = document.getElementById('crop-status');
+
+    function title(p) {
+        if (p.description && p.location) return p.description + " in " + p.location;
+        return (p.description || "") + (p.location || "");
+    }
+
+    function focalPos(p) {
+        return `${p.posX ?? 50}% ${p.posY ?? 50}%`;
+    }
+
+    async function loadPhotos() {
+        try {
+            const res = await fetch(`${API_BASE}/photos`);
+            photos = await res.json();
+        } catch (e) {
+            grid.textContent = 'Failed to load photos.';
+            return;
+        }
+        renderGrid();
+    }
+
+    function renderGrid() {
+        grid.innerHTML = '';
+        photos.forEach(p => {
+            const cell = document.createElement('div');
+            cell.className = 'pic-row';
+            const img = document.createElement('img');
+            img.src = '/photos/pics/low/' + p.filename;
+            img.title = title(p);
+            img.alt = p.description || p.location || '';
+            img.style.objectPosition = focalPos(p);
+            cell.appendChild(img);
+            cell.addEventListener('click', () => openEditor(p));
+            grid.appendChild(cell);
+        });
+    }
+
+    function setFocal(x, y) {
+        current.posX = Math.round(Math.max(0, Math.min(100, x)));
+        current.posY = Math.round(Math.max(0, Math.min(100, y)));
+        marker.style.left = current.posX + '%';
+        marker.style.top = current.posY + '%';
+        const pos = focalPos(current);
+        previewHero.style.objectPosition = pos;
+        previewGrid.style.objectPosition = pos;
+    }
+
+    function openEditor(p) {
+        current = p;
+        statusEl.textContent = '';
+        statusEl.className = 'crop-status';
+        filenameEl.textContent = p.filename;
+        const high = '/photos/pics/high/' + p.filename;
+        const med = '/photos/pics/med/' + p.filename;
+        cropImage.src = med;        // editor stage (lighter than high)
+        previewHero.src = med;
+        previewGrid.src = med;
+        setFocal(p.posX ?? 50, p.posY ?? 50);
+        editor.classList.add('open');
+    }
+
+    function closeEditor() {
+        editor.classList.remove('open');
+        current = null;
+    }
+
+    // --- focal point dragging on the stage ---
+    let dragging = false;
+
+    function pointToFocal(e) {
+        const rect = cropImage.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        setFocal(x, y);
+    }
+
+    stage.addEventListener('pointerdown', (e) => {
+        dragging = true;
+        stage.setPointerCapture(e.pointerId);
+        pointToFocal(e);
+    });
+    stage.addEventListener('pointermove', (e) => {
+        if (dragging) pointToFocal(e);
+    });
+    stage.addEventListener('pointerup', (e) => {
+        dragging = false;
+        stage.releasePointerCapture(e.pointerId);
+    });
+
+    document.getElementById('crop-cancel').addEventListener('click', () => {
+        // Reload from server copy to discard unsaved focal changes.
+        loadPhotos();
+        closeEditor();
+    });
+
+    editor.addEventListener('click', (e) => {
+        if (e.target === editor) closeEditor();
+    });
+
+    document.getElementById('crop-save').addEventListener('click', async () => {
+        statusEl.textContent = 'Saving…';
+        statusEl.className = 'crop-status';
+        try {
+            const res = await fetch(`${API_BASE}/photos`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(photos)
+            });
+            if (res.status === 401) {
+                window.location.href = '/login/';
+                return;
+            }
+            if (!res.ok) throw new Error('save failed');
+            statusEl.textContent = 'Saved';
+            statusEl.className = 'crop-status success';
+            renderGrid(); // reflect new alignment on the thumbnail
+        } catch (e) {
+            statusEl.textContent = 'Save failed';
+            statusEl.className = 'crop-status error';
+        }
+    });
+
+    if (token) loadPhotos();
+</script>
+{% endraw %}
+{% endblock %}

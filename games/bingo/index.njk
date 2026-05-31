@@ -1,0 +1,17 @@
+---
+title: bingo board generator
+extraCss:
+  - /games/bingo/bingo.css
+---
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+<article class="markdown-body">
+    <div id="creator-view"></div>
+    <div id="player-view" class="hidden"></div>
+</article>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="/games/bingo/bingo.js"></script>
+{% endblock %}

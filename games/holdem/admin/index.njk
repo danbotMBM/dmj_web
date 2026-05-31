@@ -1,0 +1,47 @@
+---
+title: Holdem Admin · danbot lab
+extraCss:
+  - /games/holdem/admin/admin.css
+---
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+<main class="page">
+    <article class="markdown-body">
+        <h1>Texas Tile Tussle · Admin</h1>
+
+        <div id="auth-gate" class="hidden">
+            <p>You need to be logged in to view the admin panel.
+               <a href="/login/">Log in</a>, then come back.</p>
+        </div>
+
+        <div id="admin-content" class="hidden">
+            <div class="controls">
+                <label>Window:
+                    <select id="days-select">
+                        <option value="1">Last 24h</option>
+                        <option value="3">Last 3 days</option>
+                        <option value="7" selected>Last 7 days</option>
+                        <option value="14">Last 14 days</option>
+                        <option value="30">Last 30 days</option>
+                    </select>
+                </label>
+                <button id="refresh-btn">Refresh</button>
+                <span id="loading-msg"></span>
+            </div>
+
+            <div id="summary" class="summary"></div>
+
+            <div id="timeline-wrap">
+                <div id="timeline"></div>
+            </div>
+
+            <div id="tooltip" class="tooltip hidden"></div>
+        </div>
+    </article>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="/games/holdem/admin/admin.js"></script>
+{% endblock %}

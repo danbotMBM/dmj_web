@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>{{ title or "danbot lab" }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/gitlab_md.css">
+    <link rel="stylesheet" href="/mainStyle.css">
+    <link rel="stylesheet" href="/header.css">
+    {%- for href in extraCss %}
+    <link rel="stylesheet" href="{{ href }}">
+    {%- endfor %}
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+    {% include "partials/header.njk" %}
+    {% block content %}{{ content | safe }}{% endblock %}
+    {%- for s in scripts %}
+    <script {% if s.module %}type="module" {% endif %}src="{{ s.src }}"></script>
+    {%- endfor %}
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

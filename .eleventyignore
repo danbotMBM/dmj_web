@@ -1,0 +1,7 @@
+_site
+.claude
+backend
+utils
+external-features
+**/README.md
+SECURITY_AUDIT.md

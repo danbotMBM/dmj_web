@@ -26,8 +26,17 @@ done
 #go build -o trivia_validator ./validate_trivia/ || { echo "Failed to build trivia validator"; exit 1; }
 #./trivia_validator || exit 1
 
+# Build the static site with Eleventy. Pages are assembled from _includes +
+# content (.njk / .md) into $SRC_DIR/_site, which is what nginx serves.
+echo "Building static site with Eleventy..."
+cd "$SRC_DIR"
+npm install --no-audit --no-fund
+npx @11ty/eleventy
+
 if [ "$DEV_MODE" = true ]; then
     echo "=== DMJ Web Dev Mode ==="
+    echo "Static site built to $SRC_DIR/_site (nginx dev root)."
+    echo "Tip: for live-reloading static changes, run 'npm run serve' in another terminal."
 
     # Build the Strava cronjob
     echo "Building strava cronjob..."
@@ -67,6 +76,7 @@ else
         --exclude='.git' \
         --exclude='.gitignore' \
         --exclude='.claude' \
+        --exclude='node_modules' \
         --exclude='deploy.sh' \
         --exclude='README.md' \
         --exclude='SECURITY_AUDIT.md' \

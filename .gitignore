@@ -1,6 +1,10 @@
 *.mp4
 .venv
 *.pem
+
+# Node / Eleventy build
+node_modules
+_site
 command_scratchpad.txt
 *.local
 *.swp

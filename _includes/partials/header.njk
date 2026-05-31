@@ -1,0 +1,20 @@
+{#- Site header. The active nav link is resolved at build time from page.url,
+    replacing the old runtime mark_active_nav() in utils.js. -#}
+<header class="site-header">
+    <div class="site-header__inner">
+        <h1 class="site-header__brand"><a href="/">danbot lab</a></h1>
+        <nav class="site-header__nav" aria-label="Primary">
+            {%- set navItems = [
+                { href: "/", label: "home" },
+                { href: "/about", label: "about" },
+                { href: "/photos", label: "photos" },
+                { href: "/blogs", label: "blogs" },
+                { href: "/games", label: "games" }
+            ] -%}
+            {%- for item in navItems -%}
+            {%- set isActive = (page.url == item.href) or (page.url == item.href + "/") -%}
+            <a class="navlink{% if isActive %} is-active{% endif %}" href="{{ item.href }}">{{ item.label }}</a>
+            {%- endfor %}
+        </nav>
+    </div>
+</header>

@@ -1,3 +1,8 @@
+---
+layout: layouts/page.njk
+title: Dynamic DNS for Home Hosting · danbot lab
+templateEngineOverride: md
+---
 # Elegant and Simple Self-Hosting with DDNS
 > Written March 2025
 

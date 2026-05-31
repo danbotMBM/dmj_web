@@ -1,0 +1,18 @@
+{#- Renders the feature-card grid that wrap_feature_cards() used to build at
+    runtime. Markup is kept identical so the existing CSS applies unchanged. -#}
+{% macro feature_cards(cards) %}
+<div class="feature-grid">
+    {%- for card in cards %}
+    <a class="feature-card" href="{{ card.href }}">
+        <h2>{% if card.prefix %}{{ card.prefix }}{% endif %}<span>{{ card.title }}</span></h2>
+        {%- if card.blurb %}
+        <ul>
+            {%- for line in card.blurb %}
+            <li>{{ line }}</li>
+            {%- endfor %}
+        </ul>
+        {%- endif %}
+    </a>
+    {%- endfor %}
+</div>
+{% endmacro %}

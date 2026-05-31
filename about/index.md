@@ -1,3 +1,8 @@
+---
+layout: layouts/page-hero.njk
+title: about · danbot lab
+templateEngineOverride: md
+---
 # About
 ## Introduction
 Hi there, thanks for visiting my site.

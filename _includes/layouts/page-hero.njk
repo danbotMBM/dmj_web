@@ -1,0 +1,46 @@
+---
+layout: layouts/base.njk
+---
+<main class="page">
+    <figure class="hero-banner" id="jumbodiv">
+        <img id="jumbo" alt="">
+        <div class="hero-overlay"></div>
+        <figcaption class="hero-caption" id="hero-caption"></figcaption>
+    </figure>
+
+    <article class="markdown-body">
+        {{ content | safe }}
+    </article>
+</main>
+
+<div id="image-viewer">
+    <span id="close-btn">&times;</span>
+    <img id="full-image" src="" alt="Full View" />
+    <h3 id="full-image-caption"></h3>
+</div>
+
+{% raw %}
+<script type="module">
+    import { get_one_random_photo, get_title, focal_position } from "/photos.js";
+    var jumbo = document.getElementById("jumbo");
+    get_one_random_photo().then(function (photo) {
+        jumbo.title = get_title(photo);
+        // Align the crop to the photo's stored focal point.
+        jumbo.style.objectPosition = focal_position(photo);
+        // Progressive load: show low-res immediately, then swap in the
+        // full-resolution image once it's ready. Always upgrades to /high/
+        // regardless of connection speed.
+        jumbo.src = "/photos/pics/low/" + photo.filename;
+        var heroFull = new Image();
+        heroFull.onload = function () { jumbo.src = heroFull.src; };
+        heroFull.src = "/photos/pics/high/" + photo.filename;
+        var heroCaption = document.getElementById("hero-caption");
+        if (heroCaption && photo.location) {
+            heroCaption.textContent = photo.location;
+        }
+        // Wire up click-to-zoom once lazyload.js has defined set_up_zoomable.
+        if (typeof set_up_zoomable === "function") set_up_zoomable(jumbo);
+    });
+</script>
+{% endraw %}
+<script src="/lazyload.js"></script>
