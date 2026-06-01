@@ -1,0 +1,527 @@
+package main
+
+import (
+	"context"
+	"encoding/binary"
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"sync"
+	"time"
+
+	"github.com/coder/websocket"
+)
+
+// ---------------------------------------------------------------------------
+// Voice chat — server-side audio mixing (MCU model).
+//
+// Up to 6 players join a single shared room over a WebSocket. Each client
+// streams its microphone as raw 16-bit PCM (16 kHz mono, 20 ms frames) to the
+// server. A single mix loop ticks every 20 ms and, for *each listener*, sums
+// the most recent frame of every *other* active speaker — applying that
+// listener's per-speaker volume gain — into one personalized mixed frame that
+// is sent back down the same socket.
+//
+// Why mix on the server (harder, but more extensible): volume, muting, and
+// future *proximity* attenuation are all just per-(listener,speaker) gain
+// factors computed authoritatively in one place (mixFrameLocked). Proximity
+// chat drops in later as `gain *= proximityGain(listener, speaker)` using the
+// position fields already carried on each player — no client or protocol
+// changes required. The trade-off is CPU: the server decodes, gain-scales, and
+// re-sums audio for every listener every tick (O(listeners x speakers)).
+//
+// Protocol (single WebSocket, mixed text + binary):
+//   client -> server  binary : one 640-byte PCM frame (only sent when the
+//                              client's voice-activity gate is open)
+//   client -> server  text   : JSON control {"type": "volume"|"mute"|"position"}
+//   server -> client  binary : one 640-byte mixed PCM frame (only when at least
+//                              one other speaker is audible to this listener)
+//   server -> client  text   : JSON {"type": "welcome"|"roster"|"activity"|"error"}
+//
+// State is in-memory only; a restart empties the room (casual feature).
+// ---------------------------------------------------------------------------
+
+const (
+	voiceSampleRate   = 16000                                                  // 16 kHz wideband voice
+	voiceFrameMs      = 20                                                      // mix tick / frame size
+	voiceFrameSamples = voiceSampleRate * voiceFrameMs / 1000                  // 320 samples
+	voiceFrameBytes   = voiceFrameSamples * 2                                   // 640 bytes (int16 LE)
+	voiceTick         = voiceFrameMs * time.Millisecond                         //
+	voiceMaxPlayers   = 6                                                       //
+	voiceJitterPrime  = 2                                                       // frames buffered before a talkspurt starts draining
+	voiceInBufFrames  = 16                                                      // per-speaker uplink jitter buffer cap (~320 ms)
+	voiceOutBufFrames = 32                                                      // per-listener downlink buffer cap
+	voiceMaxGain      = 2.0                                                     // 200% slider ceiling
+	voiceMaxNameLen   = 16                                                      //
+)
+
+// voiceOriginPatterns lists the origins allowed to open the voice WebSocket.
+// Mirrors the static-site hosts in utils.js / nginx.conf (the page and the API
+// live on different subdomains, so this is a genuine cross-origin upgrade).
+var voiceOriginPatterns = []string{
+	"danbotlab", "*.danbotlab",
+	"danbotlab.com", "*.danbotlab.com",
+	"danielmarkjones.com", "*.danielmarkjones.com",
+	"localhost", "localhost:*", "127.0.0.1:*",
+}
+
+// outMsg is a queued outbound WebSocket message. All writes for a connection go
+// through its single writer goroutine via the player's out channel, so audio
+// frames and control messages never race on the socket.
+type outMsg struct {
+	typ  websocket.MessageType
+	data []byte
+}
+
+// voicePlayer is one connected participant.
+type voicePlayer struct {
+	id   string
+	name string
+	conn *websocket.Conn
+
+	in  chan []int16 // uplink mic frames (jitter buffer), drained by the mix loop
+	out chan outMsg  // outbound messages, drained by the writer goroutine
+
+	cancel context.CancelFunc // cancels this connection's read/write goroutines
+
+	// --- fields below are guarded by voiceRoom.mu ---
+
+	// gains[speakerID] is this listener's volume for that speaker (1.0 = 100%).
+	// Absent = default 1.0. Set by the per-user volume sliders.
+	gains map[string]float64
+
+	muted bool // self-muted: this player neither transmits nor is mixed for others
+
+	// Proximity (future): the player's position in 2D space. Accepted and
+	// stored now so the mixer can apply a distance-based gain later without any
+	// protocol change. Unused by the current mix.
+	x, y float64
+
+	// --- mix-loop-only scratch (also under mu, but only touched there) ---
+	primed   bool    // jitter buffer has reached prime depth and is draining
+	cur      []int16 // frame chosen for the current tick, nil = silence
+	speaking bool     // whether cur != nil this tick (drives the roster dots)
+}
+
+// voiceRoom is the single shared room.
+type voiceRoom struct {
+	mu      sync.Mutex
+	players map[string]*voicePlayer
+	lastAct string // signature of the last broadcast speaking set (de-dupes activity msgs)
+}
+
+var voice = &voiceRoom{players: make(map[string]*voicePlayer)}
+
+func registerVoiceRoutes() {
+	http.HandleFunc("/voice/ws", voiceWS)
+	registerRoute("GET", "/voice/ws", "Voice chat WebSocket (PCM in/out + JSON control)")
+
+	http.HandleFunc("/voice/info", cors(voiceInfo))
+	registerRoute("GET", "/voice/info", "Voice room status (player count, capacity)")
+
+	go voice.mixLoop()
+}
+
+// voiceInfo reports lightweight room status so the page can show "n/6" before
+// the user commits to opening their mic.
+func voiceInfo(w http.ResponseWriter, r *http.Request) {
+	voice.mu.Lock()
+	names := make([]string, 0, len(voice.players))
+	for _, p := range voice.players {
+		names = append(names, p.name)
+	}
+	voice.mu.Unlock()
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]any{
+		"players":     names,
+		"count":       len(names),
+		"max":         voiceMaxPlayers,
+		"sampleRate":  voiceSampleRate,
+		"frameSamples": voiceFrameSamples,
+	})
+}
+
+// voiceWS upgrades the request and runs one participant's session.
+func voiceWS(w http.ResponseWriter, r *http.Request) {
+	conn, err := websocket.Accept(w, r, &websocket.AcceptOptions{
+		OriginPatterns: voiceOriginPatterns,
+	})
+	if err != nil {
+		return // Accept already wrote the error response
+	}
+	conn.SetReadLimit(8192) // frames are 640 B; control JSON is tiny
+
+	name := sanitizeName(r.URL.Query().Get("name"))
+	id := r.URL.Query().Get("id")
+	if id == "" {
+		id = newPlayerID()
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	p := &voicePlayer{
+		id:     id,
+		name:   name,
+		conn:   conn,
+		in:     make(chan []int16, voiceInBufFrames),
+		out:    make(chan outMsg, voiceOutBufFrames),
+		cancel: cancel,
+		gains:  make(map[string]float64),
+	}
+
+	if !voice.add(p) {
+		// Room full: tell the client cleanly so it can show a message.
+		conn.Write(ctx, websocket.MessageText, mustJSON(map[string]any{
+			"type": "error", "code": "full", "message": "Voice room is full (max 6).",
+		}))
+		conn.Close(websocket.StatusTryAgainLater, "room full")
+		cancel()
+		return
+	}
+
+	// Single writer goroutine owns all socket writes.
+	go p.writeLoop(ctx)
+
+	// Greet the new player with its id and the audio format, then everyone gets
+	// a fresh roster (the joiner included).
+	p.send(websocket.MessageText, mustJSON(map[string]any{
+		"type":         "welcome",
+		"id":           id,
+		"name":         name,
+		"sampleRate":   voiceSampleRate,
+		"frameSamples": voiceFrameSamples,
+		"max":          voiceMaxPlayers,
+	}))
+	voice.broadcastRoster()
+
+	// Read loop runs on this goroutine until the socket closes.
+	voice.readLoop(ctx, p)
+
+	// Teardown.
+	voice.remove(id)
+	cancel()
+	conn.Close(websocket.StatusNormalClosure, "bye")
+}
+
+// readLoop pumps inbound frames and control messages until the socket errors.
+func (room *voiceRoom) readLoop(ctx context.Context, p *voicePlayer) {
+	for {
+		typ, data, err := p.conn.Read(ctx)
+		if err != nil {
+			return
+		}
+		switch typ {
+		case websocket.MessageBinary:
+			if len(data) != voiceFrameBytes {
+				continue // ignore malformed frames
+			}
+			frame := bytesToInt16(data)
+			// Push into the jitter buffer; if it's full the client is ahead of
+			// the mix clock, so drop the oldest frame to stay near-live.
+			select {
+			case p.in <- frame:
+			default:
+				select {
+				case <-p.in:
+				default:
+				}
+				select {
+				case p.in <- frame:
+				default:
+				}
+			}
+		case websocket.MessageText:
+			room.handleControl(p, data)
+		}
+	}
+}
+
+// handleControl applies a JSON control message from the client.
+func (room *voiceRoom) handleControl(p *voicePlayer, data []byte) {
+	var msg struct {
+		Type   string  `json:"type"`
+		Target string  `json:"target"`
+		Gain   float64 `json:"gain"`
+		Muted  bool    `json:"muted"`
+		X      float64 `json:"x"`
+		Y      float64 `json:"y"`
+	}
+	if err := json.Unmarshal(data, &msg); err != nil {
+		return
+	}
+
+	switch msg.Type {
+	case "volume":
+		if msg.Target == "" {
+			return
+		}
+		g := msg.Gain
+		if g < 0 {
+			g = 0
+		}
+		if g > voiceMaxGain {
+			g = voiceMaxGain
+		}
+		room.mu.Lock()
+		p.gains[msg.Target] = g
+		room.mu.Unlock()
+	case "mute":
+		room.mu.Lock()
+		changed := p.muted != msg.Muted
+		p.muted = msg.Muted
+		if msg.Muted {
+			drainFrames(p.in) // stop any buffered audio from leaking out
+		}
+		room.mu.Unlock()
+		if changed {
+			room.broadcastRoster()
+		}
+	case "position":
+		room.mu.Lock()
+		p.x, p.y = msg.X, msg.Y
+		room.mu.Unlock()
+	}
+}
+
+// writeLoop owns all writes for one connection and keeps it alive with pings.
+func (p *voicePlayer) writeLoop(ctx context.Context) {
+	ping := time.NewTicker(15 * time.Second)
+	defer ping.Stop()
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case m := <-p.out:
+			wctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+			err := p.conn.Write(wctx, m.typ, m.data)
+			cancel()
+			if err != nil {
+				p.cancel()
+				return
+			}
+		case <-ping.C:
+			wctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+			err := p.conn.Ping(wctx)
+			cancel()
+			if err != nil {
+				p.cancel()
+				return
+			}
+		}
+	}
+}
+
+// send queues an outbound message, dropping it if the buffer is full. Dropping
+// an audio frame is harmless (the client plays silence); control messages are
+// re-sent by the next state change, so a rare drop is acceptable too.
+func (p *voicePlayer) send(typ websocket.MessageType, data []byte) {
+	select {
+	case p.out <- outMsg{typ, data}:
+	default:
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Room membership
+// ---------------------------------------------------------------------------
+
+func (room *voiceRoom) add(p *voicePlayer) bool {
+	room.mu.Lock()
+	defer room.mu.Unlock()
+	if len(room.players) >= voiceMaxPlayers {
+		return false
+	}
+	room.players[p.id] = p
+	return true
+}
+
+func (room *voiceRoom) remove(id string) {
+	room.mu.Lock()
+	_, ok := room.players[id]
+	delete(room.players, id)
+	room.mu.Unlock()
+	if ok {
+		room.broadcastRoster()
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Mixing
+// ---------------------------------------------------------------------------
+
+// mixLoop ticks every 20 ms forever, producing one personalized mixed frame per
+// listener. It is cheap when the room is empty or silent.
+func (room *voiceRoom) mixLoop() {
+	t := time.NewTicker(voiceTick)
+	defer t.Stop()
+	activity := 0
+	for range t.C {
+		room.mu.Lock()
+		room.advanceJitterLocked()
+		room.mixFrameLocked()
+		if activity++; activity >= 5 { // ~every 100 ms
+			activity = 0
+			room.broadcastActivityLocked()
+		}
+		room.mu.Unlock()
+	}
+}
+
+// advanceJitterLocked selects the frame each speaker contributes this tick,
+// honoring the jitter-buffer prime depth so a talkspurt only starts playing
+// once a small cushion has accumulated.
+func (room *voiceRoom) advanceJitterLocked() {
+	for _, p := range room.players {
+		p.cur = nil
+		if p.muted {
+			drainFrames(p.in)
+			p.primed, p.speaking = false, false
+			continue
+		}
+		if !p.primed && len(p.in) >= voiceJitterPrime {
+			p.primed = true
+		}
+		if p.primed {
+			select {
+			case f := <-p.in:
+				p.cur = f
+			default:
+				p.primed = false // underrun: wait to re-prime
+			}
+		}
+		p.speaking = p.cur != nil
+	}
+}
+
+// mixFrameLocked sums, for every listener, the gain-scaled current frame of
+// every other speaker and queues the result. This is the single place where
+// per-user volume (and, later, proximity) is applied.
+func (room *voiceRoom) mixFrameLocked() {
+	for _, l := range room.players {
+		var acc []int32
+		for _, s := range room.players {
+			if s.id == l.id || s.cur == nil {
+				continue
+			}
+			gain := 1.0
+			if g, ok := l.gains[s.id]; ok {
+				gain = g
+			}
+			// Future proximity chat: gain *= room.proximityGain(l, s)
+			if gain <= 0 {
+				continue
+			}
+			if acc == nil {
+				acc = make([]int32, voiceFrameSamples)
+			}
+			for i, v := range s.cur {
+				acc[i] += int32(float64(v) * gain)
+			}
+		}
+		if acc == nil {
+			continue // nothing audible for this listener — send no frame
+		}
+		out := make([]int16, voiceFrameSamples)
+		for i, v := range acc {
+			out[i] = clip16(v)
+		}
+		l.send(websocket.MessageBinary, int16ToBytes(out))
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Roster / activity broadcasts
+// ---------------------------------------------------------------------------
+
+type voiceRosterEntry struct {
+	ID    string `json:"id"`
+	Name  string `json:"name"`
+	Muted bool   `json:"muted"`
+}
+
+func (room *voiceRoom) broadcastRoster() {
+	room.mu.Lock()
+	defer room.mu.Unlock()
+	room.broadcastRosterLocked()
+}
+
+func (room *voiceRoom) broadcastRosterLocked() {
+	entries := make([]voiceRosterEntry, 0, len(room.players))
+	for _, p := range room.players {
+		entries = append(entries, voiceRosterEntry{ID: p.id, Name: p.name, Muted: p.muted})
+	}
+	payload := mustJSON(map[string]any{"type": "roster", "players": entries})
+	for _, p := range room.players {
+		p.send(websocket.MessageText, payload)
+	}
+}
+
+// broadcastActivityLocked tells clients who is currently speaking, but only when
+// the set changes, to keep the control channel quiet.
+func (room *voiceRoom) broadcastActivityLocked() {
+	speaking := make([]string, 0, len(room.players))
+	sig := ""
+	for _, p := range room.players {
+		if p.speaking {
+			speaking = append(speaking, p.id)
+			sig += p.id + ","
+		}
+	}
+	if sig == room.lastAct {
+		return
+	}
+	room.lastAct = sig
+	payload := mustJSON(map[string]any{"type": "activity", "speaking": speaking})
+	for _, p := range room.players {
+		p.send(websocket.MessageText, payload)
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+func bytesToInt16(b []byte) []int16 {
+	out := make([]int16, len(b)/2)
+	for i := range out {
+		out[i] = int16(binary.LittleEndian.Uint16(b[2*i:]))
+	}
+	return out
+}
+
+func int16ToBytes(s []int16) []byte {
+	b := make([]byte, len(s)*2)
+	for i, v := range s {
+		binary.LittleEndian.PutUint16(b[2*i:], uint16(v))
+	}
+	return b
+}
+
+// clip16 saturates a mixed (potentially out-of-range) sample to int16.
+func clip16(v int32) int16 {
+	if v > 32767 {
+		return 32767
+	}
+	if v < -32768 {
+		return -32768
+	}
+	return int16(v)
+}
+
+func drainFrames(ch chan []int16) {
+	for {
+		select {
+		case <-ch:
+		default:
+			return
+		}
+	}
+}
+
+func mustJSON(v any) []byte {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return []byte(fmt.Sprintf(`{"type":"error","message":%q}`, err.Error()))
+	}
+	return b
+}

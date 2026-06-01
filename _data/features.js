@@ -30,6 +30,15 @@ const cards = {
       "Mark off squares as they are called and track your progress",
     ],
   },
+  voice: {
+    title: "Voice Room",
+    href: "/games/voice/",
+    blurb: [
+      "Drop into a live voice room with up to 6 people, right in your browser",
+      "Everyone is mixed together on the server, with a volume slider for each person",
+      "Voice-activity gated mic and server-side mixing — proximity chat coming next",
+    ],
+  },
   doggone: {
     title: "Doggone",
     href: "https://dangertimmy.itch.io/doggone",
@@ -132,5 +141,5 @@ module.exports = {
     cards.webgpu,
     cards.gallery,
   ],
-  games: [cards.holdem, cards.trivia, cards.bingo, cards.doggone],
+  games: [cards.holdem, cards.trivia, cards.bingo, cards.voice, cards.doggone],
 };

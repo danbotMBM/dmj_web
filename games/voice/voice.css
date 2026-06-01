@@ -1,0 +1,185 @@
+/* Voice chat page. Uses the site's shared theme variables (mainStyle.css). */
+
+.voice-wrap {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.status-banner {
+  text-align: center;
+  min-height: 1.4em;
+  font-size: 0.95rem;
+  color: var(--fgColor-muted);
+}
+.status-banner.ok {
+  color: var(--accent-strong);
+}
+.status-banner.err {
+  color: #d9534f;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* --- join view --- */
+.join-card,
+.room-card {
+  background: var(--bgColor-elevated);
+  border: 1px solid var(--borderColor-default);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px var(--shadowColor);
+}
+
+.join-card input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.6rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--borderColor-default);
+  border-radius: 8px;
+  background: var(--bgColor-default);
+  color: var(--fgColor-default);
+  margin: 0.75rem 0;
+}
+
+.room-count {
+  text-align: center;
+  color: var(--fgColor-muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.vc-btn {
+  display: inline-block;
+  width: 100%;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: var(--accent-strong);
+  color: #fff;
+}
+.vc-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.vc-btn.secondary {
+  background: var(--bgColor-neutral-muted);
+  color: var(--fgColor-default);
+}
+
+.join-error {
+  color: #d9534f;
+  font-size: 0.9rem;
+  min-height: 1.2em;
+  text-align: center;
+}
+
+/* --- participant list --- */
+.participants {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.participant {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--borderColor-muted);
+  border-radius: 10px;
+  background: var(--bgColor-default);
+}
+
+.speak-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--borderColor-default);
+  flex: 0 0 auto;
+  transition: background 0.12s ease, box-shadow 0.12s ease;
+}
+.participant.speaking .speak-dot {
+  background: #4caf50;
+  box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.25);
+}
+
+.participant-name {
+  font-weight: 600;
+  flex: 1 1 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.self-tag {
+  font-size: 0.75rem;
+  color: var(--fgColor-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.vol-slider {
+  flex: 0 0 110px;
+  accent-color: var(--accent-strong);
+  cursor: pointer;
+}
+
+.vol-pct {
+  flex: 0 0 3.2em;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.85rem;
+  color: var(--fgColor-muted);
+}
+
+/* --- self controls --- */
+.self-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.mic-meter {
+  flex: 1 1 auto;
+  height: 10px;
+  border-radius: 6px;
+  background: var(--bgColor-neutral-muted);
+  overflow: hidden;
+}
+.mic-meter-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--accent-strong);
+  transition: width 0.06s linear;
+}
+
+.mic-toggle {
+  flex: 0 0 auto;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--borderColor-default);
+  border-radius: 8px;
+  background: var(--bgColor-default);
+  color: var(--fgColor-default);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.mic-toggle.muted {
+  background: #d9534f;
+  color: #fff;
+  border-color: #d9534f;
+}
+
+.proximity-note {
+  margin-top: 1.25rem;
+  font-size: 0.85rem;
+  color: var(--fgColor-subtle);
+  text-align: center;
+}

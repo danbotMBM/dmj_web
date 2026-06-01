@@ -3,6 +3,7 @@ module backend
 go 1.25.8
 
 require (
+	github.com/coder/websocket v1.8.14
 	golang.org/x/crypto v0.52.0
 	modernc.org/sqlite v1.46.0
 )

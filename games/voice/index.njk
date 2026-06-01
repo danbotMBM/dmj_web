@@ -1,0 +1,51 @@
+---
+title: Voice Room — Live Voice Chat · danbot lab
+description: "A browser voice chat room for up to 6 people. Talk in real time with a per-person volume slider for everyone, mixed live on the server. No download, no sign-up."
+extraCss:
+  - /games/voice/voice.css
+---
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+<main class="page">
+    <article class="markdown-body voice-wrap">
+        <h1 style="text-align:center;">Voice Room</h1>
+        <p id="status-banner" class="status-banner"></p>
+
+        <!-- Join -->
+        <div id="join-view" class="join-card">
+            <p class="room-count" id="room-count"></p>
+            <p>Join a live voice room with up to 6 people. Your mic is gated by
+               voice activity, and everyone is mixed together on the server so
+               you can set a volume for each person.</p>
+            <input type="text" id="name-input" placeholder="Your name…" maxlength="16"
+                   autocomplete="off">
+            <div id="join-error" class="join-error"></div>
+            <button id="join-btn" class="vc-btn">🎙️ Join voice</button>
+        </div>
+
+        <!-- In the room -->
+        <div id="room-view" class="room-card hidden">
+            <p class="room-count" id="room-count-live"></p>
+            <div id="participants" class="participants"></div>
+
+            <div class="self-controls">
+                <button id="mic-toggle" class="mic-toggle">🎙️ Mic live</button>
+                <div class="mic-meter"><div id="mic-meter-bar" class="mic-meter-bar"></div></div>
+            </div>
+
+            <div style="margin-top:1rem;">
+                <button id="leave-btn" class="vc-btn secondary">Leave room</button>
+            </div>
+
+            <p class="proximity-note">Tip: drag a slider to set how loud each person
+               is for you. Proximity chat — where distance sets the volume
+               automatically — is coming next.</p>
+        </div>
+    </article>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="/games/voice/voice.js"></script>
+{% endblock %}
