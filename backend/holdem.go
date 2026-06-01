@@ -58,7 +58,7 @@ type Tile struct {
 	Blank  bool   `json:"blank"`
 }
 
-// Standard Scrabble distribution, minus blanks (98 tiles).
+// Custom letter distribution, minus blanks (99 tiles).
 type letterSpec struct {
 	letter string
 	points int
