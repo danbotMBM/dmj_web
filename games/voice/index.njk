@@ -1,0 +1,66 @@
+---
+title: Voice Room — Live Voice Chat · danbot lab
+description: "A free browser voice chat room for up to 6 people. Join with just a name, talk over peer-to-peer WebRTC, and set each person's volume with a slider. No download, no sign-up."
+extraCss:
+  - /games/voice/voice.css
+---
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+<main class="page">
+    <article class="markdown-body">
+        <h1 style="text-align:center;">Voice Room</h1>
+        <p id="status-banner" class="status-banner">Connecting…</p>
+
+        <div id="self-bar" class="self-bar hidden">
+            <button id="btn-mute" class="act-btn" aria-pressed="false">Mute</button>
+            <div class="self-meta">
+                <span id="self-name" class="self-name"></span>
+                <div id="self-level-track" class="level-track" aria-hidden="true">
+                    <div id="self-level-bar" class="level-bar"></div>
+                </div>
+            </div>
+            <button id="btn-leave" class="act-btn fold">Leave</button>
+        </div>
+
+        <div id="peers" class="peers"></div>
+
+        <p id="room-hint" class="room-hint">
+            Up to 6 people can talk at once. Volume sliders are personal — turning
+            someone down only affects what <em>you</em> hear.
+        </p>
+
+        <details id="how-it-works">
+            <summary>How it works &amp; privacy</summary>
+            <p>Audio travels <strong>directly between browsers</strong> (peer-to-peer
+            WebRTC). The server only introduces players to each other; your voice
+            never passes through it. Because connections are direct, peers can see
+            each other's IP addresses — fine among friends, worth knowing in general.</p>
+            <p>Each person you hear has a <strong>volume slider</strong> applied in
+            your browser. This is the groundwork for <strong>proximity chat</strong>:
+            the same per-person gain will later be driven by how close you are in a
+            shared space.</p>
+            <p>Some restrictive or corporate networks block direct connections. If
+            someone can't be heard, a relay (TURN) server would be needed — not yet
+            configured for this casual room.</p>
+        </details>
+    </article>
+</main>
+
+<!-- Name prompt -->
+<div id="name-overlay" class="overlay">
+    <div class="overlay-card">
+        <h2>Join the voice room</h2>
+        <p>Pick a name, then allow microphone access.</p>
+        <input type="text" id="name-input" placeholder="Your name…" maxlength="16" autocomplete="off">
+        <div id="name-error" class="name-error hidden"></div>
+        <div class="name-actions">
+            <button id="name-submit" class="act-btn raise">Join &amp; enable mic</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="/games/voice/voice.js"></script>
+{% endblock %}

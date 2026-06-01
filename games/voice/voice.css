@@ -1,0 +1,165 @@
+/* Voice Room styles. Reuses the sitewide CSS variables from mainStyle.css and
+   mirrors the .act-btn look from the holdem game (those button styles are local
+   to each game, not shared). */
+
+.status-banner {
+    text-align: center;
+    font-weight: 700;
+    color: var(--fgColor-muted);
+    min-height: 1.4em;
+    margin: 0.5rem 0 1rem;
+}
+
+/* --- buttons (mirrors holdem) --- */
+.act-btn {
+    padding: 12px 26px;
+    border-radius: 10px;
+    border: 2px solid var(--borderColor-default);
+    background: var(--bgColor-elevated);
+    color: var(--fgColor-default);
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    box-shadow: 0 2px 6px var(--shadowColor);
+    transition: background 0.15s, transform 0.05s, filter 0.15s;
+}
+.act-btn:hover { filter: brightness(1.08); }
+.act-btn:active { transform: translateY(1px); }
+.act-btn:disabled { opacity: 0.55; cursor: default; }
+.act-btn.fold { background: #c0564f; border-color: #c0564f; color: #fff; }
+.act-btn.raise { background: var(--accent-strong); border-color: var(--accent-strong); color: #fff; }
+.act-btn.muted { background: #c0564f; border-color: #c0564f; color: #fff; }
+
+/* --- self bar --- */
+.self-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border: 2px solid var(--borderColor-default);
+    border-radius: 14px;
+    background: var(--bgColor-elevated);
+    box-shadow: 0 2px 8px var(--shadowColor);
+    margin-bottom: 1.25rem;
+}
+.self-meta { flex: 1; min-width: 0; }
+.self-name { font-weight: 800; display: block; margin-bottom: 6px; }
+.self-name::after { content: " (you)"; color: var(--fgColor-subtle); font-weight: 600; }
+
+.level-track {
+    height: 8px;
+    border-radius: 6px;
+    background: var(--bgColor-neutral-muted);
+    overflow: hidden;
+}
+.level-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+    transition: width 0.08s linear;
+}
+
+/* --- peer grid --- */
+.peers {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+    margin-bottom: 1.5rem;
+}
+.peer-card {
+    border: 2px solid var(--borderColor-default);
+    border-radius: 14px;
+    padding: 14px 16px;
+    background: var(--bgColor-elevated);
+    box-shadow: 0 2px 8px var(--shadowColor);
+}
+.peer-card[data-state="connecting"] { opacity: 0.6; }
+.peer-card[data-state="failed"],
+.peer-card[data-state="disconnected"] { border-color: #c0564f; }
+
+.peer-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.peer-name { font-weight: 800; font-size: 1.05rem; }
+
+.speaking-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--borderColor-default);
+    flex: none;
+    transition: background 0.1s, box-shadow 0.1s, transform 0.1s;
+}
+.speaking-dot.active {
+    background: #3ec46d;
+    box-shadow: 0 0 0 4px rgba(62, 196, 109, 0.25);
+    transform: scale(1.1);
+}
+
+.vol-row { display: flex; align-items: center; gap: 10px; }
+.vol-icon { flex: none; }
+.vol-slider { flex: 1; min-width: 0; accent-color: var(--accent-strong); }
+.vol-val {
+    flex: none;
+    width: 3.2em;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    color: var(--fgColor-muted);
+    font-weight: 700;
+}
+
+.room-hint, .self-bar + .peers:empty + .room-hint {
+    color: var(--fgColor-muted);
+    text-align: center;
+}
+.room-hint em { color: var(--fgColor-default); font-style: italic; }
+
+/* --- name overlay --- */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+.overlay.hidden { display: none; }
+.overlay-card {
+    background: var(--bgColor-elevated);
+    border: 2px solid var(--borderColor-default);
+    border-radius: 16px;
+    padding: 28px;
+    max-width: 380px;
+    width: 100%;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+    text-align: center;
+}
+.overlay-card h2 { margin-top: 0; }
+.overlay-card input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    border: 2px solid var(--borderColor-default);
+    background: var(--bgColor-default);
+    color: var(--fgColor-default);
+    margin: 8px 0 14px;
+}
+.name-actions { display: flex; justify-content: center; }
+.name-error {
+    color: #c0564f;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.hidden { display: none !important; }
+
+#how-it-works { margin-top: 1.5rem; }
+#how-it-works summary { cursor: pointer; font-weight: 700; }

@@ -21,6 +21,16 @@ const cards = {
       "If you are dealt a Q you better hope for a U on the river",
     ],
   },
+  voice: {
+    prefix: "NEW: ",
+    title: "Voice Room",
+    href: "/games/voice/",
+    blurb: [
+      "Drop into a live voice chat for up to 6 people, no download or sign-up",
+      "Talk over peer-to-peer audio and set each person's volume with a slider",
+      "Groundwork for proximity chat — volume that follows you around a space",
+    ],
+  },
   bingo: {
     title: "Bingo Board Generator",
     href: "/games/bingo/",
@@ -160,6 +170,7 @@ module.exports = {
     cards.gallery,
   ],
   games: [
+    cards.voice,
     cards.holdem,
     cards.trivia,
     cards.bingo,

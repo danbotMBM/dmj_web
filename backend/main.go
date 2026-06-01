@@ -92,6 +92,7 @@ func main() {
 	registerPhotosRoutes()
 	registerTriviaRoutes()
 	registerHoldemRoutes()
+	registerVoiceRoutes()
 	initAnalyticsDB()
 	registerAnalyticsRoutes()
 	registerScoreRoutes()
