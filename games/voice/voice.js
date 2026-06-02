@@ -405,6 +405,10 @@ function draw() {
 
   ctx2d.clearRect(0, 0, world.w, world.h);
 
+  // Hearing field (drawn under the walls): the muffled reach as a dim full disk,
+  // and the clear line-of-sight area lit only where the sightline isn't blocked.
+  drawHearingField();
+
   // Glowing light-blue room walls + outer border.
   ctx2d.save();
   ctx2d.shadowColor = "#4dd2ff";
@@ -425,23 +429,6 @@ function draw() {
       ctx2d.strokeRect(w.x, w.y, w.w, w.h);
     }
   }
-  ctx2d.restore();
-
-  // Our own audible range: full-volume bubble + outer silence radius.
-  ctx2d.save();
-  ctx2d.beginPath();
-  ctx2d.arc(me.x, me.y, world.silence, 0, Math.PI * 2);
-  ctx2d.fillStyle = "rgba(111,155,209,0.06)";
-  ctx2d.fill();
-  ctx2d.beginPath();
-  ctx2d.arc(me.x, me.y, world.full, 0, Math.PI * 2);
-  ctx2d.fillStyle = "rgba(111,155,209,0.10)";
-  ctx2d.fill();
-  ctx2d.setLineDash([6, 6]);
-  ctx2d.strokeStyle = "rgba(111,155,209,0.35)";
-  ctx2d.beginPath();
-  ctx2d.arc(me.x, me.y, world.silence, 0, Math.PI * 2);
-  ctx2d.stroke();
   ctx2d.restore();
 
   // Connector lines to anyone currently audible, opacity ~ proximity volume.
@@ -466,6 +453,105 @@ function draw() {
     if (!pos) continue;
     drawAvatar(pos.x, pos.y, colorFor(p.id), p.name, isSelf, speakingSet.has(p.id), p.muted, fg);
   }
+}
+
+// drawHearingField paints two layers centered on the local player:
+//   1) the muffled reach — a dim disk out to the silence radius (sound carries
+//      everywhere within it, even through walls), and
+//   2) the line-of-sight area — a brighter visibility polygon that lights up
+//      only the sections with a clear sightline, leaving wall shadows dim.
+function drawHearingField() {
+  ctx2d.save();
+
+  // 1) Muffled reach.
+  ctx2d.beginPath();
+  ctx2d.arc(me.x, me.y, world.silence, 0, Math.PI * 2);
+  ctx2d.fillStyle = "rgba(111,155,209,0.05)";
+  ctx2d.fill();
+
+  // 2) Line of sight: fill the visibility polygon, fading with distance to hint
+  // at the volume falloff. The polygon excludes anything behind a wall, so only
+  // the visible wedges light up.
+  const poly = visibilityPolygon(me.x, me.y, world.silence);
+  if (poly.length > 2) {
+    const grad = ctx2d.createRadialGradient(
+      me.x, me.y, Math.min(world.full, world.silence) * 0.5,
+      me.x, me.y, world.silence
+    );
+    grad.addColorStop(0, "rgba(120,200,255,0.30)");
+    grad.addColorStop(1, "rgba(120,200,255,0.03)");
+    ctx2d.fillStyle = grad;
+    ctx2d.beginPath();
+    ctx2d.moveTo(poly[0][0], poly[0][1]);
+    for (let i = 1; i < poly.length; i++) ctx2d.lineTo(poly[i][0], poly[i][1]);
+    ctx2d.closePath();
+    ctx2d.fill();
+  }
+
+  // Full-volume zone marker (where a clear sightline is loudest).
+  ctx2d.setLineDash([5, 5]);
+  ctx2d.lineWidth = 1.5;
+  ctx2d.strokeStyle = "rgba(120,200,255,0.45)";
+  ctx2d.beginPath();
+  ctx2d.arc(me.x, me.y, world.full, 0, Math.PI * 2);
+  ctx2d.stroke();
+
+  ctx2d.restore();
+}
+
+// visibilityPolygon casts rays from (px,py) toward every wall corner (and a ring
+// of fixed bearings for the open arcs), capped at `radius`, and returns the hit
+// points sorted by angle — the polygon of everything in direct line of sight.
+function visibilityPolygon(px, py, radius) {
+  const segs = wallSegments();
+  const angles = [];
+  for (const s of segs) {
+    for (const [x, y] of [[s[0], s[1]], [s[2], s[3]]]) {
+      const a = Math.atan2(y - py, x - px);
+      angles.push(a - 0.0002, a, a + 0.0002); // straddle each corner to wrap around it
+    }
+  }
+  for (let a = -Math.PI; a < Math.PI; a += Math.PI / 36) angles.push(a); // smooth open arcs
+
+  const poly = [];
+  for (const a of angles) {
+    const dx = Math.cos(a), dy = Math.sin(a);
+    let dist = radius;
+    for (const s of segs) {
+      const t = raySegHit(px, py, dx, dy, s[0], s[1], s[2], s[3]);
+      if (t !== null && t < dist) dist = t;
+    }
+    poly.push([px + dx * dist, py + dy * dist, a]);
+  }
+  poly.sort((u, v) => u[2] - v[2]);
+  return poly;
+}
+
+// wallSegments returns the four edges of each wall plus the world border, as
+// [x0,y0,x1,y1] occluders for the visibility raycast.
+function wallSegments() {
+  const segs = [];
+  for (const w of walls) {
+    const x0 = w.x, y0 = w.y, x1 = w.x + w.w, y1 = w.y + w.h;
+    segs.push([x0, y0, x1, y0], [x1, y0, x1, y1], [x1, y1, x0, y1], [x0, y1, x0, y0]);
+  }
+  segs.push([0, 0, world.w, 0], [world.w, 0, world.w, world.h],
+            [world.w, world.h, 0, world.h], [0, world.h, 0, 0]);
+  return segs;
+}
+
+// raySegHit returns the ray parameter t>=0 where ray (px,py)+t*(dx,dy) crosses
+// segment AB, or null if it doesn't.
+function raySegHit(px, py, dx, dy, ax, ay, bx, by) {
+  const v1x = px - ax, v1y = py - ay;
+  const v2x = bx - ax, v2y = by - ay;
+  const v3x = -dy, v3y = dx;
+  const denom = v2x * v3x + v2y * v3y;
+  if (Math.abs(denom) < 1e-9) return null; // ray parallel to segment
+  const t1 = (v2x * v1y - v2y * v1x) / denom; // distance along the ray
+  const t2 = (v1x * v3x + v1y * v3y) / denom; // 0..1 along the segment
+  if (t1 >= 0 && t2 >= 0 && t2 <= 1) return t1;
+  return null;
 }
 
 function drawAvatar(x, y, color, name, isSelf, speaking, muted, fg) {
