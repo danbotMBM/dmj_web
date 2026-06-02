@@ -52,7 +52,7 @@ const volumes = {}; // speakerId -> gain (0..2), remembered locally across roste
 // --- proximity space state ---
 // World geometry comes from the server's "welcome" message so client and server
 // agree on coordinates (the server computes distance-based gain from these).
-const world = { w: 900, h: 540, full: 110, silence: 430 };
+const world = { w: 900, h: 540, full: 200, silence: 700, occluded: 0.2 };
 let walls = [];                       // [{x,y,w,h}] room dividers, from the server
 const me = { x: 0, y: 0 };            // our authoritative local position
 const others = new Map();             // id -> { x, y, tx, ty } (tx/ty = server target, x/y interpolated)
@@ -185,6 +185,7 @@ function onMessage(e) {
       world.h = msg.worldH ?? world.h;
       world.full = msg.fullRadius ?? world.full;
       world.silence = msg.silenceRadius ?? world.silence;
+      world.occluded = msg.occludedGain ?? world.occluded;
       walls = msg.walls ?? [];
       me.x = msg.x ?? world.w / 2;
       me.y = msg.y ?? world.h / 2;
@@ -491,13 +492,49 @@ function drawAvatar(x, y, color, name, isSelf, speaking, muted, fg) {
   ctx2d.restore();
 }
 
-// proximityGainLocal mirrors the server's smoothstep falloff for visuals only.
+// proximityGainLocal mirrors the server's gain (distance falloff gated by line
+// of sight) for the connector-line visuals only; the real gain is server-side.
 function proximityGainLocal(ax, ay, bx, by) {
   const d = Math.hypot(ax - bx, ay - by);
-  if (d <= world.full) return 1;
-  if (d >= world.silence) return 0;
-  const t = (d - world.full) / (world.silence - world.full);
-  return 1 - t * t * (3 - 2 * t);
+  let g;
+  if (d <= world.full) g = 1;
+  else if (d >= world.silence) return 0;
+  else {
+    const t = (d - world.full) / (world.silence - world.full);
+    g = 1 - t * t * (3 - 2 * t);
+  }
+  if (sightBlocked(ax, ay, bx, by)) g *= world.occluded;
+  return g;
+}
+
+// sightBlocked reports whether any wall crosses the line between two points.
+function sightBlocked(x0, y0, x1, y1) {
+  for (const w of walls) {
+    if (segHitsRect(x0, y0, x1, y1, w.x, w.y, w.x + w.w, w.y + w.h)) return true;
+  }
+  return false;
+}
+
+// segHitsRect: segment vs axis-aligned box via Liang–Barsky slab clipping.
+function segHitsRect(x0, y0, x1, y1, minx, miny, maxx, maxy) {
+  const dx = x1 - x0, dy = y1 - y0;
+  let t0 = 0, t1 = 1;
+  const edges = [[-dx, x0 - minx], [dx, maxx - x0], [-dy, y0 - miny], [dy, maxy - y0]];
+  for (const [p, q] of edges) {
+    if (p === 0) {
+      if (q < 0) return false;
+      continue;
+    }
+    const t = q / p;
+    if (p < 0) {
+      if (t > t1) return false;
+      if (t > t0) t0 = t;
+    } else {
+      if (t < t0) return false;
+      if (t < t1) t1 = t;
+    }
+  }
+  return true;
 }
 
 function clamp(v, lo, hi) {

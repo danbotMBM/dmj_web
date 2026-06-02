@@ -61,8 +61,9 @@ const (
 	// between a full-volume inner radius and a silent outer radius.
 	voiceWorldW       = 900 // world width  in world units (== canvas px)
 	voiceWorldH       = 540 // world height in world units
-	voiceFullRadius   = 110 // distance at/under which a speaker is at full volume
-	voiceSilenceRadius = 430 // distance at/beyond which a speaker is inaudible
+	voiceFullRadius   = 200 // distance at/under which a speaker is at full volume
+	voiceSilenceRadius = 700 // distance at/beyond which a speaker is inaudible
+	voiceOccludedGain = 0.2 // volume multiplier when a wall blocks the line of sight
 	voicePlayerRadius = 18  // avatar radius, used for wall collision (matches client R)
 )
 
@@ -232,6 +233,7 @@ func voiceWS(w http.ResponseWriter, r *http.Request) {
 		"worldH":        voiceWorldH,
 		"fullRadius":    voiceFullRadius,
 		"silenceRadius": voiceSilenceRadius,
+		"occludedGain":  voiceOccludedGain,
 		"walls":         voiceWalls,
 		"x":             p.x,
 		"y":             p.y,
@@ -560,22 +562,78 @@ func (room *voiceRoom) broadcastPositionsLocked() {
 	}
 }
 
-// proximityGain returns listener l's distance-based volume for speaker s: full
-// volume within voiceFullRadius, a smoothstep fade to zero out to
-// voiceSilenceRadius, and silence beyond. Smoothstep (3t^2-2t^3) eases in and
-// out so volume changes feel gradual with no pop as avatars move past a radius.
+// proximityGain returns listener l's volume for speaker s: a distance falloff
+// (full volume within voiceFullRadius, smoothstep fade to zero at
+// voiceSilenceRadius) gated by line of sight — if any wall lies on the straight
+// line between the two, the result is multiplied by voiceOccludedGain so they
+// only hear each other faintly through the wall. With a clear sightline (e.g.
+// through a doorway) it's the full distance falloff.
 func proximityGain(l, s *voicePlayer) float64 {
 	dx := l.x - s.x
 	dy := l.y - s.y
 	d := math.Sqrt(dx*dx + dy*dy)
-	if d <= voiceFullRadius {
-		return 1.0
-	}
-	if d >= voiceSilenceRadius {
+
+	var g float64
+	switch {
+	case d <= voiceFullRadius:
+		g = 1.0
+	case d >= voiceSilenceRadius:
 		return 0.0
+	default:
+		t := (d - voiceFullRadius) / (voiceSilenceRadius - voiceFullRadius) // 0..1
+		g = 1.0 - (t * t * (3 - 2*t))                                       // 1 -> 0, smoothstepped
 	}
-	t := (d - voiceFullRadius) / (voiceSilenceRadius - voiceFullRadius) // 0..1
-	return 1.0 - (t * t * (3 - 2*t))                                    // 1 -> 0, smoothstepped
+
+	if lineOfSightBlocked(l.x, l.y, s.x, s.y) {
+		g *= voiceOccludedGain
+	}
+	return g
+}
+
+// lineOfSightBlocked reports whether any wall intersects the straight line
+// between two points (walls at their true extent — the sightline is a thin ray,
+// so a player standing in a doorway has a clear line through the gap).
+func lineOfSightBlocked(x0, y0, x1, y1 float64) bool {
+	for _, w := range voiceWalls {
+		if segAABB(x0, y0, x1, y1, w.X, w.Y, w.X+w.W, w.Y+w.H) {
+			return true
+		}
+	}
+	return false
+}
+
+// segAABB reports whether segment (x0,y0)->(x1,y1) intersects the axis-aligned
+// box [minx,maxx]x[miny,maxy] (Liang–Barsky slab clipping).
+func segAABB(x0, y0, x1, y1, minx, miny, maxx, maxy float64) bool {
+	dx, dy := x1-x0, y1-y0
+	t0, t1 := 0.0, 1.0
+	edges := [4][2]float64{{-dx, x0 - minx}, {dx, maxx - x0}, {-dy, y0 - miny}, {dy, maxy - y0}}
+	for _, e := range edges {
+		p, q := e[0], e[1]
+		if p == 0 {
+			if q < 0 {
+				return false // parallel to this slab and outside it
+			}
+			continue
+		}
+		t := q / p
+		if p < 0 {
+			if t > t1 {
+				return false
+			}
+			if t > t0 {
+				t0 = t
+			}
+		} else {
+			if t < t0 {
+				return false
+			}
+			if t < t1 {
+				t1 = t
+			}
+		}
+	}
+	return true
 }
 
 // voiceSpawn picks a random starting position, retrying until it's not inside a

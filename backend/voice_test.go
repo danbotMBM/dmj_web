@@ -69,28 +69,61 @@ func TestDoorwaysArePassable(t *testing.T) {
 	}
 }
 
+func TestLineOfSight(t *testing.T) {
+	cases := []struct {
+		name                   string
+		x0, y0, x1, y1 float64
+		blocked                bool
+	}{
+		{"clear within left-top room", 40, 130, 250, 130, false},
+		{"clear through horizontal doorway", 150, 130, 150, 400, false},
+		{"clear horizontal corridor through both vertical doorways", 20, 130, 880, 130, false},
+		{"blocked across horizontal wall", 350, 130, 350, 400, true},
+		{"blocked across vertical wall 1", 40, 40, 560, 40, true},
+	}
+	for _, c := range cases {
+		if got := lineOfSightBlocked(c.x0, c.y0, c.x1, c.y1); got != c.blocked {
+			t.Errorf("%s: lineOfSightBlocked=%v, want %v", c.name, got, c.blocked)
+		}
+	}
+}
+
 func TestProximityGain(t *testing.T) {
 	at := func(x, y float64) *voicePlayer { return &voicePlayer{x: x, y: y} }
-	l := at(0, 0)
 
-	if g := proximityGain(l, at(50, 0)); g != 1 {
+	// The whole y=130 line is wall-free (it threads both vertical doorways), so
+	// use it to exercise the distance falloff with a guaranteed clear sightline.
+	clear := func(d float64) float64 { return proximityGain(at(10, 130), at(10+d, 130)) }
+
+	if g := clear(voiceFullRadius - 50); g != 1 {
 		t.Errorf("inside full radius: got %v, want 1", g)
 	}
-	if g := proximityGain(l, at(500, 0)); g != 0 {
+	if g := clear(voiceSilenceRadius + 50); g != 0 {
 		t.Errorf("beyond silence radius: got %v, want 0", g)
 	}
-	// Midpoint of the falloff band: t=0.5 -> smoothstep=0.5 -> gain=0.5.
-	mid := (voiceFullRadius + voiceSilenceRadius) / 2.0
-	if g := proximityGain(l, at(mid, 0)); math.Abs(g-0.5) > 1e-9 {
+	mid := float64(voiceSilenceRadius-voiceFullRadius) / 2.0 // t=0.5 -> gain 0.5
+	if g := clear(float64(voiceFullRadius) + mid); math.Abs(g-0.5) > 1e-9 {
 		t.Errorf("falloff midpoint: got %v, want 0.5", g)
 	}
-	// Gain must decrease monotonically with distance across the band.
+
+	// Monotonic decrease across the band (clear sightline).
 	prev := 1.1
 	for d := float64(voiceFullRadius); d <= voiceSilenceRadius; d += 5 {
-		g := proximityGain(l, at(d, 0))
-		if g > prev+1e-9 {
+		if g := clear(d); g > prev+1e-9 {
 			t.Errorf("gain not monotonic at d=%g: %v > %v", d, g, prev)
+		} else {
+			prev = g
 		}
-		prev = g
+	}
+
+	// Occlusion: a wall between two players muffles by voiceOccludedGain. Compare
+	// an occluded pair to a clear pair at the same distance (270).
+	occluded := proximityGain(at(350, 130), at(350, 400)) // crosses the horizontal wall
+	openGain := clear(270)                                // same distance, clear sightline
+	if openGain <= 0 {
+		t.Fatal("expected the clear reference pair to be audible")
+	}
+	if ratio := occluded / openGain; math.Abs(ratio-voiceOccludedGain) > 1e-9 {
+		t.Errorf("occluded/clear ratio = %v, want %v", ratio, voiceOccludedGain)
 	}
 }
