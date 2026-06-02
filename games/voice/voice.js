@@ -53,6 +53,7 @@ const volumes = {}; // speakerId -> gain (0..2), remembered locally across roste
 // World geometry comes from the server's "welcome" message so client and server
 // agree on coordinates (the server computes distance-based gain from these).
 const world = { w: 900, h: 540, full: 110, silence: 430 };
+let walls = [];                       // [{x,y,w,h}] room dividers, from the server
 const me = { x: 0, y: 0 };            // our authoritative local position
 const others = new Map();             // id -> { x, y, tx, ty } (tx/ty = server target, x/y interpolated)
 const keys = new Set();               // currently-held movement keys
@@ -184,6 +185,7 @@ function onMessage(e) {
       world.h = msg.worldH ?? world.h;
       world.full = msg.fullRadius ?? world.full;
       world.silence = msg.silenceRadius ?? world.silence;
+      walls = msg.walls ?? [];
       me.x = msg.x ?? world.w / 2;
       me.y = msg.y ?? world.h / 2;
       canvas.width = world.w;
@@ -353,8 +355,16 @@ function frame(t) {
   if (keys.has("down")) vy += 1;
   if (vx || vy) {
     const inv = 1 / Math.hypot(vx, vy); // normalize so diagonals aren't faster
-    me.x = clamp(me.x + vx * inv * MOVE_SPEED * dt, 0, world.w);
-    me.y = clamp(me.y + vy * inv * MOVE_SPEED * dt, 0, world.h);
+    const nx = clamp(me.x + vx * inv * MOVE_SPEED * dt, 0, world.w);
+    const ny = clamp(me.y + vy * inv * MOVE_SPEED * dt, 0, world.h);
+    // Try the full move; if a wall blocks it, slide along the free axis.
+    if (!blocked(nx, ny)) {
+      me.x = nx;
+      me.y = ny;
+    } else {
+      if (!blocked(nx, me.y)) me.x = nx;
+      if (!blocked(me.x, ny)) me.y = ny;
+    }
   }
 
   // Throttle position updates to ~15/sec, and only when we've actually moved.
@@ -393,6 +403,28 @@ function draw() {
   const fg = styles.getPropertyValue("--fgColor-default").trim() || "#222";
 
   ctx2d.clearRect(0, 0, world.w, world.h);
+
+  // Glowing light-blue room walls + outer border.
+  ctx2d.save();
+  ctx2d.shadowColor = "#4dd2ff";
+  ctx2d.shadowBlur = 10;
+  ctx2d.strokeStyle = "#4dd2ff";
+  ctx2d.lineWidth = 4;
+  ctx2d.strokeRect(2, 2, world.w - 4, world.h - 4);
+  ctx2d.fillStyle = "rgba(77,210,255,0.18)";
+  ctx2d.lineWidth = 2;
+  for (const w of walls) {
+    if (ctx2d.roundRect) {
+      ctx2d.beginPath();
+      ctx2d.roundRect(w.x, w.y, w.w, w.h, 4);
+      ctx2d.fill();
+      ctx2d.stroke();
+    } else {
+      ctx2d.fillRect(w.x, w.y, w.w, w.h);
+      ctx2d.strokeRect(w.x, w.y, w.w, w.h);
+    }
+  }
+  ctx2d.restore();
 
   // Our own audible range: full-volume bubble + outer silence radius.
   ctx2d.save();
@@ -470,6 +502,16 @@ function proximityGainLocal(ax, ay, bx, by) {
 
 function clamp(v, lo, hi) {
   return v < lo ? lo : v > hi ? hi : v;
+}
+
+// blocked mirrors the server's wall test: walls inflated by the avatar radius so
+// the circle can't clip a corner. Keeps local movement in sync with what the
+// server will accept.
+function blocked(x, y) {
+  for (const w of walls) {
+    if (x > w.x - R && x < w.x + w.w + R && y > w.y - R && y < w.y + w.h + R) return true;
+  }
+  return false;
 }
 
 function setStatus(text, kind) {

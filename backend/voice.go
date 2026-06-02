@@ -63,7 +63,31 @@ const (
 	voiceWorldH       = 540 // world height in world units
 	voiceFullRadius   = 110 // distance at/under which a speaker is at full volume
 	voiceSilenceRadius = 430 // distance at/beyond which a speaker is inaudible
+	voicePlayerRadius = 18  // avatar radius, used for wall collision (matches client R)
 )
+
+// voiceWall is an axis-aligned wall rectangle in world coordinates.
+type voiceWall struct {
+	X float64 `json:"x"`
+	Y float64 `json:"y"`
+	W float64 `json:"w"`
+	H float64 `json:"h"`
+}
+
+// voiceWalls partitions the world into a connected 3x2 grid of rooms. This is
+// the single source of truth: it's sent to clients in the welcome message for
+// rendering + local collision, and enforced here so players can't pass through.
+// Two vertical dividers (x=300, x=600) and one horizontal divider (y=270) split
+// the space into six rooms; each divider has a doorway centered in every cell,
+// kept well clear of the intersections so the openings never pinch shut.
+var voiceWalls = []voiceWall{
+	// Vertical divider 1 (x=300): doorways at y 85..185 (top row) and 355..455 (bottom).
+	{292, 0, 16, 85}, {292, 185, 16, 170}, {292, 455, 16, 85},
+	// Vertical divider 2 (x=600): same doorways.
+	{592, 0, 16, 85}, {592, 185, 16, 170}, {592, 455, 16, 85},
+	// Horizontal divider (y=270): doorways at x 100..200, 400..500, 700..800.
+	{0, 262, 100, 16}, {200, 262, 200, 16}, {500, 262, 200, 16}, {800, 262, 100, 16},
+}
 
 // voiceOriginPatterns lists the origins allowed to open the voice WebSocket.
 // Mirrors the static-site hosts in utils.js / nginx.conf (the page and the API
@@ -208,6 +232,7 @@ func voiceWS(w http.ResponseWriter, r *http.Request) {
 		"worldH":        voiceWorldH,
 		"fullRadius":    voiceFullRadius,
 		"silenceRadius": voiceSilenceRadius,
+		"walls":         voiceWalls,
 		"x":             p.x,
 		"y":             p.y,
 	}))
@@ -296,10 +321,17 @@ func (room *voiceRoom) handleControl(p *voicePlayer, data []byte) {
 			room.broadcastRoster()
 		}
 	case "position":
-		// Clamp into the world so a misbehaving client can't park out of bounds.
+		// Clamp into the world, then accept the move only if the destination is
+		// clear of walls. The client moves continuously and never steps into a
+		// wall, so each ~18-unit position update lands just outside; since that's
+		// far smaller than a wall's inflated width, rejecting in-wall endpoints is
+		// enough to keep players out of and from tunneling through walls.
+		nx := clampF(msg.X, 0, voiceWorldW)
+		ny := clampF(msg.Y, 0, voiceWorldH)
 		room.mu.Lock()
-		p.x = clampF(msg.X, 0, voiceWorldW)
-		p.y = clampF(msg.Y, 0, voiceWorldH)
+		if !pointBlocked(nx, ny) {
+			p.x, p.y = nx, ny
+		}
 		room.mu.Unlock()
 	}
 }
@@ -546,12 +578,30 @@ func proximityGain(l, s *voicePlayer) float64 {
 	return 1.0 - (t * t * (3 - 2*t))                                    // 1 -> 0, smoothstepped
 }
 
-// voiceSpawn picks a random starting position with a small margin from the edges.
+// voiceSpawn picks a random starting position, retrying until it's not inside a
+// wall (with a center fallback if the room is somehow saturated).
 func voiceSpawn() (float64, float64) {
 	const m = 60.0
-	x := m + rand.Float64()*(voiceWorldW-2*m)
-	y := m + rand.Float64()*(voiceWorldH-2*m)
-	return x, y
+	for i := 0; i < 200; i++ {
+		x := m + rand.Float64()*(voiceWorldW-2*m)
+		y := m + rand.Float64()*(voiceWorldH-2*m)
+		if !pointBlocked(x, y) {
+			return x, y
+		}
+	}
+	return voiceWorldW / 2, voiceWorldH / 2
+}
+
+// pointBlocked reports whether a player centered at (x,y) overlaps any wall. The
+// walls are inflated by the player radius so the avatar circle can't clip in.
+func pointBlocked(x, y float64) bool {
+	const r = voicePlayerRadius
+	for _, w := range voiceWalls {
+		if x > w.X-r && x < w.X+w.W+r && y > w.Y-r && y < w.Y+w.H+r {
+			return true
+		}
+	}
+	return false
 }
 
 // ---------------------------------------------------------------------------
