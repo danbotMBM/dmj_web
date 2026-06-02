@@ -27,6 +27,14 @@ extraCss:
         <!-- In the room -->
         <div id="room-view" class="room-card hidden">
             <p class="room-count" id="room-count-live"></p>
+
+            <div class="space-wrap">
+                <canvas id="space" class="space-canvas" tabindex="0"
+                        aria-label="Proximity chat space — use WASD or arrow keys to walk"></canvas>
+            </div>
+            <p class="space-hint">Use <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd>
+               or the arrow keys to walk. People sound louder the closer you stand.</p>
+
             <div id="participants" class="participants"></div>
 
             <div class="self-controls">
@@ -38,9 +46,9 @@ extraCss:
                 <button id="leave-btn" class="vc-btn secondary">Leave room</button>
             </div>
 
-            <p class="proximity-note">Tip: drag a slider to set how loud each person
-               is for you. Proximity chat — where distance sets the volume
-               automatically — is coming next.</p>
+            <p class="proximity-note">Volume now follows proximity automatically. The
+               sliders below are a personal trim on top — boost or quiet someone
+               regardless of where they stand.</p>
         </div>
     </article>
 </main>

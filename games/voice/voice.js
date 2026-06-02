@@ -1,10 +1,12 @@
-// Voice chat client.
+// Voice chat client with proximity audio.
 //
 // Captures the mic at 16 kHz, voice-activity-gates it in an AudioWorklet, and
-// streams 20 ms int16 PCM frames to the Go mixer over a WebSocket. The server
-// mixes a personalized stream per listener (applying our per-speaker volume
-// sliders) and streams one mixed frame back, which we play through a second
-// worklet. See games/voice/voice-worklet.js and backend/voice.go.
+// streams 20 ms int16 PCM frames to the Go mixer over a WebSocket. Players walk
+// a shared 2D space (WASD / arrow keys); we stream our position to the server,
+// which mixes a personalized stream per listener where each speaker's volume is
+// a smoothstep function of distance (times the listener's manual slider trim).
+// The mixed stream plays back through a second worklet.
+// See games/voice/voice-worklet.js and backend/voice.go.
 
 import { API_BASE } from "/utils.js";
 
@@ -33,6 +35,8 @@ const micToggle = document.getElementById("mic-toggle");
 const micMeterBar = document.getElementById("mic-meter-bar");
 const leaveBtn = document.getElementById("leave-btn");
 const statusBanner = document.getElementById("status-banner");
+const canvas = document.getElementById("space");
+const ctx2d = canvas.getContext("2d");
 
 // --- session state ---
 let ws = null;
@@ -44,6 +48,19 @@ let selfMuted = false;
 let roster = []; // [{id, name, muted}]
 let speakingSet = new Set();
 const volumes = {}; // speakerId -> gain (0..2), remembered locally across roster updates
+
+// --- proximity space state ---
+// World geometry comes from the server's "welcome" message so client and server
+// agree on coordinates (the server computes distance-based gain from these).
+const world = { w: 900, h: 540, full: 110, silence: 430 };
+const me = { x: 0, y: 0 };            // our authoritative local position
+const others = new Map();             // id -> { x, y, tx, ty } (tx/ty = server target, x/y interpolated)
+const keys = new Set();               // currently-held movement keys
+const MOVE_SPEED = 280;               // world units / second
+let rafId = null;
+let lastFrameT = 0;
+let lastSentT = 0;
+let lastSent = { x: null, y: null };
 
 nameInput.value = playerName;
 
@@ -97,6 +114,7 @@ async function join() {
   ws.onerror = () => setStatus("Connection error.", "err");
   ws.onclose = (e) => {
     teardownAudio();
+    stopSpace();
     joinBtn.disabled = false;
     roomView.classList.add("hidden");
     joinView.classList.remove("hidden");
@@ -162,10 +180,35 @@ function onMessage(e) {
     case "welcome":
       playerId = msg.id;
       localStorage.setItem(ID_KEY, playerId);
+      world.w = msg.worldW ?? world.w;
+      world.h = msg.worldH ?? world.h;
+      world.full = msg.fullRadius ?? world.full;
+      world.silence = msg.silenceRadius ?? world.silence;
+      me.x = msg.x ?? world.w / 2;
+      me.y = msg.y ?? world.h / 2;
+      canvas.width = world.w;
+      canvas.height = world.h;
+      startSpace();
       break;
     case "roster":
       roster = msg.players;
+      // Drop render state for anyone who left.
+      for (const id of [...others.keys()]) {
+        if (!roster.some((p) => p.id === id)) others.delete(id);
+      }
       renderParticipants();
+      break;
+    case "positions":
+      for (const p of msg.players) {
+        if (p.id === playerId) continue; // we own our own position locally
+        const o = others.get(p.id);
+        if (o) {
+          o.tx = p.x;
+          o.ty = p.y;
+        } else {
+          others.set(p.id, { x: p.x, y: p.y, tx: p.x, ty: p.y });
+        }
+      }
       break;
     case "activity":
       speakingSet = new Set(msg.speaking);
@@ -216,8 +259,8 @@ function renderParticipants() {
       tag.textContent = selfMuted ? "muted" : "you";
       row.appendChild(tag);
     } else {
-      // Per-user volume slider — drives a server-side gain applied before the
-      // mix, so it's authoritative and proximity-ready.
+      // Per-user volume slider — a personal multiplier the server applies on
+      // top of the automatic proximity gain.
       const gain = volumes[p.id] ?? 1;
       const vol = document.createElement("input");
       vol.type = "range";
@@ -260,6 +303,173 @@ function updateSpeaking() {
     const speaking = speakingSet.has(row.dataset.id);
     row.classList.toggle("speaking", speaking);
   }
+}
+
+// --- proximity space: movement + rendering ---
+
+const MOVE_KEYS = {
+  w: "up", arrowup: "up",
+  s: "down", arrowdown: "down",
+  a: "left", arrowleft: "left",
+  d: "right", arrowright: "right",
+};
+
+function onKeyDown(e) {
+  if (!rafId) return; // only while in the room
+  const dir = MOVE_KEYS[e.key.toLowerCase()];
+  if (!dir) return;
+  keys.add(dir);
+  e.preventDefault(); // stop arrow keys from scrolling the page
+}
+function onKeyUp(e) {
+  const dir = MOVE_KEYS[e.key.toLowerCase()];
+  if (dir) keys.delete(dir);
+}
+window.addEventListener("keydown", onKeyDown);
+window.addEventListener("keyup", onKeyUp);
+
+function startSpace() {
+  if (rafId) return;
+  lastFrameT = performance.now();
+  rafId = requestAnimationFrame(frame);
+}
+
+function stopSpace() {
+  if (rafId) cancelAnimationFrame(rafId);
+  rafId = null;
+  keys.clear();
+  others.clear();
+}
+
+function frame(t) {
+  const dt = Math.min(0.05, (t - lastFrameT) / 1000); // clamp dt across tab stalls
+  lastFrameT = t;
+
+  // Integrate local movement from held keys, then clamp to the world.
+  let vx = 0, vy = 0;
+  if (keys.has("left")) vx -= 1;
+  if (keys.has("right")) vx += 1;
+  if (keys.has("up")) vy -= 1;
+  if (keys.has("down")) vy += 1;
+  if (vx || vy) {
+    const inv = 1 / Math.hypot(vx, vy); // normalize so diagonals aren't faster
+    me.x = clamp(me.x + vx * inv * MOVE_SPEED * dt, 0, world.w);
+    me.y = clamp(me.y + vy * inv * MOVE_SPEED * dt, 0, world.h);
+  }
+
+  // Throttle position updates to ~15/sec, and only when we've actually moved.
+  if (t - lastSentT > 66 && (me.x !== lastSent.x || me.y !== lastSent.y)) {
+    sendControl({ type: "position", x: Math.round(me.x), y: Math.round(me.y) });
+    lastSent = { x: me.x, y: me.y };
+    lastSentT = t;
+  }
+
+  // Ease remote avatars toward their last reported position for smooth motion.
+  for (const o of others.values()) {
+    o.x += (o.tx - o.x) * Math.min(1, dt * 12);
+    o.y += (o.ty - o.y) * Math.min(1, dt * 12);
+  }
+
+  draw();
+  rafId = requestAnimationFrame(frame);
+}
+
+// colorFor maps a player id to a stable, vivid color so everyone sees the same
+// color for the same person.
+const colorCache = new Map();
+function colorFor(id) {
+  if (colorCache.has(id)) return colorCache.get(id);
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
+  const color = `hsl(${h % 360}, 70%, 55%)`;
+  colorCache.set(id, color);
+  return color;
+}
+
+const R = 18; // avatar radius (world units)
+
+function draw() {
+  const styles = getComputedStyle(document.body);
+  const fg = styles.getPropertyValue("--fgColor-default").trim() || "#222";
+
+  ctx2d.clearRect(0, 0, world.w, world.h);
+
+  // Our own audible range: full-volume bubble + outer silence radius.
+  ctx2d.save();
+  ctx2d.beginPath();
+  ctx2d.arc(me.x, me.y, world.silence, 0, Math.PI * 2);
+  ctx2d.fillStyle = "rgba(111,155,209,0.06)";
+  ctx2d.fill();
+  ctx2d.beginPath();
+  ctx2d.arc(me.x, me.y, world.full, 0, Math.PI * 2);
+  ctx2d.fillStyle = "rgba(111,155,209,0.10)";
+  ctx2d.fill();
+  ctx2d.setLineDash([6, 6]);
+  ctx2d.strokeStyle = "rgba(111,155,209,0.35)";
+  ctx2d.beginPath();
+  ctx2d.arc(me.x, me.y, world.silence, 0, Math.PI * 2);
+  ctx2d.stroke();
+  ctx2d.restore();
+
+  // Connector lines to anyone currently audible, opacity ~ proximity volume.
+  for (const p of roster) {
+    if (p.id === playerId) continue;
+    const o = others.get(p.id);
+    if (!o) continue;
+    const g = proximityGainLocal(me.x, me.y, o.x, o.y);
+    if (g <= 0) continue;
+    ctx2d.strokeStyle = `rgba(111,155,209,${0.5 * g})`;
+    ctx2d.lineWidth = 2;
+    ctx2d.beginPath();
+    ctx2d.moveTo(me.x, me.y);
+    ctx2d.lineTo(o.x, o.y);
+    ctx2d.stroke();
+  }
+
+  // Avatars.
+  for (const p of roster) {
+    const isSelf = p.id === playerId;
+    const pos = isSelf ? me : others.get(p.id);
+    if (!pos) continue;
+    drawAvatar(pos.x, pos.y, colorFor(p.id), p.name, isSelf, speakingSet.has(p.id), p.muted, fg);
+  }
+}
+
+function drawAvatar(x, y, color, name, isSelf, speaking, muted, fg) {
+  ctx2d.save();
+  if (speaking) {
+    ctx2d.beginPath();
+    ctx2d.arc(x, y, R + 6, 0, Math.PI * 2);
+    ctx2d.fillStyle = "rgba(76,175,80,0.35)";
+    ctx2d.fill();
+  }
+  ctx2d.beginPath();
+  ctx2d.arc(x, y, R, 0, Math.PI * 2);
+  ctx2d.fillStyle = muted ? "#888" : color;
+  ctx2d.fill();
+  ctx2d.lineWidth = isSelf ? 4 : 2;
+  ctx2d.strokeStyle = isSelf ? "#fff" : "rgba(0,0,0,0.35)";
+  ctx2d.stroke();
+
+  ctx2d.fillStyle = fg;
+  ctx2d.font = "600 14px system-ui, sans-serif";
+  ctx2d.textAlign = "center";
+  ctx2d.textBaseline = "top";
+  ctx2d.fillText(name + (isSelf ? " (you)" : ""), x, y + R + 4);
+  ctx2d.restore();
+}
+
+// proximityGainLocal mirrors the server's smoothstep falloff for visuals only.
+function proximityGainLocal(ax, ay, bx, by) {
+  const d = Math.hypot(ax - bx, ay - by);
+  if (d <= world.full) return 1;
+  if (d >= world.silence) return 0;
+  const t = (d - world.full) / (world.silence - world.full);
+  return 1 - t * t * (3 - 2 * t);
+}
+
+function clamp(v, lo, hi) {
+  return v < lo ? lo : v > hi ? hi : v;
 }
 
 function setStatus(text, kind) {

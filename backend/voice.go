@@ -5,6 +5,8 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
+	"math"
+	"math/rand"
 	"net/http"
 	"sync"
 	"time"
@@ -53,6 +55,14 @@ const (
 	voiceOutBufFrames = 32                                                      // per-listener downlink buffer cap
 	voiceMaxGain      = 2.0                                                     // 200% slider ceiling
 	voiceMaxNameLen   = 16                                                      //
+
+	// Proximity chat: players move around a fixed 2D world (clients and server
+	// share these coordinates). Volume falls off with distance via a smoothstep
+	// between a full-volume inner radius and a silent outer radius.
+	voiceWorldW       = 900 // world width  in world units (== canvas px)
+	voiceWorldH       = 540 // world height in world units
+	voiceFullRadius   = 110 // distance at/under which a speaker is at full volume
+	voiceSilenceRadius = 430 // distance at/beyond which a speaker is inaudible
 )
 
 // voiceOriginPatterns lists the origins allowed to open the voice WebSocket.
@@ -92,9 +102,9 @@ type voicePlayer struct {
 
 	muted bool // self-muted: this player neither transmits nor is mixed for others
 
-	// Proximity (future): the player's position in 2D space. Accepted and
-	// stored now so the mixer can apply a distance-based gain later without any
-	// protocol change. Unused by the current mix.
+	// Proximity: the player's position in the shared 2D world, updated by the
+	// client's "position" control messages and used by proximityGain to set the
+	// distance-based volume each listener hears.
 	x, y float64
 
 	// --- mix-loop-only scratch (also under mu, but only touched there) ---
@@ -159,6 +169,7 @@ func voiceWS(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
+	sx, sy := voiceSpawn()
 	p := &voicePlayer{
 		id:     id,
 		name:   name,
@@ -167,6 +178,8 @@ func voiceWS(w http.ResponseWriter, r *http.Request) {
 		out:    make(chan outMsg, voiceOutBufFrames),
 		cancel: cancel,
 		gains:  make(map[string]float64),
+		x:      sx,
+		y:      sy,
 	}
 
 	if !voice.add(p) {
@@ -185,12 +198,18 @@ func voiceWS(w http.ResponseWriter, r *http.Request) {
 	// Greet the new player with its id and the audio format, then everyone gets
 	// a fresh roster (the joiner included).
 	p.send(websocket.MessageText, mustJSON(map[string]any{
-		"type":         "welcome",
-		"id":           id,
-		"name":         name,
-		"sampleRate":   voiceSampleRate,
-		"frameSamples": voiceFrameSamples,
-		"max":          voiceMaxPlayers,
+		"type":          "welcome",
+		"id":            id,
+		"name":          name,
+		"sampleRate":    voiceSampleRate,
+		"frameSamples":  voiceFrameSamples,
+		"max":           voiceMaxPlayers,
+		"worldW":        voiceWorldW,
+		"worldH":        voiceWorldH,
+		"fullRadius":    voiceFullRadius,
+		"silenceRadius": voiceSilenceRadius,
+		"x":             p.x,
+		"y":             p.y,
 	}))
 	voice.broadcastRoster()
 
@@ -277,8 +296,10 @@ func (room *voiceRoom) handleControl(p *voicePlayer, data []byte) {
 			room.broadcastRoster()
 		}
 	case "position":
+		// Clamp into the world so a misbehaving client can't park out of bounds.
 		room.mu.Lock()
-		p.x, p.y = msg.X, msg.Y
+		p.x = clampF(msg.X, 0, voiceWorldW)
+		p.y = clampF(msg.Y, 0, voiceWorldH)
 		room.mu.Unlock()
 	}
 }
@@ -362,6 +383,7 @@ func (room *voiceRoom) mixLoop() {
 		if activity++; activity >= 5 { // ~every 100 ms
 			activity = 0
 			room.broadcastActivityLocked()
+			room.broadcastPositionsLocked()
 		}
 		room.mu.Unlock()
 	}
@@ -395,7 +417,8 @@ func (room *voiceRoom) advanceJitterLocked() {
 
 // mixFrameLocked sums, for every listener, the gain-scaled current frame of
 // every other speaker and queues the result. This is the single place where
-// per-user volume (and, later, proximity) is applied.
+// gain is applied: proximity (distance-based) times the listener's manual
+// per-user volume slider.
 func (room *voiceRoom) mixFrameLocked() {
 	for _, l := range room.players {
 		var acc []int32
@@ -403,11 +426,17 @@ func (room *voiceRoom) mixFrameLocked() {
 			if s.id == l.id || s.cur == nil {
 				continue
 			}
-			gain := 1.0
-			if g, ok := l.gains[s.id]; ok {
-				gain = g
+			// Proximity sets the base volume from how close the two avatars are;
+			// out-of-range speakers contribute nothing (and are skipped, which is
+			// the CPU win of a bounded falloff).
+			gain := proximityGain(l, s)
+			if gain <= 0 {
+				continue
 			}
-			// Future proximity chat: gain *= room.proximityGain(l, s)
+			// The manual slider is a personal multiplier on top of proximity.
+			if g, ok := l.gains[s.id]; ok {
+				gain *= g
+			}
 			if gain <= 0 {
 				continue
 			}
@@ -477,9 +506,67 @@ func (room *voiceRoom) broadcastActivityLocked() {
 	}
 }
 
+type voicePos struct {
+	ID string  `json:"id"`
+	X  float64 `json:"x"`
+	Y  float64 `json:"y"`
+}
+
+// broadcastPositionsLocked streams every player's world position so clients can
+// render the avatars. Sent ~10x/sec; clients smooth the motion between updates.
+func (room *voiceRoom) broadcastPositionsLocked() {
+	if len(room.players) == 0 {
+		return
+	}
+	positions := make([]voicePos, 0, len(room.players))
+	for _, p := range room.players {
+		positions = append(positions, voicePos{ID: p.id, X: p.x, Y: p.y})
+	}
+	payload := mustJSON(map[string]any{"type": "positions", "players": positions})
+	for _, p := range room.players {
+		p.send(websocket.MessageText, payload)
+	}
+}
+
+// proximityGain returns listener l's distance-based volume for speaker s: full
+// volume within voiceFullRadius, a smoothstep fade to zero out to
+// voiceSilenceRadius, and silence beyond. Smoothstep (3t^2-2t^3) eases in and
+// out so volume changes feel gradual with no pop as avatars move past a radius.
+func proximityGain(l, s *voicePlayer) float64 {
+	dx := l.x - s.x
+	dy := l.y - s.y
+	d := math.Sqrt(dx*dx + dy*dy)
+	if d <= voiceFullRadius {
+		return 1.0
+	}
+	if d >= voiceSilenceRadius {
+		return 0.0
+	}
+	t := (d - voiceFullRadius) / (voiceSilenceRadius - voiceFullRadius) // 0..1
+	return 1.0 - (t * t * (3 - 2*t))                                    // 1 -> 0, smoothstepped
+}
+
+// voiceSpawn picks a random starting position with a small margin from the edges.
+func voiceSpawn() (float64, float64) {
+	const m = 60.0
+	x := m + rand.Float64()*(voiceWorldW-2*m)
+	y := m + rand.Float64()*(voiceWorldH-2*m)
+	return x, y
+}
+
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
+
+func clampF(v, lo, hi float64) float64 {
+	if v < lo {
+		return lo
+	}
+	if v > hi {
+		return hi
+	}
+	return v
+}
 
 func bytesToInt16(b []byte) []int16 {
 	out := make([]int16, len(b)/2)

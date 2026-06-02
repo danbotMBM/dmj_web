@@ -1,7 +1,7 @@
 /* Voice chat page. Uses the site's shared theme variables (mainStyle.css). */
 
 .voice-wrap {
-  max-width: 560px;
+  max-width: 680px;
   margin: 0 auto;
 }
 
@@ -175,6 +175,40 @@
   background: #d9534f;
   color: #fff;
   border-color: #d9534f;
+}
+
+/* --- proximity space --- */
+.space-wrap {
+  margin: 0.25rem 0 0.5rem;
+}
+
+.space-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 900 / 540;
+  border: 1px solid var(--borderColor-default);
+  border-radius: 12px;
+  background: var(--bgColor-muted);
+  touch-action: none;
+  outline: none;
+}
+
+.space-hint {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--fgColor-muted);
+  margin: 0 0 0.5rem;
+}
+.space-hint kbd {
+  display: inline-block;
+  padding: 0.05em 0.4em;
+  margin: 0 1px;
+  font-family: var(--mono);
+  font-size: 0.8em;
+  border: 1px solid var(--borderColor-default);
+  border-radius: 4px;
+  background: var(--bgColor-default);
 }
 
 .proximity-note {
