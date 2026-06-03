@@ -1,7 +1,6 @@
-/* Header — sticky, semi-transparent, syncs with the warm-neutral palette */
+/* Header — scrolls away with the page, semi-transparent, syncs with the warm-neutral palette */
 header.site-header {
-    position: sticky;
-    top: 0;
+    position: static;
     z-index: 50;
     height: var(--header-height, 64px);
     background-color: var(--bgColor-default);
