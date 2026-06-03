@@ -24,13 +24,15 @@ func TestBestScoreOnlyMatchesSolver(t *testing.T) {
 	}
 }
 
-// remainingTiles must exclude exactly the seen tiles and total 98 - len(seen).
+// remainingTiles must exclude exactly the seen tiles, leaving the rest of the
+// bag. We derive the expected count from the bag itself so the test tracks the
+// letter distribution rather than a hardcoded total.
 func TestRemainingTiles(t *testing.T) {
 	bag := newBag()
 	seen := bag[:10]
 	rem := remainingTiles(seen)
-	if len(rem) != 98-len(seen) {
-		t.Fatalf("remaining count = %d, want %d", len(rem), 98-len(seen))
+	if len(rem) != len(bag)-len(seen) {
+		t.Fatalf("remaining count = %d, want %d", len(rem), len(bag)-len(seen))
 	}
 }
 
