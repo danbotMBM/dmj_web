@@ -1,0 +1,58 @@
+---
+title: Raytrace Audio Lab · 3D · danbot lab
+description: "Walk a first-person voxel world of three rooms — small, vast, and tall — where ray-traced direct, echo, and permeation audio respond to your position and view. Headphones recommended for the 3D HRTF spatial sound."
+extraCss:
+  - /games/raytrace-3d/raytrace3d.css
+---
+{% extends "layouts/base.njk" %}
+
+{% block head %}
+<script type="importmap">
+{ "imports": { "three": "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js" } }
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="rt3-shell">
+  <div id="stage"></div>
+  <div class="cross"></div>
+
+  <div class="readout">
+    <div class="cell"><div class="k">Direct · A·B</div><div class="v muted" id="ro-direct">—</div></div>
+    <div class="cell"><div class="k">Echo · mag·time</div><div class="v muted" id="ro-echo">—</div></div>
+    <div class="cell"><div class="k">Permeate · A·B</div><div class="v muted" id="ro-permeate">—</div></div>
+  </div>
+
+  <div class="hint" id="hint">Move with the stick · drag the right side to look · "Move Src" aims a source with your view</div>
+
+  <div id="stick"><div class="nub"></div></div>
+
+  <div class="dock">
+    <div class="ray-toggles">
+      <button class="toggle" data-ray="direct"><span class="dot"></span><span class="lbl">Direct</span></button>
+      <button class="toggle" data-ray="echo"><span class="dot"></span><span class="lbl">Echo</span></button>
+      <button class="toggle" data-ray="permeate"><span class="dot"></span><span class="lbl">Permeate</span></button>
+    </div>
+    <div class="row">
+      <button class="btn primary" id="audioBtn">Sound: Off</button>
+      <button class="btn" id="moveBtn">Move Src: Off</button>
+    </div>
+    <div class="row" style="margin-top:7px;">
+      <button class="btn" id="raysBtn">Rays: Hide</button>
+      <button class="btn" id="resetBtn">Respawn</button>
+      <button class="btn" id="fsBtn">Fullscreen: Off</button>
+    </div>
+  </div>
+
+  <div id="startgate">
+    <h2>Raytrace Audio Lab · 3D</h2>
+    <p>A voxel world with three rooms — small, vast, and tall. Walk around and toggle the three ray-traced audio techniques. Headphones strongly recommended for the 3D (HRTF) audio.</p>
+    <p id="ctrlhint">WASD / arrows to move · mouse to look · click to begin</p>
+    <button id="enterBtn">Enter</button>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="/games/raytrace-3d/app.js"></script>
+{% endblock %}
