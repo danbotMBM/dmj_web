@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<title>Raytrace Audio Lab · 3D</title>
+<style>
+  :root{
+    --bg:#0a0e14; --panel:#121821; --edge:#1f2b3a; --ink:#e6edf3; --dim:#6b7d91;
+    --direct:#ffb454; --echo:#ff5e87; --permeate:#7ee787; --accent:#59d4ff;
+    --srcA:#59d4ff; --srcB:#c792ea;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;overflow:hidden;}
+  body{background:var(--bg);color:var(--ink);font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;touch-action:none;user-select:none;}
+  #stage{position:fixed;inset:0;}
+  #stage canvas{display:block;width:100%;height:100%;}
+
+  /* top readout */
+  .readout{position:fixed;top:0;left:0;right:0;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--edge);
+    padding-top:env(safe-area-inset-top);z-index:5;}
+  .readout .cell{background:rgba(10,14,20,.82);backdrop-filter:blur(8px);padding:8px 10px;}
+  .readout .k{font-size:8px;letter-spacing:1.2px;color:var(--dim);text-transform:uppercase;}
+  .readout .v{font-size:13px;margin-top:2px;font-variant-numeric:tabular-nums;}
+  .readout .v.muted{color:var(--dim);}
+
+  /* crosshair */
+  .cross{position:fixed;top:50%;left:50%;width:18px;height:18px;transform:translate(-50%,-50%);z-index:4;opacity:.5;pointer-events:none;}
+  .cross:before,.cross:after{content:"";position:absolute;background:var(--ink);}
+  .cross:before{left:8px;top:0;width:2px;height:18px;}
+  .cross:after{top:8px;left:0;height:2px;width:18px;}
+
+  /* ray toggles - bottom */
+  .dock{position:fixed;left:0;right:0;bottom:0;padding:10px 10px calc(10px + env(safe-area-inset-bottom));z-index:6;
+    background:linear-gradient(to top,rgba(10,14,20,.92),rgba(10,14,20,.55) 70%,transparent);}
+  .ray-toggles{display:flex;gap:7px;margin-bottom:8px;}
+  .toggle{flex:1;appearance:none;border:1px solid var(--edge);background:rgba(13,19,27,.85);color:var(--dim);
+    border-radius:11px;padding:9px 4px 8px;font-family:inherit;font-size:9.5px;letter-spacing:.6px;
+    display:flex;flex-direction:column;align-items:center;gap:5px;}
+  .toggle .dot{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.35;}
+  .toggle .lbl{text-transform:uppercase;font-weight:600;}
+  .toggle[data-ray="direct"]{--c:var(--direct);} .toggle[data-ray="echo"]{--c:var(--echo);} .toggle[data-ray="permeate"]{--c:var(--permeate);}
+  .toggle.on{color:var(--c);border-color:var(--c);} .toggle.on .dot{opacity:1;box-shadow:0 0 8px currentColor;}
+
+  .row{display:flex;gap:7px;}
+  .btn{flex:1;appearance:none;font-family:inherit;border:1px solid var(--edge);background:rgba(13,19,27,.85);color:var(--ink);
+    border-radius:10px;padding:9px;font-size:10px;letter-spacing:.8px;text-transform:uppercase;}
+  .btn:active{background:#161f2b;} .btn.primary{border-color:var(--accent);color:var(--accent);}
+
+  /* mobile move stick */
+  #stick{position:fixed;left:18px;bottom:130px;width:120px;height:120px;border-radius:50%;
+    background:rgba(18,24,33,.5);border:1px solid var(--edge);z-index:6;touch-action:none;}
+  #stick .nub{position:absolute;left:50%;top:50%;width:48px;height:48px;border-radius:50%;
+    background:rgba(89,212,255,.35);border:1px solid var(--accent);transform:translate(-50%,-50%);}
+  .hint{position:fixed;top:calc(env(safe-area-inset-top) + 58px);left:0;right:0;text-align:center;
+    font-size:10px;color:var(--dim);letter-spacing:.4px;z-index:4;pointer-events:none;padding:0 16px;transition:opacity .5s;}
+
+  /* desktop start overlay (pointer lock needs a click) */
+  #startgate{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:rgba(10,14,20,.92);backdrop-filter:blur(4px);gap:14px;text-align:center;padding:24px;}
+  #startgate h2{font-size:15px;letter-spacing:2px;text-transform:uppercase;}
+  #startgate p{font-size:11px;color:var(--dim);line-height:1.7;max-width:340px;}
+  #startgate button{margin-top:8px;appearance:none;font-family:inherit;border:1px solid var(--accent);color:var(--accent);
+    background:transparent;border-radius:12px;padding:13px 26px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;}
+</style>
+</head>
+<body>
+  <div id="stage"></div>
+  <div class="cross"></div>
+
+  <div class="readout">
+    <div class="cell"><div class="k">Direct · A·B</div><div class="v muted" id="ro-direct">—</div></div>
+    <div class="cell"><div class="k">Echo · mag·time</div><div class="v muted" id="ro-echo">—</div></div>
+    <div class="cell"><div class="k">Permeate · A·B</div><div class="v muted" id="ro-permeate">—</div></div>
+  </div>
+
+  <div class="hint" id="hint">Move with the stick · drag the right side to look · "Move Src" aims a source with your view</div>
+
+  <div id="stick"><div class="nub"></div></div>
+
+  <div class="dock">
+    <div class="ray-toggles">
+      <button class="toggle" data-ray="direct"><span class="dot"></span><span class="lbl">Direct</span></button>
+      <button class="toggle" data-ray="echo"><span class="dot"></span><span class="lbl">Echo</span></button>
+      <button class="toggle" data-ray="permeate"><span class="dot"></span><span class="lbl">Permeate</span></button>
+    </div>
+    <div class="row">
+      <button class="btn primary" id="audioBtn">Sound: Off</button>
+      <button class="btn" id="moveBtn">Move Src: Off</button>
+    </div>
+    <div class="row" style="margin-top:7px;">
+      <button class="btn" id="raysBtn">Rays: Hide</button>
+      <button class="btn" id="resetBtn">Respawn</button>
+    </div>
+  </div>
+
+  <div id="startgate">
+    <h2>Raytrace Audio Lab · 3D</h2>
+    <p>A voxel world with three rooms — small, vast, and tall. Walk around and toggle the three ray-traced audio techniques. Headphones strongly recommended for the 3D (HRTF) audio.</p>
+    <p id="ctrlhint">WASD / arrows to move · mouse to look · click to begin</p>
+    <button id="enterBtn">Enter</button>
+  </div>
+
+<script type="importmap">
+{ "imports": { "three": "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+
+/* ════════════════════════════════════════════════════════════
+   VOXEL WORLD — a 3D grid. 0 = empty, 1 = solid. Cell size in m.
+   The whole acoustic + collision model reads from this grid.
+   ════════════════════════════════════════════════════════════ */
+const World = (() => {
+  const CELL = 1.5;                       // metres per voxel
+  let NX=0, NY=0, NZ=0;                    // grid dims (x,height,z)
+  let grid = null;                        // Uint8Array, idx = x + NX*(y + NY*z)
+
+  const idx = (x,y,z) => x + NX*(y + NY*z);
+  const inBounds = (x,y,z) => x>=0&&y>=0&&z>=0&&x<NX&&y<NY&&z<NZ;
+  function solid(x,y,z){ if(!inBounds(x,y,z)) return true; return grid[idx(x,y,z)]===1; } // OOB = solid wall
+  function solidAt(wx,wy,wz){ return solid(Math.floor(wx/CELL),Math.floor(wy/CELL),Math.floor(wz/CELL)); }
+
+  // build the multi-room layout. Returns spawn point.
+  let spawn = new THREE.Vector3();
+  let rooms = [];
+  function build(){
+    // overall bounds chosen to fit three rooms + connecting corridors
+    NX=46; NY=14; NZ=30;
+    grid = new Uint8Array(NX*NY*NZ).fill(1);   // start all solid, carve rooms
+
+    rooms = [];
+    const carve=(x0,y0,z0,x1,y1,z1)=>{
+      for(let x=x0;x<=x1;x++)for(let y=y0;y<=y1;y++)for(let z=z0;z<=z1;z++)
+        if(inBounds(x,y,z)) grid[idx(x,y,z)]=0;
+    };
+    // Room S (small): low ceiling, tight
+    carve(2,1,2, 8,3,8);          rooms.push({name:'small',cx:5,cz:5});
+    // Room L (very big): wide and fairly tall
+    carve(12,1,2, 30,7,22);       rooms.push({name:'big',cx:21,cz:12});
+    // Room T (tall & narrow): small footprint, very high
+    carve(34,1,4, 39,12,9);       rooms.push({name:'tall',cx:36,cz:6});
+
+    // corridors connecting them (carve doorways at floor level)
+    carve(8,1,4, 13,2,6);         // small → big
+    carve(30,1,10, 35,2,12);      // big → tall
+
+    // ── interior partition walls in the BIG room that stop short of the
+    //    ceiling (room ceiling is y=7; these rise to y=4, leaving a gap) ──
+    const fill=(x0,y0,z0,x1,y1,z1)=>{
+      for(let x=x0;x<=x1;x++)for(let y=y0;y<=y1;y++)for(let z=z0;z<=z1;z++)
+        if(inBounds(x,y,z)) grid[idx(x,y,z)]=1;
+    };
+    fill(17,1,2, 17,4,14);        // long divider from the north wall, gap before far side
+    fill(24,1,9, 24,4,22);        // offset divider from the south wall
+    fill(20,1,17, 27,4,17);       // cross piece creating a little alcove
+    // top of the big room (y 5–7) stays open over all of these
+
+    spawn.set(5*CELL+CELL/2, 1*CELL+0.9, 5*CELL+CELL/2); // stand in small room
+    return spawn;
+  }
+
+  /* 3D DDA (Amanatides & Woo). Casts from world point along unit dir.
+     onCell(cx,cy,cz, tEnter) called for each cell entered (excluding start).
+     Stops when cb returns an object {stop:true,...}; that object is returned.
+     Also returns {face} axis of last crossing for normals. */
+  function dda(ox,oy,oz, dx,dy,dz, maxDist, cb){
+    let cx=Math.floor(ox/CELL), cy=Math.floor(oy/CELL), cz=Math.floor(oz/CELL);
+    const stepX=Math.sign(dx)||1, stepY=Math.sign(dy)||1, stepZ=Math.sign(dz)||1;
+    const inv=(d)=> d!==0 ? 1/Math.abs(d) : Infinity;
+    const tDX=inv(dx)*CELL, tDY=inv(dy)*CELL, tDZ=inv(dz)*CELL;
+    // distance to first boundary on each axis
+    const fx = dx>0 ? (cx+1)*CELL-ox : ox-cx*CELL;
+    const fy = dy>0 ? (cy+1)*CELL-oy : oy-cy*CELL;
+    const fz = dz>0 ? (cz+1)*CELL-oz : oz-cz*CELL;
+    let tMaxX = dx!==0 ? fx*inv(dx) : Infinity;
+    let tMaxY = dy!==0 ? fy*inv(dy) : Infinity;
+    let tMaxZ = dz!==0 ? fz*inv(dz) : Infinity;
+    let t=0, face='x';
+    let guard=0;
+    while(t<=maxDist && guard++<512){
+      if(tMaxX<tMaxY && tMaxX<tMaxZ){ cx+=stepX; t=tMaxX; tMaxX+=tDX; face='x'; }
+      else if(tMaxY<tMaxZ){ cy+=stepY; t=tMaxY; tMaxY+=tDY; face='y'; }
+      else { cz+=stepZ; t=tMaxZ; tMaxZ+=tDZ; face='z'; }
+      const r = cb(cx,cy,cz,t,face);
+      if(r && r.stop) return Object.assign({t,face,cx,cy,cz},r);
+    }
+    return null;
+  }
+
+  function dims(){ return {NX,NY,NZ,CELL}; }
+  function eachSolid(fn){ for(let z=0;z<NZ;z++)for(let y=0;y<NY;y++)for(let x=0;x<NX;x++) if(grid[idx(x,y,z)]===1) fn(x,y,z); }
+
+  return { CELL, build, solid, solidAt, dda, dims, eachSolid, get spawn(){return spawn;}, get rooms(){return rooms;} };
+})();
+
+/* ════════════════════════════════════════════════════════════
+   SCENE — perspective first-person renderer over the voxel world.
+   ════════════════════════════════════════════════════════════ */
+const Scene = (()=>{
+  const stageEl=document.getElementById('stage');
+  const renderer=new THREE.WebGLRenderer({antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));
+  stageEl.appendChild(renderer.domElement);
+
+  const scene=new THREE.Scene();
+  scene.background=new THREE.Color(0x0a0e14);
+  scene.fog=new THREE.Fog(0x0a0e14, 12, 60);
+
+  const camera=new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 200);
+
+  // lights
+  scene.add(new THREE.AmbientLight(0x8090a8, 0.6));
+  const hemi=new THREE.HemisphereLight(0xbfd4ff, 0x141a22, 0.8); scene.add(hemi);
+  const key=new THREE.DirectionalLight(0xffffff,0.5); key.position.set(20,40,10); scene.add(key);
+
+  const rayGroup=new THREE.Group(); scene.add(rayGroup);
+  const actorGroup=new THREE.Group(); scene.add(actorGroup);
+
+  // ── build voxel meshes via instancing (one InstancedMesh for all solids) ──
+  let voxelMesh=null;
+  function buildVoxels(){
+    if(voxelMesh){ voxelMesh.geometry.dispose(); voxelMesh.material.dispose(); scene.remove(voxelMesh); }
+    const {CELL}=World.dims();
+    const cells=[]; World.eachSolid((x,y,z)=>{
+      // only render solids that touch empty space (skip fully buried) → fewer instances
+      if(!touchesEmpty(x,y,z)) return;
+      cells.push([x,y,z]);
+    });
+    const geo=new THREE.BoxGeometry(CELL,CELL,CELL);
+    const mat=new THREE.MeshStandardMaterial({color:0x2a3646,roughness:.95,metalness:0,
+      emissive:0x0a0f15, flatShading:true});
+    voxelMesh=new THREE.InstancedMesh(geo,mat,cells.length);
+    const m=new THREE.Matrix4();
+    cells.forEach(([x,y,z],i)=>{
+      m.setPosition((x+.5)*CELL,(y+.5)*CELL,(z+.5)*CELL);
+      voxelMesh.setMatrixAt(i,m);
+    });
+    voxelMesh.instanceMatrix.needsUpdate=true;
+    scene.add(voxelMesh);
+  }
+  function touchesEmpty(x,y,z){
+    return !World.solid(x+1,y,z)||!World.solid(x-1,y,z)||!World.solid(x,y+1,z)||
+           !World.solid(x,y-1,z)||!World.solid(x,y,z+1)||!World.solid(x,y,z-1);
+  }
+
+  // ── source markers (glowing spheres) ──
+  function makeSource(color){
+    const g=new THREE.Group();
+    const core=new THREE.Mesh(new THREE.SphereGeometry(0.45,20,16),
+      new THREE.MeshBasicMaterial({color}));
+    const glow=new THREE.Mesh(new THREE.SphereGeometry(0.75,16,12),
+      new THREE.MeshBasicMaterial({color,transparent:true,opacity:.18}));
+    g.add(core,glow); return g;
+  }
+  const sourceA=makeSource(0x59d4ff);
+  const sourceB=makeSource(0xc792ea);
+  actorGroup.add(sourceA,sourceB);
+
+  // ── ray drawing (disposed each frame) ──
+  function clearRays(){
+    for(const o of rayGroup.children){ o.geometry&&o.geometry.dispose(); o.material&&o.material.dispose(); }
+    rayGroup.clear();
+  }
+  function drawPath(pts,colorHex,opacity=1){
+    const v=pts.map(p=>new THREE.Vector3(p.x,p.y,p.z));
+    const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints(v),
+      new THREE.LineBasicMaterial({color:colorHex,transparent:true,opacity}));
+    rayGroup.add(line);
+  }
+  function setRayVisible(v){ rayGroup.visible=v; }
+
+  function resize(){
+    const w=innerWidth,h=innerHeight;
+    renderer.setSize(w,h,false);
+    camera.aspect=w/h; camera.updateProjectionMatrix();
+  }
+  addEventListener('resize',resize); resize();
+
+  function render(){ renderer.render(scene,camera); }
+
+  return { scene,camera,render,resize, buildVoxels, clearRays,drawPath,setRayVisible,
+    sourceA,sourceB, domElement:renderer.domElement };
+})();
+
+/* ════════════════════════════════════════════════════════════
+   RAY MODULES — 3D, voxel-based. Directions over a sphere.
+   ════════════════════════════════════════════════════════════ */
+function fibSphere(n){
+  const pts=[]; const gr=Math.PI*(3-Math.sqrt(5));
+  for(let i=0;i<n;i++){ const y=1-(i/(n-1))*2; const r=Math.sqrt(1-y*y); const th=gr*i;
+    pts.push({x:Math.cos(th)*r,y,z:Math.sin(th)*r}); }
+  return pts;
+}
+const SPHERE_DIRS_DIRECT = fibSphere(220);
+const SPHERE_DIRS_ECHO   = fibSphere(220);
+
+function reflectFace(d,face){
+  if(face==='x') return {x:-d.x,y:d.y,z:d.z};
+  if(face==='y') return {x:d.x,y:-d.y,z:d.z};
+  return {x:d.x,y:d.y,z:-d.z};
+}
+function dist3(a,b){ return Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z); }
+
+const RayModules={
+  direct:{
+    color:0xffb454, MAX_BOUNCE:3, MAX_DIST:55, CAPTURE_R:1.1, REF_DIST:6,
+    cast(origin, srcPos, scene, st){
+      st=st||this;
+      const reached=[];
+      for(const d0 of SPHERE_DIRS_DIRECT){
+        let dx=d0.x,dy=d0.y,dz=d0.z;
+        let ox=origin.x,oy=origin.y,oz=origin.z;
+        let travelled=0, hitSource=false;
+        const path=[{x:ox,y:oy,z:oz}];
+        for(let b=0;b<=this.MAX_BOUNCE;b++){
+          // capture test: does segment pass within CAPTURE_R of source before a wall?
+          const hit=World.dda(ox,oy,oz,dx,dy,dz,this.MAX_DIST-travelled,(cx,cy,cz)=>{
+            return World.solid(cx,cy,cz)?{stop:true}:null;
+          });
+          const segLen=hit?hit.t:(this.MAX_DIST-travelled);
+          // closest approach to source along this segment
+          const wx=srcPos.x-ox, wy=srcPos.y-oy, wz=srcPos.z-oz;
+          const proj=Math.max(0,Math.min(segLen, wx*dx+wy*dy+wz*dz));
+          const ccx=ox+dx*proj, ccy=oy+dy*proj, ccz=oz+dz*proj;
+          if(Math.hypot(srcPos.x-ccx,srcPos.y-ccy,srcPos.z-ccz)<=this.CAPTURE_R){
+            travelled+=proj; path.push({x:ccx,y:ccy,z:ccz}); hitSource=true; break;
+          }
+          if(!hit) break;
+          travelled+=hit.t;
+          const hx=ox+dx*hit.t, hy=oy+dy*hit.t, hz=oz+dz*hit.t;
+          path.push({x:hx,y:hy,z:hz});
+          const r=reflectFace({x:dx,y:dy,z:dz},hit.face); dx=r.x;dy=r.y;dz=r.z;
+          ox=hx+dx*1e-3; oy=hy+dy*1e-3; oz=hz+dz*1e-3;
+        }
+        if(hitSource) reached.push({dir0:d0,dist:travelled,path});
+      }
+      // combine
+      let vx=0,vy=0,vz=0,energy=0;
+      for(const r of reached){ const w=this.REF_DIST/Math.max(this.REF_DIST,r.dist);
+        energy+=w; vx+=r.dir0.x*w; vy+=r.dir0.y*w; vz+=r.dir0.z*w; }
+      const volRaw=Math.min(1, energy/(SPHERE_DIRS_DIRECT.length*0.05));
+      const L=Math.hypot(vx,vy,vz)||1;
+      const dirRaw={x:vx/L,y:vy/L,z:vz/L};
+      const S=0.82;
+      st._v=(st._v||0)*S+volRaw*(1-S);
+      st._dx=(st._dx||0)*S+dirRaw.x*volRaw*(1-S);
+      st._dy=(st._dy||0)*S+dirRaw.y*volRaw*(1-S);
+      st._dz=(st._dz||0)*S+dirRaw.z*volRaw*(1-S);
+      const dl=Math.hypot(st._dx,st._dy,st._dz)||1;
+      const dir={x:st._dx/dl,y:st._dy/dl,z:st._dz/dl};
+      if(scene){ const col=st.color||this.color;
+        const stride=Math.max(1,Math.ceil(reached.length/24));
+        for(let i=0;i<reached.length;i+=stride) if(reached[i].path.length>1) scene.drawPath(reached[i].path,col,0.2);
+      }
+      return {volume:st._v, dir, reachedCount:reached.length};
+    },
+  },
+
+  echo:{
+    color:0xff5e87, MAX_BOUNCE:5, MAX_DIST:80, RETURN_R:1.3, MIN_PATH:3, REF_DIST:12, SPEED:343,
+    cast(origin, scene, st){
+      st=st||this;
+      const returns=[];
+      for(const d0 of SPHERE_DIRS_ECHO){
+        let dx=d0.x,dy=d0.y,dz=d0.z;
+        let ox=origin.x,oy=origin.y,oz=origin.z;
+        let travelled=0, returned=false, arrive=null;
+        const path=[{x:ox,y:oy,z:oz}];
+        for(let b=0;b<=this.MAX_BOUNCE;b++){
+          const hit=World.dda(ox,oy,oz,dx,dy,dz,this.MAX_DIST-travelled,(cx,cy,cz)=>World.solid(cx,cy,cz)?{stop:true}:null);
+          const segLen=hit?hit.t:(this.MAX_DIST-travelled);
+          if(b>0){ // closest approach back to player
+            const wx=origin.x-ox,wy=origin.y-oy,wz=origin.z-oz;
+            const proj=Math.max(0,Math.min(segLen,wx*dx+wy*dy+wz*dz));
+            const cax=ox+dx*proj,cay=oy+dy*proj,caz=oz+dz*proj;
+            if(travelled+proj>this.MIN_PATH && Math.hypot(origin.x-cax,origin.y-cay,origin.z-caz)<=this.RETURN_R){
+              travelled+=proj; path.push({x:cax,y:cay,z:caz}); arrive={x:-dx,y:-dy,z:-dz}; returned=true; break;
+            }
+          }
+          if(!hit) break;
+          travelled+=hit.t;
+          const hx=ox+dx*hit.t,hy=oy+dy*hit.t,hz=oz+dz*hit.t; path.push({x:hx,y:hy,z:hz});
+          const r=reflectFace({x:dx,y:dy,z:dz},hit.face); dx=r.x;dy=r.y;dz=r.z;
+          ox=hx+dx*1e-3;oy=hy+dy*1e-3;oz=hz+dz*1e-3;
+        }
+        if(returned) returns.push({arrive,dist:travelled,path});
+      }
+      let vx=0,vy=0,vz=0,energy=0,wDelay=0;
+      for(const r of returns){ const w=this.REF_DIST/Math.max(this.REF_DIST,r.dist);
+        energy+=w; vx+=r.arrive.x*w; vy+=r.arrive.y*w; vz+=r.arrive.z*w; wDelay+=(r.dist/this.SPEED)*w; }
+      const magRaw=Math.min(1, energy/(SPHERE_DIRS_ECHO.length*0.07));
+      const delayRaw=energy>1e-6?wDelay/energy:0;
+      const L=Math.hypot(vx,vy,vz)||1; const dirRaw={x:vx/L,y:vy/L,z:vz/L};
+      const S=0.88;
+      st._m=(st._m||0)*S+magRaw*(1-S);
+      st._delay=(st._delay||0)*S+delayRaw*(1-S);
+      st._dx=(st._dx||0)*S+dirRaw.x*magRaw*(1-S);
+      st._dy=(st._dy||0)*S+dirRaw.y*magRaw*(1-S);
+      st._dz=(st._dz||0)*S+dirRaw.z*magRaw*(1-S);
+      const dl=Math.hypot(st._dx,st._dy,st._dz)||1;
+      const dir={x:st._dx/dl,y:st._dy/dl,z:st._dz/dl};
+      if(scene){ const stride=Math.max(1,Math.ceil(returns.length/24));
+        for(let i=0;i<returns.length;i+=stride) if(returns[i].path.length>1) scene.drawPath(returns[i].path,this.color,0.16);
+      }
+      return {magnitude:st._m, dir, delay:st._delay, returnCount:returns.length};
+    },
+  },
+
+  permeate:{
+    color:0x7ee787, RAY_COUNT:25, SPREAD:0.35, REF_THICK:2.0,
+    cast(origin, srcPos, scene, st){
+      st=st||this;
+      const to={x:srcPos.x-origin.x,y:srcPos.y-origin.y,z:srcPos.z-origin.z};
+      const dist=Math.hypot(to.x,to.y,to.z)||1;
+      const fwd={x:to.x/dist,y:to.y/dist,z:to.z/dist};
+      // build a small basis around fwd for the fan
+      const up=Math.abs(fwd.y)<0.9?{x:0,y:1,z:0}:{x:1,y:0,z:0};
+      const right=norm(cross(fwd,up)); const realUp=cross(right,fwd);
+      const {CELL}=World.dims();
+      let sumInside=0,n=0; const rays=[];
+      const side=Math.round(Math.sqrt(this.RAY_COUNT));
+      for(let iy=0;iy<side;iy++)for(let ix=0;ix<side;ix++){
+        const fx=(ix/(side-1)*2-1)*this.SPREAD, fy=(iy/(side-1)*2-1)*this.SPREAD;
+        let dx=fwd.x+right.x*fx+realUp.x*fy, dy=fwd.y+right.y*fx+realUp.y*fy, dz=fwd.z+right.z*fx+realUp.z*fy;
+        const dl=Math.hypot(dx,dy,dz)||1; dx/=dl;dy/=dl;dz/=dl;
+        // in-voxel distance: for each solid cell the ray passes through, add the
+        // length of ray inside it = (exit t) − (entry t). DDA gives the entry t
+        // of each newly-entered cell, so a cell's exit = next cell's entry.
+        let inside=0; const segs=[]; let prevT=0, prevSolid=false;
+        World.dda(origin.x,origin.y,origin.z,dx,dy,dz,dist,(cx,cy,cz,t)=>{
+          if(prevSolid){ const seg=Math.min(t,dist)-prevT; if(seg>0){ inside+=seg; segs.push([prevT,Math.min(t,dist)]); } }
+          prevT=t; prevSolid=World.solid(cx,cy,cz);
+          return null;
+        });
+        if(prevSolid && prevT<dist){ inside+=dist-prevT; segs.push([prevT,dist]); }
+        sumInside+=inside; n++;
+        rays.push({dx,dy,dz,segs});
+      }
+      const avgInside=sumInside/n;
+      const muffleRaw=1-Math.exp(-avgInside/this.REF_THICK);
+      const throughRaw=Math.exp(-avgInside/(this.REF_THICK*1.6));
+      const S=0.86;
+      st._muffle=(st._muffle||0)*S+muffleRaw*(1-S);
+      st._through=(st._through==null?1:st._through)*S+throughRaw*(1-S);
+      const dir=fwd;
+      if(scene){ const col=st.color||this.color;
+        for(let i=0;i<rays.length;i+=2){ const r=rays[i];
+          scene.drawPath([origin,{x:origin.x+r.dx*dist,y:origin.y+r.dy*dist,z:origin.z+r.dz*dist}],col,0.08);
+          for(const [t0,t1] of r.segs) scene.drawPath(
+            [{x:origin.x+r.dx*t0,y:origin.y+r.dy*t0,z:origin.z+r.dz*t0},
+             {x:origin.x+r.dx*t1,y:origin.y+r.dy*t1,z:origin.z+r.dz*t1}],col,0.65);
+        }
+      }
+      return {muffle:st._muffle, through:st._through, avgInside, dir};
+    },
+  },
+};
+function cross(a,b){return {x:a.y*b.z-a.z*b.y,y:a.z*b.x-a.x*b.z,z:a.x*b.y-a.y*b.x};}
+function norm(a){const l=Math.hypot(a.x,a.y,a.z)||1;return{x:a.x/l,y:a.y/l,z:a.z/l};}
+
+/* ════════════════════════════════════════════════════════════
+   AUDIO — two voices (A,B), each direct + permeate; one echo on
+   the combined SCALED direct output. Listener tracks the player.
+   ════════════════════════════════════════════════════════════ */
+const Audio=(()=>{
+  let ctx=null,master=null,drySum=null,started=false;
+  const A3=220;
+  const SONGS={
+    a:{notes:[0,3,7,10,7,3,5,null, 0,3,7,12,10,7,3,null, -2,3,5,7,5,3,0,null, -5,0,3,7,3,0,-2,null],bpm:96,wave:'triangle'},
+    b:{notes:[-5,null,-2,0,null,3,-2,null, -7,null,-5,-2,0,null,-2,null, 2,null,0,-2,-5,null,-7,null, -10,null,-7,-5,null,-2,-5,null],bpm:72,wave:'sawtooth'},
+  };
+  const hz=s=>A3*Math.pow(2,s/12);
+  function mkPanner(){const p=ctx.createPanner();p.panningModel='HRTF';p.distanceModel='inverse';
+    p.refDistance=2;p.maxDistance=60;p.rolloffFactor=1;return p;}
+
+  const voices={};
+  function makeVoice(key){
+    const song=SONGS[key]; const step=60/song.bpm/2;
+    const v={key,song,step,nextNoteTime:0,idx:0};
+    v.build=()=>{
+      v.noteBus=ctx.createGain();
+      v.directGain=ctx.createGain();v.directGain.gain.value=0;
+      v.panner=mkPanner();
+      v.noteBus.connect(v.directGain);v.directGain.connect(v.panner);v.panner.connect(master);
+      v.permGain=ctx.createGain();v.permGain.gain.value=0;
+      v.permLP=ctx.createBiquadFilter();v.permLP.type='lowpass';v.permLP.frequency.value=20000;v.permLP.Q.value=0.7;
+      v.permPan=mkPanner();
+      v.noteBus.connect(v.permGain);v.permGain.connect(v.permLP);v.permLP.connect(v.permPan);v.permPan.connect(master);
+      v.directGain.connect(drySum); // echo taps SCALED direct
+    };
+    v.note=(s,t)=>{ if(s==null)return;
+      const o=ctx.createOscillator(),g=ctx.createGain();o.type=song.wave;o.frequency.value=hz(s);
+      const dur=step*1.6;g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.2,t+0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+      const sub=ctx.createOscillator();sub.type='sine';sub.frequency.value=hz(s-12);
+      const sg=ctx.createGain();sg.gain.value=0.45;sub.connect(sg);sg.connect(g);
+      o.connect(g);g.connect(v.noteBus);o.start(t);sub.start(t);o.stop(t+dur+0.05);sub.stop(t+dur+0.05);
+    };
+    v.pump=()=>{ while(v.nextNoteTime<ctx.currentTime+0.12){ v.note(song.notes[v.idx%song.notes.length],v.nextNoteTime); v.nextNoteTime+=step; v.idx++; } };
+    v.start=()=>{v.nextNoteTime=ctx.currentTime+0.05;v.idx=0;};
+    return v;
+  }
+
+  // listener-relative placement: given a WORLD position + listener transform,
+  // we just set the panner to the world position; listener handles the rest.
+  function setPanner(p,worldPos){
+    const t=ctx.currentTime;
+    if(p.positionX){p.positionX.setTargetAtTime(worldPos.x,t,0.04);p.positionY.setTargetAtTime(worldPos.y,t,0.04);p.positionZ.setTargetAtTime(worldPos.z,t,0.04);}
+    else p.setPosition(worldPos.x,worldPos.y,worldPos.z);
+  }
+  // For direct/echo we place by DIRECTION (the perceived arrival), at a fixed
+  // radius around the listener position, transformed into world space.
+  let listenerPos={x:0,y:0,z:0};
+  const PLACE_R=3;
+  function placeByDir(p,dir){ setPanner(p,{x:listenerPos.x+dir.x*PLACE_R,y:listenerPos.y+dir.y*PLACE_R,z:listenerPos.z+dir.z*PLACE_R}); }
+
+  let echoDelay,echoFB,echoGain,echoPan,_echoT=0.18; const ESTEP=0.04,EDEAD=0.05;
+
+  function ensure(){
+    if(!ctx){
+      ctx=new (window.AudioContext||window.webkitAudioContext)();
+      master=ctx.createGain();master.gain.value=0.82;
+      drySum=ctx.createGain();
+      voices.a=makeVoice('a');voices.a.build();
+      voices.b=makeVoice('b');voices.b.build();
+      echoDelay=ctx.createDelay(2);echoDelay.delayTime.value=0.18;
+      echoFB=ctx.createGain();echoFB.gain.value=0;
+      echoGain=ctx.createGain();echoGain.gain.value=0;
+      echoPan=mkPanner();
+      drySum.connect(echoDelay);echoDelay.connect(echoFB);echoFB.connect(echoDelay);
+      echoDelay.connect(echoGain);echoGain.connect(echoPan);echoPan.connect(master);
+      master.connect(ctx.destination);
+    }
+    if(ctx.state==='suspended')ctx.resume();
+    return ctx;
+  }
+  let timer=null;
+  function play(){ ensure(); if(started)return; started=true; voices.a.start();voices.b.start();
+    timer=setInterval(()=>{voices.a.pump();voices.b.pump();},25); }
+  function isPlaying(){return started;}
+
+  // update listener from camera each frame
+  function updateListener(cam){
+    if(!ctx)return;
+    listenerPos={x:cam.position.x,y:cam.position.y,z:cam.position.z};
+    const L=ctx.listener; const t=ctx.currentTime;
+    const fwd=new THREE.Vector3();cam.getWorldDirection(fwd);
+    if(L.positionX){
+      L.positionX.setTargetAtTime(cam.position.x,t,0.02);
+      L.positionY.setTargetAtTime(cam.position.y,t,0.02);
+      L.positionZ.setTargetAtTime(cam.position.z,t,0.02);
+      L.forwardX.setTargetAtTime(fwd.x,t,0.02);L.forwardY.setTargetAtTime(fwd.y,t,0.02);L.forwardZ.setTargetAtTime(fwd.z,t,0.02);
+      L.upX.value=0;L.upY.value=1;L.upZ.value=0;
+    } else { L.setPosition(cam.position.x,cam.position.y,cam.position.z); L.setOrientation(fwd.x,fwd.y,fwd.z,0,1,0); }
+  }
+
+  // dir vectors from ray modules are in WORLD axes already (player-relative
+  // arrival direction). Place panners around listener using world dir.
+  function applyDirect(key,r){ const v=voices[key]; if(!v)return;
+    v.directGain.gain.setTargetAtTime(r.volume,ctx.currentTime,0.04); placeByDir(v.panner,r.dir); }
+  function silenceDirect(key){ voices[key]&&voices[key].directGain.gain.setTargetAtTime(0,ctx.currentTime,0.08); }
+  function applyPermeate(key,r){ const v=voices[key]; if(!v)return; const t=ctx.currentTime;
+    v.permGain.gain.setTargetAtTime(r.through*0.85,t,0.06);
+    v.permLP.frequency.setTargetAtTime(18000*Math.pow(350/18000,r.muffle),t,0.06);
+    placeByDir(v.permPan,r.dir); }
+  function silencePermeate(key){ voices[key]&&voices[key].permGain.gain.setTargetAtTime(0,ctx.currentTime,0.08); }
+  function applyEcho(r){ if(!echoGain)return; const t=ctx.currentTime;
+    const want=Math.max(0.06,Math.min(0.9,r.delay)); const snap=Math.round(want/ESTEP)*ESTEP;
+    if(Math.abs(snap-_echoT)>EDEAD){ _echoT=snap; echoGain.gain.setTargetAtTime(0.0001,t,0.02);
+      echoDelay.delayTime.setValueAtTime(_echoT,t+0.04); echoGain.gain.setTargetAtTime(r.magnitude*0.5,t+0.07,0.08); }
+    else echoGain.gain.setTargetAtTime(r.magnitude*0.5,t,0.1);
+    echoFB.gain.setTargetAtTime(Math.min(0.42,r.magnitude*0.5),t,0.12);
+    placeByDir(echoPan,r.dir); }
+  function silenceEcho(){ if(echoGain){const t=ctx.currentTime;echoGain.gain.setTargetAtTime(0,t,0.1);echoFB.gain.setTargetAtTime(0,t,0.1);} }
+
+  return {ensure,play,isPlaying,updateListener,applyDirect,silenceDirect,applyPermeate,silencePermeate,applyEcho,silenceEcho};
+})();
+
+/* ════════════════════════════════════════════════════════════
+   PLAYER — first-person controller with voxel collision.
+   ════════════════════════════════════════════════════════════ */
+const Player=(()=>{
+  const cam=Scene.camera;
+  let yaw=0,pitch=0;
+  const vel=new THREE.Vector3();
+  const RADIUS=0.4, HEIGHT=0.9, SPEED=5.5;
+  let move={f:0,s:0};   // forward/strafe from -1..1
+
+  function spawnAt(p){ cam.position.copy(p); yaw=Math.PI; pitch=0; applyLook(); }
+  function applyLook(){
+    const e=new THREE.Euler(pitch,yaw,0,'YXZ');
+    cam.quaternion.setFromEuler(e);
+  }
+  function look(dx,dy){ yaw-=dx*0.0026; pitch-=dy*0.0026;
+    const lim=Math.PI/2-0.05; pitch=Math.max(-lim,Math.min(lim,pitch)); applyLook(); }
+  function setMove(f,s){ move.f=f; move.s=s; }
+
+  // collide one axis at a time against voxels
+  function tryMove(axis,amount){
+    const p=cam.position.clone();
+    p[axis]+=amount;
+    // sample a small box around the player on the moved axis
+    const pts=[
+      [p.x-RADIUS,p.y,p.z-RADIUS],[p.x+RADIUS,p.y,p.z-RADIUS],
+      [p.x-RADIUS,p.y,p.z+RADIUS],[p.x+RADIUS,p.y,p.z+RADIUS],
+      [p.x,p.y-HEIGHT,p.z],[p.x,p.y+0.2,p.z],
+    ];
+    for(const [x,y,z] of pts) if(World.solidAt(x,y,z)) return; // blocked
+    cam.position[axis]=p[axis];
+  }
+
+  function update(dt){
+    const fwd=new THREE.Vector3(-Math.sin(yaw),0,-Math.cos(yaw));
+    const right=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));
+    const dir=new THREE.Vector3();
+    dir.addScaledVector(fwd,move.f); dir.addScaledVector(right,move.s);
+    if(dir.lengthSq()>1) dir.normalize();
+    const step=SPEED*dt;
+    tryMove('x',dir.x*step);
+    tryMove('z',dir.z*step);
+  }
+  return {cam,spawnAt,look,setMove,update,get yaw(){return yaw;}};
+})();
+
+/* ════════════════════════════════════════════════════════════
+   APP — input, loop, UI.
+   ════════════════════════════════════════════════════════════ */
+(()=>{
+  const active={direct:false,echo:false,permeate:false};
+  let raysVisible=true;
+  let moveMode='off';   // 'off' | 'a' | 'b' — source follows the crosshair
+  const rayState={a:{direct:{color:0x59d4ff},permeate:{color:0x59d4ff}},
+                  b:{direct:{color:0xc792ea},permeate:{color:0xc792ea}}};
+
+  // place sources in the big room & tall room
+  function placeSources(){
+    const {CELL}=World.dims();
+    Scene.sourceA.position.set(21*CELL,3*CELL,12*CELL);   // big room centre
+    Scene.sourceB.position.set(36*CELL,8*CELL,6.5*CELL);  // up high in tall room
+  }
+
+  const el={
+    toggles:[...document.querySelectorAll('.toggle')],
+    audioBtn:document.getElementById('audioBtn'),
+    moveBtn:document.getElementById('moveBtn'),
+    raysBtn:document.getElementById('raysBtn'),
+    resetBtn:document.getElementById('resetBtn'),
+    hint:document.getElementById('hint'),
+    stick:document.getElementById('stick'),
+    nub:document.querySelector('#stick .nub'),
+    gate:document.getElementById('startgate'),
+    enter:document.getElementById('enterBtn'),
+    ctrlhint:document.getElementById('ctrlhint'),
+    ro:{direct:document.getElementById('ro-direct'),echo:document.getElementById('ro-echo'),permeate:document.getElementById('ro-permeate')},
+  };
+
+  const isTouch=matchMedia('(pointer:coarse)').matches||'ontouchstart'in window;
+  if(!isTouch){ el.stick.style.display='none'; el.hint.textContent='WASD / arrows to move · move mouse to look'; }
+  else { el.ctrlhint.textContent='Left stick to move · drag right side to look · tap to begin'; }
+
+  // ── build world ──
+  World.build();
+  Scene.buildVoxels();
+  placeSources();
+  Player.spawnAt(World.spawn);
+
+  // ── start gate (needed for pointer lock + audio gesture) ──
+  el.enter.addEventListener('click',()=>{
+    el.gate.style.display='none';
+    Audio.ensure();
+    if(!isTouch) Scene.domElement.requestPointerLock();
+    setTimeout(()=>{el.hint.style.opacity='0';},3500);
+  });
+
+  // ── look input ──
+  if(!isTouch){
+    document.addEventListener('pointerlockchange',()=>{});
+    addEventListener('mousemove',e=>{ if(document.pointerLockElement===Scene.domElement) Player.look(e.movementX,e.movementY); });
+    Scene.domElement.addEventListener('click',()=>{ if(document.pointerLockElement!==Scene.domElement) Scene.domElement.requestPointerLock(); });
+    // keyboard
+    const keys={};
+    addEventListener('keydown',e=>{keys[e.code]=true;updateKeys();});
+    addEventListener('keyup',e=>{keys[e.code]=false;updateKeys();});
+    function updateKeys(){
+      let f=0,s=0;
+      if(keys.KeyW||keys.ArrowUp)f+=1; if(keys.KeyS||keys.ArrowDown)f-=1;
+      if(keys.KeyD||keys.ArrowRight)s+=1; if(keys.KeyA||keys.ArrowLeft)s-=1;
+      Player.setMove(f,s);
+    }
+  } else {
+    // touch look: right half of screen drag
+    let lookId=null,lx=0,ly=0;
+    addEventListener('touchstart',e=>{
+      for(const t of e.changedTouches){
+        if(t.clientX>innerWidth*0.45 && lookId===null && !insideStick(t)){ lookId=t.identifier;lx=t.clientX;ly=t.clientY; }
+      }
+    },{passive:false});
+    addEventListener('touchmove',e=>{
+      for(const t of e.changedTouches){ if(t.identifier===lookId){ Player.look(t.clientX-lx,t.clientY-ly); lx=t.clientX;ly=t.clientY; } }
+    },{passive:false});
+    addEventListener('touchend',e=>{ for(const t of e.changedTouches) if(t.identifier===lookId) lookId=null; });
+    function insideStick(t){ const r=el.stick.getBoundingClientRect();
+      return t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom; }
+
+    // touch move stick
+    let stickId=null; const SR=60;
+    el.stick.addEventListener('touchstart',e=>{e.preventDefault();const t=e.changedTouches[0];stickId=t.identifier;moveStick(t);},{passive:false});
+    el.stick.addEventListener('touchmove',e=>{e.preventDefault();for(const t of e.changedTouches)if(t.identifier===stickId)moveStick(t);},{passive:false});
+    el.stick.addEventListener('touchend',e=>{for(const t of e.changedTouches)if(t.identifier===stickId){stickId=null;el.nub.style.transform='translate(-50%,-50%)';Player.setMove(0,0);}},{passive:false});
+    function moveStick(t){ const r=el.stick.getBoundingClientRect();
+      let dx=t.clientX-(r.left+r.width/2), dy=t.clientY-(r.top+r.height/2);
+      const len=Math.hypot(dx,dy); if(len>SR){dx=dx/len*SR;dy=dy/len*SR;}
+      el.nub.style.transform=`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px))`;
+      Player.setMove(-dy/SR, dx/SR);
+    }
+  }
+
+  // ── UI buttons ──
+  el.toggles.forEach(b=>b.addEventListener('click',()=>{
+    const k=b.dataset.ray; active[k]=!active[k]; b.classList.toggle('on',active[k]);
+    if(active[k]){ Audio.play(); el.audioBtn.textContent='Sound: On'; }
+    else {
+      if(k==='direct'){Audio.silenceDirect('a');Audio.silenceDirect('b');}
+      if(k==='echo')Audio.silenceEcho();
+      if(k==='permeate'){Audio.silencePermeate('a');Audio.silencePermeate('b');}
+      el.ro[k].textContent='—'; el.ro[k].classList.add('muted');
+    }
+  }));
+  el.audioBtn.addEventListener('click',()=>{ if(!Audio.isPlaying()){Audio.play();el.audioBtn.textContent='Sound: On';} });
+  el.moveBtn.addEventListener('click',()=>{
+    moveMode = moveMode==='off' ? 'a' : moveMode==='a' ? 'b' : 'off';
+    el.moveBtn.textContent = 'Move Src: ' + (moveMode==='off'?'Off':moveMode==='a'?'A':'B');
+    el.moveBtn.classList.toggle('primary', moveMode!=='off');
+  });
+  el.raysBtn.addEventListener('click',()=>{ raysVisible=!raysVisible; Scene.setRayVisible(raysVisible); el.raysBtn.textContent='Rays: '+(raysVisible?'Hide':'Show'); });
+  el.resetBtn.addEventListener('click',()=>{ Player.spawnAt(World.spawn); });
+
+  // ── main loop ──
+  let last=performance.now();
+  function frame(now){
+    const dt=Math.min(0.05,(now-last)/1000); last=now;
+    Player.update(dt);
+    Audio.updateListener(Player.cam);
+
+    // ── source-move mode: float the targeted source ahead of the crosshair ──
+    if(moveMode!=='off'){
+      const cam=Player.cam;
+      const fwd=new THREE.Vector3(); cam.getWorldDirection(fwd);
+      let reach=4.5;
+      // don't push the source into/through a wall: shorten reach if blocked
+      for(let d=0.6; d<=reach; d+=0.4){
+        if(World.solidAt(cam.position.x+fwd.x*d, cam.position.y+fwd.y*d, cam.position.z+fwd.z*d)){ reach=Math.max(0.8,d-0.4); break; }
+      }
+      const tgt=(moveMode==='a')?Scene.sourceA:Scene.sourceB;
+      tgt.position.set(cam.position.x+fwd.x*reach, cam.position.y+fwd.y*reach, cam.position.z+fwd.z*reach);
+    }
+
+    Scene.clearRays();
+    const origin={x:Player.cam.position.x,y:Player.cam.position.y,z:Player.cam.position.z};
+    const sA={x:Scene.sourceA.position.x,y:Scene.sourceA.position.y,z:Scene.sourceA.position.z};
+    const sB={x:Scene.sourceB.position.x,y:Scene.sourceB.position.y,z:Scene.sourceB.position.z};
+    const drawScene = raysVisible?Scene:null;
+
+    if(active.direct){
+      const ra=RayModules.direct.cast(origin,sA,drawScene,rayState.a.direct);
+      const rb=RayModules.direct.cast(origin,sB,drawScene,rayState.b.direct);
+      Audio.applyDirect('a',ra);Audio.applyDirect('b',rb);
+      el.ro.direct.classList.remove('muted');
+      el.ro.direct.textContent='A '+Math.round(ra.volume*100)+'% · B '+Math.round(rb.volume*100)+'%';
+    }
+    if(active.permeate){
+      const pa=RayModules.permeate.cast(origin,sA,drawScene,rayState.a.permeate);
+      const pb=RayModules.permeate.cast(origin,sB,drawScene,rayState.b.permeate);
+      Audio.applyPermeate('a',pa);Audio.applyPermeate('b',pb);
+      el.ro.permeate.classList.remove('muted');
+      el.ro.permeate.textContent='A '+Math.round(pa.muffle*100)+'% · B '+Math.round(pb.muffle*100)+'%';
+    }
+    if(active.echo){
+      const re=RayModules.echo.cast(origin,drawScene,RayModules.echo);
+      el.ro.echo.classList.remove('muted');
+      if(!active.direct){ el.ro.echo.textContent='needs Direct'; el.ro.echo.classList.add('muted'); }
+      else el.ro.echo.textContent=Math.round(re.magnitude*100)+'%·'+Math.round(re.delay*1000)+'ms';
+      Audio.applyEcho(re);
+    }
+
+    Scene.render();
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
