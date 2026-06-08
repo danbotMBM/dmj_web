@@ -7,12 +7,12 @@
    ════════════════════════════════════════════════════════════ */
 export const Params = {
   direct: {
-    RAY_COUNT: 220,    // rays cast over the sphere (higher = smoother, costlier)
+    RAY_COUNT: 220,    // rays over the sphere (higher = steadier dir/dist, costlier — NOT louder)
     MAX_BOUNCE: 3,     // reflections before a ray is abandoned
     MAX_DIST: 55,      // total path budget per ray (↑ = sound carries further)
     CAPTURE_R: 1.1,    // how close a ray must pass to "reach" the source
-    REF_DIST: 6,       // distance at which a ray counts as full strength
-    ENERGY_NORM: 0.05, // loudness scale: energy / (rayCount * this)
+    REF_DIST: 6,       // path length at/under which volume is full (1.0)
+    FALLOFF: 1,        // how sharply volume drops past REF_DIST: vol = (REF_DIST/dist)^FALLOFF
     SMOOTH: 0.82,      // temporal smoothing (0 = instant, →1 = sluggish)
   },
   echo: {

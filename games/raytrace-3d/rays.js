@@ -62,11 +62,21 @@ export const RayModules={
         }
         if(hitSource) reached.push({dir0:d0,dist:travelled,path});
       }
-      // combine
-      let vx=0,vy=0,vz=0,energy=0;
-      for(const r of reached){ const w=P.REF_DIST/Math.max(P.REF_DIST,r.dist);
-        energy+=w; vx+=r.dir0.x*w; vy+=r.dir0.y*w; vz+=r.dir0.z*w; }
-      const volRaw=Math.min(1, energy/(SPHERE_DIRS_DIRECT.length*P.ENERGY_NORM));
+      // ── combine ──
+      // Direction & distance are estimated from ALL rays that reached the
+      // source, but loudness is NOT: it depends only on the (weighted-average)
+      // path distance. So a single reaching ray already gives full effect, and
+      // adding more rays sharpens the dir/dist estimate without raising volume.
+      let vx=0,vy=0,vz=0, wSum=0, distW=0;
+      for(const r of reached){
+        const w=P.REF_DIST/Math.max(P.REF_DIST,r.dist);   // per-ray proximity 0..1
+        vx+=r.dir0.x*w; vy+=r.dir0.y*w; vz+=r.dir0.z*w;   // weighted launch direction
+        wSum+=w; distW+=r.dist*w;                          // weighted distance estimate
+      }
+      const repDist = wSum>1e-6 ? distW/wSum : Infinity;   // representative path length
+      const volRaw = reached.length>0
+        ? Math.min(1, Math.pow(P.REF_DIST/Math.max(P.REF_DIST,repDist), P.FALLOFF))
+        : 0;
       const L=Math.hypot(vx,vy,vz)||1;
       const dirRaw={x:vx/L,y:vy/L,z:vz/L};
       const S=P.SMOOTH;
