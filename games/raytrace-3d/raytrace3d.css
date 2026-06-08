@@ -62,6 +62,35 @@
 .rt3-shell .hint{position:absolute;top:58px;left:0;right:0;text-align:center;
   font-size:10px;color:var(--dim);letter-spacing:.4px;z-index:4;pointer-events:none;padding:0 16px;transition:opacity .5s;}
 
+/* ── admin / tuning panel ── */
+.rt3-shell .admin-panel{position:absolute;top:0;right:0;bottom:0;width:330px;max-width:88vw;z-index:15;
+  background:rgba(10,14,20,.94);backdrop-filter:blur(10px);border-left:1px solid var(--edge);
+  display:flex;flex-direction:column;transform:translateX(102%);transition:transform .22s ease;}
+.rt3-shell .admin-panel.open{transform:translateX(0);}
+.rt3-shell .admin-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;
+  border-bottom:1px solid var(--edge);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--rt-accent);flex:0 0 auto;}
+.rt3-shell .admin-x{appearance:none;background:transparent;border:none;color:var(--dim);font-size:14px;cursor:pointer;padding:2px 6px;}
+.rt3-shell .admin-x:hover{color:var(--ink);}
+.rt3-shell .admin-body{flex:1 1 auto;overflow-y:auto;padding:6px 14px 12px;}
+.rt3-shell .admin-sec{margin-top:12px;}
+.rt3-shell .admin-sec-title{font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:var(--permeate);
+  border-bottom:1px solid var(--edge);padding-bottom:4px;margin-bottom:8px;}
+.rt3-shell .admin-row{margin-bottom:9px;}
+.rt3-shell .admin-row label{display:flex;justify-content:space-between;align-items:baseline;
+  font-size:10px;letter-spacing:.4px;color:var(--ink);margin-bottom:4px;}
+.rt3-shell .admin-val{color:var(--rt-accent);font-variant-numeric:tabular-nums;font-size:11px;}
+.rt3-shell .admin-row input[type="range"]{appearance:none;-webkit-appearance:none;width:100%;height:3px;
+  background:var(--edge);border-radius:3px;outline:none;}
+.rt3-shell .admin-row input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;
+  border-radius:50%;background:var(--rt-accent);cursor:pointer;box-shadow:0 0 6px var(--rt-accent);}
+.rt3-shell .admin-row input[type="range"]::-moz-range-thumb{width:16px;height:16px;border:none;border-radius:50%;
+  background:var(--rt-accent);box-shadow:0 0 6px var(--rt-accent);}
+.rt3-shell .admin-foot{flex:0 0 auto;border-top:1px solid var(--edge);padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+  display:flex;flex-direction:column;gap:8px;}
+.rt3-shell .admin-out{width:100%;height:84px;resize:none;background:#0d131b;border:1px solid var(--edge);
+  border-radius:8px;color:var(--dim);font-family:inherit;font-size:10px;line-height:1.45;padding:8px;white-space:pre;}
+.rt3-shell .admin-actions{display:flex;gap:7px;}
+
 /* start overlay (pointer lock + audio need a click) */
 .rt3-shell #startgate{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;
   background:rgba(10,14,20,.92);backdrop-filter:blur(4px);gap:14px;text-align:center;padding:24px;}

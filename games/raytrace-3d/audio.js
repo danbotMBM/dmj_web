@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { Params } from './params.js';
 
 /* ════════════════════════════════════════════════════════════
    AUDIO — two voices (A,B), each direct + permeate; one echo on
@@ -53,15 +54,14 @@ export const Audio=(()=>{
   // For direct/echo we place by DIRECTION (the perceived arrival), at a fixed
   // radius around the listener position, transformed into world space.
   let listenerPos={x:0,y:0,z:0};
-  const PLACE_R=3;
-  function placeByDir(p,dir){ setPanner(p,{x:listenerPos.x+dir.x*PLACE_R,y:listenerPos.y+dir.y*PLACE_R,z:listenerPos.z+dir.z*PLACE_R}); }
+  function placeByDir(p,dir){ const R=Params.audio.PLACE_R; setPanner(p,{x:listenerPos.x+dir.x*R,y:listenerPos.y+dir.y*R,z:listenerPos.z+dir.z*R}); }
 
   let echoDelay,echoFB,echoGain,echoPan,_echoT=0.18; const ESTEP=0.04,EDEAD=0.05;
 
   function ensure(){
     if(!ctx){
       ctx=new (window.AudioContext||window.webkitAudioContext)();
-      master=ctx.createGain();master.gain.value=0.82;
+      master=ctx.createGain();master.gain.value=Params.audio.MASTER;
       drySum=ctx.createGain();
       voices.a=makeVoice('a');voices.a.build();
       voices.b=makeVoice('b');voices.b.build();
@@ -86,6 +86,7 @@ export const Audio=(()=>{
     if(!ctx)return;
     listenerPos={x:cam.position.x,y:cam.position.y,z:cam.position.z};
     const L=ctx.listener; const t=ctx.currentTime;
+    if(master) master.gain.setTargetAtTime(Params.audio.MASTER,t,0.05); // live master from admin panel
     const fwd=new THREE.Vector3();cam.getWorldDirection(fwd);
     if(L.positionX){
       L.positionX.setTargetAtTime(cam.position.x,t,0.02);
@@ -102,16 +103,18 @@ export const Audio=(()=>{
     v.directGain.gain.setTargetAtTime(r.volume,ctx.currentTime,0.04); placeByDir(v.panner,r.dir); }
   function silenceDirect(key){ voices[key]&&voices[key].directGain.gain.setTargetAtTime(0,ctx.currentTime,0.08); }
   function applyPermeate(key,r){ const v=voices[key]; if(!v)return; const t=ctx.currentTime;
-    v.permGain.gain.setTargetAtTime(r.through*0.85,t,0.06);
-    v.permLP.frequency.setTargetAtTime(18000*Math.pow(350/18000,r.muffle),t,0.06);
+    const P=Params.permeate;
+    v.permGain.gain.setTargetAtTime(r.through*P.GAIN,t,0.06);
+    v.permLP.frequency.setTargetAtTime(P.LP_MAX_HZ*Math.pow(P.LP_MIN_HZ/P.LP_MAX_HZ,r.muffle),t,0.06);
     placeByDir(v.permPan,r.dir); }
   function silencePermeate(key){ voices[key]&&voices[key].permGain.gain.setTargetAtTime(0,ctx.currentTime,0.08); }
   function applyEcho(r){ if(!echoGain)return; const t=ctx.currentTime;
+    const G=Params.echo.GAIN, FBMAX=Params.echo.FEEDBACK_MAX;
     const want=Math.max(0.06,Math.min(0.9,r.delay)); const snap=Math.round(want/ESTEP)*ESTEP;
     if(Math.abs(snap-_echoT)>EDEAD){ _echoT=snap; echoGain.gain.setTargetAtTime(0.0001,t,0.02);
-      echoDelay.delayTime.setValueAtTime(_echoT,t+0.04); echoGain.gain.setTargetAtTime(r.magnitude*0.5,t+0.07,0.08); }
-    else echoGain.gain.setTargetAtTime(r.magnitude*0.5,t,0.1);
-    echoFB.gain.setTargetAtTime(Math.min(0.42,r.magnitude*0.5),t,0.12);
+      echoDelay.delayTime.setValueAtTime(_echoT,t+0.04); echoGain.gain.setTargetAtTime(r.magnitude*G,t+0.07,0.08); }
+    else echoGain.gain.setTargetAtTime(r.magnitude*G,t,0.1);
+    echoFB.gain.setTargetAtTime(Math.min(FBMAX,r.magnitude*G),t,0.12);
     placeByDir(echoPan,r.dir); }
   function silenceEcho(){ if(echoGain){const t=ctx.currentTime;echoGain.gain.setTargetAtTime(0,t,0.1);echoFB.gain.setTargetAtTime(0,t,0.1);} }
 

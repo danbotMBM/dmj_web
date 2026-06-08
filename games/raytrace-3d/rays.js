@@ -1,7 +1,10 @@
 import { World } from './world.js';
+import { Params } from './params.js';
 
 /* ════════════════════════════════════════════════════════════
    RAY MODULES — 3D, voxel-based. Directions over a sphere.
+   All tunable constants are read live from Params so the admin
+   panel can adjust behaviour without a reload.
    ════════════════════════════════════════════════════════════ */
 function fibSphere(n){
   const pts=[]; const gr=Math.PI*(3-Math.sqrt(5));
@@ -9,8 +12,13 @@ function fibSphere(n){
     pts.push({x:Math.cos(th)*r,y,z:Math.sin(th)*r}); }
   return pts;
 }
-const SPHERE_DIRS_DIRECT = fibSphere(220);
-const SPHERE_DIRS_ECHO   = fibSphere(220);
+// Sphere direction sets are rebuilt whenever the admin changes a ray count.
+let SPHERE_DIRS_DIRECT = fibSphere(Params.direct.RAY_COUNT);
+let SPHERE_DIRS_ECHO   = fibSphere(Params.echo.RAY_COUNT);
+export function rebuildSpheres(){
+  SPHERE_DIRS_DIRECT = fibSphere(Math.max(8, Math.round(Params.direct.RAY_COUNT)));
+  SPHERE_DIRS_ECHO   = fibSphere(Math.max(8, Math.round(Params.echo.RAY_COUNT)));
+}
 
 function reflectFace(d,face){
   if(face==='x') return {x:-d.x,y:d.y,z:d.z};
@@ -22,26 +30,27 @@ function norm(a){const l=Math.hypot(a.x,a.y,a.z)||1;return{x:a.x/l,y:a.y/l,z:a.z
 
 export const RayModules={
   direct:{
-    color:0xffb454, MAX_BOUNCE:3, MAX_DIST:55, CAPTURE_R:1.1, REF_DIST:6,
+    color:0xffb454,
     cast(origin, srcPos, scene, st){
       st=st||this;
+      const P=Params.direct;
       const reached=[];
       for(const d0 of SPHERE_DIRS_DIRECT){
         let dx=d0.x,dy=d0.y,dz=d0.z;
         let ox=origin.x,oy=origin.y,oz=origin.z;
         let travelled=0, hitSource=false;
         const path=[{x:ox,y:oy,z:oz}];
-        for(let b=0;b<=this.MAX_BOUNCE;b++){
+        for(let b=0;b<=P.MAX_BOUNCE;b++){
           // capture test: does segment pass within CAPTURE_R of source before a wall?
-          const hit=World.dda(ox,oy,oz,dx,dy,dz,this.MAX_DIST-travelled,(cx,cy,cz)=>{
+          const hit=World.dda(ox,oy,oz,dx,dy,dz,P.MAX_DIST-travelled,(cx,cy,cz)=>{
             return World.solid(cx,cy,cz)?{stop:true}:null;
           });
-          const segLen=hit?hit.t:(this.MAX_DIST-travelled);
+          const segLen=hit?hit.t:(P.MAX_DIST-travelled);
           // closest approach to source along this segment
           const wx=srcPos.x-ox, wy=srcPos.y-oy, wz=srcPos.z-oz;
           const proj=Math.max(0,Math.min(segLen, wx*dx+wy*dy+wz*dz));
           const ccx=ox+dx*proj, ccy=oy+dy*proj, ccz=oz+dz*proj;
-          if(Math.hypot(srcPos.x-ccx,srcPos.y-ccy,srcPos.z-ccz)<=this.CAPTURE_R){
+          if(Math.hypot(srcPos.x-ccx,srcPos.y-ccy,srcPos.z-ccz)<=P.CAPTURE_R){
             travelled+=proj; path.push({x:ccx,y:ccy,z:ccz}); hitSource=true; break;
           }
           if(!hit) break;
@@ -55,12 +64,12 @@ export const RayModules={
       }
       // combine
       let vx=0,vy=0,vz=0,energy=0;
-      for(const r of reached){ const w=this.REF_DIST/Math.max(this.REF_DIST,r.dist);
+      for(const r of reached){ const w=P.REF_DIST/Math.max(P.REF_DIST,r.dist);
         energy+=w; vx+=r.dir0.x*w; vy+=r.dir0.y*w; vz+=r.dir0.z*w; }
-      const volRaw=Math.min(1, energy/(SPHERE_DIRS_DIRECT.length*0.05));
+      const volRaw=Math.min(1, energy/(SPHERE_DIRS_DIRECT.length*P.ENERGY_NORM));
       const L=Math.hypot(vx,vy,vz)||1;
       const dirRaw={x:vx/L,y:vy/L,z:vz/L};
-      const S=0.82;
+      const S=P.SMOOTH;
       st._v=(st._v||0)*S+volRaw*(1-S);
       st._dx=(st._dx||0)*S+dirRaw.x*volRaw*(1-S);
       st._dy=(st._dy||0)*S+dirRaw.y*volRaw*(1-S);
@@ -76,23 +85,24 @@ export const RayModules={
   },
 
   echo:{
-    color:0xff5e87, MAX_BOUNCE:5, MAX_DIST:80, RETURN_R:1.3, MIN_PATH:3, REF_DIST:12, SPEED:343,
+    color:0xff5e87,
     cast(origin, scene, st){
       st=st||this;
+      const P=Params.echo;
       const returns=[];
       for(const d0 of SPHERE_DIRS_ECHO){
         let dx=d0.x,dy=d0.y,dz=d0.z;
         let ox=origin.x,oy=origin.y,oz=origin.z;
         let travelled=0, returned=false, arrive=null;
         const path=[{x:ox,y:oy,z:oz}];
-        for(let b=0;b<=this.MAX_BOUNCE;b++){
-          const hit=World.dda(ox,oy,oz,dx,dy,dz,this.MAX_DIST-travelled,(cx,cy,cz)=>World.solid(cx,cy,cz)?{stop:true}:null);
-          const segLen=hit?hit.t:(this.MAX_DIST-travelled);
+        for(let b=0;b<=P.MAX_BOUNCE;b++){
+          const hit=World.dda(ox,oy,oz,dx,dy,dz,P.MAX_DIST-travelled,(cx,cy,cz)=>World.solid(cx,cy,cz)?{stop:true}:null);
+          const segLen=hit?hit.t:(P.MAX_DIST-travelled);
           if(b>0){ // closest approach back to player
             const wx=origin.x-ox,wy=origin.y-oy,wz=origin.z-oz;
             const proj=Math.max(0,Math.min(segLen,wx*dx+wy*dy+wz*dz));
             const cax=ox+dx*proj,cay=oy+dy*proj,caz=oz+dz*proj;
-            if(travelled+proj>this.MIN_PATH && Math.hypot(origin.x-cax,origin.y-cay,origin.z-caz)<=this.RETURN_R){
+            if(travelled+proj>P.MIN_PATH && Math.hypot(origin.x-cax,origin.y-cay,origin.z-caz)<=P.RETURN_R){
               travelled+=proj; path.push({x:cax,y:cay,z:caz}); arrive={x:-dx,y:-dy,z:-dz}; returned=true; break;
             }
           }
@@ -105,12 +115,12 @@ export const RayModules={
         if(returned) returns.push({arrive,dist:travelled,path});
       }
       let vx=0,vy=0,vz=0,energy=0,wDelay=0;
-      for(const r of returns){ const w=this.REF_DIST/Math.max(this.REF_DIST,r.dist);
-        energy+=w; vx+=r.arrive.x*w; vy+=r.arrive.y*w; vz+=r.arrive.z*w; wDelay+=(r.dist/this.SPEED)*w; }
-      const magRaw=Math.min(1, energy/(SPHERE_DIRS_ECHO.length*0.07));
+      for(const r of returns){ const w=P.REF_DIST/Math.max(P.REF_DIST,r.dist);
+        energy+=w; vx+=r.arrive.x*w; vy+=r.arrive.y*w; vz+=r.arrive.z*w; wDelay+=(r.dist/P.SPEED)*w; }
+      const magRaw=Math.min(1, energy/(SPHERE_DIRS_ECHO.length*P.ENERGY_NORM));
       const delayRaw=energy>1e-6?wDelay/energy:0;
       const L=Math.hypot(vx,vy,vz)||1; const dirRaw={x:vx/L,y:vy/L,z:vz/L};
-      const S=0.88;
+      const S=P.SMOOTH;
       st._m=(st._m||0)*S+magRaw*(1-S);
       st._delay=(st._delay||0)*S+delayRaw*(1-S);
       st._dx=(st._dx||0)*S+dirRaw.x*magRaw*(1-S);
@@ -126,20 +136,20 @@ export const RayModules={
   },
 
   permeate:{
-    color:0x7ee787, RAY_COUNT:25, SPREAD:0.35, REF_THICK:2.0,
+    color:0x7ee787,
     cast(origin, srcPos, scene, st){
       st=st||this;
+      const P=Params.permeate;
       const to={x:srcPos.x-origin.x,y:srcPos.y-origin.y,z:srcPos.z-origin.z};
       const dist=Math.hypot(to.x,to.y,to.z)||1;
       const fwd={x:to.x/dist,y:to.y/dist,z:to.z/dist};
       // build a small basis around fwd for the fan
       const up=Math.abs(fwd.y)<0.9?{x:0,y:1,z:0}:{x:1,y:0,z:0};
       const right=norm(cross(fwd,up)); const realUp=cross(right,fwd);
-      const {CELL}=World.dims();
       let sumInside=0,n=0; const rays=[];
-      const side=Math.round(Math.sqrt(this.RAY_COUNT));
+      const side=Math.max(1,Math.round(Math.sqrt(P.RAY_COUNT)));
       for(let iy=0;iy<side;iy++)for(let ix=0;ix<side;ix++){
-        const fx=(ix/(side-1)*2-1)*this.SPREAD, fy=(iy/(side-1)*2-1)*this.SPREAD;
+        const fx=(ix/(side-1)*2-1)*P.SPREAD, fy=(iy/(side-1)*2-1)*P.SPREAD;
         let dx=fwd.x+right.x*fx+realUp.x*fy, dy=fwd.y+right.y*fx+realUp.y*fy, dz=fwd.z+right.z*fx+realUp.z*fy;
         const dl=Math.hypot(dx,dy,dz)||1; dx/=dl;dy/=dl;dz/=dl;
         // in-voxel distance: for each solid cell the ray passes through, add the
@@ -156,9 +166,9 @@ export const RayModules={
         rays.push({dx,dy,dz,segs});
       }
       const avgInside=sumInside/n;
-      const muffleRaw=1-Math.exp(-avgInside/this.REF_THICK);
-      const throughRaw=Math.exp(-avgInside/(this.REF_THICK*1.6));
-      const S=0.86;
+      const muffleRaw=1-Math.exp(-avgInside/P.REF_THICK);
+      const throughRaw=Math.exp(-avgInside/(P.REF_THICK*P.THROUGH_THICK_MULT));
+      const S=P.SMOOTH;
       st._muffle=(st._muffle||0)*S+muffleRaw*(1-S);
       st._through=(st._through==null?1:st._through)*S+throughRaw*(1-S);
       const dir=fwd;

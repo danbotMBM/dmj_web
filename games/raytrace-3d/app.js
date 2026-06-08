@@ -4,6 +4,7 @@ import { Scene } from './scene.js';
 import { RayModules } from './rays.js';
 import { Audio } from './audio.js';
 import { Player } from './player.js';
+import { initAdmin } from './admin.js';
 
 /* ════════════════════════════════════════════════════════════
    APP — input, loop, UI.
@@ -154,6 +155,9 @@ import { Player } from './player.js';
   });
   el.raysBtn.addEventListener('click',()=>{ raysVisible=!raysVisible; Scene.setRayVisible(raysVisible); el.raysBtn.textContent='Rays: '+(raysVisible?'Hide':'Show'); });
   el.resetBtn.addEventListener('click',()=>{ Player.spawnAt(World.spawn); });
+
+  // ── client-side tuning panel ──
+  initAdmin();
 
   // ── main loop ──
   let last=performance.now();

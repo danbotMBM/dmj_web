@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { Scene } from './scene.js';
 import { World } from './world.js';
+import { Params } from './params.js';
 
 /* ════════════════════════════════════════════════════════════
    PLAYER — first-person controller with voxel collision.
@@ -9,7 +10,7 @@ export const Player=(()=>{
   const cam=Scene.camera;
   let yaw=0,pitch=0;
   const vel=new THREE.Vector3();
-  const RADIUS=0.4, HEIGHT=0.9, SPEED=5.5;
+  const RADIUS=0.4, HEIGHT=0.9;
   let move={f:0,s:0};   // forward/strafe from -1..1
 
   function spawnAt(p){ cam.position.copy(p); yaw=Math.PI; pitch=0; applyLook(); }
@@ -41,7 +42,7 @@ export const Player=(()=>{
     const dir=new THREE.Vector3();
     dir.addScaledVector(fwd,move.f); dir.addScaledVector(right,move.s);
     if(dir.lengthSq()>1) dir.normalize();
-    const step=SPEED*dt;
+    const step=Params.player.SPEED*dt;
     tryMove('x',dir.x*step);
     tryMove('z',dir.z*step);
   }
