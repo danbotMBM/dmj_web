@@ -16,15 +16,13 @@ export const Params = {
     SMOOTH: 0.82,      // temporal smoothing (0 = instant, →1 = sluggish)
   },
   echo: {
-    RAY_COUNT: 220,
-    MAX_BOUNCE: 5,     // bounces allowed before a ray can return
-    MAX_DIST: 80,
-    RETURN_R: 1.3,     // how close to the player a ray must pass to "return"
-    MIN_PATH: 3,       // ignore returns shorter than this (not a real echo)
-    REF_DIST: 12,
-    SPEED: 343,        // m/s, path length → delay time
-    ENERGY_NORM: 0.07,
-    SMOOTH: 0.88,
+    // The echo voice now rides on the directional rays: each ray that reaches a
+    // source contributes its "echo ray" (player → last reflection with line of
+    // sight). These constants only shape how that data becomes audible.
+    REF_DIST: 12,      // effective distance at/under which echo energy is full
+    SPEED: 343,        // m/s, effective distance → delay time
+    ENERGY_NORM: 0.07, // higher = quieter (energy is divided by this × ray count)
+    SMOOTH: 0.88,      // temporal smoothing of echo magnitude / delay / direction
     GAIN: 0.5,         // echo loudness = magnitude * this
     FEEDBACK_MAX: 0.42,// cap on echo regeneration (↑ = longer tails)
   },

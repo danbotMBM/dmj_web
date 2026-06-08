@@ -24,13 +24,8 @@ const SCHEMA = {
     ],
   },
   echo: {
-    title: 'Echo',
+    title: 'Echo (rides on Direct rays)',
     fields: [
-      { key:'RAY_COUNT',    label:'Ray count',        min:32,  max:600,  step:4,    rebuild:true },
-      { key:'MAX_BOUNCE',   label:'Max bounces',      min:1,   max:10,   step:1 },
-      { key:'MAX_DIST',     label:'Max distance (m)', min:20,  max:200,  step:1 },
-      { key:'RETURN_R',     label:'Return radius',    min:0.3, max:4,    step:0.1 },
-      { key:'MIN_PATH',     label:'Min path (m)',     min:0,   max:20,   step:0.5 },
       { key:'REF_DIST',     label:'Reference dist',   min:1,   max:40,   step:0.5 },
       { key:'SPEED',        label:'Sound speed',      min:100, max:700,  step:1 },
       { key:'ENERGY_NORM',  label:'Loudness scale',   min:0.01,max:0.3,  step:0.005 },

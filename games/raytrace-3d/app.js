@@ -159,6 +159,17 @@ import { initAdmin } from './admin.js';
   // ── client-side tuning panel ──
   initAdmin();
 
+  // Merge the two sources' echo sub-results into the single global echo tap,
+  // weighting delay & direction by each source's magnitude.
+  function combineEcho(a,b){
+    const ma=a?a.magnitude:0, mb=b?b.magnitude:0;
+    const w=ma+mb;
+    if(w<1e-6) return {magnitude:0,delay:0,dir:{x:0,y:0,z:1}};
+    let dx=(a.dir.x*ma+b.dir.x*mb)/w, dy=(a.dir.y*ma+b.dir.y*mb)/w, dz=(a.dir.z*ma+b.dir.z*mb)/w;
+    const dl=Math.hypot(dx,dy,dz)||1; dx/=dl;dy/=dl;dz/=dl;
+    return {magnitude:Math.min(1,w), delay:(a.delay*ma+b.delay*mb)/w, dir:{x:dx,y:dy,z:dz}};
+  }
+
   // ── main loop ──
   let last=performance.now();
   function frame(now){
@@ -185,12 +196,24 @@ import { initAdmin } from './admin.js';
     const sB={x:Scene.sourceB.position.x,y:Scene.sourceB.position.y,z:Scene.sourceB.position.z};
     const drawScene = raysVisible?Scene:null;
 
-    if(active.direct){
+    // Direct and echo now share one set of rays: the echo voice is built from
+    // the "echo rays" (player → last reflection with line of sight) that the
+    // directional cast discovers, so cast once when either is active.
+    if(active.direct || active.echo){
       const ra=RayModules.direct.cast(origin,sA,drawScene,rayState.a.direct);
       const rb=RayModules.direct.cast(origin,sB,drawScene,rayState.b.direct);
-      Audio.applyDirect('a',ra);Audio.applyDirect('b',rb);
-      el.ro.direct.classList.remove('muted');
-      el.ro.direct.textContent='A '+Math.round(ra.volume*100)+'% · B '+Math.round(rb.volume*100)+'%';
+      if(active.direct){
+        Audio.applyDirect('a',ra);Audio.applyDirect('b',rb);
+        el.ro.direct.classList.remove('muted');
+        el.ro.direct.textContent='A '+Math.round(ra.volume*100)+'% · B '+Math.round(rb.volume*100)+'%';
+      }
+      if(active.echo){
+        const re=combineEcho(ra.echo,rb.echo);
+        el.ro.echo.classList.remove('muted');
+        if(!active.direct){ el.ro.echo.textContent='needs Direct'; el.ro.echo.classList.add('muted'); }
+        else el.ro.echo.textContent=Math.round(re.magnitude*100)+'%·'+Math.round(re.delay*1000)+'ms';
+        Audio.applyEcho(re);
+      }
     }
     if(active.permeate){
       const pa=RayModules.permeate.cast(origin,sA,drawScene,rayState.a.permeate);
@@ -198,13 +221,6 @@ import { initAdmin } from './admin.js';
       Audio.applyPermeate('a',pa);Audio.applyPermeate('b',pb);
       el.ro.permeate.classList.remove('muted');
       el.ro.permeate.textContent='A '+Math.round(pa.muffle*100)+'% · B '+Math.round(pb.muffle*100)+'%';
-    }
-    if(active.echo){
-      const re=RayModules.echo.cast(origin,drawScene,RayModules.echo);
-      el.ro.echo.classList.remove('muted');
-      if(!active.direct){ el.ro.echo.textContent='needs Direct'; el.ro.echo.classList.add('muted'); }
-      else el.ro.echo.textContent=Math.round(re.magnitude*100)+'%·'+Math.round(re.delay*1000)+'ms';
-      Audio.applyEcho(re);
     }
 
     Scene.render();
