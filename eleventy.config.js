@@ -30,7 +30,6 @@ module.exports = function (eleventyConfig) {
   // (their own complete HTML documents). Copied verbatim.
   eleventyConfig.addPassthroughCopy("gallery/index.html");
   eleventyConfig.addPassthroughCopy("blogs/webgpu/sandbox.html");
-  eleventyConfig.addPassthroughCopy("games/raytrace-2d/index.html");
   eleventyConfig.addPassthroughCopy("games/raytrace-3d/index.html");
   eleventyConfig.addPassthroughCopy("googleb013b887decc3e89.html");
 
