@@ -1,0 +1,79 @@
+---
+title: Raytrace Audio Lab · 2D · danbot lab
+description: "A top-down acoustics sandbox that ray-traces sound around walls in real time. Toggle direct, echo, and permeation rays to hear how a room shapes two sources in spatial HRTF audio."
+extraCss:
+  - /games/raytrace-2d/raytrace2d.css
+---
+{% extends "layouts/base.njk" %}
+
+{% block head %}
+<script type="importmap">
+{ "imports": { "three": "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js" } }
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="rt-shell">
+  <div class="rt-header">
+    <div class="titlebar">
+      <h2>Raytrace · Audio Lab</h2>
+      <span class="tag">2D Plane · Top-Down</span>
+    </div>
+  </div>
+
+  <div id="stage">
+    <div class="stage-hud">
+      <span id="placeMode" class="mode-pill" data-mode="player">Tap: move player</span>
+      <span id="rayCount"></span>
+    </div>
+  </div>
+
+  <div class="readout">
+    <div class="cell"><div class="k">Direct · A·B vol</div><div class="v muted" id="ro-direct">—</div></div>
+    <div class="cell"><div class="k">Echo · mag·time</div><div class="v muted" id="ro-echo">—</div></div>
+    <div class="cell"><div class="k">Permeate · A·B</div><div class="v muted" id="ro-permeate">—</div></div>
+  </div>
+
+  <div class="controls">
+    <button class="env-toggle" id="envToggle" aria-expanded="false">
+      <span>Environment</span><span class="chev" id="envChev">▸</span>
+    </button>
+    <div class="env-panel" id="envPanel" hidden>
+      <div class="env-row">
+        <label for="scaleSlider">Room scale <span id="scaleVal">11 m</span></label>
+        <input type="range" id="scaleSlider" min="6" max="20" step="0.5" value="11" />
+      </div>
+      <div class="env-row">
+        <label for="thickSlider">Wall thickness <span id="thickVal">0.7 m</span></label>
+        <input type="range" id="thickSlider" min="0.3" max="4" step="0.1" value="0.7" />
+      </div>
+      <div class="env-row switch-row">
+        <label for="borderSwitch">Reflective border</label>
+        <button class="switch on" id="borderSwitch" role="switch" aria-checked="true"><span class="knob"></span></button>
+      </div>
+      <div class="env-note">Off = open space: rays escape the boundary instead of echoing back.</div>
+    </div>
+    <div class="ray-toggles">
+      <button class="toggle" data-ray="direct">
+        <span class="dot"></span><span class="lbl">Direct</span><span class="sub">source find</span>
+      </button>
+      <button class="toggle" data-ray="echo">
+        <span class="dot"></span><span class="lbl">Echo</span><span class="sub">return time</span>
+      </button>
+      <button class="toggle" data-ray="permeate">
+        <span class="dot"></span><span class="lbl">Permeate</span><span class="sub">muffling</span>
+      </button>
+    </div>
+    <div class="action-row">
+      <button class="btn" id="toggleTarget">Place: Player</button>
+      <button class="btn" id="clearRays">Clear Rays</button>
+      <button class="btn primary" id="resetScene">Reset</button>
+    </div>
+    <div class="hint">Drag the <b style="color:var(--player)">player</b>, <b style="color:#59d4ff">source A</b>, or <b style="color:#c792ea">source B</b> to move them · use Place to drop the selected one · each source has its own song, direction &amp; muffling</div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="/games/raytrace-2d/app.js"></script>
+{% endblock %}

@@ -1,0 +1,166 @@
+/* Raytrace Audio Lab · 2D — all styles scoped under .rt-shell so they
+   never leak into the shared site chrome (header, markdown body, etc). */
+.rt-shell {
+  --bg: #0a0e14;
+  --panel: #121821;
+  --panel-edge: #1f2b3a;
+  --ink: #e6edf3;
+  --dim: #6b7d91;
+  --grid: #16202c;
+  --player: #ffb454;
+  --source: #59d4ff;
+  --wall: #2d3a4d;
+  --wall-edge: #45587150;
+  --ray-direct: #ffb454;
+  --ray-echo: #ff5e87;
+  --ray-permeate: #7ee787;
+  --rt-accent: #59d4ff;
+
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  display: flex;
+  flex-direction: column;
+  touch-action: none;
+  user-select: none;
+  overflow: hidden;
+  height: 100vh; /* replaced at runtime by app.js fitShell() */
+}
+.rt-shell * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+/* ── Title row ───────────────────────────── */
+.rt-shell .rt-header {
+  padding: 0 14px;
+  flex: 0 0 auto;
+}
+.rt-shell .titlebar {
+  display: flex; align-items: baseline; gap: 8px;
+  padding: 12px 2px 10px;
+  border-bottom: 1px solid var(--panel-edge);
+}
+.rt-shell .titlebar h2 {
+  font-size: 13px; letter-spacing: 2.5px; text-transform: uppercase;
+  font-weight: 600;
+}
+.rt-shell .titlebar .tag {
+  font-size: 9.5px; color: var(--dim); letter-spacing: 1.5px;
+  margin-left: auto; text-transform: uppercase;
+}
+
+/* ── Stage ─────────────────────────────── */
+.rt-shell #stage { flex: 1 1 auto; position: relative; min-height: 0; }
+.rt-shell #stage canvas { display: block; width: 100%; height: 100%; }
+.rt-shell .stage-hud {
+  position: absolute; top: 10px; left: 12px; right: 12px;
+  display: flex; justify-content: space-between; pointer-events: none;
+  font-size: 9.5px; letter-spacing: 1px; color: var(--dim);
+}
+.rt-shell .mode-pill {
+  pointer-events: auto;
+  background: var(--panel); border: 1px solid var(--panel-edge);
+  color: var(--rt-accent); padding: 5px 10px; border-radius: 20px;
+  font-size: 9.5px; letter-spacing: 1.2px; text-transform: uppercase;
+}
+
+/* ── Readout strip ─────────────────────── */
+.rt-shell .readout {
+  flex: 0 0 auto;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--panel-edge);
+  border-top: 1px solid var(--panel-edge);
+}
+.rt-shell .readout .cell {
+  background: var(--panel); padding: 9px 11px;
+}
+.rt-shell .readout .k { font-size: 8.5px; letter-spacing: 1.3px; color: var(--dim); text-transform: uppercase; }
+.rt-shell .readout .v { font-size: 15px; margin-top: 3px; font-variant-numeric: tabular-nums; }
+.rt-shell .readout .v.muted { color: var(--dim); }
+
+/* ── Controls ──────────────────────────── */
+.rt-shell .controls {
+  flex: 0 0 auto;
+  padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
+  background: var(--panel);
+  border-top: 1px solid var(--panel-edge);
+  display: flex; flex-direction: column; gap: 11px;
+}
+.rt-shell .ray-toggles { display: flex; gap: 8px; }
+.rt-shell .toggle {
+  flex: 1; appearance: none; border: 1px solid var(--panel-edge);
+  background: #0d131b; color: var(--dim);
+  border-radius: 11px; padding: 11px 6px 10px;
+  font-family: inherit; font-size: 10px; letter-spacing: 0.8px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.rt-shell .toggle .dot { width: 9px; height: 9px; border-radius: 50%; background: currentColor; opacity: .35; transition: opacity .15s; }
+.rt-shell .toggle .lbl { text-transform: uppercase; font-weight: 600; }
+.rt-shell .toggle .sub { font-size: 8px; color: var(--dim); letter-spacing: .5px; }
+.rt-shell .toggle[data-ray="direct"]   { --c: var(--ray-direct); }
+.rt-shell .toggle[data-ray="echo"]     { --c: var(--ray-echo); }
+.rt-shell .toggle[data-ray="permeate"] { --c: var(--ray-permeate); }
+.rt-shell .toggle.on { color: var(--c); border-color: var(--c); background: #0d131b; }
+.rt-shell .toggle.on .dot { opacity: 1; box-shadow: 0 0 10px currentColor; }
+
+.rt-shell .action-row { display: flex; gap: 8px; }
+.rt-shell .btn {
+  flex: 1; appearance: none; font-family: inherit;
+  border: 1px solid var(--panel-edge); background: #0d131b; color: var(--ink);
+  border-radius: 10px; padding: 11px; font-size: 11px; letter-spacing: 1px;
+  text-transform: uppercase; cursor: pointer;
+}
+.rt-shell .btn:active { background: #161f2b; }
+.rt-shell .btn.primary { border-color: var(--rt-accent); color: var(--rt-accent); }
+.rt-shell .hint {
+  font-size: 9.5px; color: var(--dim); letter-spacing: .4px;
+  text-align: center; line-height: 1.5;
+}
+
+/* ── Environment panel ─────────────────── */
+.rt-shell .env-toggle {
+  appearance: none; font-family: inherit; width: 100%;
+  background: #0d131b; border: 1px solid var(--panel-edge); color: var(--dim);
+  border-radius: 10px; padding: 9px 12px; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 10px; letter-spacing: 1.4px; text-transform: uppercase;
+}
+.rt-shell .env-toggle .chev { transition: transform .2s; }
+.rt-shell .env-toggle[aria-expanded="true"] { color: var(--rt-accent); border-color: var(--rt-accent); }
+.rt-shell .env-toggle[aria-expanded="true"] .chev { transform: rotate(90deg); }
+.rt-shell .env-panel[hidden] { display: none; }
+.rt-shell .env-panel {
+  display: flex; flex-direction: column; gap: 13px;
+  padding: 13px 12px 14px; margin-top: -3px;
+  background: #0d131b; border: 1px solid var(--panel-edge); border-radius: 10px;
+}
+.rt-shell .env-row { display: flex; flex-direction: column; gap: 8px; }
+.rt-shell .env-row label {
+  font-size: 10px; letter-spacing: .8px; color: var(--ink);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.rt-shell .env-row label span { color: var(--rt-accent); font-variant-numeric: tabular-nums; }
+.rt-shell input[type="range"] {
+  appearance: none; -webkit-appearance: none; width: 100%; height: 4px;
+  background: var(--panel-edge); border-radius: 4px; outline: none;
+}
+.rt-shell input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--rt-accent); cursor: pointer; box-shadow: 0 0 8px var(--rt-accent);
+}
+.rt-shell input[type="range"]::-moz-range-thumb {
+  width: 20px; height: 20px; border: none; border-radius: 50%;
+  background: var(--rt-accent); box-shadow: 0 0 8px var(--rt-accent);
+}
+.rt-shell .switch-row { flex-direction: row; align-items: center; justify-content: space-between; }
+.rt-shell .switch {
+  appearance: none; width: 46px; height: 26px; border-radius: 14px;
+  background: var(--panel-edge); border: 1px solid var(--panel-edge);
+  position: relative; transition: background .18s; cursor: pointer;
+}
+.rt-shell .switch .knob {
+  position: absolute; top: 2px; left: 2px; width: 20px; height: 20px;
+  border-radius: 50%; background: var(--dim); transition: transform .18s, background .18s;
+}
+.rt-shell .switch.on { background: #14323f; border-color: var(--rt-accent); }
+.rt-shell .switch.on .knob { transform: translateX(20px); background: var(--rt-accent); box-shadow: 0 0 8px var(--rt-accent); }
+.rt-shell .env-note { font-size: 9px; color: var(--dim); line-height: 1.5; letter-spacing: .3px; }

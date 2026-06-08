@@ -30,6 +30,24 @@ const cards = {
       "Mark off squares as they are called and track your progress",
     ],
   },
+  raytrace2d: {
+    title: "Raytrace Audio Lab · 2D",
+    href: "/games/raytrace-2d/",
+    blurb: [
+      "A top-down acoustics sandbox that ray-traces sound around walls in real time",
+      "Toggle direct, echo, and permeation rays to hear how a room shapes two sources",
+      "Drag the listener and sources, reshape the room, and listen in spatial HRTF audio",
+    ],
+  },
+  raytrace3d: {
+    title: "Raytrace Audio Lab · 3D",
+    href: "/games/raytrace-3d/",
+    blurb: [
+      "Walk a first-person voxel world of three rooms — small, vast, and tall",
+      "Ray-traced direct, echo, and permeation audio respond to your position and view",
+      "Headphones recommended for the full 3D HRTF spatial sound experience",
+    ],
+  },
   doggone: {
     title: "Doggone",
     href: "https://dangertimmy.itch.io/doggone",
@@ -132,5 +150,12 @@ module.exports = {
     cards.webgpu,
     cards.gallery,
   ],
-  games: [cards.holdem, cards.trivia, cards.bingo, cards.doggone],
+  games: [
+    cards.holdem,
+    cards.trivia,
+    cards.bingo,
+    cards.raytrace3d,
+    cards.raytrace2d,
+    cards.doggone,
+  ],
 };

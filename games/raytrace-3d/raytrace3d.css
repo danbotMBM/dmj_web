@@ -1,0 +1,100 @@
+/* Raytrace Audio Lab · 3D — styles scoped under .rt3-shell so the dark,
+   full-bleed game chrome never leaks into the shared site layout. The shell
+   is sized by app.js to fill the viewport below the (scrolling) navbar, and
+   fills the screen entirely when its Fullscreen button is engaged. */
+.rt3-shell{
+  --bg:#0a0e14; --panel:#121821; --edge:#1f2b3a; --ink:#e6edf3; --dim:#6b7d91;
+  --direct:#ffb454; --echo:#ff5e87; --permeate:#7ee787; --rt-accent:#59d4ff;
+  --srcA:#59d4ff; --srcB:#c792ea;
+
+  position:relative;
+  width:100%;
+  height:100vh;            /* replaced at runtime by app.js fitShell() */
+  overflow:hidden;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  touch-action:none;
+  user-select:none;
+}
+.rt3-shell *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+.rt3-shell:fullscreen{width:100%;height:100%;}
+.rt3-shell:-webkit-full-screen{width:100%;height:100%;}
+
+.rt3-shell #stage{position:absolute;inset:0;}
+.rt3-shell #stage canvas{display:block;width:100%;height:100%;}
+
+/* top readout */
+.rt3-shell .readout{position:absolute;top:0;left:0;right:0;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--edge);z-index:5;}
+.rt3-shell .readout .cell{background:rgba(10,14,20,.82);backdrop-filter:blur(8px);padding:8px 10px;}
+.rt3-shell .readout .k{font-size:8px;letter-spacing:1.2px;color:var(--dim);text-transform:uppercase;}
+.rt3-shell .readout .v{font-size:13px;margin-top:2px;font-variant-numeric:tabular-nums;}
+.rt3-shell .readout .v.muted{color:var(--dim);}
+
+/* crosshair */
+.rt3-shell .cross{position:absolute;top:50%;left:50%;width:18px;height:18px;transform:translate(-50%,-50%);z-index:4;opacity:.5;pointer-events:none;}
+.rt3-shell .cross:before,.rt3-shell .cross:after{content:"";position:absolute;background:var(--ink);}
+.rt3-shell .cross:before{left:8px;top:0;width:2px;height:18px;}
+.rt3-shell .cross:after{top:8px;left:0;height:2px;width:18px;}
+
+/* ray toggles - bottom */
+.rt3-shell .dock{position:absolute;left:0;right:0;bottom:0;padding:10px 10px calc(10px + env(safe-area-inset-bottom));z-index:6;
+  background:linear-gradient(to top,rgba(10,14,20,.92),rgba(10,14,20,.55) 70%,transparent);}
+.rt3-shell .ray-toggles{display:flex;gap:7px;margin-bottom:8px;}
+.rt3-shell .toggle{flex:1;appearance:none;border:1px solid var(--edge);background:rgba(13,19,27,.85);color:var(--dim);
+  border-radius:11px;padding:9px 4px 8px;font-family:inherit;font-size:9.5px;letter-spacing:.6px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:5px;}
+.rt3-shell .toggle .dot{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.35;}
+.rt3-shell .toggle .lbl{text-transform:uppercase;font-weight:600;}
+.rt3-shell .toggle[data-ray="direct"]{--c:var(--direct);} .rt3-shell .toggle[data-ray="echo"]{--c:var(--echo);} .rt3-shell .toggle[data-ray="permeate"]{--c:var(--permeate);}
+.rt3-shell .toggle.on{color:var(--c);border-color:var(--c);} .rt3-shell .toggle.on .dot{opacity:1;box-shadow:0 0 8px currentColor;}
+
+.rt3-shell .row{display:flex;gap:7px;}
+.rt3-shell .btn{flex:1;appearance:none;font-family:inherit;border:1px solid var(--edge);background:rgba(13,19,27,.85);color:var(--ink);
+  border-radius:10px;padding:9px;font-size:10px;letter-spacing:.8px;text-transform:uppercase;cursor:pointer;}
+.rt3-shell .btn:active{background:#161f2b;} .rt3-shell .btn.primary{border-color:var(--rt-accent);color:var(--rt-accent);}
+
+/* mobile move stick */
+.rt3-shell #stick{position:absolute;left:18px;bottom:130px;width:120px;height:120px;border-radius:50%;
+  background:rgba(18,24,33,.5);border:1px solid var(--edge);z-index:6;touch-action:none;}
+.rt3-shell #stick .nub{position:absolute;left:50%;top:50%;width:48px;height:48px;border-radius:50%;
+  background:rgba(89,212,255,.35);border:1px solid var(--rt-accent);transform:translate(-50%,-50%);}
+.rt3-shell .hint{position:absolute;top:58px;left:0;right:0;text-align:center;
+  font-size:10px;color:var(--dim);letter-spacing:.4px;z-index:4;pointer-events:none;padding:0 16px;transition:opacity .5s;}
+
+/* ── admin / tuning panel ── */
+.rt3-shell .admin-panel{position:absolute;top:0;right:0;bottom:0;width:330px;max-width:88vw;z-index:15;
+  background:rgba(10,14,20,.94);backdrop-filter:blur(10px);border-left:1px solid var(--edge);
+  display:flex;flex-direction:column;transform:translateX(102%);transition:transform .22s ease;}
+.rt3-shell .admin-panel.open{transform:translateX(0);}
+.rt3-shell .admin-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;
+  border-bottom:1px solid var(--edge);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--rt-accent);flex:0 0 auto;}
+.rt3-shell .admin-x{appearance:none;background:transparent;border:none;color:var(--dim);font-size:14px;cursor:pointer;padding:2px 6px;}
+.rt3-shell .admin-x:hover{color:var(--ink);}
+.rt3-shell .admin-body{flex:1 1 auto;overflow-y:auto;padding:6px 14px 12px;}
+.rt3-shell .admin-sec{margin-top:12px;}
+.rt3-shell .admin-sec-title{font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:var(--permeate);
+  border-bottom:1px solid var(--edge);padding-bottom:4px;margin-bottom:8px;}
+.rt3-shell .admin-row{margin-bottom:9px;}
+.rt3-shell .admin-row label{display:flex;justify-content:space-between;align-items:baseline;
+  font-size:10px;letter-spacing:.4px;color:var(--ink);margin-bottom:4px;}
+.rt3-shell .admin-val{color:var(--rt-accent);font-variant-numeric:tabular-nums;font-size:11px;}
+.rt3-shell .admin-row input[type="range"]{appearance:none;-webkit-appearance:none;width:100%;height:3px;
+  background:var(--edge);border-radius:3px;outline:none;}
+.rt3-shell .admin-row input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;
+  border-radius:50%;background:var(--rt-accent);cursor:pointer;box-shadow:0 0 6px var(--rt-accent);}
+.rt3-shell .admin-row input[type="range"]::-moz-range-thumb{width:16px;height:16px;border:none;border-radius:50%;
+  background:var(--rt-accent);box-shadow:0 0 6px var(--rt-accent);}
+.rt3-shell .admin-foot{flex:0 0 auto;border-top:1px solid var(--edge);padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+  display:flex;flex-direction:column;gap:8px;}
+.rt3-shell .admin-out{width:100%;height:84px;resize:none;background:#0d131b;border:1px solid var(--edge);
+  border-radius:8px;color:var(--dim);font-family:inherit;font-size:10px;line-height:1.45;padding:8px;white-space:pre;}
+.rt3-shell .admin-actions{display:flex;gap:7px;}
+
+/* start overlay (pointer lock + audio need a click) */
+.rt3-shell #startgate{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:rgba(10,14,20,.92);backdrop-filter:blur(4px);gap:14px;text-align:center;padding:24px;}
+.rt3-shell #startgate h2{font-size:15px;letter-spacing:2px;text-transform:uppercase;}
+.rt3-shell #startgate p{font-size:11px;color:var(--dim);line-height:1.7;max-width:340px;}
+.rt3-shell #startgate button{margin-top:8px;appearance:none;font-family:inherit;border:1px solid var(--rt-accent);color:var(--rt-accent);
+  background:transparent;border-radius:12px;padding:13px 26px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;}
