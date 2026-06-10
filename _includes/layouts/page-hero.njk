@@ -24,6 +24,7 @@ layout: layouts/base.njk
     import { get_one_random_photo, get_title, focal_position } from "/photos.js";
     var jumbo = document.getElementById("jumbo");
     get_one_random_photo().then(function (photo) {
+        if (!photo) return;  // API unreachable / no photos — leave hero as-is
         jumbo.title = get_title(photo);
         // Align the crop to the photo's stored focal point.
         jumbo.style.objectPosition = focal_position(photo);

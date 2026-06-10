@@ -16,7 +16,7 @@ def downscale_images(output_dir, image_paths, scale_percent):
                     int(original_size[0] * scale_percent / 100),
                     int(original_size[1] * scale_percent / 100)
                 )
-                resized_img = img.resize(new_size, Image.ANTIALIAS)
+                resized_img = img.resize(new_size, Image.Resampling.LANCZOS)
 
                 output_path = os.path.join(output_dir, os.path.basename(image_path))
                 resized_img.save(output_path)

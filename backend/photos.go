@@ -58,17 +58,33 @@ func putPhotos(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Validate JSON is an array
-	var js []map[string]interface{}
+	// Validate JSON is an array of objects. Keep each element as raw bytes so
+	// re-indenting below preserves the original field order (filename first).
+	var js []json.RawMessage
 	if err := json.Unmarshal(body, &js); err != nil {
 		http.Error(w, "Invalid JSON (expected array)", http.StatusBadRequest)
 		return
 	}
+	for _, el := range js {
+		var obj map[string]interface{}
+		if err := json.Unmarshal(el, &obj); err != nil {
+			http.Error(w, "Invalid JSON (expected array of objects)", http.StatusBadRequest)
+			return
+		}
+	}
+
+	// Re-indent so the on-disk file stays human-readable.
+	pretty, err := json.MarshalIndent(js, "", "  ")
+	if err != nil {
+		http.Error(w, "Failed to format", http.StatusInternalServerError)
+		return
+	}
+	pretty = append(pretty, '\n')
 
 	fileMu.Lock()
 	defer fileMu.Unlock()
 
-	if err := os.WriteFile(photosFile, body, 0644); err != nil {
+	if err := os.WriteFile(photosFile, pretty, 0644); err != nil {
 		http.Error(w, "Failed to write", http.StatusInternalServerError)
 		return
 	}
