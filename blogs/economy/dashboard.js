@@ -448,19 +448,22 @@ function viewGrowth(gdp) {
   const m = mountSection("view-growth", { title: "Output: GDP, per capita & real growth", sub: "United States vs United Kingdom" });
   if (!m) return;
   const metrics = {
-    nominal: { label: "Nominal GDP", key: "nominalGDP", yf: (v) => "$" + abbrev(v), info: "Nominal GDP in current US dollars (World Bank)." },
-    percap: { label: "GDP per capita", key: "gdpPerCapita", yf: fmt.usd, info: "Nominal GDP divided by population, in US dollars." },
+    realpc: { label: "Real GDP / capita", key: "realGDPpc", long: true, yf: (v) => "$" + abbrev(v), info: "Real GDP per capita back to 1900, constant 2011 international dollars, PPP (Maddison Project)." },
+    realgdp: { label: "Real GDP", key: "realGDP", long: true, yf: (v) => "$" + abbrev(v), info: "Real GDP back to 1900, constant 2011 international dollars (Maddison Project)." },
+    nominal: { label: "Nominal GDP", key: "nominalGDP", yf: (v) => "$" + abbrev(v), info: "Nominal GDP in current US dollars since 1990 (World Bank)." },
+    percap: { label: "Nominal / capita", key: "gdpPerCapita", yf: fmt.usd, info: "Nominal GDP divided by population, in current US dollars (World Bank)." },
     growth: { label: "Real growth %", key: "realGrowthPct", yf: fmt.pct, info: "Inflation-adjusted annual change in GDP." },
   };
-  let active = "nominal";
+  let active = "realpc";
   const chartHost = h("div", {});
   let chart;
   const draw = () => {
     const mm = metrics[active];
+    const xs = mm.long ? gdp.yearsLong : gdp.years;
     const series = ["US", "UK"].map((c) => ({
       name: COUNTRY_NAME[c], color: COUNTRY_COLOR[c], values: gdp[mm.key][c],
     }));
-    const opts = { xs: gdp.years, series, type: "line", yFormat: mm.yf };
+    const opts = { xs, series, type: "line", yFormat: mm.yf };
     if (chart) chart.update(opts); else chart = new Chart(chartHost, opts);
     sub.textContent = mm.info;
   };
@@ -475,13 +478,24 @@ function viewGrowth(gdp) {
 function viewSpending(fiscal) {
   const m = mountSection("view-spending", { title: "Government spending vs revenue", sub: "" });
   if (!m) return;
-  let country = "US", metric = "abs";
+  let country = "US", view = "abs";
   const chartHost = h("div", {});
   let chart;
   const capt = h("div", { class: "chart-caption" });
   const draw = () => {
     const d = fiscal[country];
-    const abs = metric === "abs";
+    if (view === "gdpLong") {
+      const L = fiscal.long;
+      const series = [
+        { name: "Government spending", color: "#d62728", values: L.spendPctGDP[country] },
+        { name: "Tax revenue", color: "#2ca02c", values: L.taxRevPctGDP[country] },
+      ];
+      const opts = { xs: L.years, series, type: "line", yFormat: fmt.pct };
+      if (chart) chart.update(opts); else chart = new Chart(chartHost, opts);
+      capt.textContent = `${COUNTRY_NAME[country]} since 1900: government spending and tax revenue as a share of GDP. Both ratchet up through the World Wars and never fully return — the state was ~10% of GDP in 1900 and is ~35-45% today. (Spending here is central/general government; basis differs slightly from the modern official series above.)`;
+      return;
+    }
+    const abs = view === "abs";
     const sym = d.symbol;
     const series = [
       { name: "Spending (outlays)", color: "#d62728", values: abs ? d.outlays : d.outlaysPctGDP },
@@ -498,10 +512,10 @@ function viewSpending(fiscal) {
   };
   m.controls.append(
     segmented("Country", [{ value: "US", label: "United States" }, { value: "UK", label: "United Kingdom" }], country, (v) => { country = v; draw(); }),
-    segmented("Units", [{ value: "abs", label: "Local currency" }, { value: "gdp", label: "% of GDP" }], metric, (v) => { metric = v; draw(); }),
+    segmented("View", [{ value: "abs", label: "Amount" }, { value: "gdp", label: "% of GDP" }, { value: "gdpLong", label: "% of GDP · since 1900" }], view, (v) => { view = v; draw(); }),
   );
   m.chartHost.append(chartHost, capt);
-  m.card.append(sourceLine(fiscal.meta));
+  m.card.append(sourceLine({ sources: fiscal.meta.sources.concat(fiscal.long.sources) }));
   draw();
 }
 
@@ -560,7 +574,23 @@ function viewIncomeTax(td) {
   };
   m.controls.append(segmented("Country", [{ value: "US", label: "United States" }, { value: "UK", label: "United Kingdom" }], country, (v) => { clear(rateHost); country = v; draw(); }));
   m.chartHost.append(barsHost, rateTitle, rateHost);
-  m.card.append(sourceLine(td.meta));
+
+  // Century-long top marginal income-tax rate (US vs UK), rendered once.
+  const mr = td.topMarginalRate;
+  const mrTitle = h("div", { class: "chart-title", style: "margin-top:1.25rem" }, ["Top marginal income tax rate since 1900 (US vs UK)"]);
+  const mrHost = h("div", {});
+  new Chart(mrHost, {
+    xs: mr.years,
+    series: [
+      { name: "United States", color: COUNTRY_COLOR.US, values: mr.US },
+      { name: "United Kingdom", color: COUNTRY_COLOR.UK, values: mr.UK },
+    ],
+    type: "line", yFormat: fmt.pct0,
+  });
+  const mrNote = h("div", { class: "chart-caption" }, ["Statutory top rate on the highest incomes — over 90% in both countries during and after WWII, cut sharply in the 1980s."]);
+  m.chartHost.append(mrTitle, mrHost, mrNote);
+
+  m.card.append(sourceLine({ sources: td.meta.sources.concat([mr.source]) }));
   draw();
 }
 
@@ -568,27 +598,41 @@ function viewIncomeTax(td) {
 function viewWealth(wealth) {
   const m = mountSection("view-wealth", { title: "Wealth distribution by class", sub: "Share of total household wealth held by each group" });
   if (!m) return;
-  let country = "US";
+  let country = "US", view = "recent";
   const chartHost = h("div", {});
   const note = h("div", { class: "chart-caption" });
   let chart;
   const draw = () => {
+    if (view === "long") {
+      const lr = wealth.longRun;
+      const d = lr[country];
+      const series = [
+        { name: "Top 10% share", color: "#9467bd", values: d.top10 },
+        { name: "Top 1% share", color: "#c2185b", values: d.top1 },
+      ];
+      chart = new Chart(chartHost, { xs: lr.years, series, type: "line", yFormat: fmt.pct0 });
+      note.textContent = `${COUNTRY_NAME[country]} (World Inequality Database): the U-shaped century of wealth concentration — very high before WWI, falling to a mid-century low, then rising again since ~1980. Net personal wealth basis, so levels differ from the recent DFA/ONS measures.`;
+      return;
+    }
     const d = wealth[country];
     const classes = Object.entries(d.classes);
-    // order top wealth on top of the stack: reverse so bottom-50 sits at base
     const series = classes.map(([name, values], i) => ({ name, values, color: PALETTE[i % PALETTE.length] }));
-    const opts = { xs: d.years, series, type: "area", mode: "absolute", yFormat: fmt.pct0,
-      xFormat: (x) => (country === "UK" ? `${x - 2}-${String(x).slice(2)}` : String(x)) };
-    if (chart) chart.update(opts); else chart = new Chart(chartHost, opts);
+    chart = new Chart(chartHost, { xs: d.years, series, type: "area", mode: "absolute", yFormat: fmt.pct0,
+      xFormat: (x) => (country === "UK" ? `${x - 2}-${String(x).slice(2)}` : String(x)) });
     if (country === "US") {
       note.textContent = `US (Federal Reserve DFA): the top 1% held ${wealth.aggregates.US_top1_2024}% of all wealth in 2024 while the bottom 50% held ${wealth.aggregates.US_bottom50_2024}%.`;
     } else {
       note.textContent = `UK (ONS Wealth & Assets Survey, 2020-22): total household wealth was £${wealth.aggregates.UK_total_wealth_gbp_trillion}tn; the wealthiest 10% held 41% and the least wealthy 50% held 9%. Note: ONS totals include pensions and property, so measured UK concentration is lower than the US DFA figures.`;
     }
   };
-  m.controls.append(segmented("Country", [{ value: "US", label: "United States" }, { value: "UK", label: "United Kingdom" }], country, (v) => { country = v; draw(); }));
+  // a fresh Chart is built each draw (mode changes the chart type), so clear first
+  const redraw = () => { clear(chartHost); chart = null; draw(); };
+  m.controls.append(
+    segmented("Country", [{ value: "US", label: "United States" }, { value: "UK", label: "United Kingdom" }], country, (v) => { country = v; redraw(); }),
+    segmented("View", [{ value: "recent", label: "Class shares (recent)" }, { value: "long", label: "Top 1% & 10% · since 1913" }], view, (v) => { view = v; redraw(); }),
+  );
   m.chartHost.append(chartHost, note);
-  m.card.append(sourceLine(wealth.meta));
+  m.card.append(sourceLine({ sources: wealth.meta.sources.concat([wealth.longRun.source]) }));
   draw();
 }
 
@@ -597,15 +641,14 @@ function viewBalance(fiscal) {
   const m = mountSection("view-balance", { title: "Government balance sheet", sub: "Debt as a share of GDP — the running tally of past deficits" });
   if (!m) return;
   const chartHost = h("div", {});
-  const series = ["US", "UK"].map((c) => ({ name: `${COUNTRY_NAME[c]} debt`, color: COUNTRY_COLOR[c], values: fiscal[c].debtPctGDP }));
-  // US and UK share the same year range (2000-2024)
-  new Chart(chartHost, { xs: fiscal.US.years, series, type: "line", yFormat: fmt.pct0 });
-  const li = fiscal.UK.years.length - 1;
+  const D = fiscal.debtLong;
+  const series = ["US", "UK"].map((c) => ({ name: `${COUNTRY_NAME[c]} debt`, color: COUNTRY_COLOR[c], values: D[c] }));
+  new Chart(chartHost, { xs: D.years, series, type: "line", yFormat: fmt.pct0 });
   const note = h("div", { class: "chart-caption" }, [
-    `US federal debt held by the public reached ${fiscal.US.debtPctGDP[li]}% of GDP and UK public sector net debt ${fiscal.UK.debtPctGDP[li]}% in ${fiscal.UK.years[li]}. The UK's public sector net worth (assets minus liabilities) stood at about −£709bn in March 2024 — governments hold large liabilities against comparatively modest net assets.`,
+    "A century of public debt as a share of GDP. The UK's debt peaked near 250% of GDP after the Second World War and fell for decades; both countries climbed back toward ~100% after 2008 and 2020. US is federal debt held by the public; UK is general-government / public-sector net debt — pre-2000 points are benchmark estimates. The UK's public sector net worth was about −£709bn in March 2024.",
   ]);
   m.chartHost.append(chartHost, note);
-  m.card.append(sourceLine(fiscal.meta));
+  m.card.append(sourceLine({ sources: fiscal.meta.sources.concat(D.sources) }));
 }
 
 // Headline stat cards

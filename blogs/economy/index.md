@@ -15,19 +15,21 @@ scripts:
 
 This dashboard pulls together public data from official sources — the US Office of Management and Budget, the Congressional Budget Office, the IRS, the Federal Reserve, the UK Office for Budget Responsibility, HM Revenue & Customs and the Office for National Statistics — and lets you compare the United States and the United Kingdom across the questions that actually drive economic arguments.
 
-Every chart is interactive: **hover** for exact figures, **click legend entries** to isolate a series, and use the toggles to switch country, units, or view. Each panel links its underlying source.
+Where the data exists, the timelines run **back to 1900** (and 1913 for wealth) using long-run academic series — the Maddison Project for GDP, Piketty for tax revenue and top marginal rates, and the World Inequality Database for wealth — alongside the precise modern figures from official statistics.
+
+Every chart is interactive: **hover** for exact figures, **click legend entries** to isolate a series, and use the toggles to switch country, era, units, or view. Each panel links its underlying source.
 
 <div id="headline-stats" class="econ-stats"></div>
 
 ## Economic growth
 
-How big are these economies, how much output is there per person, and how fast are they actually growing once you strip out inflation? Toggle between the level of GDP, GDP per capita, and the year-on-year real growth rate.
+How big are these economies, how much output is there per person, and how fast are they actually growing once you strip out inflation? The default view shows **real GDP per capita back to 1900** in constant international dollars (Maddison Project) — watch the US pull decisively ahead of the UK across the century. Toggle to real GDP, nominal GDP, per-capita, or the year-on-year real growth rate.
 
 <div id="view-growth" class="econ-section"></div>
 
 ## Government spending & revenue
 
-The two lines that define fiscal policy: what the government **spends** and what it **takes in**. The gap between them is the deficit (or, rarely, the surplus). Switch to *% of GDP* to compare the size of the state across two economies of very different scale — and notice how both countries' spending spiked during the 2008 crisis and again in 2020.
+The two lines that define fiscal policy: what the government **spends** and what it **takes in**. The gap between them is the deficit (or, rarely, the surplus). Switch to *% of GDP* to compare the size of the state across two economies of very different scale, or *% of GDP · since 1900* to see the long arc: government was barely 10% of GDP in 1900, ratcheted up through two World Wars, and never fully receded.
 
 <div id="view-spending" class="econ-section"></div>
 
@@ -39,19 +41,19 @@ Almost all government revenue is tax. But *which* taxes? This view breaks revenu
 
 ## Who pays income tax
 
-Income tax is steeply progressive in both countries: a small slice of high earners pays a large share of the total. The bars show the share of income tax paid by each top group; for the US you can also see the **average effective federal tax rate** by income quintile (it climbs from near zero at the bottom to ~30% for the top 1%), and for the UK how the top 1%'s share has risen over time.
+Income tax is steeply progressive in both countries: a small slice of high earners pays a large share of the total. The bars show the share of income tax paid by each top group; for the US you can also see the **average effective federal tax rate** by income quintile (it climbs from near zero at the bottom to ~30% for the top 1%), and for the UK how the top 1%'s share has risen over time. Below that, the **top marginal income tax rate since 1900** tells the dramatic story of tax policy — statutory rates above 90% in both countries during and after WWII, slashed in the 1980s.
 
 <div id="view-income-tax" class="econ-section"></div>
 
 ## Wealth distribution by class
 
-Income is what you earn in a year; wealth is what you've accumulated. Wealth is far more concentrated than income. This view stacks the share of total household wealth held by each class. In the US the top 1% alone hold roughly 30% of all wealth while the bottom half hold around 2–3%. The UK looks less concentrated — partly real, partly because the ONS measure folds in pensions and housing.
+Income is what you earn in a year; wealth is what you've accumulated. Wealth is far more concentrated than income. This view stacks the share of total household wealth held by each class. In the US the top 1% alone hold roughly 30% of all wealth while the bottom half hold around 2–3%. The UK looks less concentrated — partly real, partly because the ONS measure folds in pensions and housing. Switch to **Top 1% & 10% · since 1913** for the famous U-shape: wealth was extraordinarily concentrated before WWI, equalised through the mid-century, and has been climbing again since around 1980.
 
 <div id="view-wealth" class="econ-section"></div>
 
 ## Government balance sheet
 
-Deficits accumulate. Debt as a share of GDP is the running tally of every past year's borrowing, and it is the number that ultimately constrains tax-and-spend choices. Both countries crossed from ~35–40% of GDP before 2008 to roughly 100% today.
+Deficits accumulate. Debt as a share of GDP is the running tally of every past year's borrowing, and it is the number that ultimately constrains tax-and-spend choices. Over the long run the pattern is unmistakable: the UK's debt hit roughly **250% of GDP** after the Second World War before decades of decline, and both countries have climbed back toward ~100% since 2008 and 2020.
 
 <div id="view-balance" class="econ-section"></div>
 
@@ -63,6 +65,7 @@ Deficits accumulate. Debt as a share of GDP is the running tally of every past y
 <li><strong>UK public finances</strong> come from the <a href="https://obr.uk/data/" target="_blank" rel="noopener">OBR Public Finances Databank</a>, <a href="https://www.gov.uk/government/statistics/hmrc-tax-and-nics-receipts-for-the-uk" target="_blank" rel="noopener">HMRC receipts</a> and the <a href="https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance" target="_blank" rel="noopener">ONS</a>, financial years, in £ billions.</li>
 <li><strong>Tax distribution.</strong> US shares of federal individual income tax are IRS Statistics of Income (tax year 2022, via the Tax Foundation); effective rates are CBO average total federal tax rates by income quintile. UK shares are <a href="https://www.gov.uk/government/statistics/income-tax-liabilities-statistics-tax-year-2022-to-2023-to-tax-year-2025-to-2026" target="_blank" rel="noopener">HMRC income tax liability statistics</a>.</li>
 <li><strong>Wealth.</strong> US shares are the <a href="https://www.federalreserve.gov/releases/z1/dataviz/dfa/distribute/table/" target="_blank" rel="noopener">Federal Reserve Distributional Financial Accounts</a>; UK shares are the <a href="https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/bulletins/totalwealthingreatbritain/april2020tomarch2022" target="_blank" rel="noopener">ONS Wealth &amp; Assets Survey</a>.</li>
+<li><strong>Long-run series (back to 1900).</strong> Real GDP and GDP per capita are the <a href="https://www.rug.nl/ggdc/historicaldevelopment/maddison/" target="_blank" rel="noopener">Maddison Project Database 2020</a> (constant international dollars). Long-run government spending and tax revenue as % of GDP, and top marginal income tax rates, are from Roine–Vlachos–Waldenström and <a href="https://ourworldindata.org/taxation" target="_blank" rel="noopener">Piketty (2014)</a> via Our World in Data. Long-run wealth shares are the <a href="https://wid.world" target="_blank" rel="noopener">World Inequality Database</a>. Long-run public debt benchmarks draw on the <a href="https://www.imf.org/external/datamapper/datasets/DEBT" target="_blank" rel="noopener">IMF Historical Public Debt Database</a> and the Bank of England.</li>
 <li><strong>Comparability &amp; precision.</strong> Headline figures are anchored to the latest published values from each source and rounded. Some longer historical and pre-2020 series are compiled from the official tables and should be verified against the primary source before being quoted exactly. US and UK figures use different definitions (e.g. fiscal-year basis, the scope of "wealth"), so cross-country comparisons are directional, not exact.</li>
 </ul>
 </details>
