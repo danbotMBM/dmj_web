@@ -57,6 +57,15 @@ const cards = {
       "Scrappy project completed in 48hrs with no previous gamdev / godot experience",
     ],
   },
+  economy: {
+    title: "Economy Lab — US & UK",
+    href: "/blogs/economy",
+    blurb: [
+      "An interactive dashboard analyzing the US and UK economies on credible government data",
+      "Compare GDP and growth, government spending and revenue, the tax mix, and who pays income tax",
+      "See wealth distribution by class and how national debt has climbed toward 100% of GDP",
+    ],
+  },
   recall: {
     title: "Recall in the Age of AI",
     href: "/blogs/recall",
@@ -131,6 +140,7 @@ const cards = {
 module.exports = {
   home: [
     cards.trivia,
+    cards.economy,
     cards.recall,
     cards.holdem,
     cards.race_results,
@@ -141,6 +151,7 @@ module.exports = {
     cards.photos,
   ],
   blogs: [
+    cards.economy,
     cards.recall,
     cards.race_results,
     cards.running,

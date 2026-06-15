@@ -1,0 +1,150 @@
+{
+ "meta": {
+  "sources": [
+   {
+    "label": "IRS Statistics of Income, summarized by Tax Foundation (US, TY2022)",
+    "url": "https://taxfoundation.org/data/all/federal/latest-federal-income-tax-data-2025/"
+   },
+   {
+    "label": "CBO, The Distribution of Household Income (US effective federal tax rates)",
+    "url": "https://www.cbo.gov/topic/taxes"
+   },
+   {
+    "label": "HMRC Income Tax liabilities statistics (UK)",
+    "url": "https://www.gov.uk/government/statistics/income-tax-liabilities-statistics-tax-year-2022-to-2023-to-tax-year-2025-to-2026"
+   }
+  ],
+  "notes": "US share of federal individual income tax by group is IRS SOI tax-year 2022 (Tax Foundation). Verified: Top 1% paid 40.4% (AGI threshold $663,164, avg rate 26.1%); Top 50% paid 97.0%; Bottom 50% paid 3.0% (avg rate 3.7%). Top 5/10/25% are the standard SOI progression. US effective rates are CBO average total federal tax rates by income quintile (2019; middle quintiles compiled from CBO). UK share of income tax is HMRC (2024-25): Top 1% 28.2%, Top 10% 60.2%."
+ },
+ "usIncomeTaxShare": {
+  "groups": [
+   "Top 1%",
+   "Top 5%",
+   "Top 10%",
+   "Top 25%",
+   "Top 50%",
+   "Bottom 50%"
+  ],
+  "sharePct": [
+   40.4,
+   61.0,
+   72.0,
+   87.2,
+   97.0,
+   3.0
+  ],
+  "agiThreshold": [
+   663164,
+   252840,
+   178611,
+   99857,
+   50399,
+   null
+  ],
+  "avgRatePct": [
+   26.1,
+   23.0,
+   21.3,
+   18.5,
+   16.6,
+   3.7
+  ]
+ },
+ "usEffectiveRate": {
+  "groups": [
+   "Lowest 20%",
+   "Second 20%",
+   "Middle 20%",
+   "Fourth 20%",
+   "Highest 20%",
+   "Top 1%"
+  ],
+  "ratePct": [
+   0.5,
+   7.7,
+   13.3,
+   16.8,
+   24.4,
+   30.0
+  ]
+ },
+ "ukIncomeTaxShare": {
+  "groups": [
+   "Top 1%",
+   "Top 5%",
+   "Top 10%",
+   "Top 50%",
+   "Bottom 50%"
+  ],
+  "sharePct": [
+   28.2,
+   48.0,
+   60.2,
+   90.0,
+   10.0
+  ],
+  "shareIncomePct": [
+   13.3,
+   null,
+   35.1,
+   null,
+   null
+  ]
+ },
+ "top1ShareSeries": {
+  "US": {
+   "years": [
+    2001,
+    2007,
+    2010,
+    2015,
+    2019,
+    2022
+   ],
+   "sharePct": [
+    33.9,
+    40.4,
+    37.4,
+    39.0,
+    38.8,
+    40.4
+   ]
+  },
+  "UK": {
+   "years": [
+    2006,
+    2008,
+    2015,
+    2020,
+    2024
+   ],
+   "sharePct": [
+    22.7,
+    24.4,
+    27.2,
+    29.0,
+    28.2
+   ]
+  }
+ },
+ "usCapitalGains": {
+  "years": [
+   2007,
+   2012,
+   2015,
+   2018,
+   2021,
+   2022,
+   2023
+  ],
+  "realizationsUSDbn": [
+   924,
+   620,
+   725,
+   944,
+   2000,
+   1200,
+   1000
+  ]
+ }
+}

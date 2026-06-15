@@ -1,0 +1,126 @@
+{
+ "meta": {
+  "sources": [
+   {
+    "label": "HMRC tax & NICs receipts bulletin",
+    "url": "https://www.gov.uk/government/statistics/hmrc-tax-and-nics-receipts-for-the-uk"
+   },
+   {
+    "label": "OMB Historical Tables 1.1, 1.2, 2.1, 7.1 (federal, FY)",
+    "url": "https://www.whitehouse.gov/omb/budget/historical-tables/"
+   },
+   {
+    "label": "HMRC Tax receipts and NICs bulletin (UK by-source)",
+    "url": "https://www.gov.uk/government/statistics/hmrc-tax-and-nics-receipts-for-the-uk"
+   }
+  ],
+  "notes": "US receipts by source are annual (OMB Table 2.1) and shared with the spending view. UK receipts by source: 2023-24 and 2024-25 are HMRC's published figures (income tax \u00a3273bn/\u00a3303bn, NICs \u00a3178bn/\u00a3173bn, VAT \u00a3168bn/\u00a3171bn, corporation tax \u00a386bn/\u00a391bn, CGT \u00a315bn/\u00a314bn); earlier years are compiled from HMRC historical receipts and rounded."
+ },
+ "UK": {
+  "currency": "GBP",
+  "symbol": "\u00a3",
+  "unit": "bn",
+  "years": [
+   2000,
+   2005,
+   2010,
+   2015,
+   2019,
+   2021,
+   2023,
+   2024
+  ],
+  "bySource": {
+   "Income tax": [
+    105,
+    135,
+    150,
+    168,
+    194,
+    225,
+    273,
+    303
+   ],
+   "National Insurance": [
+    60,
+    85,
+    97,
+    110,
+    138,
+    158,
+    178,
+    173
+   ],
+   "VAT": [
+    60,
+    73,
+    84,
+    116,
+    130,
+    143,
+    168,
+    171
+   ],
+   "Corporation tax": [
+    35,
+    42,
+    43,
+    45,
+    55,
+    67,
+    86,
+    91
+   ],
+   "Capital gains tax": [
+    3,
+    8,
+    4,
+    7,
+    10,
+    14,
+    15,
+    14
+   ],
+   "Fuel duty": [
+    23,
+    24,
+    27,
+    27,
+    28,
+    21,
+    25,
+    25
+   ],
+   "Council tax": [
+    16,
+    21,
+    26,
+    28,
+    35,
+    39,
+    45,
+    47
+   ],
+   "Business rates": [
+    16,
+    19,
+    24,
+    27,
+    31,
+    24,
+    28,
+    27
+   ],
+   "Other (duties, stamp, etc.)": [
+    40,
+    55,
+    60,
+    70,
+    77,
+    90,
+    100,
+    98
+   ]
+  }
+ }
+}

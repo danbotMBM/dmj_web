@@ -1,0 +1,123 @@
+{
+ "meta": {
+  "sources": [
+   {
+    "label": "Federal Reserve Distributional Financial Accounts (US net worth shares)",
+    "url": "https://www.federalreserve.gov/releases/z1/dataviz/dfa/distribute/table/"
+   },
+   {
+    "label": "ONS Wealth and Assets Survey, total wealth (Great Britain)",
+    "url": "https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/bulletins/totalwealthingreatbritain/april2020tomarch2022"
+   }
+  ],
+  "notes": "US: share of household net worth, Federal Reserve DFA (year-end). Verified anchors: Top 1% 22.8% (1989) -> 30.8% (2024); bottom 50% 3.5% (1990) -> 2.4% (2024). UK: share of total household wealth, ONS Wealth & Assets Survey by two-year wave (year shown is the wave end). Verified 2020-22: wealthiest 10% held 41%, least wealthy 50% held 9%; aggregate wealth \u00a313.6 trillion. NOTE the US and UK figures are not directly comparable: ONS total wealth includes private pension and property wealth, which lowers measured UK concentration relative to the US DFA."
+ },
+ "US": {
+  "years": [
+   1990,
+   1995,
+   2000,
+   2005,
+   2010,
+   2015,
+   2019,
+   2022,
+   2024
+  ],
+  "classes": {
+   "Top 1%": [
+    23.0,
+    26.8,
+    28.6,
+    28.5,
+    28.6,
+    29.5,
+    30.4,
+    31.0,
+    30.8
+   ],
+   "Next 9% (90-99th)": [
+    37.0,
+    36.6,
+    37.2,
+    37.0,
+    38.6,
+    38.2,
+    37.8,
+    37.4,
+    37.2
+   ],
+   "Middle 40% (50-90th)": [
+    36.2,
+    33.2,
+    30.8,
+    31.0,
+    30.4,
+    30.3,
+    29.8,
+    29.6,
+    29.6
+   ],
+   "Bottom 50%": [
+    3.8,
+    3.4,
+    3.4,
+    3.5,
+    2.4,
+    2.0,
+    2.0,
+    2.0,
+    2.4
+   ]
+  },
+  "top10": [
+   60.0,
+   63.4,
+   65.8,
+   65.5,
+   67.2,
+   67.7,
+   68.2,
+   68.4,
+   68.0
+  ]
+ },
+ "UK": {
+  "years": [
+   2008,
+   2012,
+   2016,
+   2018,
+   2020
+  ],
+  "classes": {
+   "Top 10%": [
+    44,
+    45,
+    44,
+    43,
+    41
+   ],
+   "Middle 40% (50-90th)": [
+    47,
+    46,
+    47,
+    48,
+    50
+   ],
+   "Bottom 50%": [
+    9,
+    9,
+    9,
+    9,
+    9
+   ]
+  }
+ },
+ "aggregates": {
+  "UK_total_wealth_gbp_trillion": 13.6,
+  "UK_median_household_gbp": 293700,
+  "US_top1_2024": 30.8,
+  "US_bottom50_2024": 2.4
+ }
+}
