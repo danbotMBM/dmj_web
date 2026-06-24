@@ -55,6 +55,25 @@
     transform: scale(1.03);
 }
 
+.pic-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.35) 100%);
+    pointer-events: none;
+}
+
+.pic-caption {
+    position: absolute;
+    left: 14px;
+    bottom: 12px;
+    color: #fff;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.9rem;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+}
+
 .lazyload {
     cursor: zoom-in;
     transition: box-shadow 0.2s, opacity 0.4s ease;

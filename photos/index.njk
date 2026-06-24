@@ -37,6 +37,15 @@ extraCss:
             img.alt = element.description || element.location || "";
             img.style.objectPosition = focal_position(element);
             cell.appendChild(img);
+            if (element.location) {
+                const overlay = document.createElement("div");
+                overlay.className = "pic-overlay";
+                cell.appendChild(overlay);
+                const caption = document.createElement("figcaption");
+                caption.className = "pic-caption";
+                caption.textContent = element.location;
+                cell.appendChild(caption);
+            }
             grid.appendChild(cell);
         });
         // Re-scan for lazyload now that images exist.
