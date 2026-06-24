@@ -539,7 +539,8 @@ function copyResults() {
     const text =
         "The Daily Board " + state.date + "\n" +
         "Score: " + state.score + "/" + maxScore + "\n\n" +
-        emoji;
+        emoji + "\n\n" +
+        "https://danbotlab.com/games/trivia/";
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(() => {
