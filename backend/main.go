@@ -94,6 +94,7 @@ func main() {
 	registerHoldemRoutes()
 	initAnalyticsDB()
 	registerAnalyticsRoutes()
+	registerScoreRoutes()
 	registerHoldemAnalyticsRoutes()
 
 	port := os.Getenv("PORT")

@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"sync"
 	"time"
 	"unicode"
 )
@@ -280,6 +281,81 @@ func handleTriviaQuestion(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resp)
 }
 
+// attemptMu serializes the read-modify-write on trivia_attempts so two concurrent
+// submissions from the same player can't double-count or race the completion lock.
+var attemptMu sync.Mutex
+
+// recordAnswer applies a server-validated answer to the player's attempt for the given
+// board and returns the authoritative running totals. The score is derived entirely from
+// server-side validation; the first completed attempt per (date, player) is locked into
+// trivia_scores and never overwritten ("only the first submission counts").
+func recordAnswer(date, playerID, qid string, correct bool, points, totalQuestions, maxScore int) {
+	if analyticsDB == nil {
+		return
+	}
+
+	attemptMu.Lock()
+	defer attemptMu.Unlock()
+
+	answered := map[string]bool{}
+	var raw string
+	var strikes, score, completed int
+	err := analyticsDB.QueryRow(
+		`SELECT answered, strikes, score, completed FROM trivia_attempts WHERE trivia_date=? AND player_id=?`,
+		date, playerID,
+	).Scan(&raw, &strikes, &score, &completed)
+	if err == nil {
+		json.Unmarshal([]byte(raw), &answered)
+	}
+
+	// Once complete, the attempt is final; re-answering a question is idempotent.
+	if completed == 1 {
+		return
+	}
+	if _, done := answered[qid]; done {
+		return
+	}
+
+	answered[qid] = correct
+	if correct {
+		score += points
+	} else {
+		strikes++
+	}
+	gameOver := strikes >= 3 || len(answered) >= totalQuestions
+	if gameOver {
+		completed = 1
+	}
+
+	answeredJSON, _ := json.Marshal(answered)
+	if _, err := analyticsDB.Exec(`
+		INSERT INTO trivia_attempts (trivia_date, player_id, answered, strikes, score, completed)
+		VALUES (?, ?, ?, ?, ?, ?)
+		ON CONFLICT(trivia_date, player_id) DO UPDATE SET
+			answered=excluded.answered, strikes=excluded.strikes,
+			score=excluded.score, completed=excluded.completed
+	`, date, playerID, string(answeredJSON), strikes, score, completed); err != nil {
+		fmt.Fprintf(os.Stderr, "trivia_attempts upsert error: %v\n", err)
+	}
+
+	if gameOver {
+		res, err := analyticsDB.Exec(`
+			INSERT INTO trivia_scores (trivia_date, player_id, score, max_score, completed_at)
+			VALUES (?, ?, ?, ?, ?)
+			ON CONFLICT(trivia_date, player_id) DO NOTHING
+		`, date, playerID, score, maxScore, time.Now().UTC().Format(time.RFC3339))
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "trivia_scores insert error: %v\n", err)
+		} else if n, _ := res.RowsAffected(); n > 0 {
+			// Genuine first completion for this player+board — announce it to Discord.
+			var total, ahead int
+			analyticsDB.QueryRow(`SELECT COUNT(*) FROM trivia_scores WHERE trivia_date=?`, date).Scan(&total)
+			analyticsDB.QueryRow(`SELECT COUNT(*) FROM trivia_scores WHERE trivia_date=? AND score > ?`, date, score).Scan(&ahead)
+			notifyBoardCompleted(date, getPlayerName(playerID), score, maxScore, ahead+1, total)
+		}
+	}
+}
+
 func handleTriviaAnswer(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -314,6 +390,16 @@ func handleTriviaAnswer(w http.ResponseWriter, r *http.Request) {
 	}
 
 	correct := checkAnswer(req.Answer, q.Answer.Valid)
+
+	// Server-authoritative scoring for the live daily board only. Past-board replays
+	// (?date=) stay practice-only and are never recorded or ranked.
+	if playerID := r.Header.Get("X-Player-ID"); isValidPlayerID(playerID) && reqDate == getTodayDate() {
+		maxScore := 0
+		for _, dq := range day.Questions {
+			maxScore += dq.Points
+		}
+		recordAnswer(reqDate, playerID, q.ID, correct, q.Points, len(day.Questions), maxScore)
+	}
 
 	go trackEvent(r, "answer_submit", reqDate, req.ID, req.Answer, &correct, &q.Points)
 

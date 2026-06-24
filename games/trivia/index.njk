@@ -50,6 +50,16 @@ extraCss:
         <div class="overlay-card">
             <h2>Settings</h2>
             <div class="settings-section">
+                <p class="settings-label">Display name</p>
+                <p class="settings-desc">Shown on the daily leaderboard.</p>
+                <div class="settings-sync-row">
+                    <input type="text" id="settings-name-input" placeholder="Enter a name…" maxlength="20" autocomplete="off" spellcheck="false">
+                    <button id="settings-name-btn">Save</button>
+                </div>
+                <p id="settings-name-status" class="hidden settings-status-text"></p>
+            </div>
+            <hr class="settings-divider">
+            <div class="settings-section">
                 <p class="settings-label">Your Player ID</p>
                 <p class="settings-desc">Copy this ID to sync your stats to another browser.</p>
                 <div class="settings-id-row">
@@ -87,6 +97,19 @@ extraCss:
             <div id="gameover-chart-wrap">
                 <div class="chart-title">Last 7 days</div>
                 <div id="gameover-chart"></div>
+            </div>
+            <div id="leaderboard-wrap" class="hidden">
+                <div class="chart-title">Today's Top 3</div>
+                <ol id="gameover-leaderboard" class="leaderboard"></ol>
+                <p id="gameover-rank" class="leaderboard-rank"></p>
+                <div id="gameover-name-entry" class="name-entry hidden">
+                    <p class="settings-label">Your name</p>
+                    <div class="settings-sync-row">
+                        <input type="text" id="gameover-name-input" placeholder="Enter a name…" maxlength="20" autocomplete="off" spellcheck="false">
+                        <button id="gameover-name-btn">Save</button>
+                    </div>
+                    <p id="gameover-name-status" class="hidden settings-status-text"></p>
+                </div>
             </div>
             <button id="copy-btn">Copy Results</button>
             <p id="copy-confirm" class="hidden">Copied!</p>

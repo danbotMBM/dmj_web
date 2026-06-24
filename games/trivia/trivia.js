@@ -175,6 +175,98 @@ async function syncRemoteStats() {
     }
 }
 
+const NAME_KEY = "dmj-trivia-name";
+
+async function fetchResults() {
+    try {
+        const resp = await fetch(API_BASE + "/trivia/results", {
+            headers: { "X-Player-ID": playerId },
+        });
+        if (!resp.ok) return null;
+        return await resp.json();
+    } catch (e) {
+        return null;
+    }
+}
+
+async function fetchName() {
+    try {
+        const resp = await fetch(API_BASE + "/trivia/name", {
+            headers: { "X-Player-ID": playerId },
+        });
+        if (!resp.ok) return "";
+        const data = await resp.json();
+        return data.name || "";
+    } catch (e) {
+        return "";
+    }
+}
+
+// saveName posts the display name to the server (with profanity check) and reports status.
+// onSuccess receives the stored name so callers can refresh dependent UI (e.g. leaderboard).
+async function saveName(name, statusEl, onSuccess) {
+    name = name.trim();
+    statusEl.classList.remove("hidden");
+    if (!name) {
+        statusEl.style.color = "#ef4444";
+        statusEl.textContent = "Please enter a name.";
+        return;
+    }
+    statusEl.style.color = "var(--fgColor-muted)";
+    statusEl.textContent = "Saving…";
+    try {
+        const resp = await fetch(API_BASE + "/trivia/name", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "X-Player-ID": playerId },
+            body: JSON.stringify({ name: name }),
+        });
+        const data = await resp.json().catch(() => ({}));
+        if (resp.ok) {
+            const saved = data.name || name;
+            localStorage.setItem(NAME_KEY, saved);
+            statusEl.style.color = "#22c55e";
+            statusEl.textContent = "Saved!";
+            if (onSuccess) onSuccess(saved);
+        } else {
+            statusEl.style.color = "#ef4444";
+            statusEl.textContent = data.error || "Could not save name.";
+        }
+    } catch (e) {
+        statusEl.style.color = "#ef4444";
+        statusEl.textContent = "Network error. Please try again.";
+    }
+}
+
+function renderLeaderboard(results) {
+    const list = document.getElementById("gameover-leaderboard");
+    list.innerHTML = "";
+    if (!results.top3 || results.top3.length === 0) {
+        const li = document.createElement("li");
+        li.className = "leaderboard-empty";
+        li.textContent = "No scores yet — be the first!";
+        list.appendChild(li);
+    } else {
+        for (const entry of results.top3) {
+            const li = document.createElement("li");
+            const name = document.createElement("span");
+            name.className = "lb-name";
+            name.textContent = entry.name;
+            const score = document.createElement("span");
+            score.className = "lb-score";
+            score.textContent = entry.score;
+            li.appendChild(name);
+            li.appendChild(score);
+            list.appendChild(li);
+        }
+    }
+    const rankEl = document.getElementById("gameover-rank");
+    if (results.rank && results.total_players) {
+        rankEl.textContent = "Your rank: " + results.rank + " of " + results.total_players;
+    } else {
+        rankEl.textContent = "";
+    }
+}
+
 // Check for ?date= URL parameter to load a specific day's trivia
 const urlParams = new URLSearchParams(window.location.search);
 const requestedDate = urlParams.get("date");
@@ -416,6 +508,28 @@ function showGameOver() {
         history.length ? avg.toFixed(1) : "-";
     document.getElementById("gameover-chart").innerHTML = renderSevenDayChart(history);
 
+    // Leaderboard + name entry only apply to the live daily board, not past replays.
+    const lbWrap = document.getElementById("leaderboard-wrap");
+    if (!requestedDate) {
+        lbWrap.classList.remove("hidden");
+        const nameInput = document.getElementById("gameover-name-input");
+        nameInput.value = "";
+        document.getElementById("gameover-name-status").classList.add("hidden");
+        // Hide the name entry until we know the player has no stored name yet.
+        document.getElementById("gameover-name-entry").classList.add("hidden");
+        document.getElementById("gameover-leaderboard").innerHTML = "";
+        document.getElementById("gameover-rank").textContent = "";
+        fetchResults().then(results => {
+            if (!results) return;
+            renderLeaderboard(results);
+            if (!results.name) {
+                document.getElementById("gameover-name-entry").classList.remove("hidden");
+            }
+        });
+    } else {
+        lbWrap.classList.add("hidden");
+    }
+
     document.getElementById("gameover-overlay").classList.remove("hidden");
 }
 
@@ -448,6 +562,10 @@ function copyResults() {
 function openSettings() {
     document.getElementById("settings-player-id").textContent = playerId;
     document.getElementById("settings-id-input").value = "";
+    const nameInput = document.getElementById("settings-name-input");
+    nameInput.value = localStorage.getItem(NAME_KEY) || "";
+    document.getElementById("settings-name-status").classList.add("hidden");
+    fetchName().then(name => { if (name) nameInput.value = name; });
     const statusEl = document.getElementById("settings-status");
     statusEl.textContent = "";
     statusEl.classList.add("hidden");
@@ -582,6 +700,30 @@ async function init() {
     document.getElementById("settings-sync-btn").addEventListener("click", syncFromId);
     document.getElementById("settings-id-input").addEventListener("keydown", (e) => {
         if (e.key === "Enter") syncFromId();
+    });
+
+    // Name entry (settings + game over)
+    document.getElementById("settings-name-btn").addEventListener("click", () => {
+        saveName(
+            document.getElementById("settings-name-input").value,
+            document.getElementById("settings-name-status"),
+        );
+    });
+    document.getElementById("settings-name-input").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") document.getElementById("settings-name-btn").click();
+    });
+    document.getElementById("gameover-name-btn").addEventListener("click", () => {
+        saveName(
+            document.getElementById("gameover-name-input").value,
+            document.getElementById("gameover-name-status"),
+            () => {
+                document.getElementById("gameover-name-entry").classList.add("hidden");
+                fetchResults().then(results => { if (results) renderLeaderboard(results); });
+            },
+        );
+    });
+    document.getElementById("gameover-name-input").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") document.getElementById("gameover-name-btn").click();
     });
 }
 

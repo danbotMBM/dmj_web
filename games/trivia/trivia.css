@@ -238,7 +238,8 @@
 }
 
 #submit-btn, #continue-btn, #copy-btn, #close-gameover-btn, #reset-btn,
-#settings-copy-id-btn, #settings-sync-btn, #settings-close-btn {
+#settings-copy-id-btn, #settings-sync-btn, #settings-close-btn,
+#settings-name-btn, #gameover-name-btn {
     padding: 10px 24px;
     font-size: 1rem;
     font-weight: 600;
@@ -251,14 +252,100 @@
 }
 
 #submit-btn:hover, #continue-btn:hover, #copy-btn:hover, #close-gameover-btn:hover, #reset-btn:hover,
-#settings-copy-id-btn:hover, #settings-sync-btn:hover, #settings-close-btn:hover {
+#settings-copy-id-btn:hover, #settings-sync-btn:hover, #settings-close-btn:hover,
+#settings-name-btn:hover, #gameover-name-btn:hover {
     background: #2563eb;
 }
 
-#settings-copy-id-btn, #settings-sync-btn {
+#settings-copy-id-btn, #settings-sync-btn, #settings-name-btn, #gameover-name-btn {
     padding: 8px 16px;
     font-size: 0.9rem;
     white-space: nowrap;
+}
+
+#settings-name-input, #gameover-name-input {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 0.95rem;
+    border: 2px solid var(--fgColor-muted);
+    border-radius: 8px;
+    background: var(--bgColor-default);
+    color: var(--fgColor-default);
+    box-sizing: border-box;
+}
+
+#settings-name-input:focus, #gameover-name-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+/* Leaderboard */
+#leaderboard-wrap {
+    margin: 8px 0 20px;
+}
+
+.leaderboard {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto 12px;
+    max-width: 320px;
+    counter-reset: rank;
+}
+
+.leaderboard li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: var(--bgColor-muted, rgba(0,0,0,0.05));
+    margin-bottom: 6px;
+}
+
+.leaderboard li::before {
+    counter-increment: rank;
+    content: counter(rank);
+    font-weight: 700;
+    color: var(--fgColor-muted);
+    min-width: 1.2em;
+    text-align: center;
+}
+
+.leaderboard .lb-name {
+    flex: 1;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--fgColor-default);
+}
+
+.leaderboard .lb-score {
+    font-weight: 700;
+    color: var(--fgColor-default);
+}
+
+.leaderboard .leaderboard-empty {
+    justify-content: center;
+    color: var(--fgColor-muted);
+    background: none;
+}
+
+.leaderboard .leaderboard-empty::before {
+    content: none;
+}
+
+.leaderboard-rank {
+    font-weight: 600;
+    color: var(--fgColor-default);
+    margin-bottom: 14px;
+}
+
+.name-entry {
+    text-align: left;
+    max-width: 320px;
+    margin: 0 auto;
 }
 
 #result-text {

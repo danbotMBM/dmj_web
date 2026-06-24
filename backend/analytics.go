@@ -69,7 +69,30 @@ func initAnalyticsDB() {
 		score INTEGER
 	);
 	CREATE INDEX IF NOT EXISTS idx_holdem_events_ts ON holdem_events(ts);
-	CREATE INDEX IF NOT EXISTS idx_holdem_events_player ON holdem_events(player_id);`
+	CREATE INDEX IF NOT EXISTS idx_holdem_events_player ON holdem_events(player_id);
+	CREATE TABLE IF NOT EXISTS trivia_attempts (
+		trivia_date TEXT NOT NULL,
+		player_id   TEXT NOT NULL,
+		answered    TEXT NOT NULL,
+		strikes     INTEGER NOT NULL,
+		score       INTEGER NOT NULL,
+		completed   INTEGER NOT NULL DEFAULT 0,
+		PRIMARY KEY (trivia_date, player_id)
+	);
+	CREATE TABLE IF NOT EXISTS trivia_scores (
+		trivia_date  TEXT NOT NULL,
+		player_id    TEXT NOT NULL,
+		score        INTEGER NOT NULL,
+		max_score    INTEGER NOT NULL,
+		completed_at TEXT NOT NULL,
+		PRIMARY KEY (trivia_date, player_id)
+	);
+	CREATE TABLE IF NOT EXISTS player_names (
+		player_id  TEXT PRIMARY KEY,
+		name       TEXT NOT NULL,
+		updated_at TEXT NOT NULL
+	);
+	CREATE INDEX IF NOT EXISTS idx_trivia_scores_date ON trivia_scores(trivia_date, score DESC);`
 
 	if _, err := analyticsDB.Exec(schema); err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to create analytics schema: %v\n", err)

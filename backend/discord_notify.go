@@ -126,14 +126,54 @@ func buildJoinMessage(joinerName string, others []rosterEntry) string {
 	return msg
 }
 
+// notifyBoardCompleted posts to Discord that a player finished The Daily Board.
+// Fire-and-forget: called once per player per board (on first completion), never blocks.
+func notifyBoardCompleted(date, name string, score, maxScore, rank, totalPlayers int) {
+	content := buildBoardCompleteMessage(date, name, score, maxScore, rank, totalPlayers)
+
+	go func() {
+		defer func() {
+			if r := recover(); r != nil {
+				fmt.Fprintf(os.Stderr, "notifyBoardCompleted panic: %v\n", r)
+			}
+		}()
+		if err := postDiscordAs("The Daily Board", content); err != nil {
+			fmt.Fprintf(os.Stderr, "discord notify error: %v\n", err)
+		}
+	}()
+}
+
+func buildBoardCompleteMessage(date, name string, score, maxScore, rank, totalPlayers int) string {
+	if name == "" {
+		name = "Anonymous"
+	}
+	var sb strings.Builder
+	fmt.Fprintf(&sb, "**%s** completed The Daily Board (%s).\n", name, date)
+	fmt.Fprintf(&sb, "Score: %d / %d\n", score, maxScore)
+	if totalPlayers > 0 {
+		fmt.Fprintf(&sb, "Rank: %d of %d\n", rank, totalPlayers)
+	}
+	sb.WriteString("\n<https://danbotlab/games/trivia/>")
+
+	msg := sb.String()
+	if len(msg) > discordMaxContent {
+		msg = msg[:discordMaxContent-1] + "…"
+	}
+	return msg
+}
+
 func postDiscord(content string) error {
+	return postDiscordAs("Texas Tile Tussle", content)
+}
+
+func postDiscordAs(username, content string) error {
 	url, err := discordWebhookURL()
 	if err != nil {
 		return err
 	}
 	body, _ := json.Marshal(map[string]string{
 		"content":  content,
-		"username": "Texas Tile Tussle",
+		"username": username,
 	})
 	req, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(body))
 	if err != nil {
