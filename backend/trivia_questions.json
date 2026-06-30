@@ -21505,6 +21505,3929 @@
           "display": "Lawrence of Arabia"
         }
       ]
+    },
+    {
+      "date": "2026-08-01",
+      "categories": [
+        "World Capitals",
+        "Human Body",
+        "Classic Rock"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-01_0",
+          "category": "World Capitals",
+          "points": 100,
+          "question": "Emperors once ruled from the Forbidden City in this metropolis, today the seat of China's government.",
+          "answer": {
+            "valid": [
+              "beijing",
+              "peking"
+            ]
+          },
+          "display": "Beijing"
+        },
+        {
+          "id": "2026-08-01_1",
+          "category": "World Capitals",
+          "points": 200,
+          "question": "Built across seven hills along the Tagus River, this city is the capital of Portugal.",
+          "answer": {
+            "valid": [
+              "lisbon",
+              "lisboa"
+            ]
+          },
+          "display": "Lisbon"
+        },
+        {
+          "id": "2026-08-01_2",
+          "category": "World Capitals",
+          "points": 300,
+          "question": "Once nicknamed 'Little Paris,' this city on the Dambovita River is the capital of Romania.",
+          "answer": {
+            "valid": [
+              "bucharest",
+              "bucuresti"
+            ]
+          },
+          "display": "Bucharest"
+        },
+        {
+          "id": "2026-08-01_3",
+          "category": "Human Body",
+          "points": 100,
+          "question": "This muscular, acid-filled organ is where food first goes to be broken down after you swallow.",
+          "answer": {
+            "valid": [
+              "stomach"
+            ]
+          },
+          "display": "The Stomach"
+        },
+        {
+          "id": "2026-08-01_4",
+          "category": "Human Body",
+          "points": 200,
+          "question": "This dome-shaped muscle beneath the lungs contracts to let you breathe in.",
+          "answer": {
+            "valid": [
+              "diaphragm"
+            ]
+          },
+          "display": "The Diaphragm"
+        },
+        {
+          "id": "2026-08-01_5",
+          "category": "Human Body",
+          "points": 300,
+          "question": "This spiral, snail-shaped structure in the inner ear converts sound vibrations into nerve signals.",
+          "answer": {
+            "valid": [
+              "cochlea"
+            ]
+          },
+          "display": "The Cochlea"
+        },
+        {
+          "id": "2026-08-01_6",
+          "category": "Classic Rock",
+          "points": 100,
+          "question": "This San Francisco band urged listeners 'Don't Stop Believin'' in their 1981 anthem.",
+          "answer": {
+            "valid": [
+              "journey"
+            ]
+          },
+          "display": "Journey"
+        },
+        {
+          "id": "2026-08-01_7",
+          "category": "Classic Rock",
+          "points": 200,
+          "question": "Backed by the Heartbreakers, this Florida rocker sang 'Free Fallin'' and 'American Girl.'",
+          "answer": {
+            "valid": [
+              "tom petty",
+              "tom petty and the heartbreakers",
+              "petty"
+            ]
+          },
+          "display": "Tom Petty"
+        },
+        {
+          "id": "2026-08-01_8",
+          "category": "Classic Rock",
+          "points": 300,
+          "question": "This British band's riff in 'Smoke on the Water' is one of rock's most famous.",
+          "answer": {
+            "valid": [
+              "deep purple"
+            ]
+          },
+          "display": "Deep Purple"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-02",
+      "categories": [
+        "Greek Mythology",
+        "Space",
+        "Hip Hop"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-02_0",
+          "category": "Greek Mythology",
+          "points": 100,
+          "question": "This legendary king was cursed with a touch that turned everything, even his food, to gold.",
+          "answer": {
+            "valid": [
+              "midas",
+              "king midas"
+            ]
+          },
+          "display": "King Midas"
+        },
+        {
+          "id": "2026-08-02_1",
+          "category": "Greek Mythology",
+          "points": 200,
+          "question": "This beautiful youth fell in love with his own reflection and wasted away beside a pool.",
+          "answer": {
+            "valid": [
+              "narcissus"
+            ]
+          },
+          "display": "Narcissus"
+        },
+        {
+          "id": "2026-08-02_2",
+          "category": "Greek Mythology",
+          "points": 300,
+          "question": "This enchantress turned Odysseus's crew into pigs on her island of Aeaea.",
+          "answer": {
+            "valid": [
+              "circe"
+            ]
+          },
+          "display": "Circe"
+        },
+        {
+          "id": "2026-08-02_3",
+          "category": "Space",
+          "points": 100,
+          "question": "Reclassified as a 'dwarf planet' in 2006, this distant world was once counted as the ninth planet.",
+          "answer": {
+            "valid": [
+              "pluto"
+            ]
+          },
+          "display": "Pluto"
+        },
+        {
+          "id": "2026-08-02_4",
+          "category": "Space",
+          "points": 200,
+          "question": "This vast cloud of gas and dust in space is often a birthplace for new stars.",
+          "answer": {
+            "valid": [
+              "nebula",
+              "a nebula"
+            ]
+          },
+          "display": "A Nebula"
+        },
+        {
+          "id": "2026-08-02_5",
+          "category": "Space",
+          "points": 300,
+          "question": "Larger than the planet Mercury, this is Saturn's biggest moon and has a thick atmosphere.",
+          "answer": {
+            "valid": [
+              "titan"
+            ]
+          },
+          "display": "Titan"
+        },
+        {
+          "id": "2026-08-02_6",
+          "category": "Hip Hop",
+          "points": 100,
+          "question": "This Bronx rapper broke out in 2017 with the chart-topping hit 'Bodak Yellow.'",
+          "answer": {
+            "valid": [
+              "cardi b",
+              "cardi"
+            ]
+          },
+          "display": "Cardi B"
+        },
+        {
+          "id": "2026-08-02_7",
+          "category": "Hip Hop",
+          "points": 200,
+          "question": "This nine-member Staten Island collective declared that their name 'ain't nuthing ta f' wit.'",
+          "answer": {
+            "valid": [
+              "wu-tang clan",
+              "wu tang clan",
+              "wu-tang",
+              "wu tang"
+            ]
+          },
+          "display": "Wu-Tang Clan"
+        },
+        {
+          "id": "2026-08-02_8",
+          "category": "Hip Hop",
+          "points": 300,
+          "question": "This pioneering Compton group featuring Ice Cube, Dr. Dre, and Eazy-E released 'Straight Outta Compton.'",
+          "answer": {
+            "valid": [
+              "nwa",
+              "n.w.a",
+              "n.w.a."
+            ]
+          },
+          "display": "N.W.A"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-03",
+      "categories": [
+        "U.S. Geography",
+        "Chemistry",
+        "Sitcoms"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-03_0",
+          "category": "U.S. Geography",
+          "points": 100,
+          "question": "The most populous U.S. state, it's home to Hollywood, Silicon Valley, and the Sierra Nevada.",
+          "answer": {
+            "valid": [
+              "california"
+            ]
+          },
+          "display": "California"
+        },
+        {
+          "id": "2026-08-03_1",
+          "category": "U.S. Geography",
+          "points": 200,
+          "question": "Nicknamed 'Sin City,' this Nevada desert metropolis is famed for its casino-lined Strip.",
+          "answer": {
+            "valid": [
+              "las vegas",
+              "vegas"
+            ]
+          },
+          "display": "Las Vegas"
+        },
+        {
+          "id": "2026-08-03_2",
+          "category": "U.S. Geography",
+          "points": 300,
+          "question": "This arid region of southern California contains Death Valley and the Joshua trees of its namesake national park.",
+          "answer": {
+            "valid": [
+              "mojave",
+              "mojave desert",
+              "the mojave desert"
+            ]
+          },
+          "display": "The Mojave Desert"
+        },
+        {
+          "id": "2026-08-03_3",
+          "category": "Chemistry",
+          "points": 100,
+          "question": "This soft, reactive metal combines with chlorine to make ordinary table salt.",
+          "answer": {
+            "valid": [
+              "sodium"
+            ]
+          },
+          "display": "Sodium"
+        },
+        {
+          "id": "2026-08-03_4",
+          "category": "Chemistry",
+          "points": 200,
+          "question": "This is the term for a solid turning directly into a gas, as dry ice does.",
+          "answer": {
+            "valid": [
+              "sublimation"
+            ]
+          },
+          "display": "Sublimation"
+        },
+        {
+          "id": "2026-08-03_5",
+          "category": "Chemistry",
+          "points": 300,
+          "question": "Often called the 'father of modern chemistry,' this Frenchman named oxygen and was guillotined in 1794.",
+          "answer": {
+            "valid": [
+              "lavoisier",
+              "antoine lavoisier"
+            ]
+          },
+          "display": "Antoine Lavoisier"
+        },
+        {
+          "id": "2026-08-03_6",
+          "category": "Sitcoms",
+          "points": 100,
+          "question": "In this family sitcom, widower Danny Tanner raises three girls with help from Uncle Jesse and Joey.",
+          "answer": {
+            "valid": [
+              "full house"
+            ]
+          },
+          "display": "Full House"
+        },
+        {
+          "id": "2026-08-03_7",
+          "category": "Sitcoms",
+          "points": 200,
+          "question": "Tim Allen played a grunting, tool-loving TV handyman raising three boys in this 1990s family sitcom.",
+          "answer": {
+            "valid": [
+              "home improvement"
+            ]
+          },
+          "display": "Home Improvement"
+        },
+        {
+          "id": "2026-08-03_8",
+          "category": "Sitcoms",
+          "points": 300,
+          "question": "This sitcom followed four older women—Dorothy, Blanche, Rose, and Sophia—sharing a home in Miami.",
+          "answer": {
+            "valid": [
+              "the golden girls",
+              "golden girls"
+            ]
+          },
+          "display": "The Golden Girls"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-04",
+      "categories": [
+        "Norse Mythology",
+        "Ocean Life",
+        "Country Music"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-04_0",
+          "category": "Norse Mythology",
+          "points": 100,
+          "question": "In Norse cosmology, this is the name for the world inhabited by humans.",
+          "answer": {
+            "valid": [
+              "midgard"
+            ]
+          },
+          "display": "Midgard"
+        },
+        {
+          "id": "2026-08-04_1",
+          "category": "Norse Mythology",
+          "points": 200,
+          "question": "This primordial frost giant was slain by Odin and his brothers, who formed the world from his body.",
+          "answer": {
+            "valid": [
+              "ymir"
+            ]
+          },
+          "display": "Ymir"
+        },
+        {
+          "id": "2026-08-04_2",
+          "category": "Norse Mythology",
+          "points": 300,
+          "question": "These three female beings wove the fates of gods and men beneath the world tree.",
+          "answer": {
+            "valid": [
+              "the norns",
+              "norns"
+            ]
+          },
+          "display": "The Norns"
+        },
+        {
+          "id": "2026-08-04_3",
+          "category": "Ocean Life",
+          "points": 100,
+          "question": "This five-armed sea creature, also called a sea star, can regrow a lost limb.",
+          "answer": {
+            "valid": [
+              "starfish"
+            ]
+          },
+          "display": "Starfish"
+        },
+        {
+          "id": "2026-08-04_4",
+          "category": "Ocean Life",
+          "points": 200,
+          "question": "This shark is instantly recognizable by the wide, T-shaped extensions on its head.",
+          "answer": {
+            "valid": [
+              "hammerhead",
+              "hammerhead shark",
+              "the hammerhead shark"
+            ]
+          },
+          "display": "The Hammerhead Shark"
+        },
+        {
+          "id": "2026-08-04_5",
+          "category": "Ocean Life",
+          "points": 300,
+          "question": "A relative of the squid, this color-changing cephalopod has a unique internal 'bone' prized by pet birds.",
+          "answer": {
+            "valid": [
+              "cuttlefish",
+              "the cuttlefish"
+            ]
+          },
+          "display": "The Cuttlefish"
+        },
+        {
+          "id": "2026-08-04_6",
+          "category": "Country Music",
+          "points": 100,
+          "question": "This Oklahoma country star spent over a decade as a coach on 'The Voice.'",
+          "answer": {
+            "valid": [
+              "blake shelton"
+            ]
+          },
+          "display": "Blake Shelton"
+        },
+        {
+          "id": "2026-08-04_7",
+          "category": "Country Music",
+          "points": 200,
+          "question": "This Georgia native is a neotraditional country icon behind hits like 'Chattahoochee.'",
+          "answer": {
+            "valid": [
+              "alan jackson"
+            ]
+          },
+          "display": "Alan Jackson"
+        },
+        {
+          "id": "2026-08-04_8",
+          "category": "Country Music",
+          "points": 300,
+          "question": "This Mississippi-born singer became country music's first Black superstar in the late 1960s.",
+          "answer": {
+            "valid": [
+              "charley pride",
+              "charlie pride"
+            ]
+          },
+          "display": "Charley Pride"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-05",
+      "categories": [
+        "Asian Geography",
+        "Physics",
+        "Marvel / MCU"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-05_0",
+          "category": "Asian Geography",
+          "points": 100,
+          "question": "Divided into a peninsula and part of Borneo, this Southeast Asian nation's capital is Kuala Lumpur.",
+          "answer": {
+            "valid": [
+              "malaysia"
+            ]
+          },
+          "display": "Malaysia"
+        },
+        {
+          "id": "2026-08-05_1",
+          "category": "Asian Geography",
+          "points": 200,
+          "question": "Home to the temple complex of Angkor Wat, this nation's capital is Phnom Penh.",
+          "answer": {
+            "valid": [
+              "cambodia"
+            ]
+          },
+          "display": "Cambodia"
+        },
+        {
+          "id": "2026-08-05_2",
+          "category": "Asian Geography",
+          "points": 300,
+          "question": "This major waterway flows through China, Laos, Thailand, Cambodia, and Vietnam to the South China Sea.",
+          "answer": {
+            "valid": [
+              "mekong",
+              "mekong river",
+              "the mekong river"
+            ]
+          },
+          "display": "The Mekong River"
+        },
+        {
+          "id": "2026-08-05_3",
+          "category": "Physics",
+          "points": 100,
+          "question": "This term describes the rate at which an object's velocity changes over time.",
+          "answer": {
+            "valid": [
+              "acceleration"
+            ]
+          },
+          "display": "Acceleration"
+        },
+        {
+          "id": "2026-08-05_4",
+          "category": "Physics",
+          "points": 200,
+          "question": "This upward force from a fluid is why a steel ship can float.",
+          "answer": {
+            "valid": [
+              "buoyancy",
+              "buoyant force"
+            ]
+          },
+          "display": "Buoyancy"
+        },
+        {
+          "id": "2026-08-05_5",
+          "category": "Physics",
+          "points": 300,
+          "question": "This Scottish physicist unified electricity and magnetism into a single set of equations.",
+          "answer": {
+            "valid": [
+              "maxwell",
+              "james clerk maxwell",
+              "james maxwell"
+            ]
+          },
+          "display": "James Clerk Maxwell"
+        },
+        {
+          "id": "2026-08-05_6",
+          "category": "Marvel / MCU",
+          "points": 100,
+          "question": "Carol Danvers takes this cosmic superhero name, played by Brie Larson in the MCU.",
+          "answer": {
+            "valid": [
+              "captain marvel"
+            ]
+          },
+          "display": "Captain Marvel"
+        },
+        {
+          "id": "2026-08-05_7",
+          "category": "Marvel / MCU",
+          "points": 200,
+          "question": "Peter Quill leads the Guardians of the Galaxy under this self-given codename.",
+          "answer": {
+            "valid": [
+              "star-lord",
+              "star lord"
+            ]
+          },
+          "display": "Star-Lord"
+        },
+        {
+          "id": "2026-08-05_8",
+          "category": "Marvel / MCU",
+          "points": 300,
+          "question": "This murderous artificial intelligence, voiced by James Spader, is the villain of the Avengers' second film.",
+          "answer": {
+            "valid": [
+              "ultron"
+            ]
+          },
+          "display": "Ultron"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-06",
+      "categories": [
+        "European Geography",
+        "Famous Artists",
+        "Reality TV"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-06_0",
+          "category": "European Geography",
+          "points": 100,
+          "question": "Occupying the northern third of Great Britain, this country's capital is Edinburgh.",
+          "answer": {
+            "valid": [
+              "scotland"
+            ]
+          },
+          "display": "Scotland"
+        },
+        {
+          "id": "2026-08-06_1",
+          "category": "European Geography",
+          "points": 200,
+          "question": "This major river flows from the Alps through Germany and the Netherlands to the North Sea.",
+          "answer": {
+            "valid": [
+              "rhine",
+              "the rhine",
+              "rhine river"
+            ]
+          },
+          "display": "The Rhine"
+        },
+        {
+          "id": "2026-08-06_2",
+          "category": "European Geography",
+          "points": 300,
+          "question": "Bordered by Sweden, Finland, Estonia, Latvia, Lithuania, and Poland, this brackish sea links to the North Sea via Danish straits.",
+          "answer": {
+            "valid": [
+              "baltic",
+              "baltic sea",
+              "the baltic sea"
+            ]
+          },
+          "display": "The Baltic Sea"
+        },
+        {
+          "id": "2026-08-06_3",
+          "category": "Famous Artists",
+          "points": 100,
+          "question": "This French Impressionist painted joyful scenes like 'Luncheon of the Boating Party.'",
+          "answer": {
+            "valid": [
+              "renoir",
+              "pierre-auguste renoir",
+              "auguste renoir"
+            ]
+          },
+          "display": "Pierre-Auguste Renoir"
+        },
+        {
+          "id": "2026-08-06_4",
+          "category": "Famous Artists",
+          "points": 200,
+          "question": "This Spanish painter created 'The Third of May 1808' and a series of haunting 'Black Paintings.'",
+          "answer": {
+            "valid": [
+              "goya",
+              "francisco goya"
+            ]
+          },
+          "display": "Francisco Goya"
+        },
+        {
+          "id": "2026-08-06_5",
+          "category": "Famous Artists",
+          "points": 300,
+          "question": "This Belgian Surrealist painted a pipe captioned 'This is not a pipe' and men in bowler hats.",
+          "answer": {
+            "valid": [
+              "magritte",
+              "rene magritte",
+              "rené magritte"
+            ]
+          },
+          "display": "René Magritte"
+        },
+        {
+          "id": "2026-08-06_6",
+          "category": "Reality TV",
+          "points": 100,
+          "question": "On this business competition, entrepreneurs pitch ideas to a panel of wealthy investors.",
+          "answer": {
+            "valid": [
+              "shark tank"
+            ]
+          },
+          "display": "Shark Tank"
+        },
+        {
+          "id": "2026-08-06_7",
+          "category": "Reality TV",
+          "points": 200,
+          "question": "Celebrities pair with professional ballroom dancers to compete on this long-running ABC show.",
+          "answer": {
+            "valid": [
+              "dancing with the stars"
+            ]
+          },
+          "display": "Dancing with the Stars"
+        },
+        {
+          "id": "2026-08-06_8",
+          "category": "Reality TV",
+          "points": 300,
+          "question": "Amateur bakers compete in a tent for the title of 'Star Baker' on this beloved British series.",
+          "answer": {
+            "valid": [
+              "the great british bake off",
+              "great british bake off",
+              "the great british baking show",
+              "great british baking show"
+            ]
+          },
+          "display": "The Great British Bake Off"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-07",
+      "categories": [
+        "World War II",
+        "Mammals",
+        "Pop Music"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-07_0",
+          "category": "World War II",
+          "points": 100,
+          "question": "On August 6, 1945, this Japanese city became the first ever struck by an atomic bomb in war.",
+          "answer": {
+            "valid": [
+              "hiroshima"
+            ]
+          },
+          "display": "Hiroshima"
+        },
+        {
+          "id": "2026-08-07_1",
+          "category": "World War II",
+          "points": 200,
+          "question": "This name was given to Germany's sustained 1940–41 bombing campaign against London and other British cities.",
+          "answer": {
+            "valid": [
+              "the blitz",
+              "blitz"
+            ]
+          },
+          "display": "The Blitz"
+        },
+        {
+          "id": "2026-08-07_2",
+          "category": "World War II",
+          "points": 300,
+          "question": "This German field marshal earned the nickname 'the Desert Fox' for his North African campaigns.",
+          "answer": {
+            "valid": [
+              "rommel",
+              "erwin rommel"
+            ]
+          },
+          "display": "Erwin Rommel"
+        },
+        {
+          "id": "2026-08-07_3",
+          "category": "Mammals",
+          "points": 100,
+          "question": "This eucalyptus-eating Australian marsupial is often mistakenly called a 'bear.'",
+          "answer": {
+            "valid": [
+              "koala"
+            ]
+          },
+          "display": "Koala"
+        },
+        {
+          "id": "2026-08-07_4",
+          "category": "Mammals",
+          "points": 200,
+          "question": "This large rodent fells trees with its teeth to build dams and lodges across streams.",
+          "answer": {
+            "valid": [
+              "beaver",
+              "the beaver"
+            ]
+          },
+          "display": "The Beaver"
+        },
+        {
+          "id": "2026-08-07_5",
+          "category": "Mammals",
+          "points": 300,
+          "question": "This nocturnal African mammal with a long snout digs for ants and termites and comes first in the dictionary.",
+          "answer": {
+            "valid": [
+              "aardvark",
+              "the aardvark"
+            ]
+          },
+          "display": "The Aardvark"
+        },
+        {
+          "id": "2026-08-07_6",
+          "category": "Pop Music",
+          "points": 100,
+          "question": "Famed for her five-octave range, this diva's 'All I Want for Christmas Is You' returns to the charts each December.",
+          "answer": {
+            "valid": [
+              "mariah carey",
+              "mariah"
+            ]
+          },
+          "display": "Mariah Carey"
+        },
+        {
+          "id": "2026-08-07_7",
+          "category": "Pop Music",
+          "points": 200,
+          "question": "A former Mouseketeer, this powerhouse vocalist topped charts with 'Genie in a Bottle' and 'Beautiful.'",
+          "answer": {
+            "valid": [
+              "christina aguilera",
+              "christina",
+              "xtina"
+            ]
+          },
+          "display": "Christina Aguilera"
+        },
+        {
+          "id": "2026-08-07_8",
+          "category": "Pop Music",
+          "points": 300,
+          "question": "This '80s star with ever-changing hair colors sang 'Girls Just Want to Have Fun' and 'Time After Time.'",
+          "answer": {
+            "valid": [
+              "cyndi lauper"
+            ]
+          },
+          "display": "Cyndi Lauper"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-08",
+      "categories": [
+        "World History",
+        "Birds",
+        "Video Games"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-08_0",
+          "category": "World History",
+          "points": 100,
+          "question": "These religious wars of the Middle Ages saw European Christians seek to capture the Holy Land.",
+          "answer": {
+            "valid": [
+              "the crusades",
+              "crusades"
+            ]
+          },
+          "display": "The Crusades"
+        },
+        {
+          "id": "2026-08-08_1",
+          "category": "World History",
+          "points": 200,
+          "question": "This Mesoamerican empire, centered on Tenochtitlan, was conquered by Hernán Cortés in 1521.",
+          "answer": {
+            "valid": [
+              "aztec",
+              "aztecs",
+              "the aztec empire",
+              "aztec empire"
+            ]
+          },
+          "display": "The Aztec Empire"
+        },
+        {
+          "id": "2026-08-08_2",
+          "category": "World History",
+          "points": 300,
+          "question": "This drawn-out medieval conflict between England and France actually lasted 116 years.",
+          "answer": {
+            "valid": [
+              "hundred years war",
+              "the hundred years war",
+              "hundred years' war",
+              "the hundred years' war"
+            ]
+          },
+          "display": "The Hundred Years' War"
+        },
+        {
+          "id": "2026-08-08_3",
+          "category": "Birds",
+          "points": 100,
+          "question": "This elegant white waterbird is famed for forming a heart shape when two face each other.",
+          "answer": {
+            "valid": [
+              "swan",
+              "the swan"
+            ]
+          },
+          "display": "The Swan"
+        },
+        {
+          "id": "2026-08-08_4",
+          "category": "Birds",
+          "points": 200,
+          "question": "This bird hammers rapidly at tree trunks with its beak to find insects and drill nests.",
+          "answer": {
+            "valid": [
+              "woodpecker",
+              "the woodpecker"
+            ]
+          },
+          "display": "The Woodpecker"
+        },
+        {
+          "id": "2026-08-08_5",
+          "category": "Birds",
+          "points": 300,
+          "question": "This black-and-white seabird with a colorful triangular beak nests in burrows on northern cliffs.",
+          "answer": {
+            "valid": [
+              "puffin",
+              "the puffin"
+            ]
+          },
+          "display": "The Puffin"
+        },
+        {
+          "id": "2026-08-08_6",
+          "category": "Video Games",
+          "points": 100,
+          "question": "In this best-selling life-simulation series, players control virtual people who speak 'Simlish.'",
+          "answer": {
+            "valid": [
+              "the sims",
+              "sims"
+            ]
+          },
+          "display": "The Sims"
+        },
+        {
+          "id": "2026-08-08_7",
+          "category": "Video Games",
+          "points": 200,
+          "question": "Released by Blizzard in 2004, this massively multiplayer online game is set in the world of Azeroth.",
+          "answer": {
+            "valid": [
+              "world of warcraft",
+              "wow"
+            ]
+          },
+          "display": "World of Warcraft"
+        },
+        {
+          "id": "2026-08-08_8",
+          "category": "Video Games",
+          "points": 300,
+          "question": "Hideo Kojima's stealth franchise stars secret agent Solid Snake sneaking past enemies.",
+          "answer": {
+            "valid": [
+              "metal gear solid",
+              "metal gear"
+            ]
+          },
+          "display": "Metal Gear Solid"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-09",
+      "categories": [
+        "Egyptian Mythology",
+        "Inventions",
+        "Crime & Drama TV"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-09_0",
+          "category": "Egyptian Mythology",
+          "points": 100,
+          "question": "This cross with a loop at the top was the ancient Egyptian symbol of life.",
+          "answer": {
+            "valid": [
+              "ankh",
+              "the ankh"
+            ]
+          },
+          "display": "The Ankh"
+        },
+        {
+          "id": "2026-08-09_1",
+          "category": "Egyptian Mythology",
+          "points": 200,
+          "question": "This lioness-headed goddess of war and healing was said to breathe fire against the pharaoh's enemies.",
+          "answer": {
+            "valid": [
+              "sekhmet"
+            ]
+          },
+          "display": "Sekhmet"
+        },
+        {
+          "id": "2026-08-09_2",
+          "category": "Egyptian Mythology",
+          "points": 300,
+          "question": "This collection of spells was meant to guide the deceased safely through the Egyptian underworld.",
+          "answer": {
+            "valid": [
+              "the book of the dead",
+              "book of the dead"
+            ]
+          },
+          "display": "The Book of the Dead"
+        },
+        {
+          "id": "2026-08-09_3",
+          "category": "Inventions",
+          "points": 100,
+          "question": "Elias Howe and Isaac Singer popularized this device that mechanized the stitching of cloth.",
+          "answer": {
+            "valid": [
+              "sewing machine",
+              "the sewing machine"
+            ]
+          },
+          "display": "The Sewing Machine"
+        },
+        {
+          "id": "2026-08-09_4",
+          "category": "Inventions",
+          "points": 200,
+          "question": "This navigational instrument, invented in China, uses a magnetized needle to point north.",
+          "answer": {
+            "valid": [
+              "compass",
+              "the compass",
+              "magnetic compass"
+            ]
+          },
+          "display": "The Compass"
+        },
+        {
+          "id": "2026-08-09_5",
+          "category": "Inventions",
+          "points": 300,
+          "question": "This American agricultural scientist developed hundreds of uses for the peanut.",
+          "answer": {
+            "valid": [
+              "george washington carver",
+              "carver"
+            ]
+          },
+          "display": "George Washington Carver"
+        },
+        {
+          "id": "2026-08-09_6",
+          "category": "Crime & Drama TV",
+          "points": 100,
+          "question": "Kiefer Sutherland starred as agent Jack Bauer in this thriller told in real time over a single day.",
+          "answer": {
+            "valid": [
+              "24",
+              "twenty four",
+              "twenty-four"
+            ]
+          },
+          "display": "24"
+        },
+        {
+          "id": "2026-08-09_7",
+          "category": "Crime & Drama TV",
+          "points": 200,
+          "question": "In this series, a man gets himself incarcerated to help his brother escape death row.",
+          "answer": {
+            "valid": [
+              "prison break"
+            ]
+          },
+          "display": "Prison Break"
+        },
+        {
+          "id": "2026-08-09_8",
+          "category": "Crime & Drama TV",
+          "points": 300,
+          "question": "Benedict Cumberbatch modernized Arthur Conan Doyle's detective in this BBC series.",
+          "answer": {
+            "valid": [
+              "sherlock"
+            ]
+          },
+          "display": "Sherlock"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-10",
+      "categories": [
+        "Mountains & Deserts",
+        "Soul & R&B",
+        "The Cold War"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-10_0",
+          "category": "Mountains & Deserts",
+          "points": 100,
+          "question": "This Asian mountain range contains Mount Everest and the world's highest peaks.",
+          "answer": {
+            "valid": [
+              "himalayas",
+              "the himalayas"
+            ]
+          },
+          "display": "The Himalayas"
+        },
+        {
+          "id": "2026-08-10_1",
+          "category": "Mountains & Deserts",
+          "points": 200,
+          "question": "This pyramid-shaped peak straddling Switzerland and Italy inspired a Disneyland ride.",
+          "answer": {
+            "valid": [
+              "matterhorn",
+              "the matterhorn"
+            ]
+          },
+          "display": "The Matterhorn"
+        },
+        {
+          "id": "2026-08-10_2",
+          "category": "Mountains & Deserts",
+          "points": 300,
+          "question": "This vast sandy expanse spans Botswana, Namibia, and South Africa and is home to the San people.",
+          "answer": {
+            "valid": [
+              "kalahari",
+              "kalahari desert",
+              "the kalahari desert"
+            ]
+          },
+          "display": "The Kalahari Desert"
+        },
+        {
+          "id": "2026-08-10_3",
+          "category": "Soul & R&B",
+          "points": 100,
+          "question": "Blind since infancy, this Motown genius recorded 'Superstition' and 'Isn't She Lovely.'",
+          "answer": {
+            "valid": [
+              "stevie wonder"
+            ]
+          },
+          "display": "Stevie Wonder"
+        },
+        {
+          "id": "2026-08-10_4",
+          "category": "Soul & R&B",
+          "points": 200,
+          "question": "This Motown singer asked 'What's Going On' and crooned 'Let's Get It On.'",
+          "answer": {
+            "valid": [
+              "marvin gaye"
+            ]
+          },
+          "display": "Marvin Gaye"
+        },
+        {
+          "id": "2026-08-10_5",
+          "category": "Soul & R&B",
+          "points": 300,
+          "question": "This soul legend's '(Sittin' On) The Dock of the Bay' was released after his death in a 1967 plane crash.",
+          "answer": {
+            "valid": [
+              "otis redding"
+            ]
+          },
+          "display": "Otis Redding"
+        },
+        {
+          "id": "2026-08-10_6",
+          "category": "The Cold War",
+          "points": 100,
+          "question": "This Cold War competition between the U.S. and U.S.S.R. culminated in the 1969 Moon landing.",
+          "answer": {
+            "valid": [
+              "the space race",
+              "space race"
+            ]
+          },
+          "display": "The Space Race"
+        },
+        {
+          "id": "2026-08-10_7",
+          "category": "The Cold War",
+          "points": 200,
+          "question": "This was the Soviet-led military alliance formed to counter NATO in 1955.",
+          "answer": {
+            "valid": [
+              "the warsaw pact",
+              "warsaw pact"
+            ]
+          },
+          "display": "The Warsaw Pact"
+        },
+        {
+          "id": "2026-08-10_8",
+          "category": "The Cold War",
+          "points": 300,
+          "question": "This Soviet leader led the U.S.S.R. during the Cuban Missile Crisis and denounced Stalin.",
+          "answer": {
+            "valid": [
+              "khrushchev",
+              "nikita khrushchev"
+            ]
+          },
+          "display": "Nikita Khrushchev"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-11",
+      "categories": [
+        "Television",
+        "Insects & Bugs",
+        "Baseball"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-11_0",
+          "category": "Television",
+          "points": 100,
+          "question": "This sci-fi franchise follows the starship Enterprise as it boldly goes 'where no man has gone before.'",
+          "answer": {
+            "valid": [
+              "star trek"
+            ]
+          },
+          "display": "Star Trek"
+        },
+        {
+          "id": "2026-08-11_1",
+          "category": "Television",
+          "points": 200,
+          "question": "Rod Serling hosted this anthology series of eerie, twist-ending tales.",
+          "answer": {
+            "valid": [
+              "the twilight zone",
+              "twilight zone"
+            ]
+          },
+          "display": "The Twilight Zone"
+        },
+        {
+          "id": "2026-08-11_2",
+          "category": "Television",
+          "points": 300,
+          "question": "This British period drama chronicles the aristocratic Crawley family and their servants in the early 1900s.",
+          "answer": {
+            "valid": [
+              "downton abbey"
+            ]
+          },
+          "display": "Downton Abbey"
+        },
+        {
+          "id": "2026-08-11_3",
+          "category": "Insects & Bugs",
+          "points": 100,
+          "question": "This resilient household pest is famously rumored to be able to survive a nuclear blast.",
+          "answer": {
+            "valid": [
+              "cockroach",
+              "the cockroach",
+              "roach"
+            ]
+          },
+          "display": "The Cockroach"
+        },
+        {
+          "id": "2026-08-11_4",
+          "category": "Insects & Bugs",
+          "points": 200,
+          "question": "These wood-eating insects live in large colonies and can destroy the timber of a house.",
+          "answer": {
+            "valid": [
+              "termite",
+              "termites",
+              "the termite"
+            ]
+          },
+          "display": "The Termite"
+        },
+        {
+          "id": "2026-08-11_5",
+          "category": "Insects & Bugs",
+          "points": 300,
+          "question": "This insect rolls balls of animal droppings to feed on and was sacred to the ancient Egyptians.",
+          "answer": {
+            "valid": [
+              "dung beetle",
+              "the dung beetle"
+            ]
+          },
+          "display": "The Dung Beetle"
+        },
+        {
+          "id": "2026-08-11_6",
+          "category": "Baseball",
+          "points": 100,
+          "question": "This best-of-seven championship decides Major League Baseball's annual champion.",
+          "answer": {
+            "valid": [
+              "the world series",
+              "world series"
+            ]
+          },
+          "display": "The World Series"
+        },
+        {
+          "id": "2026-08-11_7",
+          "category": "Baseball",
+          "points": 200,
+          "question": "Nicknamed 'Hammerin' Hank,' this slugger broke Babe Ruth's career home run record in 1974.",
+          "answer": {
+            "valid": [
+              "hank aaron",
+              "henry aaron",
+              "aaron"
+            ]
+          },
+          "display": "Hank Aaron"
+        },
+        {
+          "id": "2026-08-11_8",
+          "category": "Baseball",
+          "points": 300,
+          "question": "This Pirates outfielder and humanitarian died in a 1972 plane crash delivering aid; he had exactly 3,000 hits.",
+          "answer": {
+            "valid": [
+              "roberto clemente",
+              "clemente"
+            ]
+          },
+          "display": "Roberto Clemente"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-12",
+      "categories": [
+        "World Cuisine",
+        "Famous Paintings",
+        "Rock & Roll"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-12_0",
+          "category": "World Cuisine",
+          "points": 100,
+          "question": "These pockets of dough wrapped around a filling appear as Chinese jiaozi, Polish pierogi, and Italian ravioli.",
+          "answer": {
+            "valid": [
+              "dumplings",
+              "dumpling"
+            ]
+          },
+          "display": "Dumplings"
+        },
+        {
+          "id": "2026-08-12_1",
+          "category": "World Cuisine",
+          "points": 200,
+          "question": "This breaded, pan-fried cutlet of veal or pork is a classic of Austrian and German cuisine.",
+          "answer": {
+            "valid": [
+              "schnitzel",
+              "wiener schnitzel"
+            ]
+          },
+          "display": "Schnitzel"
+        },
+        {
+          "id": "2026-08-12_2",
+          "category": "World Cuisine",
+          "points": 300,
+          "question": "This hearty black bean and pork stew is considered the national dish of Brazil.",
+          "answer": {
+            "valid": [
+              "feijoada"
+            ]
+          },
+          "display": "Feijoada"
+        },
+        {
+          "id": "2026-08-12_3",
+          "category": "Famous Paintings",
+          "points": 100,
+          "question": "Botticelli painted this Renaissance masterpiece of the goddess emerging from the sea on a shell.",
+          "answer": {
+            "valid": [
+              "the birth of venus",
+              "birth of venus"
+            ]
+          },
+          "display": "The Birth of Venus"
+        },
+        {
+          "id": "2026-08-12_4",
+          "category": "Famous Paintings",
+          "points": 200,
+          "question": "This somber portrait of a seated woman in profile is officially titled 'Arrangement in Grey and Black No. 1.'",
+          "answer": {
+            "valid": [
+              "whistler's mother",
+              "whistlers mother"
+            ]
+          },
+          "display": "Whistler's Mother"
+        },
+        {
+          "id": "2026-08-12_5",
+          "category": "Famous Paintings",
+          "points": 300,
+          "question": "Hieronymus Bosch painted this fantastical three-panel triptych full of bizarre creatures and sin.",
+          "answer": {
+            "valid": [
+              "the garden of earthly delights",
+              "garden of earthly delights"
+            ]
+          },
+          "display": "The Garden of Earthly Delights"
+        },
+        {
+          "id": "2026-08-12_6",
+          "category": "Rock & Roll",
+          "points": 100,
+          "question": "This theatrical band performs in black-and-white face paint and platform boots, breathing fire on stage.",
+          "answer": {
+            "valid": [
+              "kiss"
+            ]
+          },
+          "display": "KISS"
+        },
+        {
+          "id": "2026-08-12_7",
+          "category": "Rock & Roll",
+          "points": 200,
+          "question": "This New Jersey band is 'Livin' on a Prayer' and 'Wanted Dead or Alive.'",
+          "answer": {
+            "valid": [
+              "bon jovi"
+            ]
+          },
+          "display": "Bon Jovi"
+        },
+        {
+          "id": "2026-08-12_8",
+          "category": "Rock & Roll",
+          "points": 300,
+          "question": "Known for his dark glasses and soaring voice, this singer recorded 'Oh, Pretty Woman' and 'Crying.'",
+          "answer": {
+            "valid": [
+              "roy orbison",
+              "orbison"
+            ]
+          },
+          "display": "Roy Orbison"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-13",
+      "categories": [
+        "South American Geography",
+        "Biology",
+        "Animated Movies"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-13_0",
+          "category": "South American Geography",
+          "points": 100,
+          "question": "This oil-rich nation at the top of South America has Caracas as its capital.",
+          "answer": {
+            "valid": [
+              "venezuela"
+            ]
+          },
+          "display": "Venezuela"
+        },
+        {
+          "id": "2026-08-13_1",
+          "category": "South American Geography",
+          "points": 200,
+          "question": "This volcanic island chain off Ecuador inspired Charles Darwin's theory of evolution.",
+          "answer": {
+            "valid": [
+              "galapagos",
+              "the galapagos",
+              "galapagos islands",
+              "the galapagos islands",
+              "galápagos"
+            ]
+          },
+          "display": "The Galápagos Islands"
+        },
+        {
+          "id": "2026-08-13_2",
+          "category": "South American Geography",
+          "points": 300,
+          "question": "Plunging from a Venezuelan tepui, this is the world's tallest uninterrupted waterfall.",
+          "answer": {
+            "valid": [
+              "angel falls"
+            ]
+          },
+          "display": "Angel Falls"
+        },
+        {
+          "id": "2026-08-13_3",
+          "category": "Biology",
+          "points": 100,
+          "question": "This is the process by which a caterpillar transforms into a butterfly.",
+          "answer": {
+            "valid": [
+              "metamorphosis"
+            ]
+          },
+          "display": "Metamorphosis"
+        },
+        {
+          "id": "2026-08-13_4",
+          "category": "Biology",
+          "points": 200,
+          "question": "This is the movement of water across a membrane from an area of low to high solute concentration.",
+          "answer": {
+            "valid": [
+              "osmosis"
+            ]
+          },
+          "display": "Osmosis"
+        },
+        {
+          "id": "2026-08-13_5",
+          "category": "Biology",
+          "points": 300,
+          "question": "This membrane-bound structure houses a cell's DNA and acts as its control center.",
+          "answer": {
+            "valid": [
+              "nucleus",
+              "the nucleus",
+              "cell nucleus"
+            ]
+          },
+          "display": "The Nucleus"
+        },
+        {
+          "id": "2026-08-13_6",
+          "category": "Animated Movies",
+          "points": 100,
+          "question": "In this film, supervillain Gru adopts three girls and commands an army of yellow Minions.",
+          "answer": {
+            "valid": [
+              "despicable me"
+            ]
+          },
+          "display": "Despicable Me"
+        },
+        {
+          "id": "2026-08-13_7",
+          "category": "Animated Movies",
+          "points": 200,
+          "question": "In this DreamWorks film, a clumsy panda named Po is chosen as the prophesied Dragon Warrior.",
+          "answer": {
+            "valid": [
+              "kung fu panda"
+            ]
+          },
+          "display": "Kung Fu Panda"
+        },
+        {
+          "id": "2026-08-13_8",
+          "category": "Animated Movies",
+          "points": 300,
+          "question": "This epic Studio Ghibli film pits forest gods against humans in medieval Japan.",
+          "answer": {
+            "valid": [
+              "princess mononoke",
+              "mononoke"
+            ]
+          },
+          "display": "Princess Mononoke"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-14",
+      "categories": [
+        "U.S. Presidents",
+        "Astronomy",
+        "Sci Fi"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-14_0",
+          "category": "U.S. Presidents",
+          "points": 100,
+          "question": "This real-estate mogul and reality TV host became the 45th president in 2017.",
+          "answer": {
+            "valid": [
+              "donald trump",
+              "trump"
+            ]
+          },
+          "display": "Donald Trump"
+        },
+        {
+          "id": "2026-08-14_1",
+          "category": "U.S. Presidents",
+          "points": 200,
+          "question": "This president took office months before the 1929 crash and was blamed for the Depression's 'Hoovervilles.'",
+          "answer": {
+            "valid": [
+              "herbert hoover",
+              "hoover"
+            ]
+          },
+          "display": "Herbert Hoover"
+        },
+        {
+          "id": "2026-08-14_2",
+          "category": "U.S. Presidents",
+          "points": 300,
+          "question": "This president won the disputed 1876 election and ended Reconstruction in the South.",
+          "answer": {
+            "valid": [
+              "rutherford hayes",
+              "rutherford b. hayes",
+              "hayes"
+            ]
+          },
+          "display": "Rutherford B. Hayes"
+        },
+        {
+          "id": "2026-08-14_3",
+          "category": "Astronomy",
+          "points": 100,
+          "question": "This event occurs when Earth passes between the Sun and a full Moon, often turning it red.",
+          "answer": {
+            "valid": [
+              "lunar eclipse",
+              "a lunar eclipse",
+              "blood moon"
+            ]
+          },
+          "display": "A Lunar Eclipse"
+        },
+        {
+          "id": "2026-08-14_4",
+          "category": "Astronomy",
+          "points": 200,
+          "question": "This Polish astronomer proposed that the planets revolve around the Sun, not the Earth.",
+          "answer": {
+            "valid": [
+              "copernicus",
+              "nicolaus copernicus"
+            ]
+          },
+          "display": "Nicolaus Copernicus"
+        },
+        {
+          "id": "2026-08-14_5",
+          "category": "Astronomy",
+          "points": 300,
+          "question": "This is the term for the extremely luminous core of a distant galaxy powered by a supermassive black hole.",
+          "answer": {
+            "valid": [
+              "quasar",
+              "a quasar"
+            ]
+          },
+          "display": "A Quasar"
+        },
+        {
+          "id": "2026-08-14_6",
+          "category": "Sci Fi",
+          "points": 100,
+          "question": "Madeleine L'Engle wrote this novel in which children 'tesseract' across space to rescue their father.",
+          "answer": {
+            "valid": [
+              "a wrinkle in time",
+              "wrinkle in time"
+            ]
+          },
+          "display": "A Wrinkle in Time"
+        },
+        {
+          "id": "2026-08-14_7",
+          "category": "Sci Fi",
+          "points": 200,
+          "question": "Kurt Vonnegut's novel follows Billy Pilgrim, who becomes 'unstuck in time' after the bombing of Dresden.",
+          "answer": {
+            "valid": [
+              "slaughterhouse-five",
+              "slaughterhouse five"
+            ]
+          },
+          "display": "Slaughterhouse-Five"
+        },
+        {
+          "id": "2026-08-14_8",
+          "category": "Sci Fi",
+          "points": 300,
+          "question": "Neal Stephenson's 1992 novel popularized the term 'metaverse' for its virtual world.",
+          "answer": {
+            "valid": [
+              "snow crash"
+            ]
+          },
+          "display": "Snow Crash"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-15",
+      "categories": [
+        "World Capitals",
+        "Cooking Techniques",
+        "Soccer"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-15_0",
+          "category": "World Capitals",
+          "points": 100,
+          "question": "Spread across 14 islands, this city is the capital of Sweden.",
+          "answer": {
+            "valid": [
+              "stockholm"
+            ]
+          },
+          "display": "Stockholm"
+        },
+        {
+          "id": "2026-08-15_1",
+          "category": "World Capitals",
+          "points": 200,
+          "question": "Largely rebuilt after WWII, this city on the Vistula River is the capital of Poland.",
+          "answer": {
+            "valid": [
+              "warsaw",
+              "warszawa"
+            ]
+          },
+          "display": "Warsaw"
+        },
+        {
+          "id": "2026-08-15_2",
+          "category": "World Capitals",
+          "points": 300,
+          "question": "The world's northernmost national capital, this city governs Iceland.",
+          "answer": {
+            "valid": [
+              "reykjavik",
+              "reykjavík"
+            ]
+          },
+          "display": "Reykjavík"
+        },
+        {
+          "id": "2026-08-15_3",
+          "category": "Cooking Techniques",
+          "points": 100,
+          "question": "This dry-heat cooking method uses an oven to brown a turkey or a joint of meat.",
+          "answer": {
+            "valid": [
+              "roasting",
+              "roast"
+            ]
+          },
+          "display": "Roasting"
+        },
+        {
+          "id": "2026-08-15_4",
+          "category": "Cooking Techniques",
+          "points": 200,
+          "question": "This technique quickly cooks small pieces of food in a little hot fat over high heat, often with a flick of the pan.",
+          "answer": {
+            "valid": [
+              "sauteing",
+              "saute",
+              "sauté",
+              "sautéing"
+            ]
+          },
+          "display": "Sautéing"
+        },
+        {
+          "id": "2026-08-15_5",
+          "category": "Cooking Techniques",
+          "points": 300,
+          "question": "This step uses wine or stock to lift the browned bits stuck to a pan into a sauce.",
+          "answer": {
+            "valid": [
+              "deglazing",
+              "deglaze"
+            ]
+          },
+          "display": "Deglazing"
+        },
+        {
+          "id": "2026-08-15_6",
+          "category": "Soccer",
+          "points": 100,
+          "question": "Awarded for a foul in the box, this is a one-on-one shot taken from twelve yards out.",
+          "answer": {
+            "valid": [
+              "penalty kick",
+              "a penalty kick",
+              "penalty"
+            ]
+          },
+          "display": "A Penalty Kick"
+        },
+        {
+          "id": "2026-08-15_7",
+          "category": "Soccer",
+          "points": 200,
+          "question": "This Catalan club, long home to Lionel Messi, plays its matches at Camp Nou.",
+          "answer": {
+            "valid": [
+              "barcelona",
+              "fc barcelona",
+              "barca",
+              "barça"
+            ]
+          },
+          "display": "FC Barcelona"
+        },
+        {
+          "id": "2026-08-15_8",
+          "category": "Soccer",
+          "points": 300,
+          "question": "Nicknamed 'Der Kaiser,' this German won the World Cup as both a player and a manager.",
+          "answer": {
+            "valid": [
+              "franz beckenbauer",
+              "beckenbauer"
+            ]
+          },
+          "display": "Franz Beckenbauer"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-16",
+      "categories": [
+        "The Renaissance",
+        "Reptiles",
+        "Classic Novels"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-16_0",
+          "category": "The Renaissance",
+          "points": 100,
+          "question": "Michelangelo painted the famous ceiling of this chapel in Vatican City.",
+          "answer": {
+            "valid": [
+              "the sistine chapel",
+              "sistine chapel"
+            ]
+          },
+          "display": "The Sistine Chapel"
+        },
+        {
+          "id": "2026-08-16_1",
+          "category": "The Renaissance",
+          "points": 200,
+          "question": "This Italian poet wrote 'The Divine Comedy,' which journeys through Hell, Purgatory, and Paradise.",
+          "answer": {
+            "valid": [
+              "dante",
+              "dante alighieri"
+            ]
+          },
+          "display": "Dante Alighieri"
+        },
+        {
+          "id": "2026-08-16_2",
+          "category": "The Renaissance",
+          "points": 300,
+          "question": "This Dutch humanist scholar wrote 'In Praise of Folly' and prepared a Greek New Testament.",
+          "answer": {
+            "valid": [
+              "erasmus",
+              "desiderius erasmus"
+            ]
+          },
+          "display": "Erasmus"
+        },
+        {
+          "id": "2026-08-16_3",
+          "category": "Reptiles",
+          "points": 100,
+          "question": "This large, non-venomous South American snake suffocates prey in its coils and shares its name with a 1996 movie.",
+          "answer": {
+            "valid": [
+              "boa constrictor",
+              "the boa constrictor",
+              "boa"
+            ]
+          },
+          "display": "The Boa Constrictor"
+        },
+        {
+          "id": "2026-08-16_4",
+          "category": "Reptiles",
+          "points": 200,
+          "question": "Africa's longest venomous snake is named for the dark color inside its mouth, not its skin.",
+          "answer": {
+            "valid": [
+              "black mamba",
+              "the black mamba",
+              "mamba"
+            ]
+          },
+          "display": "The Black Mamba"
+        },
+        {
+          "id": "2026-08-16_5",
+          "category": "Reptiles",
+          "points": 300,
+          "question": "This family of large lizards includes the Nile and water species and is closely related to the Komodo dragon.",
+          "answer": {
+            "valid": [
+              "monitor lizard",
+              "the monitor lizard",
+              "monitor"
+            ]
+          },
+          "display": "The Monitor Lizard"
+        },
+        {
+          "id": "2026-08-16_6",
+          "category": "Classic Novels",
+          "points": 100,
+          "question": "Charles Dickens wrote this novella in which Ebenezer Scrooge is visited by three spirits.",
+          "answer": {
+            "valid": [
+              "a christmas carol",
+              "christmas carol"
+            ]
+          },
+          "display": "A Christmas Carol"
+        },
+        {
+          "id": "2026-08-16_7",
+          "category": "Classic Novels",
+          "points": 200,
+          "question": "Alexandre Dumas wrote this tale of Edmond Dantès, who escapes prison and exacts elaborate revenge.",
+          "answer": {
+            "valid": [
+              "the count of monte cristo",
+              "count of monte cristo"
+            ]
+          },
+          "display": "The Count of Monte Cristo"
+        },
+        {
+          "id": "2026-08-16_8",
+          "category": "Classic Novels",
+          "points": 300,
+          "question": "Gustave Flaubert's novel follows a doctor's wife whose romantic delusions lead to ruin.",
+          "answer": {
+            "valid": [
+              "madame bovary"
+            ]
+          },
+          "display": "Madame Bovary"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-17",
+      "categories": [
+        "African Geography",
+        "Pop Culture",
+        "Jazz & Blues"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-17_0",
+          "category": "African Geography",
+          "points": 100,
+          "question": "On the Zambezi River between Zambia and Zimbabwe, locals call this waterfall 'the smoke that thunders.'",
+          "answer": {
+            "valid": [
+              "victoria falls"
+            ]
+          },
+          "display": "Victoria Falls"
+        },
+        {
+          "id": "2026-08-17_1",
+          "category": "African Geography",
+          "points": 200,
+          "question": "This East African nation straddling the equator has Kampala as its capital.",
+          "answer": {
+            "valid": [
+              "uganda"
+            ]
+          },
+          "display": "Uganda"
+        },
+        {
+          "id": "2026-08-17_2",
+          "category": "African Geography",
+          "points": 300,
+          "question": "Second only to the Amazon in flow, this African river is the deepest in the world.",
+          "answer": {
+            "valid": [
+              "congo",
+              "congo river",
+              "the congo river"
+            ]
+          },
+          "display": "The Congo River"
+        },
+        {
+          "id": "2026-08-17_3",
+          "category": "Pop Culture",
+          "points": 100,
+          "question": "In this franchise, Katniss Everdeen fights for survival in a televised battle in the nation of Panem.",
+          "answer": {
+            "valid": [
+              "the hunger games",
+              "hunger games"
+            ]
+          },
+          "display": "The Hunger Games"
+        },
+        {
+          "id": "2026-08-17_4",
+          "category": "Pop Culture",
+          "points": 200,
+          "question": "This star-studded annual fundraiser for a New York museum is known for its themed, over-the-top fashion.",
+          "answer": {
+            "valid": [
+              "the met gala",
+              "met gala"
+            ]
+          },
+          "display": "The Met Gala"
+        },
+        {
+          "id": "2026-08-17_5",
+          "category": "Pop Culture",
+          "points": 300,
+          "question": "This 1990s Japanese keychain toy required owners to feed and clean a tiny digital pet.",
+          "answer": {
+            "valid": [
+              "tamagotchi"
+            ]
+          },
+          "display": "Tamagotchi"
+        },
+        {
+          "id": "2026-08-17_6",
+          "category": "Jazz & Blues",
+          "points": 100,
+          "question": "This curved brass woodwind, invented by Adolphe Sax, is central to jazz.",
+          "answer": {
+            "valid": [
+              "saxophone",
+              "the saxophone"
+            ]
+          },
+          "display": "The Saxophone"
+        },
+        {
+          "id": "2026-08-17_7",
+          "category": "Jazz & Blues",
+          "points": 200,
+          "question": "This singer and pianist, the 'High Priestess of Soul,' recorded 'Feeling Good' and 'Mississippi Goddam.'",
+          "answer": {
+            "valid": [
+              "nina simone"
+            ]
+          },
+          "display": "Nina Simone"
+        },
+        {
+          "id": "2026-08-17_8",
+          "category": "Jazz & Blues",
+          "points": 300,
+          "question": "This bebop trumpeter was known for his puffed cheeks and dramatically bent horn.",
+          "answer": {
+            "valid": [
+              "dizzy gillespie",
+              "gillespie"
+            ]
+          },
+          "display": "Dizzy Gillespie"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-18",
+      "categories": [
+        "Ancient Greece",
+        "Smartphones",
+        "Western Movies"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-18_0",
+          "category": "Ancient Greece",
+          "points": 100,
+          "question": "This Macedonian king conquered a vast empire stretching to India before dying at age 32.",
+          "answer": {
+            "valid": [
+              "alexander the great",
+              "alexander"
+            ]
+          },
+          "display": "Alexander the Great"
+        },
+        {
+          "id": "2026-08-18_1",
+          "category": "Ancient Greece",
+          "points": 200,
+          "question": "This ancient writer is often called 'the Father of History' for his account of the Greco-Persian Wars.",
+          "answer": {
+            "valid": [
+              "herodotus"
+            ]
+          },
+          "display": "Herodotus"
+        },
+        {
+          "id": "2026-08-18_2",
+          "category": "Ancient Greece",
+          "points": 300,
+          "question": "Greeks traveled to consult this prophetic priestess, the Pythia, who spoke for Apollo.",
+          "answer": {
+            "valid": [
+              "the oracle of delphi",
+              "oracle of delphi",
+              "delphi"
+            ]
+          },
+          "display": "The Oracle of Delphi"
+        },
+        {
+          "id": "2026-08-18_3",
+          "category": "Smartphones",
+          "points": 100,
+          "question": "This display technology lets you control a phone by tapping and swiping with your fingers.",
+          "answer": {
+            "valid": [
+              "touchscreen",
+              "the touchscreen",
+              "touch screen"
+            ]
+          },
+          "display": "The Touchscreen"
+        },
+        {
+          "id": "2026-08-18_4",
+          "category": "Smartphones",
+          "points": 200,
+          "question": "This small removable chip stores the data that identifies your phone to a cellular network.",
+          "answer": {
+            "valid": [
+              "sim card",
+              "the sim card",
+              "sim"
+            ]
+          },
+          "display": "The SIM Card"
+        },
+        {
+          "id": "2026-08-18_5",
+          "category": "Smartphones",
+          "points": 300,
+          "question": "This short-range wireless technology enables tap-to-pay features like Apple Pay.",
+          "answer": {
+            "valid": [
+              "nfc",
+              "near field communication",
+              "near-field communication"
+            ]
+          },
+          "display": "NFC"
+        },
+        {
+          "id": "2026-08-18_6",
+          "category": "Western Movies",
+          "points": 100,
+          "question": "This 1993 film dramatizes Wyatt Earp and the gunfight at the O.K. Corral, with Val Kilmer as Doc Holliday.",
+          "answer": {
+            "valid": [
+              "tombstone"
+            ]
+          },
+          "display": "Tombstone"
+        },
+        {
+          "id": "2026-08-18_7",
+          "category": "Western Movies",
+          "points": 200,
+          "question": "In this Western, seven gunfighters are hired to defend a Mexican village from bandits.",
+          "answer": {
+            "valid": [
+              "the magnificent seven",
+              "magnificent seven"
+            ]
+          },
+          "display": "The Magnificent Seven"
+        },
+        {
+          "id": "2026-08-18_8",
+          "category": "Western Movies",
+          "points": 300,
+          "question": "John Ford directed this 1956 film starring John Wayne on a years-long hunt for his abducted niece.",
+          "answer": {
+            "valid": [
+              "the searchers"
+            ]
+          },
+          "display": "The Searchers"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-19",
+      "categories": [
+        "The Civil War",
+        "Geology",
+        "Music"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-19_0",
+          "category": "The Civil War",
+          "points": 100,
+          "question": "This Mississippi senator served as the only president of the Confederate States of America.",
+          "answer": {
+            "valid": [
+              "jefferson davis"
+            ]
+          },
+          "display": "Jefferson Davis"
+        },
+        {
+          "id": "2026-08-19_1",
+          "category": "The Civil War",
+          "points": 200,
+          "question": "This formerly enslaved man became a leading abolitionist orator and writer before the war.",
+          "answer": {
+            "valid": [
+              "frederick douglass",
+              "douglass"
+            ]
+          },
+          "display": "Frederick Douglass"
+        },
+        {
+          "id": "2026-08-19_2",
+          "category": "The Civil War",
+          "points": 300,
+          "question": "Grant's 1863 capture of this Mississippi River stronghold split the Confederacy in two.",
+          "answer": {
+            "valid": [
+              "vicksburg",
+              "the siege of vicksburg",
+              "siege of vicksburg",
+              "battle of vicksburg"
+            ]
+          },
+          "display": "The Siege of Vicksburg"
+        },
+        {
+          "id": "2026-08-19_3",
+          "category": "Geology",
+          "points": 100,
+          "question": "This hard, speckled igneous rock is a popular material for kitchen countertops.",
+          "answer": {
+            "valid": [
+              "granite"
+            ]
+          },
+          "display": "Granite"
+        },
+        {
+          "id": "2026-08-19_4",
+          "category": "Geology",
+          "points": 200,
+          "question": "This icicle-shaped mineral formation hangs from the ceiling of a cave.",
+          "answer": {
+            "valid": [
+              "stalactite",
+              "a stalactite",
+              "stalactites"
+            ]
+          },
+          "display": "A Stalactite"
+        },
+        {
+          "id": "2026-08-19_5",
+          "category": "Geology",
+          "points": 300,
+          "question": "This glassy black rock forms when lava cools so quickly that no crystals grow.",
+          "answer": {
+            "valid": [
+              "obsidian"
+            ]
+          },
+          "display": "Obsidian"
+        },
+        {
+          "id": "2026-08-19_6",
+          "category": "Music",
+          "points": 100,
+          "question": "Nicknamed 'Ol' Blue Eyes,' this crooner sang 'My Way' and 'Fly Me to the Moon.'",
+          "answer": {
+            "valid": [
+              "frank sinatra",
+              "sinatra"
+            ]
+          },
+          "display": "Frank Sinatra"
+        },
+        {
+          "id": "2026-08-19_7",
+          "category": "Music",
+          "points": 200,
+          "question": "This German Baroque composer wrote the 'Brandenburg Concertos' and countless works for organ.",
+          "answer": {
+            "valid": [
+              "bach",
+              "johann sebastian bach",
+              "j.s. bach"
+            ]
+          },
+          "display": "Johann Sebastian Bach"
+        },
+        {
+          "id": "2026-08-19_8",
+          "category": "Music",
+          "points": 300,
+          "question": "This Russian composer wrote the ballets 'Swan Lake' and 'The Nutcracker.'",
+          "answer": {
+            "valid": [
+              "tchaikovsky",
+              "pyotr ilyich tchaikovsky",
+              "pyotr tchaikovsky"
+            ]
+          },
+          "display": "Pyotr Ilyich Tchaikovsky"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-20",
+      "categories": [
+        "Geography",
+        "Computers & Software",
+        "DC Comics"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-20_0",
+          "category": "Geography",
+          "points": 100,
+          "question": "This imaginary line circles the Earth at zero degrees latitude, dividing it into two hemispheres.",
+          "answer": {
+            "valid": [
+              "the equator",
+              "equator"
+            ]
+          },
+          "display": "The Equator"
+        },
+        {
+          "id": "2026-08-20_1",
+          "category": "Geography",
+          "points": 200,
+          "question": "The world's largest island, this autonomous Danish territory is mostly covered by an ice sheet.",
+          "answer": {
+            "valid": [
+              "greenland"
+            ]
+          },
+          "display": "Greenland"
+        },
+        {
+          "id": "2026-08-20_2",
+          "category": "Geography",
+          "points": 300,
+          "question": "Bordering Israel and Jordan, this salt lake is the lowest point on land and so dense swimmers float easily.",
+          "answer": {
+            "valid": [
+              "the dead sea",
+              "dead sea"
+            ]
+          },
+          "display": "The Dead Sea"
+        },
+        {
+          "id": "2026-08-20_3",
+          "category": "Computers & Software",
+          "points": 100,
+          "question": "This input device with rows of letter and number keys lets you type into a computer.",
+          "answer": {
+            "valid": [
+              "keyboard",
+              "the keyboard"
+            ]
+          },
+          "display": "The Keyboard"
+        },
+        {
+          "id": "2026-08-20_4",
+          "category": "Computers & Software",
+          "points": 200,
+          "question": "This is the computer's fast, temporary working memory, lost when the power goes off.",
+          "answer": {
+            "valid": [
+              "ram",
+              "random access memory",
+              "random-access memory"
+            ]
+          },
+          "display": "RAM"
+        },
+        {
+          "id": "2026-08-20_5",
+          "category": "Computers & Software",
+          "points": 300,
+          "question": "This program translates source code written by a human into machine code a computer can run.",
+          "answer": {
+            "valid": [
+              "compiler",
+              "the compiler"
+            ]
+          },
+          "display": "The Compiler"
+        },
+        {
+          "id": "2026-08-20_6",
+          "category": "DC Comics",
+          "points": 100,
+          "question": "This Kryptonian hero, alias Clark Kent, fights for 'truth, justice, and the American way.'",
+          "answer": {
+            "valid": [
+              "superman",
+              "kal-el"
+            ]
+          },
+          "display": "Superman"
+        },
+        {
+          "id": "2026-08-20_7",
+          "category": "DC Comics",
+          "points": 200,
+          "question": "This green-haired, white-faced 'Clown Prince of Crime' is Batman's archenemy.",
+          "answer": {
+            "valid": [
+              "the joker",
+              "joker"
+            ]
+          },
+          "display": "The Joker"
+        },
+        {
+          "id": "2026-08-20_8",
+          "category": "DC Comics",
+          "points": 300,
+          "question": "Members of this intergalactic corps wield power rings fueled by willpower.",
+          "answer": {
+            "valid": [
+              "green lantern",
+              "hal jordan"
+            ]
+          },
+          "display": "Green Lantern"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-21",
+      "categories": [
+        "The American Revolution",
+        "Wine & Beer",
+        "Boxing & MMA"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-21_0",
+          "category": "The American Revolution",
+          "points": 100,
+          "question": "In this 1770 event, British soldiers fired into a crowd, killing five colonists including Crispus Attucks.",
+          "answer": {
+            "valid": [
+              "the boston massacre",
+              "boston massacre"
+            ]
+          },
+          "display": "The Boston Massacre"
+        },
+        {
+          "id": "2026-08-21_1",
+          "category": "The American Revolution",
+          "points": 200,
+          "question": "Washington's army endured a brutal winter of 1777–78 at this Pennsylvania encampment.",
+          "answer": {
+            "valid": [
+              "valley forge"
+            ]
+          },
+          "display": "Valley Forge"
+        },
+        {
+          "id": "2026-08-21_2",
+          "category": "The American Revolution",
+          "points": 300,
+          "question": "This 1777 American victory in New York convinced France to enter the war as an ally.",
+          "answer": {
+            "valid": [
+              "saratoga",
+              "the battle of saratoga",
+              "battle of saratoga"
+            ]
+          },
+          "display": "The Battle of Saratoga"
+        },
+        {
+          "id": "2026-08-21_3",
+          "category": "Wine & Beer",
+          "points": 100,
+          "question": "This soft, approachable red wine grape is one of the most widely planted in the world.",
+          "answer": {
+            "valid": [
+              "merlot"
+            ]
+          },
+          "display": "Merlot"
+        },
+        {
+          "id": "2026-08-21_4",
+          "category": "Wine & Beer",
+          "points": 200,
+          "question": "This sparkling wine from northeastern Italy is a popular, affordable alternative to Champagne.",
+          "answer": {
+            "valid": [
+              "prosecco"
+            ]
+          },
+          "display": "Prosecco"
+        },
+        {
+          "id": "2026-08-21_5",
+          "category": "Wine & Beer",
+          "points": 300,
+          "question": "This pale, hoppy style of lager originated in the Czech town of Plzeň.",
+          "answer": {
+            "valid": [
+              "pilsner",
+              "a pilsner",
+              "pils"
+            ]
+          },
+          "display": "A Pilsner"
+        },
+        {
+          "id": "2026-08-21_6",
+          "category": "Boxing & MMA",
+          "points": 100,
+          "question": "Nicknamed the 'Brown Bomber,' this heavyweight champion reigned for over a decade starting in the 1930s.",
+          "answer": {
+            "valid": [
+              "joe louis",
+              "the brown bomber"
+            ]
+          },
+          "display": "Joe Louis"
+        },
+        {
+          "id": "2026-08-21_7",
+          "category": "Boxing & MMA",
+          "points": 200,
+          "question": "Nicknamed 'Smokin' Joe,' this heavyweight handed Muhammad Ali his first loss in the 1971 'Fight of the Century.'",
+          "answer": {
+            "valid": [
+              "joe frazier",
+              "frazier",
+              "smokin joe"
+            ]
+          },
+          "display": "Joe Frazier"
+        },
+        {
+          "id": "2026-08-21_8",
+          "category": "Boxing & MMA",
+          "points": 300,
+          "question": "Often called the greatest 'pound-for-pound' boxer ever, this champ fought in the 1940s and '50s.",
+          "answer": {
+            "valid": [
+              "sugar ray robinson",
+              "ray robinson"
+            ]
+          },
+          "display": "Sugar Ray Robinson"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-22",
+      "categories": [
+        "World Geography",
+        "Endangered Species",
+        "Prestige TV"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-22_0",
+          "category": "World Geography",
+          "points": 100,
+          "question": "Made up of four constituent countries—England, Scotland, Wales, and Northern Ireland—this sovereign state is governed from London.",
+          "answer": {
+            "valid": [
+              "united kingdom",
+              "the united kingdom",
+              "uk",
+              "britain",
+              "great britain"
+            ]
+          },
+          "display": "The United Kingdom"
+        },
+        {
+          "id": "2026-08-22_1",
+          "category": "World Geography",
+          "points": 200,
+          "question": "This Persian Gulf federation of seven emirates includes glitzy Dubai and capital Abu Dhabi.",
+          "answer": {
+            "valid": [
+              "uae",
+              "the uae",
+              "united arab emirates",
+              "the united arab emirates"
+            ]
+          },
+          "display": "The United Arab Emirates"
+        },
+        {
+          "id": "2026-08-22_2",
+          "category": "World Geography",
+          "points": 300,
+          "question": "This Arabian Peninsula sultanate sits at the mouth of the Persian Gulf, with Muscat as its capital.",
+          "answer": {
+            "valid": [
+              "oman"
+            ]
+          },
+          "display": "Oman"
+        },
+        {
+          "id": "2026-08-22_3",
+          "category": "Endangered Species",
+          "points": 100,
+          "question": "Fewer than a thousand of these great apes survive in the misty volcanoes of central Africa.",
+          "answer": {
+            "valid": [
+              "mountain gorilla",
+              "the mountain gorilla"
+            ]
+          },
+          "display": "The Mountain Gorilla"
+        },
+        {
+          "id": "2026-08-22_4",
+          "category": "Endangered Species",
+          "points": 200,
+          "question": "This elusive, pale-coated big cat prowls the high mountains of Central Asia.",
+          "answer": {
+            "valid": [
+              "snow leopard",
+              "the snow leopard"
+            ]
+          },
+          "display": "The Snow Leopard"
+        },
+        {
+          "id": "2026-08-22_5",
+          "category": "Endangered Species",
+          "points": 300,
+          "question": "This is North America's largest land bird, brought back from the brink with only 22 left in 1987.",
+          "answer": {
+            "valid": [
+              "california condor",
+              "the california condor",
+              "condor"
+            ]
+          },
+          "display": "The California Condor"
+        },
+        {
+          "id": "2026-08-22_6",
+          "category": "Prestige TV",
+          "points": 100,
+          "question": "This HBO series imagines a futuristic theme park populated by lifelike android 'hosts.'",
+          "answer": {
+            "valid": [
+              "westworld"
+            ]
+          },
+          "display": "Westworld"
+        },
+        {
+          "id": "2026-08-22_7",
+          "category": "Prestige TV",
+          "points": 200,
+          "question": "This HBO drama stars Reese Witherspoon and Nicole Kidman as Monterey mothers tangled in a murder.",
+          "answer": {
+            "valid": [
+              "big little lies"
+            ]
+          },
+          "display": "Big Little Lies"
+        },
+        {
+          "id": "2026-08-22_8",
+          "category": "Prestige TV",
+          "points": 300,
+          "question": "This gritty HBO Western is set in a lawless 1870s South Dakota gold-mining town.",
+          "answer": {
+            "valid": [
+              "deadwood"
+            ]
+          },
+          "display": "Deadwood"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-23",
+      "categories": [
+        "Math & Numbers",
+        "Food & Drink",
+        "Basketball"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-23_0",
+          "category": "Math & Numbers",
+          "points": 100,
+          "question": "This basic arithmetic operation is just repeated addition, symbolized by an 'x' or a dot.",
+          "answer": {
+            "valid": [
+              "multiplication"
+            ]
+          },
+          "display": "Multiplication"
+        },
+        {
+          "id": "2026-08-23_1",
+          "category": "Math & Numbers",
+          "points": 200,
+          "question": "This branch of math studies the relationships between the angles and sides of triangles.",
+          "answer": {
+            "valid": [
+              "trigonometry",
+              "trig"
+            ]
+          },
+          "display": "Trigonometry"
+        },
+        {
+          "id": "2026-08-23_2",
+          "category": "Math & Numbers",
+          "points": 300,
+          "question": "Written with an exclamation point, this operation multiplies a number by every positive integer below it.",
+          "answer": {
+            "valid": [
+              "factorial",
+              "a factorial"
+            ]
+          },
+          "display": "A Factorial"
+        },
+        {
+          "id": "2026-08-23_3",
+          "category": "Food & Drink",
+          "points": 100,
+          "question": "After water, this brewed beverage made from steeped leaves is the most consumed drink in the world.",
+          "answer": {
+            "valid": [
+              "tea"
+            ]
+          },
+          "display": "Tea"
+        },
+        {
+          "id": "2026-08-23_4",
+          "category": "Food & Drink",
+          "points": 200,
+          "question": "This sweet topping for pancakes is boiled down from the sap of trees, largely in Canada and Vermont.",
+          "answer": {
+            "valid": [
+              "maple syrup"
+            ]
+          },
+          "display": "Maple Syrup"
+        },
+        {
+          "id": "2026-08-23_5",
+          "category": "Food & Drink",
+          "points": 300,
+          "question": "This luxury delicacy consists of salt-cured fish eggs, traditionally from the sturgeon.",
+          "answer": {
+            "valid": [
+              "caviar"
+            ]
+          },
+          "display": "Caviar"
+        },
+        {
+          "id": "2026-08-23_6",
+          "category": "Basketball",
+          "points": 100,
+          "question": "This high-scoring play involves jumping and forcing the ball straight down through the hoop.",
+          "answer": {
+            "valid": [
+              "slam dunk",
+              "the slam dunk",
+              "dunk"
+            ]
+          },
+          "display": "The Slam Dunk"
+        },
+        {
+          "id": "2026-08-23_7",
+          "category": "Basketball",
+          "points": 200,
+          "question": "This NBA team won six championships in the 1990s behind Michael Jordan and Scottie Pippen.",
+          "answer": {
+            "valid": [
+              "chicago bulls",
+              "the chicago bulls",
+              "bulls"
+            ]
+          },
+          "display": "The Chicago Bulls"
+        },
+        {
+          "id": "2026-08-23_8",
+          "category": "Basketball",
+          "points": 300,
+          "question": "Nicknamed 'The Round Mound of Rebound,' this Hall of Famer is now a brash TV analyst.",
+          "answer": {
+            "valid": [
+              "charles barkley",
+              "barkley"
+            ]
+          },
+          "display": "Charles Barkley"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-24",
+      "categories": [
+        "The Enlightenment",
+        "Photography",
+        "Memes & Internet Culture"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-24_0",
+          "category": "The Enlightenment",
+          "points": 100,
+          "question": "This French philosopher declared 'I think, therefore I am.'",
+          "answer": {
+            "valid": [
+              "descartes",
+              "rene descartes",
+              "rené descartes"
+            ]
+          },
+          "display": "René Descartes"
+        },
+        {
+          "id": "2026-08-24_1",
+          "category": "The Enlightenment",
+          "points": 200,
+          "question": "This German philosopher wrote the 'Critique of Pure Reason' and proposed the 'categorical imperative.'",
+          "answer": {
+            "valid": [
+              "kant",
+              "immanuel kant"
+            ]
+          },
+          "display": "Immanuel Kant"
+        },
+        {
+          "id": "2026-08-24_2",
+          "category": "The Enlightenment",
+          "points": 300,
+          "question": "This French thinker argued for the separation of governmental powers in 'The Spirit of the Laws.'",
+          "answer": {
+            "valid": [
+              "montesquieu"
+            ]
+          },
+          "display": "Montesquieu"
+        },
+        {
+          "id": "2026-08-24_3",
+          "category": "Photography",
+          "points": 100,
+          "question": "Photographers mount their cameras on this three-legged stand to keep shots steady.",
+          "answer": {
+            "valid": [
+              "tripod",
+              "the tripod"
+            ]
+          },
+          "display": "The Tripod"
+        },
+        {
+          "id": "2026-08-24_4",
+          "category": "Photography",
+          "points": 200,
+          "question": "This compositional guideline divides an image into a 3x3 grid to place subjects off-center.",
+          "answer": {
+            "valid": [
+              "rule of thirds",
+              "the rule of thirds"
+            ]
+          },
+          "display": "The Rule of Thirds"
+        },
+        {
+          "id": "2026-08-24_5",
+          "category": "Photography",
+          "points": 300,
+          "question": "This American photographer shot iconic portraits for Rolling Stone and Vanity Fair, including a nude John Lennon.",
+          "answer": {
+            "valid": [
+              "annie leibovitz",
+              "leibovitz"
+            ]
+          },
+          "display": "Annie Leibovitz"
+        },
+        {
+          "id": "2026-08-24_6",
+          "category": "Memes & Internet Culture",
+          "points": 100,
+          "question": "In 2013, millions filmed 30-second videos of a sudden, chaotic group dance set to a Baauer song of this name.",
+          "answer": {
+            "valid": [
+              "the harlem shake",
+              "harlem shake"
+            ]
+          },
+          "display": "The Harlem Shake"
+        },
+        {
+          "id": "2026-08-24_7",
+          "category": "Memes & Internet Culture",
+          "points": 200,
+          "question": "This 2011 meme animated a pixelated cat with a Pop-Tart body trailing a rainbow through space.",
+          "answer": {
+            "valid": [
+              "nyan cat"
+            ]
+          },
+          "display": "Nyan Cat"
+        },
+        {
+          "id": "2026-08-24_8",
+          "category": "Memes & Internet Culture",
+          "points": 300,
+          "question": "This 'World of Warcraft' video meme shows a player ruining a careful plan by charging in while shouting his own name.",
+          "answer": {
+            "valid": [
+              "leeroy jenkins",
+              "leroy jenkins"
+            ]
+          },
+          "display": "Leeroy Jenkins"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-25",
+      "categories": [
+        "World War I",
+        "Chemistry",
+        "Star Wars"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-25_0",
+          "category": "World War I",
+          "points": 100,
+          "question": "This term describes the dangerous, cratered ground between opposing trenches.",
+          "answer": {
+            "valid": [
+              "no man's land",
+              "no mans land"
+            ]
+          },
+          "display": "No Man's Land"
+        },
+        {
+          "id": "2026-08-25_1",
+          "category": "World War I",
+          "points": 200,
+          "question": "Manfred von Richthofen, Germany's top flying ace, was known by this colorful nickname.",
+          "answer": {
+            "valid": [
+              "the red baron",
+              "red baron"
+            ]
+          },
+          "display": "The Red Baron"
+        },
+        {
+          "id": "2026-08-25_2",
+          "category": "World War I",
+          "points": 300,
+          "question": "This intercepted 1917 German message proposing an alliance with Mexico helped draw the U.S. into the war.",
+          "answer": {
+            "valid": [
+              "the zimmermann telegram",
+              "zimmermann telegram",
+              "zimmerman telegram"
+            ]
+          },
+          "display": "The Zimmermann Telegram"
+        },
+        {
+          "id": "2026-08-25_3",
+          "category": "Chemistry",
+          "points": 100,
+          "question": "This negatively charged subatomic particle orbits the nucleus of an atom.",
+          "answer": {
+            "valid": [
+              "electron",
+              "an electron"
+            ]
+          },
+          "display": "An Electron"
+        },
+        {
+          "id": "2026-08-25_4",
+          "category": "Chemistry",
+          "points": 200,
+          "question": "This is a large molecule made of many repeating units, like plastic or DNA.",
+          "answer": {
+            "valid": [
+              "polymer",
+              "a polymer"
+            ]
+          },
+          "display": "A Polymer"
+        },
+        {
+          "id": "2026-08-25_5",
+          "category": "Chemistry",
+          "points": 300,
+          "question": "This inert noble gas, the third most abundant in Earth's atmosphere, fills many incandescent light bulbs.",
+          "answer": {
+            "valid": [
+              "argon"
+            ]
+          },
+          "display": "Argon"
+        },
+        {
+          "id": "2026-08-25_6",
+          "category": "Star Wars",
+          "points": 100,
+          "question": "This moon-sized Imperial battle station could destroy an entire planet with one blast.",
+          "answer": {
+            "valid": [
+              "the death star",
+              "death star"
+            ]
+          },
+          "display": "The Death Star"
+        },
+        {
+          "id": "2026-08-25_7",
+          "category": "Star Wars",
+          "points": 200,
+          "question": "This Jedi Master trained both Anakin and Luke Skywalker and was played by Alec Guinness.",
+          "answer": {
+            "valid": [
+              "obi-wan kenobi",
+              "obi-wan",
+              "obi wan",
+              "kenobi",
+              "ben kenobi"
+            ]
+          },
+          "display": "Obi-Wan Kenobi"
+        },
+        {
+          "id": "2026-08-25_8",
+          "category": "Star Wars",
+          "points": 300,
+          "question": "Billy Dee Williams played this smooth administrator of Cloud City who betrays, then aids, the heroes.",
+          "answer": {
+            "valid": [
+              "lando calrissian",
+              "lando"
+            ]
+          },
+          "display": "Lando Calrissian"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-26",
+      "categories": [
+        "Rivers & Lakes",
+        "Greek Mythology",
+        "Animated TV"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-26_0",
+          "category": "Rivers & Lakes",
+          "points": 100,
+          "question": "This river carved the Grand Canyon and supplies water to much of the American Southwest.",
+          "answer": {
+            "valid": [
+              "colorado river",
+              "the colorado river"
+            ]
+          },
+          "display": "The Colorado River"
+        },
+        {
+          "id": "2026-08-26_1",
+          "category": "Rivers & Lakes",
+          "points": 200,
+          "question": "This is the only one of the five Great Lakes located entirely within the United States.",
+          "answer": {
+            "valid": [
+              "lake michigan"
+            ]
+          },
+          "display": "Lake Michigan"
+        },
+        {
+          "id": "2026-08-26_2",
+          "category": "Rivers & Lakes",
+          "points": 300,
+          "question": "With the Tigris, this river framed ancient Mesopotamia, the 'cradle of civilization.'",
+          "answer": {
+            "valid": [
+              "euphrates",
+              "the euphrates",
+              "euphrates river"
+            ]
+          },
+          "display": "The Euphrates"
+        },
+        {
+          "id": "2026-08-26_3",
+          "category": "Greek Mythology",
+          "points": 100,
+          "question": "This half-goat god of the wild played pipes and gave us the word 'panic.'",
+          "answer": {
+            "valid": [
+              "pan"
+            ]
+          },
+          "display": "Pan"
+        },
+        {
+          "id": "2026-08-26_4",
+          "category": "Greek Mythology",
+          "points": 200,
+          "question": "Abducted by Hades, this goddess spends part of each year in the underworld, explaining the seasons.",
+          "answer": {
+            "valid": [
+              "persephone"
+            ]
+          },
+          "display": "Persephone"
+        },
+        {
+          "id": "2026-08-26_5",
+          "category": "Greek Mythology",
+          "points": 300,
+          "question": "Jason and the Argonauts sailed in search of this prized ram's coat.",
+          "answer": {
+            "valid": [
+              "the golden fleece",
+              "golden fleece"
+            ]
+          },
+          "display": "The Golden Fleece"
+        },
+        {
+          "id": "2026-08-26_6",
+          "category": "Animated TV",
+          "points": 100,
+          "question": "This Warner Bros. cartoon franchise stars Bugs Bunny, Daffy Duck, and Porky Pig.",
+          "answer": {
+            "valid": [
+              "looney tunes",
+              "looney toons"
+            ]
+          },
+          "display": "Looney Tunes"
+        },
+        {
+          "id": "2026-08-26_7",
+          "category": "Animated TV",
+          "points": 200,
+          "question": "This Nickelodeon cartoon depicted the world from the perspective of babies led by Tommy Pickles.",
+          "answer": {
+            "valid": [
+              "rugrats"
+            ]
+          },
+          "display": "Rugrats"
+        },
+        {
+          "id": "2026-08-26_8",
+          "category": "Animated TV",
+          "points": 300,
+          "question": "This Netflix animated series follows a washed-up, depressed horse who was once a sitcom star.",
+          "answer": {
+            "valid": [
+              "bojack horseman",
+              "bojack"
+            ]
+          },
+          "display": "BoJack Horseman"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-27",
+      "categories": [
+        "Language",
+        "Famous Tech Companies",
+        "Olympics"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-27_0",
+          "category": "Language",
+          "points": 100,
+          "question": "This figure of speech directly calls one thing another, as in 'time is money.'",
+          "answer": {
+            "valid": [
+              "metaphor",
+              "a metaphor"
+            ]
+          },
+          "display": "A Metaphor"
+        },
+        {
+          "id": "2026-08-27_1",
+          "category": "Language",
+          "points": 200,
+          "question": "This is the term for a word that imitates the sound it describes, like 'buzz' or 'sizzle.'",
+          "answer": {
+            "valid": [
+              "onomatopoeia"
+            ]
+          },
+          "display": "Onomatopoeia"
+        },
+        {
+          "id": "2026-08-27_2",
+          "category": "Language",
+          "points": 300,
+          "question": "This punctuation mark links two related independent clauses without a conjunction.",
+          "answer": {
+            "valid": [
+              "semicolon",
+              "the semicolon"
+            ]
+          },
+          "display": "The Semicolon"
+        },
+        {
+          "id": "2026-08-27_3",
+          "category": "Famous Tech Companies",
+          "points": 100,
+          "question": "Nicknamed 'Big Blue,' this century-old company built early mainframes and the first PC.",
+          "answer": {
+            "valid": [
+              "ibm",
+              "international business machines"
+            ]
+          },
+          "display": "IBM"
+        },
+        {
+          "id": "2026-08-27_4",
+          "category": "Famous Tech Companies",
+          "points": 200,
+          "question": "Founded in 1995, this site pioneered online auctions where users bid on goods.",
+          "answer": {
+            "valid": [
+              "ebay"
+            ]
+          },
+          "display": "eBay"
+        },
+        {
+          "id": "2026-08-27_5",
+          "category": "Famous Tech Companies",
+          "points": 300,
+          "question": "This San Diego company designs the Snapdragon chips and wireless tech inside many smartphones.",
+          "answer": {
+            "valid": [
+              "qualcomm"
+            ]
+          },
+          "display": "Qualcomm"
+        },
+        {
+          "id": "2026-08-27_6",
+          "category": "Olympics",
+          "points": 100,
+          "question": "Five interlocking rings of blue, yellow, black, green, and red form this famous symbol.",
+          "answer": {
+            "valid": [
+              "the olympic rings",
+              "olympic rings",
+              "the five rings"
+            ]
+          },
+          "display": "The Olympic Rings"
+        },
+        {
+          "id": "2026-08-27_7",
+          "category": "Olympics",
+          "points": 200,
+          "question": "The winner of this grueling ten-event track-and-field contest is often dubbed 'the world's greatest athlete.'",
+          "answer": {
+            "valid": [
+              "decathlon",
+              "the decathlon"
+            ]
+          },
+          "display": "The Decathlon"
+        },
+        {
+          "id": "2026-08-27_8",
+          "category": "Olympics",
+          "points": 300,
+          "question": "This Winter Olympic sport combines cross-country skiing with rifle marksmanship.",
+          "answer": {
+            "valid": [
+              "biathlon",
+              "the biathlon"
+            ]
+          },
+          "display": "The Biathlon"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-28",
+      "categories": [
+        "History",
+        "Nature",
+        "Movies"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-28_0",
+          "category": "History",
+          "points": 100,
+          "question": "These seafaring Norse raiders and traders terrorized Europe in longships from the 8th to 11th centuries.",
+          "answer": {
+            "valid": [
+              "vikings",
+              "the vikings",
+              "norsemen"
+            ]
+          },
+          "display": "The Vikings"
+        },
+        {
+          "id": "2026-08-28_1",
+          "category": "History",
+          "points": 200,
+          "question": "In 1692, this Massachusetts town executed twenty people accused of witchcraft.",
+          "answer": {
+            "valid": [
+              "the salem witch trials",
+              "salem witch trials",
+              "salem"
+            ]
+          },
+          "display": "The Salem Witch Trials"
+        },
+        {
+          "id": "2026-08-28_2",
+          "category": "History",
+          "points": 300,
+          "question": "Severe drought and dust storms ravaged the U.S. Great Plains during this 1930s ecological disaster.",
+          "answer": {
+            "valid": [
+              "the dust bowl",
+              "dust bowl"
+            ]
+          },
+          "display": "The Dust Bowl"
+        },
+        {
+          "id": "2026-08-28_3",
+          "category": "Nature",
+          "points": 100,
+          "question": "This violently rotating column of air drops from a thunderstorm and is measured on the Fujita scale.",
+          "answer": {
+            "valid": [
+              "tornado",
+              "a tornado",
+              "twister"
+            ]
+          },
+          "display": "A Tornado"
+        },
+        {
+          "id": "2026-08-28_4",
+          "category": "Nature",
+          "points": 200,
+          "question": "This slow-moving river of ice carves valleys as it flows downhill over centuries.",
+          "answer": {
+            "valid": [
+              "glacier",
+              "a glacier"
+            ]
+          },
+          "display": "A Glacier"
+        },
+        {
+          "id": "2026-08-28_5",
+          "category": "Nature",
+          "points": 300,
+          "question": "This seasonal reversal of winds brings heavy summer rains to South Asia.",
+          "answer": {
+            "valid": [
+              "monsoon",
+              "a monsoon"
+            ]
+          },
+          "display": "A Monsoon"
+        },
+        {
+          "id": "2026-08-28_6",
+          "category": "Movies",
+          "points": 100,
+          "question": "This 1939 Civil War epic follows Scarlett O'Hara and Rhett Butler, who 'frankly' doesn't 'give a damn.'",
+          "answer": {
+            "valid": [
+              "gone with the wind"
+            ]
+          },
+          "display": "Gone with the Wind"
+        },
+        {
+          "id": "2026-08-28_7",
+          "category": "Movies",
+          "points": 200,
+          "question": "In this 1999 film, an insomniac and a soap salesman named Tyler Durden start an underground brawling club.",
+          "answer": {
+            "valid": [
+              "fight club"
+            ]
+          },
+          "display": "Fight Club"
+        },
+        {
+          "id": "2026-08-28_8",
+          "category": "Movies",
+          "points": 300,
+          "question": "This 2014 Best Picture winner, shot to look like one continuous take, stars Michael Keaton as a faded superhero actor.",
+          "answer": {
+            "valid": [
+              "birdman"
+            ]
+          },
+          "display": "Birdman"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-29",
+      "categories": [
+        "European Geography",
+        "Human Body",
+        "Fantasy"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-29_0",
+          "category": "European Geography",
+          "points": 100,
+          "question": "This country on the western side of Great Britain has Cardiff as its capital and a red dragon on its flag.",
+          "answer": {
+            "valid": [
+              "wales"
+            ]
+          },
+          "display": "Wales"
+        },
+        {
+          "id": "2026-08-29_1",
+          "category": "European Geography",
+          "points": 200,
+          "question": "Bordered by Europe, Africa, and Asia, this sea connects to the Atlantic through the Strait of Gibraltar.",
+          "answer": {
+            "valid": [
+              "mediterranean",
+              "the mediterranean",
+              "mediterranean sea",
+              "the mediterranean sea"
+            ]
+          },
+          "display": "The Mediterranean Sea"
+        },
+        {
+          "id": "2026-08-29_2",
+          "category": "European Geography",
+          "points": 300,
+          "question": "Straddling France and Italy, this is the highest peak in the Alps.",
+          "answer": {
+            "valid": [
+              "mont blanc"
+            ]
+          },
+          "display": "Mont Blanc"
+        },
+        {
+          "id": "2026-08-29_3",
+          "category": "Human Body",
+          "points": 100,
+          "question": "This framework of 206 bones gives the adult body its shape and support.",
+          "answer": {
+            "valid": [
+              "skeleton",
+              "the skeleton"
+            ]
+          },
+          "display": "The Skeleton"
+        },
+        {
+          "id": "2026-08-29_4",
+          "category": "Human Body",
+          "points": 200,
+          "question": "This light-sensitive layer at the back of the eye sends images to the brain via the optic nerve.",
+          "answer": {
+            "valid": [
+              "retina",
+              "the retina"
+            ]
+          },
+          "display": "The Retina"
+        },
+        {
+          "id": "2026-08-29_5",
+          "category": "Human Body",
+          "points": 300,
+          "question": "Often called the 'voice box,' this organ in the throat houses the vocal cords.",
+          "answer": {
+            "valid": [
+              "larynx",
+              "the larynx"
+            ]
+          },
+          "display": "The Larynx"
+        },
+        {
+          "id": "2026-08-29_6",
+          "category": "Fantasy",
+          "points": 100,
+          "question": "In this Tolkien novel, Bilbo Baggins joins thirteen dwarves to reclaim treasure from the dragon Smaug.",
+          "answer": {
+            "valid": [
+              "the hobbit",
+              "hobbit"
+            ]
+          },
+          "display": "The Hobbit"
+        },
+        {
+          "id": "2026-08-29_7",
+          "category": "Fantasy",
+          "points": 200,
+          "question": "Rick Riordan's series follows this modern teen who discovers he is a demigod son of Poseidon.",
+          "answer": {
+            "valid": [
+              "percy jackson",
+              "percy jackson and the olympians"
+            ]
+          },
+          "display": "Percy Jackson"
+        },
+        {
+          "id": "2026-08-29_8",
+          "category": "Fantasy",
+          "points": 300,
+          "question": "Terry Pratchett set his comic fantasy series on this flat world balanced atop four elephants on a giant turtle.",
+          "answer": {
+            "valid": [
+              "discworld"
+            ]
+          },
+          "display": "Discworld"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-30",
+      "categories": [
+        "Awards Shows",
+        "Famous Women in History",
+        "Video Games"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-30_0",
+          "category": "Awards Shows",
+          "points": 100,
+          "question": "This annual ceremony hands out gold gramophone trophies for achievements in the music industry.",
+          "answer": {
+            "valid": [
+              "the grammys",
+              "grammys",
+              "grammy awards",
+              "the grammy awards"
+            ]
+          },
+          "display": "The Grammys"
+        },
+        {
+          "id": "2026-08-30_1",
+          "category": "Awards Shows",
+          "points": 200,
+          "question": "Voted on by the Hollywood Foreign Press, these awards honor both film and television.",
+          "answer": {
+            "valid": [
+              "the golden globes",
+              "golden globes"
+            ]
+          },
+          "display": "The Golden Globes"
+        },
+        {
+          "id": "2026-08-30_2",
+          "category": "Awards Shows",
+          "points": 300,
+          "question": "This top prize is awarded to the best film at the Cannes Film Festival.",
+          "answer": {
+            "valid": [
+              "the palme d'or",
+              "palme d'or",
+              "palme dor"
+            ]
+          },
+          "display": "The Palme d'Or"
+        },
+        {
+          "id": "2026-08-30_3",
+          "category": "Famous Women in History",
+          "points": 100,
+          "question": "This aviator was the first woman to fly solo across the Atlantic before vanishing over the Pacific in 1937.",
+          "answer": {
+            "valid": [
+              "amelia earhart",
+              "earhart"
+            ]
+          },
+          "display": "Amelia Earhart"
+        },
+        {
+          "id": "2026-08-30_4",
+          "category": "Famous Women in History",
+          "points": 200,
+          "question": "This woman sparked a bus boycott in 1955 Montgomery by refusing to give up her seat.",
+          "answer": {
+            "valid": [
+              "rosa parks"
+            ]
+          },
+          "display": "Rosa Parks"
+        },
+        {
+          "id": "2026-08-30_5",
+          "category": "Famous Women in History",
+          "points": 300,
+          "question": "This British nurse, 'the Lady with the Lamp,' founded modern nursing during the Crimean War.",
+          "answer": {
+            "valid": [
+              "florence nightingale",
+              "nightingale"
+            ]
+          },
+          "display": "Florence Nightingale"
+        },
+        {
+          "id": "2026-08-30_6",
+          "category": "Video Games",
+          "points": 100,
+          "question": "This bloody fighting game franchise is infamous for its gruesome 'Fatality' finishing moves.",
+          "answer": {
+            "valid": [
+              "mortal kombat"
+            ]
+          },
+          "display": "Mortal Kombat"
+        },
+        {
+          "id": "2026-08-30_7",
+          "category": "Video Games",
+          "points": 200,
+          "question": "This Ubisoft series sends players to historical settings to wage a secret war between assassins and templars.",
+          "answer": {
+            "valid": [
+              "assassin's creed",
+              "assassins creed"
+            ]
+          },
+          "display": "Assassin's Creed"
+        },
+        {
+          "id": "2026-08-30_8",
+          "category": "Video Games",
+          "points": 300,
+          "question": "This shooter is set in Rapture, an Art Deco underwater city, where players hear the phrase 'Would you kindly?'",
+          "answer": {
+            "valid": [
+              "bioshock"
+            ]
+          },
+          "display": "BioShock"
+        }
+      ]
+    },
+    {
+      "date": "2026-08-31",
+      "categories": [
+        "World Capitals",
+        "The Industrial Revolution",
+        "Movies"
+      ],
+      "questions": [
+        {
+          "id": "2026-08-31_0",
+          "category": "World Capitals",
+          "points": 100,
+          "question": "This planned city within a larger metropolis serves as the capital of India.",
+          "answer": {
+            "valid": [
+              "new delhi",
+              "delhi"
+            ]
+          },
+          "display": "New Delhi"
+        },
+        {
+          "id": "2026-08-31_1",
+          "category": "World Capitals",
+          "points": 200,
+          "question": "Located in the north along the Red River, this city is the capital of Vietnam.",
+          "answer": {
+            "valid": [
+              "hanoi"
+            ]
+          },
+          "display": "Hanoi"
+        },
+        {
+          "id": "2026-08-31_2",
+          "category": "World Capitals",
+          "points": 300,
+          "question": "Often overlooked for Zurich or Geneva, this medieval city is the capital of Switzerland.",
+          "answer": {
+            "valid": [
+              "bern",
+              "berne"
+            ]
+          },
+          "display": "Bern"
+        },
+        {
+          "id": "2026-08-31_3",
+          "category": "The Industrial Revolution",
+          "points": 100,
+          "question": "This type of building, where workers and machines mass-produce goods, defined the new industrial age.",
+          "answer": {
+            "valid": [
+              "factory",
+              "the factory",
+              "factories"
+            ]
+          },
+          "display": "The Factory"
+        },
+        {
+          "id": "2026-08-31_4",
+          "category": "The Industrial Revolution",
+          "points": 200,
+          "question": "Powered by steam locomotives, this network of iron tracks revolutionized 19th-century transport.",
+          "answer": {
+            "valid": [
+              "railroad",
+              "the railroad",
+              "railway",
+              "the railway"
+            ]
+          },
+          "display": "The Railroad"
+        },
+        {
+          "id": "2026-08-31_5",
+          "category": "The Industrial Revolution",
+          "points": 300,
+          "question": "This 1850s innovation made the mass production of cheap steel possible for the first time.",
+          "answer": {
+            "valid": [
+              "the bessemer process",
+              "bessemer process",
+              "bessemer"
+            ]
+          },
+          "display": "The Bessemer Process"
+        },
+        {
+          "id": "2026-08-31_6",
+          "category": "Movies",
+          "points": 100,
+          "question": "In this 1965 musical, Maria becomes governess to the von Trapp children in Austria.",
+          "answer": {
+            "valid": [
+              "the sound of music",
+              "sound of music"
+            ]
+          },
+          "display": "The Sound of Music"
+        },
+        {
+          "id": "2026-08-31_7",
+          "category": "Movies",
+          "points": 200,
+          "question": "Mel Gibson directed and starred in this 1995 epic as Scottish rebel William Wallace.",
+          "answer": {
+            "valid": [
+              "braveheart"
+            ]
+          },
+          "display": "Braveheart"
+        },
+        {
+          "id": "2026-08-31_8",
+          "category": "Movies",
+          "points": 300,
+          "question": "Brad Pitt and Morgan Freeman hunt a killer staging murders around the seven deadly sins in this 1995 thriller.",
+          "answer": {
+            "valid": [
+              "se7en"
+            ]
+          },
+          "display": "Se7en"
+        }
+      ]
     }
   ]
 }
