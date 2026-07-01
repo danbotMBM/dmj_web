@@ -96,6 +96,7 @@ func main() {
 	registerAnalyticsRoutes()
 	registerScoreRoutes()
 	registerHoldemAnalyticsRoutes()
+	registerMCPRoutes()
 
 	port := os.Getenv("PORT")
 	if port == "" {
