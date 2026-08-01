@@ -112,12 +112,12 @@ func writeJSONError(w http.ResponseWriter, msg string, status int) {
 	json.NewEncoder(w).Encode(map[string]string{"error": msg})
 }
 
-// geoTag is the deliberately coarse slice of geo data that goes out on the public
-// leaderboard: country plus first-level region, never city, coordinates, or ISP.
+// geoTag is the slice of geo data that goes out on the public leaderboard:
+// city plus country, never coordinates, ISP, or org.
 type geoTag struct {
 	Country     string `json:"country"`
 	CountryCode string `json:"country_code"`
-	Region      string `json:"region"`
+	City        string `json:"city"`
 }
 
 type leaderEntry struct {
@@ -188,11 +188,11 @@ func handleTriviaResults(w http.ResponseWriter, r *http.Request) {
 	// the background and shows up on a later load.
 	geoMap := lookupGeoCached(ips)
 	for i := range top3 {
-		if g := geoMap[ips[i]]; g != nil && (g.Country != "" || g.Region != "") {
+		if g := geoMap[ips[i]]; g != nil && (g.Country != "" || g.City != "") {
 			top3[i].Geo = &geoTag{
 				Country:     g.Country,
 				CountryCode: g.CountryCode,
-				Region:      g.Region,
+				City:        g.City,
 			}
 		}
 	}

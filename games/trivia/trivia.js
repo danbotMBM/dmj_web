@@ -249,13 +249,13 @@ function flagEmoji(code) {
 }
 
 // geoLabel builds the compact location tag shown beside a leaderboard name,
-// e.g. "🇺🇸 New York". Returns null when the server had no location for the player.
+// e.g. "🇺🇸 Buffalo". Returns null when the server had no location for the player.
 function geoLabel(geo) {
     if (!geo) return null;
-    const place = geo.region || geo.country || "";
+    const place = geo.city || geo.country || "";
     const text = [flagEmoji(geo.country_code), place].filter(Boolean).join(" ");
     if (!text) return null;
-    const parts = [geo.region, geo.country].filter(Boolean);
+    const parts = [geo.city, geo.country].filter(Boolean);
     return { text: text, title: parts.length ? parts.join(", ") : text };
 }
 
