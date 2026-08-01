@@ -237,6 +237,28 @@ async function saveName(name, statusEl, onSuccess) {
     }
 }
 
+// flagEmoji turns a 2-letter ISO country code into its regional-indicator flag.
+function flagEmoji(code) {
+    if (typeof code !== "string" || code.length !== 2) return "";
+    const cc = code.toUpperCase();
+    if (!/^[A-Z]{2}$/.test(cc)) return "";
+    return String.fromCodePoint(
+        0x1f1e6 + cc.charCodeAt(0) - 65,
+        0x1f1e6 + cc.charCodeAt(1) - 65
+    );
+}
+
+// geoLabel builds the compact location tag shown beside a leaderboard name,
+// e.g. "🇺🇸 New York". Returns null when the server had no location for the player.
+function geoLabel(geo) {
+    if (!geo) return null;
+    const place = geo.region || geo.country || "";
+    const text = [flagEmoji(geo.country_code), place].filter(Boolean).join(" ");
+    if (!text) return null;
+    const parts = [geo.region, geo.country].filter(Boolean);
+    return { text: text, title: parts.length ? parts.join(", ") : text };
+}
+
 function renderLeaderboard(results) {
     const list = document.getElementById("gameover-leaderboard");
     list.innerHTML = "";
@@ -255,6 +277,14 @@ function renderLeaderboard(results) {
             score.className = "lb-score";
             score.textContent = entry.score;
             li.appendChild(name);
+            const geo = geoLabel(entry.geo);
+            if (geo) {
+                const tag = document.createElement("span");
+                tag.className = "lb-geo";
+                tag.textContent = geo.text;
+                tag.title = geo.title;
+                li.appendChild(tag);
+            }
             li.appendChild(score);
             list.appendChild(li);
         }

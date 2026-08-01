@@ -112,9 +112,18 @@ func writeJSONError(w http.ResponseWriter, msg string, status int) {
 	json.NewEncoder(w).Encode(map[string]string{"error": msg})
 }
 
+// geoTag is the deliberately coarse slice of geo data that goes out on the public
+// leaderboard: country plus first-level region, never city, coordinates, or ISP.
+type geoTag struct {
+	Country     string `json:"country"`
+	CountryCode string `json:"country_code"`
+	Region      string `json:"region"`
+}
+
 type leaderEntry struct {
-	Name  string `json:"name"`
-	Score int    `json:"score"`
+	Name  string  `json:"name"`
+	Score int     `json:"score"`
+	Geo   *geoTag `json:"geo,omitempty"`
 }
 
 // handleTriviaResults returns the leaderboard for a board: the top 3 scores (by name only,
@@ -144,9 +153,18 @@ func handleTriviaResults(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Top 3 — names only, never player IDs. Earlier completion breaks score ties.
+	// Scores recorded before ip_address existed fall back to the last IP that board
+	// saw from the same player, so older boards still get a geo tag.
 	top3 := []leaderEntry{}
+	var ips []string
 	rows, err := analyticsDB.Query(`
-		SELECT s.score, COALESCE(n.name, 'Anonymous')
+		SELECT s.score, COALESCE(n.name, 'Anonymous'),
+			COALESCE(NULLIF(s.ip_address, ''), (
+				SELECT e.ip_address FROM trivia_events e
+				WHERE e.player_id = s.player_id AND e.trivia_date = s.trivia_date
+					AND e.ip_address != ''
+				ORDER BY e.timestamp DESC LIMIT 1
+			), '')
 		FROM trivia_scores s
 		LEFT JOIN player_names n ON s.player_id = n.player_id
 		WHERE s.trivia_date = ?
@@ -157,11 +175,28 @@ func handleTriviaResults(w http.ResponseWriter, r *http.Request) {
 		defer rows.Close()
 		for rows.Next() {
 			var e leaderEntry
-			if err := rows.Scan(&e.Score, &e.Name); err == nil {
+			var ip string
+			if err := rows.Scan(&e.Score, &e.Name, &ip); err == nil {
 				top3 = append(top3, e)
+				ips = append(ips, ip)
 			}
 		}
 	}
+
+	// Cache-only lookup: this endpoint is public, so it must never block on (or let
+	// callers drive) an outbound geo request. Anything still missing is resolved in
+	// the background and shows up on a later load.
+	geoMap := lookupGeoCached(ips)
+	for i := range top3 {
+		if g := geoMap[ips[i]]; g != nil && (g.Country != "" || g.Region != "") {
+			top3[i].Geo = &geoTag{
+				Country:     g.Country,
+				CountryCode: g.CountryCode,
+				Region:      g.Region,
+			}
+		}
+	}
+	go warmGeoCache(ips)
 
 	var total int
 	analyticsDB.QueryRow(`SELECT COUNT(*) FROM trivia_scores WHERE trivia_date=?`, date).Scan(&total)

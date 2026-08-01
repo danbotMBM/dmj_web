@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"sync"
 	"time"
 
 	_ "modernc.org/sqlite"
@@ -46,6 +47,7 @@ func initAnalyticsDB() {
 	CREATE TABLE IF NOT EXISTS ip_geo_cache (
 		ip_address TEXT PRIMARY KEY,
 		country TEXT,
+		country_code TEXT,
 		region TEXT,
 		city TEXT,
 		lat REAL,
@@ -85,6 +87,7 @@ func initAnalyticsDB() {
 		score        INTEGER NOT NULL,
 		max_score    INTEGER NOT NULL,
 		completed_at TEXT NOT NULL,
+		ip_address   TEXT,
 		PRIMARY KEY (trivia_date, player_id)
 	);
 	CREATE TABLE IF NOT EXISTS player_names (
@@ -99,7 +102,22 @@ func initAnalyticsDB() {
 		return
 	}
 
+	// Columns added after the original schema shipped; CREATE TABLE IF NOT EXISTS
+	// leaves pre-existing tables untouched, so they need an explicit ALTER.
+	addColumnIfMissing("ip_geo_cache", "country_code", "TEXT")
+	addColumnIfMissing("trivia_scores", "ip_address", "TEXT")
+
 	fmt.Println("Analytics DB initialized")
+}
+
+// addColumnIfMissing adds a column to an existing table. SQLite has no
+// "ADD COLUMN IF NOT EXISTS", so the duplicate-column error is the expected
+// (and harmless) result on databases that already have it.
+func addColumnIfMissing(table, column, decl string) {
+	_, err := analyticsDB.Exec(fmt.Sprintf("ALTER TABLE %s ADD COLUMN %s %s", table, column, decl))
+	if err != nil && !strings.Contains(err.Error(), "duplicate column name") {
+		fmt.Fprintf(os.Stderr, "Failed to add %s.%s: %v\n", table, column, err)
+	}
 }
 
 func getClientIP(r *http.Request) string {
@@ -238,16 +256,16 @@ func handleTriviaStatsDate(w http.ResponseWriter, r *http.Request) {
 
 	// Per-question accuracy
 	type questionStats struct {
-		QuestionID       string   `json:"question_id"`
-		Category         string   `json:"category"`
-		Question         string   `json:"question"`
-		Points           int      `json:"points"`
-		DisplayAnswer    string   `json:"display_answer"`
-		TotalAttempts    int      `json:"total_attempts"`
-		CorrectCount     int      `json:"correct_count"`
-		CorrectPct       float64  `json:"correct_pct"`
-		FirstAttemptPct  float64  `json:"first_attempt_correct_pct"`
-		TopWrongAnswers  []string `json:"top_wrong_answers"`
+		QuestionID      string   `json:"question_id"`
+		Category        string   `json:"category"`
+		Question        string   `json:"question"`
+		Points          int      `json:"points"`
+		DisplayAnswer   string   `json:"display_answer"`
+		TotalAttempts   int      `json:"total_attempts"`
+		CorrectCount    int      `json:"correct_count"`
+		CorrectPct      float64  `json:"correct_pct"`
+		FirstAttemptPct float64  `json:"first_attempt_correct_pct"`
+		TopWrongAnswers []string `json:"top_wrong_answers"`
 	}
 
 	// Look up the trivia day for question metadata
@@ -441,11 +459,11 @@ func handleTriviaStatsDate(w http.ResponseWriter, r *http.Request) {
 			"mobile":  mobile,
 			"desktop": desktop,
 		},
-		"hourly":         hourly,
-		"avg_score":      avgScore,
-		"max_score":      maxScore,
-		"total_players":  totalPlayers,
-		"retry_players":  retryPlayers,
+		"hourly":        hourly,
+		"avg_score":     avgScore,
+		"max_score":     maxScore,
+		"total_players": totalPlayers,
+		"retry_players": retryPlayers,
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -453,38 +471,72 @@ func handleTriviaStatsDate(w http.ResponseWriter, r *http.Request) {
 }
 
 type geoInfo struct {
-	Country string  `json:"country"`
-	Region  string  `json:"region"`
-	City    string  `json:"city"`
-	Lat     float64 `json:"lat"`
-	Lon     float64 `json:"lon"`
-	ISP     string  `json:"isp"`
-	Org     string  `json:"org"`
+	Country     string  `json:"country"`
+	CountryCode string  `json:"country_code"`
+	Region      string  `json:"region"`
+	City        string  `json:"city"`
+	Lat         float64 `json:"lat"`
+	Lon         float64 `json:"lon"`
+	ISP         string  `json:"isp"`
+	Org         string  `json:"org"`
+}
+
+// isPrivateIP reports whether an address is loopback or RFC1918 and therefore
+// pointless (and unresolvable) to send to a geo lookup service.
+func isPrivateIP(ip string) bool {
+	return strings.HasPrefix(ip, "127.") || strings.HasPrefix(ip, "10.") ||
+		strings.HasPrefix(ip, "192.168.") || strings.HasPrefix(ip, "172.") ||
+		ip == "::1" || ip == "localhost"
+}
+
+// COALESCE guards rows written before country_code existed, which would
+// otherwise fail to scan into a string and look like a cache miss.
+const geoCacheSelect = `SELECT COALESCE(country,''), COALESCE(country_code,''), COALESCE(region,''),
+	COALESCE(city,''), COALESCE(lat,0), COALESCE(lon,0), COALESCE(isp,''), COALESCE(org,'')
+	FROM ip_geo_cache WHERE ip_address = ?`
+
+// lookupGeoCached returns geo data for the given IPs from the local cache only.
+// It never calls out to ip-api.com, so it is safe to use on public request paths.
+func lookupGeoCached(ips []string) map[string]*geoInfo {
+	result := make(map[string]*geoInfo)
+	if analyticsDB == nil {
+		return result
+	}
+	for _, ip := range ips {
+		if ip == "" || isPrivateIP(ip) {
+			continue
+		}
+		if _, done := result[ip]; done {
+			continue
+		}
+		var geo geoInfo
+		err := analyticsDB.QueryRow(geoCacheSelect, ip).Scan(
+			&geo.Country, &geo.CountryCode, &geo.Region, &geo.City,
+			&geo.Lat, &geo.Lon, &geo.ISP, &geo.Org,
+		)
+		if err == nil {
+			result[ip] = &geo
+		}
+	}
+	return result
 }
 
 // resolveGeoIPs looks up geo data for the given IPs, using the cache first
 // and batch-resolving any misses via ip-api.com.
 func resolveGeoIPs(ips []string) map[string]*geoInfo {
-	result := make(map[string]*geoInfo)
-	var uncached []string
+	result := lookupGeoCached(ips)
 
+	var uncached []string
+	queued := map[string]bool{}
 	for _, ip := range ips {
-		// Skip private/local IPs
-		if strings.HasPrefix(ip, "127.") || strings.HasPrefix(ip, "10.") ||
-			strings.HasPrefix(ip, "192.168.") || strings.HasPrefix(ip, "172.") ||
-			ip == "::1" || ip == "localhost" {
+		if ip == "" || isPrivateIP(ip) || queued[ip] {
 			continue
 		}
-
-		var geo geoInfo
-		err := analyticsDB.QueryRow(
-			`SELECT country, region, city, lat, lon, isp, org FROM ip_geo_cache WHERE ip_address = ?`, ip,
-		).Scan(&geo.Country, &geo.Region, &geo.City, &geo.Lat, &geo.Lon, &geo.ISP, &geo.Org)
-		if err == nil {
-			result[ip] = &geo
-		} else {
-			uncached = append(uncached, ip)
+		if _, cached := result[ip]; cached {
+			continue
 		}
+		queued[ip] = true
+		uncached = append(uncached, ip)
 	}
 
 	if len(uncached) == 0 {
@@ -507,7 +559,7 @@ func resolveGeoIPs(ips []string) map[string]*geoInfo {
 		for _, ip := range chunk {
 			batch = append(batch, batchQuery{
 				Query:  ip,
-				Fields: "query,country,regionName,city,lat,lon,isp,org,status",
+				Fields: "query,country,countryCode,regionName,city,lat,lon,isp,org,status",
 			})
 		}
 
@@ -525,15 +577,16 @@ func resolveGeoIPs(ips []string) map[string]*geoInfo {
 		}
 
 		var results []struct {
-			Status     string  `json:"status"`
-			Query      string  `json:"query"`
-			Country    string  `json:"country"`
-			RegionName string  `json:"regionName"`
-			City       string  `json:"city"`
-			Lat        float64 `json:"lat"`
-			Lon        float64 `json:"lon"`
-			ISP        string  `json:"isp"`
-			Org        string  `json:"org"`
+			Status      string  `json:"status"`
+			Query       string  `json:"query"`
+			Country     string  `json:"country"`
+			CountryCode string  `json:"countryCode"`
+			RegionName  string  `json:"regionName"`
+			City        string  `json:"city"`
+			Lat         float64 `json:"lat"`
+			Lon         float64 `json:"lon"`
+			ISP         string  `json:"isp"`
+			Org         string  `json:"org"`
 		}
 		if err := json.NewDecoder(resp.Body).Decode(&results); err != nil {
 			fmt.Fprintf(os.Stderr, "GeoIP decode error: %v\n", err)
@@ -548,26 +601,75 @@ func resolveGeoIPs(ips []string) map[string]*geoInfo {
 				continue
 			}
 			geo := &geoInfo{
-				Country: r.Country,
-				Region:  r.RegionName,
-				City:    r.City,
-				Lat:     r.Lat,
-				Lon:     r.Lon,
-				ISP:     r.ISP,
-				Org:     r.Org,
+				Country:     r.Country,
+				CountryCode: r.CountryCode,
+				Region:      r.RegionName,
+				City:        r.City,
+				Lat:         r.Lat,
+				Lon:         r.Lon,
+				ISP:         r.ISP,
+				Org:         r.Org,
 			}
 			result[r.Query] = geo
 
 			// Cache in DB
 			analyticsDB.Exec(
-				`INSERT OR REPLACE INTO ip_geo_cache (ip_address, country, region, city, lat, lon, isp, org, resolved_at)
-				 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-				r.Query, geo.Country, geo.Region, geo.City, geo.Lat, geo.Lon, geo.ISP, geo.Org, now,
+				`INSERT OR REPLACE INTO ip_geo_cache (ip_address, country, country_code, region, city, lat, lon, isp, org, resolved_at)
+				 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+				r.Query, geo.Country, geo.CountryCode, geo.Region, geo.City, geo.Lat, geo.Lon, geo.ISP, geo.Org, now,
 			)
 		}
 	}
 
 	return result
+}
+
+// geoWarmCooldown bounds how often a single unresolved IP may be re-sent to ip-api.com.
+const geoWarmCooldown = time.Hour
+
+var (
+	geoWarmMu sync.Mutex
+	geoWarmAt = map[string]time.Time{}
+)
+
+// warmGeoCache resolves any of the given IPs that aren't cached yet, in the background.
+// Public request paths read the cache only, so this is what eventually fills it — throttled
+// per IP so an address ip-api.com can't resolve doesn't turn every page load into an
+// outbound request.
+func warmGeoCache(ips []string) {
+	if analyticsDB == nil || len(ips) == 0 {
+		return
+	}
+	cached := lookupGeoCached(ips)
+	now := time.Now()
+
+	geoWarmMu.Lock()
+	if len(geoWarmAt) > 1000 {
+		for ip, at := range geoWarmAt {
+			if now.Sub(at) >= geoWarmCooldown {
+				delete(geoWarmAt, ip)
+			}
+		}
+	}
+	var pending []string
+	for _, ip := range ips {
+		if ip == "" || isPrivateIP(ip) {
+			continue
+		}
+		if _, ok := cached[ip]; ok {
+			continue
+		}
+		if last, ok := geoWarmAt[ip]; ok && now.Sub(last) < geoWarmCooldown {
+			continue
+		}
+		geoWarmAt[ip] = now
+		pending = append(pending, ip)
+	}
+	geoWarmMu.Unlock()
+
+	if len(pending) > 0 {
+		go resolveGeoIPs(pending)
+	}
 }
 
 func handleTriviaStatsIPs(w http.ResponseWriter, r *http.Request) {

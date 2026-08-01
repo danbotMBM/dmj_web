@@ -288,8 +288,9 @@ var attemptMu sync.Mutex
 // recordAnswer applies a server-validated answer to the player's attempt for the given
 // board and returns the authoritative running totals. The score is derived entirely from
 // server-side validation; the first completed attempt per (date, player) is locked into
-// trivia_scores and never overwritten ("only the first submission counts").
-func recordAnswer(date, playerID, qid string, correct bool, points, totalQuestions, maxScore int) {
+// trivia_scores and never overwritten ("only the first submission counts"). The submitting
+// connection's IP is stored with that score so the leaderboard can show a geo tag.
+func recordAnswer(date, playerID, qid, ip string, correct bool, points, totalQuestions, maxScore int) {
 	if analyticsDB == nil {
 		return
 	}
@@ -340,13 +341,17 @@ func recordAnswer(date, playerID, qid string, correct bool, points, totalQuestio
 
 	if gameOver {
 		res, err := analyticsDB.Exec(`
-			INSERT INTO trivia_scores (trivia_date, player_id, score, max_score, completed_at)
-			VALUES (?, ?, ?, ?, ?)
+			INSERT INTO trivia_scores (trivia_date, player_id, score, max_score, completed_at, ip_address)
+			VALUES (?, ?, ?, ?, ?, ?)
 			ON CONFLICT(trivia_date, player_id) DO NOTHING
-		`, date, playerID, score, maxScore, time.Now().UTC().Format(time.RFC3339))
+		`, date, playerID, score, maxScore, time.Now().UTC().Format(time.RFC3339), ip)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "trivia_scores insert error: %v\n", err)
 		} else if n, _ := res.RowsAffected(); n > 0 {
+			// Resolve this connection's location now so the leaderboard, which reads
+			// the geo cache only, has it ready without an outbound call on that path.
+			warmGeoCache([]string{ip})
+
 			// Genuine first completion for this player+board — announce it to Discord.
 			var total, ahead int
 			analyticsDB.QueryRow(`SELECT COUNT(*) FROM trivia_scores WHERE trivia_date=?`, date).Scan(&total)
@@ -398,7 +403,7 @@ func handleTriviaAnswer(w http.ResponseWriter, r *http.Request) {
 		for _, dq := range day.Questions {
 			maxScore += dq.Points
 		}
-		recordAnswer(reqDate, playerID, q.ID, correct, q.Points, len(day.Questions), maxScore)
+		recordAnswer(reqDate, playerID, q.ID, getClientIP(r), correct, q.Points, len(day.Questions), maxScore)
 	}
 
 	go trackEvent(r, "answer_submit", reqDate, req.ID, req.Answer, &correct, &q.Points)

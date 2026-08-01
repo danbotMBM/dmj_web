@@ -317,11 +317,24 @@
 
 .leaderboard .lb-name {
     flex: 1;
+    /* min-width:0 lets the flex item shrink so the ellipsis actually kicks in. */
+    min-width: 0;
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     color: var(--fgColor-default);
+}
+
+.leaderboard .lb-geo {
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 45%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.85em;
+    color: var(--fgColor-muted);
 }
 
 .leaderboard .lb-score {
