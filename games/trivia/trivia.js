@@ -249,13 +249,13 @@ function flagEmoji(code) {
 }
 
 // geoLabel builds the compact location tag shown beside a leaderboard name,
-// e.g. "🇺🇸 Buffalo". Returns null when the server had no location for the player.
+// e.g. "🇺🇸 New York". Returns null when the server had no location for the player.
 function geoLabel(geo) {
     if (!geo) return null;
-    const place = geo.city || geo.country || "";
+    const place = geo.region || geo.country || "";
     const text = [flagEmoji(geo.country_code), place].filter(Boolean).join(" ");
     if (!text) return null;
-    const parts = [geo.city, geo.country].filter(Boolean);
+    const parts = [geo.region, geo.country].filter(Boolean);
     return { text: text, title: parts.length ? parts.join(", ") : text };
 }
 
@@ -295,6 +295,71 @@ function renderLeaderboard(results) {
     } else {
         rankEl.textContent = "";
     }
+}
+
+async function fetchScoreboard() {
+    try {
+        const resp = await fetch(API_BASE + "/trivia/scoreboard" + dateQuery, {
+            headers: { "X-Player-ID": playerId },
+        });
+        if (!resp.ok) return null;
+        return await resp.json();
+    } catch (e) {
+        return null;
+    }
+}
+
+function renderScoreboard(data) {
+    const list = document.getElementById("scoreboard-list");
+    const dateEl = document.getElementById("scoreboard-date");
+    list.innerHTML = "";
+    dateEl.textContent = data && data.date ? data.date : "";
+
+    const entries = (data && data.entries) || [];
+    if (!entries.length) {
+        const li = document.createElement("li");
+        li.className = "leaderboard-empty";
+        li.textContent = "No one has played yet today — be the first!";
+        list.appendChild(li);
+        return;
+    }
+    for (const entry of entries) {
+        const li = document.createElement("li");
+        if (entry.me) li.classList.add("lb-me");
+        const name = document.createElement("span");
+        name.className = "lb-name";
+        name.textContent = entry.name;
+        li.appendChild(name);
+        const geo = geoLabel(entry.geo);
+        if (geo) {
+            const tag = document.createElement("span");
+            tag.className = "lb-geo";
+            tag.textContent = geo.text;
+            tag.title = geo.title;
+            li.appendChild(tag);
+        }
+        const score = document.createElement("span");
+        score.className = "lb-score";
+        score.textContent = entry.score;
+        li.appendChild(score);
+        list.appendChild(li);
+    }
+}
+
+function openScoreboard() {
+    const list = document.getElementById("scoreboard-list");
+    list.innerHTML = "";
+    const loading = document.createElement("li");
+    loading.className = "leaderboard-empty";
+    loading.textContent = "Loading…";
+    list.appendChild(loading);
+    document.getElementById("scoreboard-date").textContent = "";
+    document.getElementById("scoreboard-overlay").classList.remove("hidden");
+    fetchScoreboard().then(data => renderScoreboard(data));
+}
+
+function closeScoreboard() {
+    document.getElementById("scoreboard-overlay").classList.add("hidden");
 }
 
 // Check for ?date= URL parameter to load a specific day's trivia
@@ -657,6 +722,11 @@ async function syncFromId() {
 
 async function init() {
     migrateHistoryFromCookie();
+
+    // The scoreboard button is always available, even before (or if) the grid loads.
+    document.getElementById("scoreboard-btn").addEventListener("click", openScoreboard);
+    document.getElementById("scoreboard-close-btn").addEventListener("click", closeScoreboard);
+
     await syncRemoteStats();
 
     try {

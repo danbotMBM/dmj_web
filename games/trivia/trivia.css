@@ -139,10 +139,10 @@
     border-color: #3b82f6;
 }
 
-.settings-gear-btn {
+.settings-gear-btn,
+.scoreboard-btn {
     position: absolute;
     top: 12px;
-    right: 12px;
     background: none;
     border: none;
     cursor: pointer;
@@ -155,7 +155,16 @@
     transition: color 0.15s, background 0.15s;
 }
 
-.settings-gear-btn:hover {
+.settings-gear-btn {
+    right: 12px;
+}
+
+.scoreboard-btn {
+    left: 12px;
+}
+
+.settings-gear-btn:hover,
+.scoreboard-btn:hover {
     color: var(--fgColor-default);
     background: var(--bgColor-muted, rgba(0,0,0,0.06));
 }
@@ -340,6 +349,17 @@
 .leaderboard .lb-score {
     font-weight: 700;
     color: var(--fgColor-default);
+}
+
+.leaderboard li.lb-me {
+    background: rgba(59, 130, 246, 0.16);
+    outline: 1px solid rgba(59, 130, 246, 0.5);
+}
+
+.scoreboard-date {
+    color: var(--fgColor-muted);
+    margin-top: -6px;
+    margin-bottom: 14px;
 }
 
 .leaderboard .leaderboard-empty {

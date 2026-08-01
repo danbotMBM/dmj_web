@@ -130,12 +130,12 @@ func TestLeaderboardGeoTags(t *testing.T) {
 
 	want := []struct {
 		name   string
-		city   string
+		region string
 		code   string
 		hasGeo bool
 	}{
-		{"Dan", "Buffalo", "US", true},
-		{"Anonymous", "Munich", "DE", true},
+		{"Dan", "New York", "US", true},
+		{"Anonymous", "Bavaria", "DE", true},
 		{"Anonymous", "", "", false},
 	}
 	for i, w := range want {
@@ -151,11 +151,11 @@ func TestLeaderboardGeoTags(t *testing.T) {
 		if !w.hasGeo {
 			continue
 		}
-		if geo["city"] != w.city || geo["country_code"] != w.code {
-			t.Errorf("entry %d geo = %v, want city %q code %q", i, geo, w.city, w.code)
+		if geo["region"] != w.region || geo["country_code"] != w.code {
+			t.Errorf("entry %d geo = %v, want region %q code %q", i, geo, w.region, w.code)
 		}
-		// Coordinates, ISP, and org stay off the public leaderboard.
-		for _, field := range []string{"lat", "lon", "isp", "org"} {
+		// City, coordinates, ISP, and org stay off the public leaderboard.
+		for _, field := range []string{"city", "lat", "lon", "isp", "org"} {
 			if _, leaked := geo[field]; leaked {
 				t.Errorf("entry %d leaked %s into the public payload: %v", i, field, geo)
 			}
