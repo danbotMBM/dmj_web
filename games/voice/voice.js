@@ -1,5 +1,5 @@
 import { API_BASE } from "/utils.js";
-import { WORLD_W, WORLD_H, PLAYER_RADIUS, SCALE, rooms, walls, spawnPoint, resolveCollision, hasLineOfSight } from "/games/voice/house.js";
+import { WORLD_W, WORLD_H, PLAYER_RADIUS, SCALE, rooms, walls, spawnPoint, resolveCollision, hasLineOfSight, findPath } from "/games/voice/house.js";
 
 // ---------------------------------------------------------------------------
 // Voice Room client — a WebRTC mesh (coordinated by the Go signaling server)
@@ -86,7 +86,7 @@ let selfName = "";
 let selfColor = PALETTE[0];
 let selfToken = "";
 let selfPos = { ...spawnPoint };
-let moveTarget = null;
+let movePath = []; // queue of waypoints (world points) still to walk through
 const MOVE_SPEED = 260 * SCALE; // world units / second
 let lastMoveSend = 0;
 let lastMoveSentPos = { x: -1, y: -1 };
@@ -491,7 +491,7 @@ function updateRoster() {
 // A fixed zoom (CSS pixels per world unit) rather than fitting the whole
 // world into the viewport — the house is bigger than any single screen, so a
 // camera follows the player around it instead.
-const PX_PER_UNIT = 0.8;
+const PX_PER_UNIT = 0.4;
 let canvasScale = 1, canvasOffsetX = 0, canvasOffsetY = 0;
 const camera = { x: spawnPoint.x, y: spawnPoint.y };
 const CAMERA_LERP = 6; // higher = snappier follow
@@ -539,6 +539,9 @@ function clientToWorld(clientX, clientY) {
   };
 }
 
+let lastPickAt = 0;
+let lastPickTarget = null;
+
 function setupCanvasInput() {
   canvas.style.touchAction = "none";
   let pointerDown = false;
@@ -546,7 +549,19 @@ function setupCanvasInput() {
   const pick = (e) => {
     const { x, y } = clientToWorld(e.clientX, e.clientY);
     if (x < 0 || y < 0 || x > WORLD_W || y > WORLD_H) return;
-    moveTarget = { x, y };
+
+    // Throttle pathfinding during a drag: recompute only when the pointer
+    // has moved meaningfully or enough time has passed, not on every event.
+    const now = performance.now();
+    if (lastPickTarget) {
+      const moved = Math.hypot(x - lastPickTarget.x, y - lastPickTarget.y) > 20 * SCALE;
+      if (!moved && now - lastPickAt < 120) return;
+    }
+    lastPickAt = now;
+    lastPickTarget = { x, y };
+
+    const path = findPath(selfPos, { x, y });
+    if (path && path.length) movePath = path;
   };
 
   canvas.addEventListener("pointerdown", (e) => {
@@ -580,20 +595,27 @@ function tick(ts) {
 requestAnimationFrame(tick);
 
 function stepMovement(dt) {
-  if (moveTarget) {
-    const dx = moveTarget.x - selfPos.x, dy = moveTarget.y - selfPos.y;
+  let budget = MOVE_SPEED * dt;
+  // Consume the frame's movement budget across as many waypoints as needed
+  // (a waypoint is usually well under one frame's travel distance) so the
+  // walk doesn't stall for a tick at each corner of the path.
+  while (budget > 0 && movePath.length) {
+    const wp = movePath[0];
+    const dx = wp.x - selfPos.x, dy = wp.y - selfPos.y;
     const dist = Math.hypot(dx, dy);
     if (dist < 2 * SCALE) {
-      moveTarget = null;
-    } else {
-      const step = Math.min(dist, MOVE_SPEED * dt);
-      selfPos.x += (dx / dist) * step;
-      selfPos.y += (dy / dist) * step;
-      const resolved = resolveCollision(selfPos.x, selfPos.y);
-      selfPos.x = resolved.x;
-      selfPos.y = resolved.y;
+      movePath.shift();
+      continue;
     }
+    const step = Math.min(dist, budget);
+    selfPos.x += (dx / dist) * step;
+    selfPos.y += (dy / dist) * step;
+    budget -= step;
+    if (step >= dist) movePath.shift();
   }
+  const resolved = resolveCollision(selfPos.x, selfPos.y);
+  selfPos.x = resolved.x;
+  selfPos.y = resolved.y;
 
   const now = performance.now();
   const moved = Math.hypot(selfPos.x - lastMoveSentPos.x, selfPos.y - lastMoveSentPos.y) > 1 * SCALE;
