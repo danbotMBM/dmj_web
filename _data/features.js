@@ -26,9 +26,8 @@ const cards = {
     title: "Voice Room",
     href: "/games/voice/",
     blurb: [
-      "Drop into a live voice chat for up to 6 people, no download or sign-up",
-      "Talk over peer-to-peer audio and set each person's volume with a slider",
-      "Groundwork for proximity chat — volume that follows you around a space",
+      "Single room proximity chat",
+      "Spacial discord ... or something like that",
     ],
   },
   bingo: {
@@ -150,6 +149,7 @@ const cards = {
 module.exports = {
   home: [
     cards.trivia,
+    cards.indiana_bones,
     cards.recall,
     cards.holdem,
     cards.race_results,
@@ -170,6 +170,7 @@ module.exports = {
     cards.gallery,
   ],
   games: [
+    cards.indiana_bones,
     cards.voice,
     cards.holdem,
     cards.trivia,
@@ -177,6 +178,5 @@ module.exports = {
     cards.raytrace3d,
     cards.raytrace2d,
     cards.doggone,
-    cards.indiana_bones,
   ],
 };
