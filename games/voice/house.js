@@ -8,35 +8,41 @@
 // in voice.js), so the layout itself never has to think about aspect ratio.
 // ---------------------------------------------------------------------------
 
-export const WORLD_W = 960;
-export const WORLD_H = 600;
-export const PLAYER_RADIUS = 15;
+// The whole layout is uniformly scaled up from an earlier 960x600 design so
+// the house is large enough to require real walking/camera panning, while
+// every proportion (room size vs. player vs. audio ranges) stays identical.
+export const SCALE = 3;
+
+export const WORLD_W = 960 * SCALE;
+export const WORLD_H = 600 * SCALE;
+export const PLAYER_RADIUS = 15 * SCALE;
 
 // Four quadrant rooms around a central crossroads. Room rects are used for
 // rendering (floor fill, labels, decor) and for placing the spawn point;
 // movement/collision/line-of-sight only care about the wall segments below.
 export const rooms = [
-  { id: "living", label: "Living Room", rect: [10, 10, 470, 290] },
-  { id: "game", label: "Game Room", rect: [490, 10, 950, 290], table: { cx: 720, cy: 150, r: 55 } },
-  { id: "tv", label: "TV Room", rect: [10, 310, 470, 590], tv: { x: 30, y: 320, w: 140, h: 16 } },
-  { id: "private", label: "Private Room", rect: [490, 310, 950, 590] },
+  { id: "living", label: "Living Room", rect: [10, 10, 470, 290].map((n) => n * SCALE) },
+  { id: "game", label: "Game Room", rect: [490, 10, 950, 290].map((n) => n * SCALE), table: { cx: 720 * SCALE, cy: 150 * SCALE, r: 55 * SCALE } },
+  { id: "tv", label: "TV Room", rect: [10, 310, 470, 590].map((n) => n * SCALE), tv: { x: 30 * SCALE, y: 320 * SCALE, w: 140 * SCALE, h: 16 * SCALE } },
+  { id: "private", label: "Private Room", rect: [490, 310, 950, 590].map((n) => n * SCALE) },
 ];
 
 // Interior walls dividing the four rooms, each with a doorway gap. The gaps
 // overlap at the middle so the four rooms all meet at one open crossroads
 // rather than a blind four-way corner.
-const DOOR = { v: [260, 340], h: [440, 520] }; // [start, end] gap along each divider
+const DOOR = { v: [260 * SCALE, 340 * SCALE], h: [440 * SCALE, 520 * SCALE] }; // [start, end] gap along each divider
+const DIVIDER_X = 480 * SCALE, DIVIDER_Y = 300 * SCALE;
 
 export const walls = [
-  // vertical divider at x=480, split around the doorway gap
-  { x1: 480, y1: 0, x2: 480, y2: DOOR.v[0] },
-  { x1: 480, y1: DOOR.v[1], x2: 480, y2: WORLD_H },
-  // horizontal divider at y=300, split around the doorway gap
-  { x1: 0, y1: 300, x2: DOOR.h[0], y2: 300 },
-  { x1: DOOR.h[1], y1: 300, x2: WORLD_W, y2: 300 },
+  // vertical divider, split around the doorway gap
+  { x1: DIVIDER_X, y1: 0, x2: DIVIDER_X, y2: DOOR.v[0] },
+  { x1: DIVIDER_X, y1: DOOR.v[1], x2: DIVIDER_X, y2: WORLD_H },
+  // horizontal divider, split around the doorway gap
+  { x1: 0, y1: DIVIDER_Y, x2: DOOR.h[0], y2: DIVIDER_Y },
+  { x1: DOOR.h[1], y1: DIVIDER_Y, x2: WORLD_W, y2: DIVIDER_Y },
 ];
 
-export const spawnPoint = { x: 240, y: 150 }; // center of the living room
+export const spawnPoint = { x: 240 * SCALE, y: 150 * SCALE }; // center of the living room
 
 // --- geometry helpers --------------------------------------------------------
 
@@ -56,7 +62,7 @@ export function resolveCollision(x, y, radius = PLAYER_RADIUS) {
     const c = closestPointOnSegment(px, py, w.x1, w.y1, w.x2, w.y2);
     const dx = px - c.x, dy = py - c.y;
     const dist = Math.hypot(dx, dy);
-    const minDist = radius + 3; // half wall thickness
+    const minDist = radius + 3 * SCALE; // half wall thickness
     if (dist < minDist) {
       if (dist === 0) {
         // Degenerate (dead center on the wall line): push along the wall's normal.

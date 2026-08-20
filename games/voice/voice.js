@@ -1,5 +1,5 @@
 import { API_BASE } from "/utils.js";
-import { WORLD_W, WORLD_H, PLAYER_RADIUS, rooms, walls, spawnPoint, resolveCollision, hasLineOfSight } from "/games/voice/house.js";
+import { WORLD_W, WORLD_H, PLAYER_RADIUS, SCALE, rooms, walls, spawnPoint, resolveCollision, hasLineOfSight } from "/games/voice/house.js";
 
 // ---------------------------------------------------------------------------
 // Voice Room client — a WebRTC mesh (coordinated by the Go signaling server)
@@ -27,9 +27,11 @@ const TOKEN_KEY = "dmj-voice-token";
 const PALETTE = ["#5b8def", "#e0575b", "#3ec46d", "#f2b134", "#b56ce2", "#37c4c4", "#e0729a", "#c9822e"];
 
 // --- spatial audio model -----------------------------------------------------
-const FULL_VOLUME_R = 90;    // full volume out to this distance
-const LOS_SILENCE_R = 420;   // max reach with a clear line of sight
-const MUFFLED_SILENCE_R = 190; // max reach through a wall
+// Ranges scale with the house's SCALE factor so they stay proportional to
+// room size regardless of how large the world is.
+const FULL_VOLUME_R = 90 * SCALE;    // full volume out to this distance
+const LOS_SILENCE_R = 420 * SCALE;   // max reach with a clear line of sight
+const MUFFLED_SILENCE_R = 190 * SCALE; // max reach through a wall
 const MUFFLE_FACTOR = 0.35;  // volume multiplier when blocked by a wall
 
 function falloff(d, maxR) {
@@ -85,7 +87,7 @@ let selfColor = PALETTE[0];
 let selfToken = "";
 let selfPos = { ...spawnPoint };
 let moveTarget = null;
-const MOVE_SPEED = 260; // world units / second
+const MOVE_SPEED = 260 * SCALE; // world units / second
 let lastMoveSend = 0;
 let lastMoveSentPos = { x: -1, y: -1 };
 const peers = new Map(); // id -> { name, color, x, y, pc, gain, volumeMult, audioEl, analyser, speaking, pending: [], els }
@@ -264,7 +266,7 @@ async function join() {
 }
 
 function jitteredSpawn() {
-  const jitter = () => (Math.random() - 0.5) * 60;
+  const jitter = () => (Math.random() - 0.5) * 60 * SCALE;
   return resolveCollision(spawnPoint.x + jitter(), spawnPoint.y + jitter());
 }
 
@@ -485,8 +487,14 @@ function updateRoster() {
   }
 }
 
-// --- movement & canvas input -------------------------------------------------
+// --- camera & canvas input ----------------------------------------------------
+// A fixed zoom (CSS pixels per world unit) rather than fitting the whole
+// world into the viewport — the house is bigger than any single screen, so a
+// camera follows the player around it instead.
+const PX_PER_UNIT = 0.8;
 let canvasScale = 1, canvasOffsetX = 0, canvasOffsetY = 0;
+const camera = { x: spawnPoint.x, y: spawnPoint.y };
+const CAMERA_LERP = 6; // higher = snappier follow
 
 function fitCanvas() {
   const rect = canvasWrap.getBoundingClientRect();
@@ -495,13 +503,30 @@ function fitCanvas() {
   canvas.height = Math.round(rect.height * dpr);
   canvas.style.width = rect.width + "px";
   canvas.style.height = rect.height + "px";
-
-  canvasScale = Math.min(rect.width / WORLD_W, rect.height / WORLD_H) * dpr;
-  canvasOffsetX = (canvas.width - WORLD_W * canvasScale) / 2;
-  canvasOffsetY = (canvas.height - WORLD_H * canvasScale) / 2;
+  canvasScale = PX_PER_UNIT * dpr;
 }
 window.addEventListener("resize", fitCanvas);
 fitCanvas();
+
+// Moves the camera toward the target point (the player once joined, the
+// spawn point beforehand) and keeps the viewport inside the world so you
+// never see past its edges.
+function updateCamera(dt) {
+  const target = hasJoined ? selfPos : spawnPoint;
+  const t = 1 - Math.exp(-CAMERA_LERP * dt);
+  camera.x += (target.x - camera.x) * t;
+  camera.y += (target.y - camera.y) * t;
+
+  const halfViewW = canvas.width / canvasScale / 2;
+  const halfViewH = canvas.height / canvasScale / 2;
+  camera.x = WORLD_W <= halfViewW * 2 ? WORLD_W / 2 : clamp(camera.x, halfViewW, WORLD_W - halfViewW);
+  camera.y = WORLD_H <= halfViewH * 2 ? WORLD_H / 2 : clamp(camera.y, halfViewH, WORLD_H - halfViewH);
+
+  canvasOffsetX = canvas.width / 2 - camera.x * canvasScale;
+  canvasOffsetY = canvas.height / 2 - camera.y * canvasScale;
+}
+
+function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
 
 function clientToWorld(clientX, clientY) {
   const rect = canvas.getBoundingClientRect();
@@ -547,6 +572,7 @@ function tick(ts) {
     updateGains();
     updateSpeakingIndicators();
   }
+  updateCamera(dt);
   draw();
 
   requestAnimationFrame(tick);
@@ -557,7 +583,7 @@ function stepMovement(dt) {
   if (moveTarget) {
     const dx = moveTarget.x - selfPos.x, dy = moveTarget.y - selfPos.y;
     const dist = Math.hypot(dx, dy);
-    if (dist < 2) {
+    if (dist < 2 * SCALE) {
       moveTarget = null;
     } else {
       const step = Math.min(dist, MOVE_SPEED * dt);
@@ -570,7 +596,7 @@ function stepMovement(dt) {
   }
 
   const now = performance.now();
-  const moved = Math.hypot(selfPos.x - lastMoveSentPos.x, selfPos.y - lastMoveSentPos.y) > 1;
+  const moved = Math.hypot(selfPos.x - lastMoveSentPos.x, selfPos.y - lastMoveSentPos.y) > 1 * SCALE;
   if (moved && now - lastMoveSend > 80) {
     lastMoveSend = now;
     lastMoveSentPos = { x: selfPos.x, y: selfPos.y };
@@ -631,15 +657,15 @@ function drawRooms() {
     const [x1, y1, x2, y2] = room.rect;
     ctx2d.fillStyle = floor;
     ctx2d.strokeStyle = border;
-    ctx2d.lineWidth = 2;
-    roundRect(x1, y1, x2 - x1, y2 - y1, 14);
+    ctx2d.lineWidth = 2 * SCALE;
+    roundRect(x1, y1, x2 - x1, y2 - y1, 14 * SCALE);
     ctx2d.fill();
     ctx2d.stroke();
 
     ctx2d.fillStyle = label;
-    ctx2d.font = "600 15px system-ui, sans-serif";
+    ctx2d.font = `600 ${15 * SCALE}px system-ui, sans-serif`;
     ctx2d.textBaseline = "top";
-    ctx2d.fillText(room.label, x1 + 14, y1 + 12);
+    ctx2d.fillText(room.label, x1 + 14 * SCALE, y1 + 12 * SCALE);
 
     if (room.table) {
       ctx2d.fillStyle = "#8a5a34";
@@ -647,13 +673,13 @@ function drawRooms() {
       ctx2d.arc(room.table.cx, room.table.cy, room.table.r, 0, Math.PI * 2);
       ctx2d.fill();
       ctx2d.strokeStyle = "#6b4426";
-      ctx2d.lineWidth = 3;
+      ctx2d.lineWidth = 3 * SCALE;
       ctx2d.stroke();
     }
     if (room.tv) {
       ctx2d.fillStyle = "#111418";
       ctx2d.strokeStyle = accent;
-      ctx2d.lineWidth = 2;
+      ctx2d.lineWidth = 2 * SCALE;
       ctx2d.fillRect(room.tv.x, room.tv.y, room.tv.w, room.tv.h);
       ctx2d.strokeRect(room.tv.x, room.tv.y, room.tv.w, room.tv.h);
     }
@@ -672,7 +698,7 @@ function roundRect(x, y, w, h, r) {
 
 function drawWalls() {
   ctx2d.strokeStyle = getCss("--fgColor-default") || "#e6edf3";
-  ctx2d.lineWidth = 6;
+  ctx2d.lineWidth = 6 * SCALE;
   ctx2d.lineCap = "round";
   for (const w of walls) {
     ctx2d.beginPath();
@@ -687,8 +713,8 @@ function drawWalls() {
 function drawReachRing() {
   ctx2d.save();
   ctx2d.strokeStyle = "rgba(120,150,255,0.28)";
-  ctx2d.setLineDash([6, 8]);
-  ctx2d.lineWidth = 2;
+  ctx2d.setLineDash([6 * SCALE, 8 * SCALE]);
+  ctx2d.lineWidth = 2 * SCALE;
   ctx2d.beginPath();
   ctx2d.arc(selfPos.x, selfPos.y, LOS_SILENCE_R, 0, Math.PI * 2);
   ctx2d.stroke();
@@ -707,9 +733,9 @@ function drawPlayers() {
 function drawPlayer(x, y, color, name, speaking, isSelf) {
   if (speaking) {
     ctx2d.beginPath();
-    ctx2d.arc(x, y, PLAYER_RADIUS + 6, 0, Math.PI * 2);
+    ctx2d.arc(x, y, PLAYER_RADIUS + 6 * SCALE, 0, Math.PI * 2);
     ctx2d.strokeStyle = "#3ec46d";
-    ctx2d.lineWidth = 3;
+    ctx2d.lineWidth = 3 * SCALE;
     ctx2d.stroke();
   }
 
@@ -718,17 +744,17 @@ function drawPlayer(x, y, color, name, speaking, isSelf) {
   ctx2d.fillStyle = color;
   ctx2d.fill();
   ctx2d.strokeStyle = isSelf ? "#ffffff" : "rgba(0,0,0,0.35)";
-  ctx2d.lineWidth = isSelf ? 3 : 2;
+  ctx2d.lineWidth = (isSelf ? 3 : 2) * SCALE;
   ctx2d.stroke();
 
-  ctx2d.font = "700 13px system-ui, sans-serif";
+  ctx2d.font = `700 ${13 * SCALE}px system-ui, sans-serif`;
   ctx2d.textAlign = "center";
   ctx2d.textBaseline = "bottom";
-  ctx2d.lineWidth = 3;
+  ctx2d.lineWidth = 3 * SCALE;
   ctx2d.strokeStyle = "rgba(0,0,0,0.65)";
-  ctx2d.strokeText(name, x, y - PLAYER_RADIUS - 6);
+  ctx2d.strokeText(name, x, y - PLAYER_RADIUS - 6 * SCALE);
   ctx2d.fillStyle = "#fff";
-  ctx2d.fillText(name, x, y - PLAYER_RADIUS - 6);
+  ctx2d.fillText(name, x, y - PLAYER_RADIUS - 6 * SCALE);
   ctx2d.textAlign = "left";
 }
 
