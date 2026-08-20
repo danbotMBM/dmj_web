@@ -7,9 +7,20 @@ extraCss:
 {% extends "layouts/base.njk" %}
 
 {% block content %}
-<main class="page">
-    <article class="markdown-body">
-        <h1 style="text-align:center;">Voice Room</h1>
+<div id="canvas-wrap" class="canvas-wrap">
+    <canvas id="house-canvas"></canvas>
+</div>
+
+<button id="btn-menu" class="menu-btn" aria-expanded="false" aria-controls="side-menu" title="Menu">
+    <span class="menu-btn-icon">☰</span>
+</button>
+
+<div id="menu-backdrop" class="menu-backdrop hidden"></div>
+
+<aside id="side-menu" class="side-menu" aria-label="Voice room menu">
+    <div class="side-menu__inner">
+        <a href="/" class="menu-home-link">← danbot lab</a>
+        <h1 class="menu-title">Voice Room</h1>
         <p id="status-banner" class="status-banner">Connecting…</p>
 
         <div id="self-bar" class="self-bar hidden">
@@ -20,50 +31,42 @@ extraCss:
                     <div id="self-level-bar" class="level-bar"></div>
                 </div>
             </div>
-            <button id="btn-settings" class="act-btn icon-btn hidden" aria-expanded="false" aria-controls="settings-drawer" title="Settings">⚙️</button>
             <button id="btn-leave" class="act-btn fold">Leave</button>
         </div>
 
-        <div id="canvas-wrap" class="canvas-wrap hidden">
-            <canvas id="house-canvas"></canvas>
-        </div>
+        <section class="settings-section">
+            <h3>Your name</h3>
+            <input type="text" id="settings-name" maxlength="16" autocomplete="off" placeholder="Your name…">
+        </section>
 
-        <div id="settings-drawer" class="settings-drawer">
-            <section class="settings-section">
-                <h3>Your name</h3>
-                <input type="text" id="settings-name" maxlength="16" autocomplete="off" placeholder="Your name…">
-            </section>
+        <section class="settings-section">
+            <h3>Your color</h3>
+            <div id="settings-color-row" class="color-row"></div>
+        </section>
 
-            <section class="settings-section">
-                <h3>Your color</h3>
-                <div id="settings-color-row" class="color-row"></div>
-            </section>
+        <section class="settings-section">
+            <h3>Player token</h3>
+            <p class="settings-hint">Your name and color are saved under this token. Copy it to restore your
+                identity on another device, or paste one here to load a saved profile.</p>
+            <div class="token-row">
+                <input type="text" id="settings-token" readonly>
+                <button id="settings-token-copy" class="act-btn small" type="button">Copy</button>
+            </div>
+            <div class="token-row">
+                <input type="text" id="settings-token-input" placeholder="Paste a token to load…" autocomplete="off">
+                <button id="settings-token-load" class="act-btn small" type="button">Load</button>
+            </div>
+            <p id="settings-token-msg" class="settings-msg"></p>
+        </section>
 
-            <section class="settings-section">
-                <h3>Player token</h3>
-                <p class="settings-hint">Your name and color are saved under this token. Copy it to restore your
-                    identity on another device, or paste one here to load a saved profile.</p>
-                <div class="token-row">
-                    <input type="text" id="settings-token" readonly>
-                    <button id="settings-token-copy" class="act-btn small" type="button">Copy</button>
-                </div>
-                <div class="token-row">
-                    <input type="text" id="settings-token-input" placeholder="Paste a token to load…" autocomplete="off">
-                    <button id="settings-token-load" class="act-btn small" type="button">Load</button>
-                </div>
-                <p id="settings-token-msg" class="settings-msg"></p>
-            </section>
-
-            <section class="settings-section">
-                <h3>Volume per person</h3>
-                <div id="peer-volume-list" class="peer-volume-list"></div>
-            </section>
-        </div>
+        <section class="settings-section">
+            <h3>Volume per person</h3>
+            <div id="peer-volume-list" class="peer-volume-list"></div>
+        </section>
 
         <p id="room-hint" class="room-hint">
             Click or tap the floor to walk. Volume follows distance and line of sight — full
-            volume up close, a faint murmur through walls, silence across the house. Sliders in
-            the settings menu (⚙️) boost or cut a specific person on top of that.
+            volume up close, a faint murmur through walls, silence across the house.
         </p>
 
         <details id="how-it-works">
@@ -76,14 +79,14 @@ extraCss:
             <p>Volume is <strong>proximity and line-of-sight based</strong>: walk close to
             someone with a clear line of sight for full volume, hear a muffled murmur from
             adjacent rooms through the wall, and lose someone entirely once they're far enough
-            away. Each person also has a <strong>volume slider</strong> in the settings menu that
-            boosts or cuts them on top of that.</p>
+            away. Each person also has a <strong>volume slider</strong> above that boosts or cuts
+            them on top of that.</p>
             <p>Some restrictive or corporate networks block direct connections. If someone can't
             be heard, a relay (TURN) server would be needed — not yet configured for this casual
             room.</p>
         </details>
-    </article>
-</main>
+    </div>
+</aside>
 
 <!-- Name prompt -->
 <div id="name-overlay" class="overlay">

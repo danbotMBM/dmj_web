@@ -60,8 +60,9 @@ const nameError = document.getElementById("name-error");
 const nameSubmit = document.getElementById("name-submit");
 const joinColorRow = document.getElementById("join-color-row");
 
-const btnSettings = document.getElementById("btn-settings");
-const settingsDrawer = document.getElementById("settings-drawer");
+const btnMenu = document.getElementById("btn-menu");
+const sideMenu = document.getElementById("side-menu");
+const menuBackdrop = document.getElementById("menu-backdrop");
 const settingsName = document.getElementById("settings-name");
 const settingsColorRow = document.getElementById("settings-color-row");
 const settingsTokenField = document.getElementById("settings-token");
@@ -78,6 +79,7 @@ let selfId = null;
 let localStream = null;
 let audioCtx = null;
 let muted = false;
+let hasJoined = false;
 let selfName = "";
 let selfColor = PALETTE[0];
 let selfToken = "";
@@ -105,10 +107,18 @@ nameInput.addEventListener("keydown", (e) => { if (e.key === "Enter") join(); })
 btnMute.addEventListener("click", toggleMute);
 btnLeave.addEventListener("click", () => location.reload());
 
-btnSettings.addEventListener("click", () => {
-  settingsDrawer.classList.toggle("open");
-  btnSettings.setAttribute("aria-expanded", String(settingsDrawer.classList.contains("open")));
+btnMenu.addEventListener("click", () => toggleMenu());
+menuBackdrop.addEventListener("click", () => toggleMenu(false));
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && sideMenu.classList.contains("open")) toggleMenu(false);
 });
+
+function toggleMenu(open) {
+  const next = open === undefined ? !sideMenu.classList.contains("open") : open;
+  sideMenu.classList.toggle("open", next);
+  menuBackdrop.classList.toggle("hidden", !next);
+  btnMenu.setAttribute("aria-expanded", String(next));
+}
 
 let identityDebounce = null;
 settingsName.addEventListener("input", () => {
@@ -246,15 +256,9 @@ async function join() {
   selfNameEl.textContent = selfName;
   overlay.classList.add("hidden");
   selfBar.classList.remove("hidden");
-  canvasWrap.classList.remove("hidden");
-  btnSettings.classList.remove("hidden");
+  hasJoined = true;
 
-  // The canvas was display:none (inside .hidden) until just now, so the very
-  // first fitCanvas() at module load measured a zero-size box. Re-measure now
-  // that it's actually laid out.
-  fitCanvas();
   setupCanvasInput();
-  requestAnimationFrame(tick);
   connectSignaling();
   saveProfileToServer();
 }
@@ -538,13 +542,16 @@ function tick(ts) {
   const dt = Math.min(0.1, (ts - lastTick) / 1000);
   lastTick = ts;
 
-  stepMovement(dt);
-  updateGains();
-  updateSpeakingIndicators();
+  if (hasJoined) {
+    stepMovement(dt);
+    updateGains();
+    updateSpeakingIndicators();
+  }
   draw();
 
   requestAnimationFrame(tick);
 }
+requestAnimationFrame(tick);
 
 function stepMovement(dt) {
   if (moveTarget) {
@@ -604,7 +611,7 @@ function draw() {
 
   drawRooms();
   drawWalls();
-  drawReachRing();
+  if (hasJoined) drawReachRing();
   drawPlayers();
 
   ctx2d.restore();
@@ -692,7 +699,9 @@ function drawPlayers() {
   for (const peer of peers.values()) {
     drawPlayer(peer.x, peer.y, peer.color, peer.name, peer.speaking, false);
   }
-  drawPlayer(selfPos.x, selfPos.y, selfColor, selfName || "You", isSelfSpeaking(), true);
+  if (hasJoined) {
+    drawPlayer(selfPos.x, selfPos.y, selfColor, selfName || "You", isSelfSpeaking(), true);
+  }
 }
 
 function drawPlayer(x, y, color, name, speaking, isSelf) {
