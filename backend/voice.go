@@ -3,10 +3,12 @@ package main
 import (
 	"context"
 	"crypto/rand"
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
+	"regexp"
 	"strings"
 	"sync"
 	"time"
@@ -35,12 +37,16 @@ import (
 // ---------------------------------------------------------------------------
 
 const (
-	maxVoicePeers   = 6
-	voiceNameMaxLen = 16
+	maxVoicePeers     = 6
+	voiceNameMaxLen   = 16
+	voiceColorRegex   = `^#[0-9a-fA-F]{6}$`
+	defaultVoiceColor = "#5b8def"
 	// writeTimeout bounds how long a single send to a slow client may block the
 	// hub before we give up on that client.
 	voiceWriteTimeout = 10 * time.Second
 )
+
+var voiceColorRe = regexp.MustCompile(voiceColorRegex)
 
 // signalMsg is the wire format exchanged over the WebSocket in both directions.
 // Only a subset of fields is set for any given Type.
@@ -48,33 +54,67 @@ type signalMsg struct {
 	Type string `json:"type"`
 
 	// Client -> server
-	Name string          `json:"name,omitempty"` // join: requested display name
-	To   string          `json:"to,omitempty"`   // signal: target peer id
-	Data json.RawMessage `json:"data,omitempty"` // signal: opaque SDP/ICE payload
+	Name  string          `json:"name,omitempty"`  // join/profile: display name
+	Color string          `json:"color,omitempty"` // join/profile: circle color (#rrggbb)
+	X     float64         `json:"x,omitempty"`     // join/move: world position
+	Y     float64         `json:"y,omitempty"`     // join/move: world position
+	To    string          `json:"to,omitempty"`    // signal: target peer id
+	Data  json.RawMessage `json:"data,omitempty"`  // signal: opaque SDP/ICE payload
 
 	// Server -> client
 	Self  string       `json:"self,omitempty"`  // welcome: this client's assigned id
 	From  string       `json:"from,omitempty"`  // signal: origin peer id
 	Peers []voicePeerI `json:"peers,omitempty"` // welcome: existing peers
 	Peer  *voicePeerI  `json:"peer,omitempty"`  // peer-join: the peer that joined
-	ID    string       `json:"id,omitempty"`    // peer-leave: the peer that left
+	ID    string       `json:"id,omitempty"`    // peer-leave/peer-move/peer-profile: the peer
 	Msg   string       `json:"msg,omitempty"`   // error: human-readable reason
 }
 
 // voicePeerI is the public view of a peer (no connection internals).
 type voicePeerI struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	ID    string  `json:"id"`
+	Name  string  `json:"name"`
+	Color string  `json:"color"`
+	X     float64 `json:"x"`
+	Y     float64 `json:"y"`
 }
 
 // voicePeer is a single connected client.
 type voicePeer struct {
-	id   string
-	name string
-	conn *websocket.Conn
+	id string
+	// metaMu guards name/color/x/y, updated frequently by "move"/"profile"
+	// messages independent of the hub-wide membership lock.
+	metaMu sync.Mutex
+	name   string
+	color  string
+	x, y   float64
+	conn   *websocket.Conn
 	// send serializes writes to conn; the hub and the read loop must not write
 	// concurrently to a websocket connection.
 	sendMu sync.Mutex
+}
+
+func (p *voicePeer) setPos(x, y float64) {
+	p.metaMu.Lock()
+	p.x, p.y = x, y
+	p.metaMu.Unlock()
+}
+
+func (p *voicePeer) setProfile(name, color string) {
+	p.metaMu.Lock()
+	if name != "" {
+		p.name = name
+	}
+	if color != "" {
+		p.color = color
+	}
+	p.metaMu.Unlock()
+}
+
+func (p *voicePeer) view() voicePeerI {
+	p.metaMu.Lock()
+	defer p.metaMu.Unlock()
+	return voicePeerI{ID: p.id, Name: p.name, Color: p.color, X: p.x, Y: p.y}
 }
 
 // voiceHub holds the single global room. All access is guarded by mu.
@@ -113,6 +153,12 @@ func registerVoiceRoutes() {
 
 	http.HandleFunc("/voice/ws", voiceWS)
 	registerRoute("GET", "/voice/ws", "WebSocket signaling for the voice room")
+
+	http.HandleFunc("/voice/profile", cors(handleVoiceProfileSave))
+	registerRoute("POST", "/voice/profile", "Save a player's name/color under their token")
+
+	http.HandleFunc("/voice/profile/", cors(handleVoiceProfileGet))
+	registerRoute("GET", "/voice/profile/{token}", "Fetch a player's saved name/color by token")
 }
 
 // voiceConfig returns the ICE servers and room limits the client needs before
@@ -172,7 +218,9 @@ func voiceWS(w http.ResponseWriter, r *http.Request) {
 				continue // already seated; ignore duplicate joins
 			}
 			name := sanitizeVoiceName(msg.Name)
-			if ok := voice.add(ctx, peer, name); !ok {
+			color := sanitizeVoiceColor(msg.Color)
+			peer.setPos(msg.X, msg.Y)
+			if ok := voice.add(ctx, peer, name, color); !ok {
 				peer.send(ctx, signalMsg{Type: "room-full"})
 				return
 			}
@@ -183,6 +231,18 @@ func voiceWS(w http.ResponseWriter, r *http.Request) {
 				continue
 			}
 			voice.relay(ctx, peer, msg)
+
+		case "move":
+			if !joined {
+				continue
+			}
+			voice.move(ctx, peer, msg.X, msg.Y)
+
+		case "profile":
+			if !joined {
+				continue
+			}
+			voice.updateProfile(ctx, peer, msg.Name, msg.Color)
 
 		case "leave":
 			return
@@ -195,19 +255,19 @@ func voiceWS(w http.ResponseWriter, r *http.Request) {
 
 // add seats a peer if there's room and announces it. It also sends the new peer
 // a welcome with the existing roster. Returns false if the room is full.
-func (h *voiceHub) add(ctx context.Context, p *voicePeer, name string) bool {
+func (h *voiceHub) add(ctx context.Context, p *voicePeer, name, color string) bool {
 	h.mu.Lock()
 	if len(h.peers) >= maxVoicePeers {
 		h.mu.Unlock()
 		return false
 	}
-	p.name = name
+	p.setProfile(name, color)
 
 	// Snapshot existing peers for the welcome before adding self.
 	existing := make([]voicePeerI, 0, len(h.peers))
 	others := make([]*voicePeer, 0, len(h.peers))
 	for _, o := range h.peers {
-		existing = append(existing, voicePeerI{ID: o.id, Name: o.name})
+		existing = append(existing, o.view())
 		others = append(others, o)
 	}
 	h.peers[p.id] = p
@@ -219,11 +279,60 @@ func (h *voiceHub) add(ctx context.Context, p *voicePeer, name string) bool {
 	p.send(ctx, signalMsg{Type: "welcome", Self: p.id, Peers: existing})
 
 	// Tell everyone else that a peer joined.
-	join := signalMsg{Type: "peer-join", Peer: &voicePeerI{ID: p.id, Name: p.name}}
+	view := p.view()
+	join := signalMsg{Type: "peer-join", Peer: &view}
 	for _, o := range others {
 		o.send(ctx, join)
 	}
 	return true
+}
+
+// move updates a peer's world position and broadcasts it to the rest of the
+// room. Positions drive client-side proximity/line-of-sight gain, so they're
+// broadcast to everyone rather than relayed to one target.
+func (h *voiceHub) move(ctx context.Context, p *voicePeer, x, y float64) {
+	p.setPos(x, y)
+	h.mu.Lock()
+	others := make([]*voicePeer, 0, len(h.peers))
+	for _, o := range h.peers {
+		if o.id != p.id {
+			others = append(others, o)
+		}
+	}
+	h.mu.Unlock()
+
+	move := signalMsg{Type: "peer-move", ID: p.id, X: x, Y: y}
+	for _, o := range others {
+		o.send(ctx, move)
+	}
+}
+
+// updateProfile applies a live name/color change and broadcasts it. Either
+// field may be empty (unchanged) except that an empty name is never applied
+// (a display name is always required).
+func (h *voiceHub) updateProfile(ctx context.Context, p *voicePeer, name, color string) {
+	if name != "" {
+		name = sanitizeVoiceName(name)
+	}
+	if color != "" {
+		color = sanitizeVoiceColor(color)
+	}
+	p.setProfile(name, color)
+	view := p.view()
+
+	h.mu.Lock()
+	others := make([]*voicePeer, 0, len(h.peers))
+	for _, o := range h.peers {
+		if o.id != p.id {
+			others = append(others, o)
+		}
+	}
+	h.mu.Unlock()
+
+	update := signalMsg{Type: "peer-profile", ID: p.id, Name: view.Name, Color: view.Color}
+	for _, o := range others {
+		o.send(ctx, update)
+	}
 }
 
 // remove drops a peer (if present) and notifies the rest of the room.
@@ -296,4 +405,131 @@ func sanitizeVoiceName(name string) string {
 		r = r[:voiceNameMaxLen]
 	}
 	return string(r)
+}
+
+// sanitizeVoiceColor accepts only a strict #rrggbb hex color, falling back to
+// the default so a malformed value can never end up driving arbitrary CSS/SVG
+// on other clients.
+func sanitizeVoiceColor(color string) string {
+	color = strings.TrimSpace(color)
+	if voiceColorRe.MatchString(color) {
+		return color
+	}
+	return defaultVoiceColor
+}
+
+// ---------------------------------------------------------------------------
+// Player profile persistence — lets a player carry their name/color across
+// devices and sessions via a token they hold (in localStorage, or pasted into
+// the settings drawer on another device). Stored in the shared analytics
+// sqlite DB, consistent with the rest of the backend's persistence.
+// ---------------------------------------------------------------------------
+
+const voiceTokenRegex = `^[A-Za-z0-9_-]{8,64}$`
+
+var voiceTokenRe = regexp.MustCompile(voiceTokenRegex)
+
+func isValidVoiceToken(token string) bool {
+	return voiceTokenRe.MatchString(token)
+}
+
+func initVoiceProfilesTable() {
+	if analyticsDB == nil {
+		return
+	}
+	schema := `CREATE TABLE IF NOT EXISTS voice_players (
+		token      TEXT PRIMARY KEY,
+		name       TEXT NOT NULL,
+		color      TEXT NOT NULL,
+		updated_at TEXT NOT NULL
+	);`
+	if _, err := analyticsDB.Exec(schema); err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to create voice_players schema: %v\n", err)
+	}
+}
+
+type voiceProfile struct {
+	Token string `json:"token"`
+	Name  string `json:"name"`
+	Color string `json:"color"`
+}
+
+// handleVoiceProfileSave upserts a player's saved name/color under their
+// token (POST /voice/profile).
+func handleVoiceProfileSave(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+	if analyticsDB == nil {
+		http.Error(w, "Not available", http.StatusServiceUnavailable)
+		return
+	}
+
+	var body voiceProfile
+	if err := json.NewDecoder(http.MaxBytesReader(w, r.Body, 2048)).Decode(&body); err != nil {
+		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+		return
+	}
+	if !isValidVoiceToken(body.Token) {
+		http.Error(w, "Invalid token", http.StatusBadRequest)
+		return
+	}
+
+	name := sanitizeVoiceName(body.Name)
+	color := sanitizeVoiceColor(body.Color)
+	now := time.Now().UTC().Format(time.RFC3339)
+
+	_, err := analyticsDB.Exec(`
+		INSERT INTO voice_players (token, name, color, updated_at)
+		VALUES (?, ?, ?, ?)
+		ON CONFLICT(token) DO UPDATE SET
+			name = excluded.name,
+			color = excluded.color,
+			updated_at = excluded.updated_at
+	`, body.Token, name, color, now)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "voice_players upsert error: %v\n", err)
+		http.Error(w, "DB error", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(voiceProfile{Token: body.Token, Name: name, Color: color})
+}
+
+// handleVoiceProfileGet fetches a saved profile by token (GET
+// /voice/profile/{token}), used to restore identity on another device.
+func handleVoiceProfileGet(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+	if analyticsDB == nil {
+		http.Error(w, "Not available", http.StatusServiceUnavailable)
+		return
+	}
+
+	token := strings.TrimPrefix(r.URL.Path, "/voice/profile/")
+	if !isValidVoiceToken(token) {
+		http.Error(w, "Invalid token", http.StatusBadRequest)
+		return
+	}
+
+	var p voiceProfile
+	p.Token = token
+	err := analyticsDB.QueryRow(
+		`SELECT name, color FROM voice_players WHERE token = ?`, token,
+	).Scan(&p.Name, &p.Color)
+	if err == sql.ErrNoRows {
+		http.Error(w, "Not found", http.StatusNotFound)
+		return
+	}
+	if err != nil {
+		http.Error(w, "DB error", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(p)
 }

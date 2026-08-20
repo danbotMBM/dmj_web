@@ -94,6 +94,7 @@ func main() {
 	registerHoldemRoutes()
 	registerVoiceRoutes()
 	initAnalyticsDB()
+	initVoiceProfilesTable()
 	registerAnalyticsRoutes()
 	registerScoreRoutes()
 	registerHoldemAnalyticsRoutes()

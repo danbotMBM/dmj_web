@@ -88,6 +88,89 @@ func TestVoiceSignalingFlow(t *testing.T) {
 	}
 }
 
+func TestVoiceMoveAndProfileBroadcast(t *testing.T) {
+	voice = &voiceHub{peers: make(map[string]*voicePeer)}
+	srv := httptest.NewServer(http.HandlerFunc(voiceWS))
+	defer srv.Close()
+	wsURL := "ws" + strings.TrimPrefix(srv.URL, "http")
+
+	dial := func() *websocket.Conn {
+		c, _, err := websocket.Dial(context.Background(), wsURL, nil)
+		if err != nil {
+			t.Fatalf("dial: %v", err)
+		}
+		return c
+	}
+
+	a := dial()
+	defer a.CloseNow()
+	vwrite(t, a, signalMsg{Type: "join", Name: "Alice", Color: "#ff0000", X: 10, Y: 20})
+	wa := vread(t, a)
+	if wa.Type != "welcome" {
+		t.Fatalf("A welcome wrong: %+v", wa)
+	}
+
+	b := dial()
+	defer b.CloseNow()
+	vwrite(t, b, signalMsg{Type: "join", Name: "Bob", Color: "not-a-color"})
+	wb := vread(t, b)
+	if wb.Type != "welcome" || len(wb.Peers) != 1 {
+		t.Fatalf("B welcome wrong: %+v", wb)
+	}
+	if wb.Peers[0].Color != "#ff0000" || wb.Peers[0].X != 10 || wb.Peers[0].Y != 20 {
+		t.Fatalf("B welcome peer snapshot wrong: %+v", wb.Peers[0])
+	}
+	aJoin := vread(t, a)
+	if aJoin.Type != "peer-join" || aJoin.Peer.Color != defaultVoiceColor {
+		t.Fatalf("invalid color should fall back to default, got: %+v", aJoin.Peer)
+	}
+
+	// A moves -> B sees peer-move.
+	vwrite(t, a, signalMsg{Type: "move", X: 55, Y: 66})
+	bMove := vread(t, b)
+	if bMove.Type != "peer-move" || bMove.ID != wa.Self || bMove.X != 55 || bMove.Y != 66 {
+		t.Fatalf("B peer-move wrong: %+v", bMove)
+	}
+
+	// B renames/recolors -> A sees peer-profile.
+	vwrite(t, b, signalMsg{Type: "profile", Name: "Bobby", Color: "#00ff00"})
+	aProfile := vread(t, a)
+	if aProfile.Type != "peer-profile" || aProfile.ID != wb.Self || aProfile.Name != "Bobby" || aProfile.Color != "#00ff00" {
+		t.Fatalf("A peer-profile wrong: %+v", aProfile)
+	}
+}
+
+func TestSanitizeVoiceColor(t *testing.T) {
+	cases := map[string]string{
+		"#ff00aa":                   "#ff00aa",
+		"#FF00AA":                   "#FF00AA",
+		"red":                       defaultVoiceColor,
+		"":                          defaultVoiceColor,
+		"#fff":                      defaultVoiceColor,
+		"#ff00aa; background:url()": defaultVoiceColor,
+	}
+	for in, want := range cases {
+		if got := sanitizeVoiceColor(in); got != want {
+			t.Errorf("sanitizeVoiceColor(%q) = %q, want %q", in, got, want)
+		}
+	}
+}
+
+func TestIsValidVoiceToken(t *testing.T) {
+	valid := []string{"abcdefgh", strings.Repeat("a", 64), "abc-DEF_123"}
+	for _, v := range valid {
+		if !isValidVoiceToken(v) {
+			t.Errorf("expected %q to be valid", v)
+		}
+	}
+	invalid := []string{"", "short", strings.Repeat("a", 65), "has spaces", "has/slash"}
+	for _, v := range invalid {
+		if isValidVoiceToken(v) {
+			t.Errorf("expected %q to be invalid", v)
+		}
+	}
+}
+
 func TestVoiceRoomFull(t *testing.T) {
 	voice = &voiceHub{peers: make(map[string]*voicePeer)}
 	srv := httptest.NewServer(http.HandlerFunc(voiceWS))

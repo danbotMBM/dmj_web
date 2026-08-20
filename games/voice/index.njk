@@ -1,6 +1,6 @@
 ---
 title: Voice Room — Live Voice Chat · danbot lab
-description: "A free browser voice chat room for up to 6 people. Join with just a name, talk over peer-to-peer WebRTC, and set each person's volume with a slider. No download, no sign-up."
+description: "A free browser voice chat room for up to 6 people. Walk around a shared house — living room, game room, TV room, private room — and talk with proximity and line-of-sight voice, peer-to-peer over WebRTC. No download, no sign-up."
 extraCss:
   - /games/voice/voice.css
 ---
@@ -20,29 +20,67 @@ extraCss:
                     <div id="self-level-bar" class="level-bar"></div>
                 </div>
             </div>
+            <button id="btn-settings" class="act-btn icon-btn hidden" aria-expanded="false" aria-controls="settings-drawer" title="Settings">⚙️</button>
             <button id="btn-leave" class="act-btn fold">Leave</button>
         </div>
 
-        <div id="peers" class="peers"></div>
+        <div id="canvas-wrap" class="canvas-wrap hidden">
+            <canvas id="house-canvas"></canvas>
+        </div>
+
+        <div id="settings-drawer" class="settings-drawer">
+            <section class="settings-section">
+                <h3>Your name</h3>
+                <input type="text" id="settings-name" maxlength="16" autocomplete="off" placeholder="Your name…">
+            </section>
+
+            <section class="settings-section">
+                <h3>Your color</h3>
+                <div id="settings-color-row" class="color-row"></div>
+            </section>
+
+            <section class="settings-section">
+                <h3>Player token</h3>
+                <p class="settings-hint">Your name and color are saved under this token. Copy it to restore your
+                    identity on another device, or paste one here to load a saved profile.</p>
+                <div class="token-row">
+                    <input type="text" id="settings-token" readonly>
+                    <button id="settings-token-copy" class="act-btn small" type="button">Copy</button>
+                </div>
+                <div class="token-row">
+                    <input type="text" id="settings-token-input" placeholder="Paste a token to load…" autocomplete="off">
+                    <button id="settings-token-load" class="act-btn small" type="button">Load</button>
+                </div>
+                <p id="settings-token-msg" class="settings-msg"></p>
+            </section>
+
+            <section class="settings-section">
+                <h3>Volume per person</h3>
+                <div id="peer-volume-list" class="peer-volume-list"></div>
+            </section>
+        </div>
 
         <p id="room-hint" class="room-hint">
-            Up to 6 people can talk at once. Volume sliders are personal — turning
-            someone down only affects what <em>you</em> hear.
+            Click or tap the floor to walk. Volume follows distance and line of sight — full
+            volume up close, a faint murmur through walls, silence across the house. Sliders in
+            the settings menu (⚙️) boost or cut a specific person on top of that.
         </p>
 
         <details id="how-it-works">
             <summary>How it works &amp; privacy</summary>
             <p>Audio travels <strong>directly between browsers</strong> (peer-to-peer
-            WebRTC). The server only introduces players to each other; your voice
-            never passes through it. Because connections are direct, peers can see
-            each other's IP addresses — fine among friends, worth knowing in general.</p>
-            <p>Each person you hear has a <strong>volume slider</strong> applied in
-            your browser. This is the groundwork for <strong>proximity chat</strong>:
-            the same per-person gain will later be driven by how close you are in a
-            shared space.</p>
-            <p>Some restrictive or corporate networks block direct connections. If
-            someone can't be heard, a relay (TURN) server would be needed — not yet
-            configured for this casual room.</p>
+            WebRTC). The server only introduces players to each other and relays everyone's
+            position in the house; your voice never passes through it. Because connections are
+            direct, peers can see each other's IP addresses — fine among friends, worth knowing
+            in general.</p>
+            <p>Volume is <strong>proximity and line-of-sight based</strong>: walk close to
+            someone with a clear line of sight for full volume, hear a muffled murmur from
+            adjacent rooms through the wall, and lose someone entirely once they're far enough
+            away. Each person also has a <strong>volume slider</strong> in the settings menu that
+            boosts or cuts them on top of that.</p>
+            <p>Some restrictive or corporate networks block direct connections. If someone can't
+            be heard, a relay (TURN) server would be needed — not yet configured for this casual
+            room.</p>
         </details>
     </article>
 </main>
@@ -51,8 +89,9 @@ extraCss:
 <div id="name-overlay" class="overlay">
     <div class="overlay-card">
         <h2>Join the voice room</h2>
-        <p>Pick a name, then allow microphone access.</p>
+        <p>Pick a name and color, then allow microphone access.</p>
         <input type="text" id="name-input" placeholder="Your name…" maxlength="16" autocomplete="off">
+        <div id="join-color-row" class="color-row centered"></div>
         <div id="name-error" class="name-error hidden"></div>
         <div class="name-actions">
             <button id="name-submit" class="act-btn raise">Join &amp; enable mic</button>
