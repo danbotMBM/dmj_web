@@ -57,6 +57,15 @@ const cards = {
       "Scrappy project completed in 48hrs with no previous gamdev / godot experience",
     ],
   },
+  indiana_bones: {
+    title: "Indiana Bones",
+    href: "https://clionstudios.com",
+    blurb: [
+      "Dig deep in this paleontology game about pushing your luck",
+      "After 3 years the idea of doing a game jam made it out of the group chat",
+      "Submission to Micro Jam 063: Prehistoric",
+    ],
+  },
   recall: {
     title: "Recall in the Age of AI",
     href: "/blogs/recall",
@@ -157,5 +166,6 @@ module.exports = {
     cards.raytrace3d,
     cards.raytrace2d,
     cards.doggone,
+    cards.indiana_bones,
   ],
 };
