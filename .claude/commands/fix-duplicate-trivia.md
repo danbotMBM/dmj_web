@@ -19,9 +19,9 @@ Run the trivia validator and fix any semantically duplicate questions.
 
 4. For each flagged pair, the question with the **later date ID** is the one to replace. If both IDs are on the same date, replace the one with the higher index number.
 
-5. Read `backend/trivia_questions.json` to find each flagged question's `category` and `points` value. Also read `backend/used_answers.md` to see all answers already in use.
+5. Read `backend/trivia_questions.json` to find each flagged question's `category` and `points` value. Also read `backend/used_answers.md` to see answers in use within the cooldown window (its header notes the cutoff and how many older answers have retired and are reusable with a fresh angle).
 
-6. Replace each flagged question with a brand new trivia question on a completely different topic. The replacement answer must **not** appear in `used_answers.md` (same concept, not just same string). Only change these fields:
+6. Replace each flagged question with a brand new trivia question on a completely different topic. The replacement answer must **not** appear in `used_answers.md` (same concept, not just same string) — unless it's a retired answer being reused with a genuinely different angle, in which case it must not be a near-duplicate of its prior use either (the similarity check spans the full history regardless of cooldown). Only change these fields:
    - `question` — new question text
    - `answer.valid` — array of valid answer strings
    - `display` — short canonical answer (e.g. `"The Nile"`, `"Shakespeare"`)
